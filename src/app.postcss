@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+html,
+body {
+	@apply h-full overflow-hidden;
+	@apply bg-gradient-to-r variant-gradient-primary-secondary;
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-weight: 50 950;
+	src: url('/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf') format('ttf');
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-style: italic;
+	font-weight: 50 950;
+	src: url('/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf') format('ttf');
+}
+
+
+
+
+.dark body * {
+	font-family: 'JetBrains Mono', monospace;
+}

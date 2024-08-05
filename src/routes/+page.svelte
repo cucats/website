@@ -1,0 +1,1 @@
+<img src="/logo/dark/logo-white-full.svg" alt="Logo" class="mx-auto mt-[20vh] rounded-3xl size-96"/>
