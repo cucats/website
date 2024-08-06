@@ -22,7 +22,3 @@ vite.config.ts.timestamp-*
 
 # VSCode
 .vscode
-
-
-# prisma migrations
-prisma/migrations
