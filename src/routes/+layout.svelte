@@ -27,8 +27,10 @@
 	const email = $page.data.session?.user?.email;
 </script>
 
+<!-- Background gradient overlay -->
+<div class="bg-black opacity-65 absolute w-screen h-screen -z-50" />
 <!-- App Shell -->
-<AppShell slotPageContent="bg-black opacity-65">
+<AppShell>
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
 		<AppBar>
