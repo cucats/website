@@ -1,6 +1,10 @@
 <script lang="ts">
+	import Navigation from './Navigation.svelte';
+
 	import '../app.postcss';
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	import { AppBar, Drawer, initializeStores, getDrawerStore } from '@skeletonlabs/skeleton';
+
+	initializeStores();
 
 	// Highlight JS
 	import hljs from 'highlight.js/lib/core';
@@ -20,41 +24,56 @@
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
-	import { signIn, signOut } from '@auth/sveltekit/client';
-	import { page } from '$app/stores';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	const email = $page.data.session?.user?.email;
+	import Hamburger from "$lib/icons/Hamburger.svelte";
+	import { afterNavigate } from '$app/navigation';
+	
+
+	
+	const drawerStore = getDrawerStore();
+	
+	afterNavigate(() => {
+		drawerStore.close();
+	});
+	
+	const launchNavigationSidebar = () => {
+		drawerStore.open({
+			id: 'navigation'
+		});
+	};
 </script>
 
+<Drawer>
+	{#if $drawerStore.id === 'navigation'}
+		<div class="flex flex-col gap-4 p-8 mt-12">
+			<Navigation />
+		</div>
+	{:else}
+		<span>Drawer Contents</span>
+	{/if}
+</Drawer>
+
 <!-- Background gradient overlay -->
-<div class="bg-black opacity-65 absolute w-screen h-screen -z-50" />
-<!-- App Shell -->
-<AppShell>
-	<svelte:fragment slot="header">
-		<!-- App Bar -->
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<a href="/" class="contents">
-					<img class="size-8" src="/logo/dark/logo-white-cat.svg" alt="Logo" />
-					<span class="px-2">CUCaTS</span>
-				</a>
-			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<a class="btn btn-sm variant-ghost-surface" href="/about"> About Us </a>
-				<a class="btn btn-sm variant-ghost-surface" href="/sponsors"> Sponsors </a>
-				{#if email}
-					<button class="btn btn-sm variant-outline-primary" on:click={() => signOut()}
-						>{email}</button
-					>
-				{:else}
-					<button class="btn btn-sm variant-outline-primary" on:click={() => signIn('google')}>
-						Sign In with Raven
-					</button>
-				{/if}
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
-	<!-- Page Route Content -->
-	<slot />
-</AppShell>
+<div class="bg-black opacity-65 fixed w-screen h-screen -z-50" />
+<header class="sticky top-0 z-10">
+	<!-- App Bar -->
+	<AppBar>
+		<svelte:fragment slot="lead">
+			<a href="/" class="contents">
+				<img class="size-8" src="/logo/dark/logo-white-cat.svg" alt="Logo" />
+				<span class="px-2">CUCaTS</span>
+			</a>
+		</svelte:fragment>
+		<svelte:fragment slot="trail">
+			<div class="hidden md:flex gap-4">
+				<Navigation />
+			</div>
+			<button type="button" class="btn-icon md:hidden" on:click={launchNavigationSidebar}>
+				<Hamburger />
+			</button>
+		</svelte:fragment>
+	</AppBar>
+</header>
+<!-- Page Route Content -->
+<slot />

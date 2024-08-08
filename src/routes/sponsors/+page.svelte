@@ -74,6 +74,6 @@
 	}
 
     .button-container {
-        @apply flex justify-center w-full pt-4 gap-8;
+        @apply flex justify-center w-full pt-4 gap-x-8 gap-y-4 flex-wrap;
     }
 </style>
