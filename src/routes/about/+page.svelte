@@ -31,8 +31,9 @@
 	</ol>
     <h2 class="h2">Committee</h2>
     <ul class="list ml-2">
-        <li>President: Varun Latthe (vl331@cam.ac.uk)</li>
-        <li>Junior Treasurer: Andy Zhou (wz337@cam.ac.uk)</li>
-        <li>Secretary: Adarsh Ganeshbabu (aag70@cam.ac.uk)</li>
+        <li>President: Jeremy Chen (jc2483@cam.ac.uk)</li>
+        <li>Vice-President: Sophie Ring (sr2079@cam.ac.uk)</li>
+        <li>Junior Treasurer: Bruce Chen (qc272@cam.ac.uk)</li>
+        <li>Secretary: Jonathon Sun (js2944@cam.ac.uk)</li>
     </ul>
 </main>
