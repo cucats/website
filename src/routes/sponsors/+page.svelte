@@ -67,7 +67,6 @@
 		<div class="button-container">
 			<a href="https://www.hudsonrivertrading.com/" class="btn variant-outline-primary" target="_blank">Website</a>
 			<a href="https://www.hudsonrivertrading.com/hrtbeat" class="btn variant-outline-primary">Blog</a>
-			<a href="" class="btn variant-outline-primary"></a>
 		</div>
 	</section>
 	<h2 class="h2">Silver</h2>
