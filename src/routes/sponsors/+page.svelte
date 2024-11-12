@@ -42,7 +42,7 @@
 		</div>
 	</section>
 	<section class="sponsor-card">
-		<img src="/sponsors/hrt.png" alt="Hudson River Trading" />
+		<img src="/sponsors/hrt.png" alt="Hudson River Trading" class="object-contain h-24 m-2" />
 		<span>
 			At Hudson River Trading (HRT) we are mathematicians, computer scientists, statisticians,
 			physicists and engineers. We research and develop automated trading algorithms using advanced
@@ -65,8 +65,14 @@
 			problems in trading and technology, and believe the best work can only be done together.
 		</span>
 		<div class="button-container">
-			<a href="https://www.hudsonrivertrading.com/" class="btn variant-outline-primary" target="_blank">Website</a>
-			<a href="https://www.hudsonrivertrading.com/hrtbeat" class="btn variant-outline-primary">Blog</a>
+			<a
+				href="https://www.hudsonrivertrading.com/"
+				class="btn variant-outline-primary"
+				target="_blank">Website</a
+			>
+			<a href="https://www.hudsonrivertrading.com/hrtbeat" class="btn variant-outline-primary"
+				>Blog</a
+			>
 		</div>
 	</section>
 	<h2 class="h2">Silver</h2>
@@ -130,7 +136,7 @@
 		</div>
 	</section>
 	<section class="sponsor-card">
-		<img src="/sponsors/imc.png" alt="IMC Trading">
+		<img src="/sponsors/imc.png" alt="IMC Trading" class="object-contain h-24 m-2" />
 		<span>
 			IMC is a leading trading firm, known worldwide for our advanced, low-latency technology and
 			world-class execution capabilities. Over the past 35 years, we’ve been a stabilizing force in
@@ -142,7 +148,9 @@
 			our trading strategies, we dare to imagine what could be and work together to make it happen.
 		</span>
 		<div class="button-container">
-			<a href="https://grnh.se/863b7422teu" class="btn variant-outline-primary">View Opportunities</a>
+			<a href="https://grnh.se/863b7422teu" class="btn variant-outline-primary"
+				>View Opportunities</a
+			>
 		</div>
 	</section>
 </main>
