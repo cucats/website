@@ -101,7 +101,7 @@
 	</section>
 	<h2 class="h2">Silver</h2>
 	<section class="sponsor-card">
-		<img src="/sponsors/quantco.png" alt="Quantco Logo" class="object-contain h-24 m-2" />
+		<img src="/sponsors/quantco.png" alt="Quantco Logo" class="invert object-contain h-24 m-2" />
 		<span>
 			We leverage expertise in data science, engineering, and economics to help organizations turn
 			data into decisions. Started by 4 PhDs from Harvard and Stanford, we are now more than 100
