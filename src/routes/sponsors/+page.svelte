@@ -267,6 +267,6 @@
 	}
 
 	.logo-container {
-		@apply flex items-center text-6xl;
+		@apply flex items-center select-none text-4xl sm:text-6xl;
 	}
 </style>
