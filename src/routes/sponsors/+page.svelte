@@ -101,6 +101,21 @@
 	</section>
 	<h2 class="h2">Silver</h2>
 	<section class="sponsor-card">
+		<img src="/sponsors/nustom.svg" alt="Nustom logo" class="object-contain h-24 m-2" />
+		<span>
+			In a few years' time, we believe that the majority of software will be made by people with no
+			technical background, collaborating with an AI. What today takes weeks or months and a team of
+			specialists will be accessible to everyone, take only minutes, and cost very little. Instead of
+			one-size-fits-all products, everyone will be making their own tools, customized to their needs.
+		</span>
+		<div class="button-container">
+			<a
+				href="https://nustom.com/"
+				class="btn variant-outline-primary">Website</a
+			>
+		</div>
+	</section>
+	<section class="sponsor-card">
 		<img src="/sponsors/quantco.png" alt="Quantco Logo" class="invert object-contain h-24 m-2" />
 		<span>
 			We leverage expertise in data science, engineering, and economics to help organizations turn
