@@ -106,7 +106,7 @@
 	<section class="sponsor-card">
 		<div class="logo-container">
 			<img src="/sponsors/nustom.svg" alt="Nustom logo" class="object-contain h-24 m-2" />
-			 Nustom
+			Nustom
 		</div>
 		<span>
 			We’re a startup that makes startups! We use AI to minimise the cost of building, operating and
