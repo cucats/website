@@ -7,5 +7,9 @@
 	in:fade
 >
 	<img src="/logo/dark/logo-white-cat.svg" alt="Logo" class="size-48" />
-	<h1 class="h2 lg:h1">Cambridge Uni Computing<br />and Technology Society</h1>
+	<h1 class="h2 lg:h1">
+		Cambridge Uni Computing
+		<br />
+		and Technology Society
+	</h1>
 </main>

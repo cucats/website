@@ -10,7 +10,8 @@
 			<img src={$page.data.session.user.image} class="avatar" alt="User Avatar" />
 		{/if}
 		<span class="signedInText">
-			<small>Signed in as</small><br />
+			<small>Signed in as</small>
+			<br />
 			<strong>{$page.data.session.user?.name ?? 'User'}</strong>
 		</span>
 		<SignOut>
