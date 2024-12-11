@@ -26,17 +26,15 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	import Hamburger from "$lib/icons/Hamburger.svelte";
+	import Hamburger from '$lib/icons/Hamburger.svelte';
 	import { afterNavigate } from '$app/navigation';
-	
 
-	
 	const drawerStore = getDrawerStore();
-	
+
 	afterNavigate(() => {
 		drawerStore.close();
 	});
-	
+
 	const launchNavigationSidebar = () => {
 		drawerStore.open({
 			id: 'navigation'

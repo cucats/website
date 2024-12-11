@@ -76,11 +76,7 @@
 		</div>
 	</section>
 	<section class="sponsor-card">
-		<img
-			src="/sponsors/qrt.svg"
-			alt="QRT Logo"
-			class="object-contain h-24 m-2"
-		/>
+		<img src="/sponsors/qrt.svg" alt="QRT Logo" class="object-contain h-24 m-2" />
 		<span>
 			Qube Research & Technologies (QRT) is a global investment manager where we deploy a diverse
 			range of investment strategies across geographies, asset classes and time frames. Combining
@@ -89,13 +85,9 @@
 			drives our ambition to deliver high quality returns for our investors.
 		</span>
 		<div class="button-container">
-			<a
-				href="https://www.qube-rt.com/"
-				class="btn variant-outline-primary">Website</a
-			>
-			<a
-				href="https://www.qube-rt.com/careers/"
-				class="btn variant-filled-primary">View Opportunities</a
+			<a href="https://www.qube-rt.com/" class="btn variant-outline-primary">Website</a>
+			<a href="https://www.qube-rt.com/careers/" class="btn variant-filled-primary"
+				>View Opportunities</a
 			>
 		</div>
 	</section>
@@ -105,14 +97,12 @@
 		<span>
 			In a few years' time, we believe that the majority of software will be made by people with no
 			technical background, collaborating with an AI. What today takes weeks or months and a team of
-			specialists will be accessible to everyone, take only minutes, and cost very little. Instead of
-			one-size-fits-all products, everyone will be making their own tools, customized to their needs.
+			specialists will be accessible to everyone, take only minutes, and cost very little. Instead
+			of one-size-fits-all products, everyone will be making their own tools, customized to their
+			needs.
 		</span>
 		<div class="button-container">
-			<a
-				href="https://nustom.com/"
-				class="btn variant-outline-primary">Website</a
-			>
+			<a href="https://nustom.com/" class="btn variant-outline-primary">Website</a>
 		</div>
 	</section>
 	<section class="sponsor-card">
@@ -123,19 +113,15 @@
 			professionals with extensive quantitative, engineering, and business experience.
 		</span>
 		<span>
-			Headquartered in Boston, we have offices in San Francisco, Berlin, Cologne, Karlsruhe,
-			London, Munich, and Zurich. Our product line includes algorithmic pricing, data-driven
-			claims management, and high-dimensional forecasting solutions. Our customers include
-			some of the largest financial, retail, and healthcare organizations in the US and Europe.
+			Headquartered in Boston, we have offices in San Francisco, Berlin, Cologne, Karlsruhe, London,
+			Munich, and Zurich. Our product line includes algorithmic pricing, data-driven claims
+			management, and high-dimensional forecasting solutions. Our customers include some of the
+			largest financial, retail, and healthcare organizations in the US and Europe.
 		</span>
 		<div class="button-container">
-			<a
-				href="https://www.quantco.com/"
-				class="btn variant-outline-primary">Website</a
-			>
-			<a
-				href="https://jobs.lever.co/quantco-"
-				class="btn variant-filled-primary">View Opportunities</a
+			<a href="https://www.quantco.com/" class="btn variant-outline-primary">Website</a>
+			<a href="https://jobs.lever.co/quantco-" class="btn variant-filled-primary"
+				>View Opportunities</a
 			>
 		</div>
 	</section>

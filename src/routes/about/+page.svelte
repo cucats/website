@@ -1,8 +1,7 @@
 <script lang="ts">
-    import {fade} from 'svelte/transition';
-
-    
+	import { fade } from 'svelte/transition';
 </script>
+
 <main class="p-4 flex flex-col gap-y-2 max-w-screen-lg mx-auto lg:pt-12 lg:gap-y-4" in:fade>
 	<h1 class="h1">About Us</h1>
 	<p>
@@ -29,11 +28,11 @@
 			that align with the society’s aims
 		</li>
 	</ol>
-    <h2 class="h2">Committee</h2>
-    <ul class="list ml-2">
-        <li>President: Jeremy Chen (jc2483@cam.ac.uk)</li>
-        <li>Vice-President: Sophie Ring (sr2079@cam.ac.uk)</li>
-        <li>Junior Treasurer: Bruce Chen (qc272@cam.ac.uk)</li>
-        <li>Secretary: Jonathon Sun (js2944@cam.ac.uk)</li>
-    </ul>
+	<h2 class="h2">Committee</h2>
+	<ul class="list ml-2">
+		<li>President: Jeremy Chen (jc2483@cam.ac.uk)</li>
+		<li>Vice-President: Sophie Ring (sr2079@cam.ac.uk)</li>
+		<li>Junior Treasurer: Bruce Chen (qc272@cam.ac.uk)</li>
+		<li>Secretary: Jonathon Sun (js2944@cam.ac.uk)</li>
+	</ul>
 </main>
