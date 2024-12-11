@@ -146,7 +146,7 @@
 			>
 				Register
 			</a>
-			 to express your interest in joining the academy and be the first to know when applications open!
+			to express your interest in joining the academy and be the first to know when applications open!
 		</span>
 		<div class="button-container">
 			<a
