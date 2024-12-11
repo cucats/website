@@ -50,23 +50,23 @@
 			class="invert object-contain h-24 m-2"
 		/>
 		<span>
-			This September, Jane Street is excited to host our INSIGHT programme in London for students
-			interested in roles in software engineering! We’re inviting students who identify as women,
-			transgender and gender-expansive to spend four days in our office learning more about what we
-			do and how we do it through a set of trading and programming classes and activities. Attendees
-			will receive an in-depth look into the ways we use math and computer science across our firm
-			to solve problems and foster collaborative thinking.
+			Our INSIGHT program is part of our commitment to give as many people as possible the chance to
+			learn more about what we do.
 		</span>
 		<span>
-			Students will arrive in London on the evening of Sunday, 22nd September and will depart on the
-			morning of Friday, 27th September. Jane Street will cover all travel to and from London,
-			including meals, housing and a variety of social events.
+			In this multi-day program, we invite women, transgender, and/or gender-expansive individuals
+			to learn about the roles within our firm and how we solve challenges at Jane Street —
+			including the specific concepts and tools we use in our daily work.
 		</span>
 		<span>
-			INSIGHT has one programme track that students can apply for, software engineering. Selected
-			students will learn OCaml, the libraries and tools we use in our daily work and how to put
-			them to use by building a computer game. Participants will also learn the fundamentals of
-			electronic trading systems and write a programme that trades on a simulated stock exchange.
+			As you explore opportunities within the program, you’ll notice that event topics and locations
+			will vary. We offer classes and activities in three separate tracks: software engineering,
+			trading, and strategy and product.
+		</span>
+		<span>
+			Our next INSIGHT event based in our London office will run Monday, 7th April - Saturday, 12th
+			April, 2025. Candidates will be notified about their applications status after the deadline
+			date. The deadline to apply is Sunday, 12th January 2025 at 11:59pm GMT.
 		</span>
 		<div class="button-container">
 			<a
@@ -106,14 +106,33 @@
 	<section class="sponsor-card">
 		<img src="/sponsors/nustom.svg" alt="Nustom logo" class="object-contain h-24 m-2" />
 		<span>
+			We’re a startup that makes startups! We use AI to minimise the cost of building, operating and
+			growing startups. Previously, we helped build Monzo. We're founded in March 2024 by former
+			Monzo Co-Founder and CTO and backed by some of the world's best investors (Garry Tan, Naval
+			Ravikant, Tom Blomfield, Accel, Index Ventures, OpenAI, founders of Anthropic, Perplexity,
+			etc).
+		</span>
+		<span>
 			In a few years' time, we believe that the majority of software will be made by people with no
 			technical background, collaborating with an AI. What today takes weeks or months and a team of
 			specialists will be accessible to everyone, take only minutes, and cost very little. Instead
 			of one-size-fits-all products, everyone will be making their own tools, customized to their
 			needs.
 		</span>
+		<span>
+			Come spend 3 or 6 months with us to build and launch a revenue generating startup! You can
+			build whatever you like. The only catch is that you have to use our AI generator to build your
+			startup from human language input. And if it’s not able to do so, you first need to improve
+			the generator to make it generatable.
+		</span>
 		<div class="button-container">
 			<a href="https://nustom.com/" class="btn variant-outline-primary">Website</a>
+			<a
+				href="https://nustom.notion.site/150622a338eb802aa204efb2997f7202"
+				class="btn variant-filled-primary"
+			>
+				Apply Now
+			</a>
 		</div>
 	</section>
 
@@ -203,7 +222,6 @@
 			one of the largest in the world. It processes a billion transactions daily – more than the
 			London Stock Exchange and Visa combined.
 		</span>
-
 		<span>
 			Our technology helps improve people’s lives across the world, whether it is scheduling
 			immunisations for millions of children, allowing doctors to manage complex care for elderly
@@ -222,6 +240,12 @@
 		</span>
 		<div class="button-container">
 			<a href="https://tpp-careers.com/" class="btn variant-outline-primary">View Opportunities</a>
+			<a
+				href="https://tpp-careers.com/roles/graduate-software-developer/"
+				class="btn variant-filled-primary"
+			>
+				Graduate Roles
+			</a>
 		</div>
 	</section>
 </main>
