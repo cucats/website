@@ -104,7 +104,10 @@
 	<h2 class="h2">Silver</h2>
 
 	<section class="sponsor-card">
-		<img src="/sponsors/nustom.svg" alt="Nustom logo" class="object-contain h-24 m-2" />
+		<div class="logo-container">
+			<img src="/sponsors/nustom.svg" alt="Nustom logo" class="object-contain h-24 m-2" />
+			 Nustom
+		</div>
 		<span>
 			We’re a startup that makes startups! We use AI to minimise the cost of building, operating and
 			growing startups. Previously, we helped build Monzo. We're founded in March 2024 by former
@@ -261,5 +264,9 @@
 
 	.button-container {
 		@apply flex justify-center w-full pt-4 gap-x-8 gap-y-4 flex-wrap;
+	}
+
+	.logo-container {
+		@apply flex items-center text-6xl;
 	}
 </style>
