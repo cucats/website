@@ -11,8 +11,10 @@
 	<button
 		class="btn btn-sm variant-outline-primary"
 		on:click={() => signOut()}
-		aria-label="Sign out">{email}</button
+		aria-label="Sign out"
 	>
+		{email}
+	</button>
 {:else}
 	<button
 		class="btn btn-sm variant-outline-primary"
