@@ -63,16 +63,31 @@
 <div class="bg-black opacity-65 fixed w-screen h-screen -z-50" />
 <header class="sticky top-0 z-10">
 	<!-- App Bar -->
-	<AppBar>
+	<AppBar class="text-xl">
 		<svelte:fragment slot="lead">
 			<a href="/" class="contents">
 				<img
-					class="size-8"
+					class="size-8 ml-4"
 					src="/logo/dark/logo-white-cat.svg"
 					alt="CUCaTS logo of a white cat in ASCII art"
 				/>
-				<span class="px-2">CUCaTS</span>
+				<span class="px-2 mr-4">CUCaTS</span>
 			</a>
+			<a href="https://www.instagram.com/cucats.cam">
+				<img class="icon-logo" src="socials/Instagram_Glyph_White.svg" alt="Instagram Logo" />
+			</a>
+			<a href="https://www.facebook.com/cucats/">
+				<img class="icon-logo" src="socials/Facebook_Logo_Secondary.png" alt="Facebook Logo" />
+			</a>
+			<a href="https://x.com/cucatscam">
+				<img class="icon-logo" src="socials/x-logo.svg" alt="X Logo" />
+			</a>
+
+			<style>
+				.icon-logo {
+					@apply size-6 mx-3;
+				}
+			</style>
 		</svelte:fragment>
 		<svelte:fragment slot="trail">
 			<div class="hidden md:flex gap-4">
