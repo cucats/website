@@ -5,8 +5,10 @@
 	const email = $page.data.session?.user?.email;
 </script>
 
-<a class="btn btn-sm variant-ghost-surface" href="/about">About Us</a>
-<a class="btn btn-sm variant-ghost-surface" href="/sponsors">Sponsors</a>
+<a class="nav-link" href="/about">About Us</a>
+<a class="nav-link" href="/sponsors">Sponsors</a>
+
+<!-- Disable for now
 {#if email}
 	<button
 		class="btn btn-sm variant-outline-primary"
@@ -24,3 +26,10 @@
 		Sign In with Raven
 	</button>
 {/if}
+-->
+
+<style>
+	.nav-link {
+		@apply btn btn-sm variant-ghost-surface hover:variant-filled-primary;
+	}
+</style>
