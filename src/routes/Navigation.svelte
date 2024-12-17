@@ -6,6 +6,7 @@
 </script>
 
 <a class="nav-link" href="/about">About Us</a>
+<a class="nav-link" href="/events">Events</a>
 <a class="nav-link" href="/sponsors">Sponsors</a>
 
 <!-- Disable for now
