@@ -8,9 +8,17 @@
 <a class="btn btn-sm variant-ghost-surface" href="/about">About Us</a>
 <a class="btn btn-sm variant-ghost-surface" href="/sponsors">Sponsors</a>
 {#if email}
-	<button class="btn btn-sm variant-outline-primary" on:click={() => signOut()}>{email}</button>
+	<button
+		class="btn btn-sm variant-outline-primary"
+		on:click={() => signOut()}
+		aria-label="Sign out">{email}</button
+	>
 {:else}
-	<button class="btn btn-sm variant-outline-primary" on:click={() => signIn('google')}>
+	<button
+		class="btn btn-sm variant-outline-primary"
+		on:click={() => signIn('google')}
+		aria-label="Sign in"
+	>
 		Sign In with Raven
 	</button>
 {/if}

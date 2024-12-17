@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Navigation from './Navigation.svelte';
+	import { page } from '$app/stores';
 
 	import '../app.postcss';
 	import { AppBar, Drawer, initializeStores, getDrawerStore } from '@skeletonlabs/skeleton';
@@ -40,7 +41,13 @@
 			id: 'navigation'
 		});
 	};
+
+	$: title = ['CUCaTS', ...$page.url.pathname.split('/').slice(-1)].join(' ');
 </script>
+
+<svelte:head>
+	<title>{title}</title>
+</svelte:head>
 
 <Drawer>
 	{#if $drawerStore.id === 'navigation'}
@@ -59,7 +66,11 @@
 	<AppBar>
 		<svelte:fragment slot="lead">
 			<a href="/" class="contents">
-				<img class="size-8" src="/logo/dark/logo-white-cat.svg" alt="Logo" />
+				<img
+					class="size-8"
+					src="/logo/dark/logo-white-cat.svg"
+					alt="CUCaTS logo of a white cat in ASCII art"
+				/>
 				<span class="px-2">CUCaTS</span>
 			</a>
 		</svelte:fragment>
@@ -67,7 +78,12 @@
 			<div class="hidden md:flex gap-4">
 				<Navigation />
 			</div>
-			<button type="button" class="btn-icon md:hidden" on:click={launchNavigationSidebar}>
+			<button
+				type="button"
+				class="btn-icon md:hidden"
+				on:click={launchNavigationSidebar}
+				aria-label="Menu"
+			>
 				<Hamburger />
 			</button>
 		</svelte:fragment>
