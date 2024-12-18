@@ -73,21 +73,6 @@
 				/>
 				<span class="px-2 mr-4">CUCaTS</span>
 			</a>
-			<a href="https://www.instagram.com/cucats.cam">
-				<img class="icon-logo" src="socials/Instagram_Glyph_White.svg" alt="Instagram Logo" />
-			</a>
-			<a href="https://www.facebook.com/cucats/">
-				<img class="icon-logo" src="socials/Facebook_Logo_Secondary.png" alt="Facebook Logo" />
-			</a>
-			<a href="https://x.com/cucatscam">
-				<img class="icon-logo" src="socials/x-logo.svg" alt="X Logo" />
-			</a>
-
-			<style>
-				.icon-logo {
-					@apply size-6 mx-3;
-				}
-			</style>
 		</svelte:fragment>
 		<svelte:fragment slot="trail">
 			<div class="hidden md:flex gap-4">

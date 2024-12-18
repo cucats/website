@@ -35,4 +35,25 @@
 		<li>Junior Treasurer: Bruce Chen (qc272@cam.ac.uk)</li>
 		<li>Secretary: Jonathon Sun (js2944@cam.ac.uk)</li>
 	</ul>
+	<div class="icon-container">
+		<a href="https://www.instagram.com/cucats.cam">
+			<img class="icon-logo" src="socials/Instagram_Glyph_White.svg" alt="Instagram Logo" />
+		</a>
+		<a href="https://www.facebook.com/cucats/">
+			<img class="icon-logo" src="socials/Facebook_Logo_Secondary.png" alt="Facebook Logo" />
+		</a>
+		<a href="https://x.com/cucatscam">
+			<img class="icon-logo" src="socials/x-logo.svg" alt="X Logo" />
+		</a>
+	</div>
 </main>
+
+<style>
+	.icon-container {
+		@apply flex gap-4
+	}
+
+	.icon-container img {
+		@apply h-12
+	}
+</style>
