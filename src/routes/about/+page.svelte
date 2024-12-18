@@ -50,10 +50,10 @@
 
 <style>
 	.icon-container {
-		@apply flex gap-4
+		@apply flex gap-4;
 	}
 
 	.icon-container img {
-		@apply h-12
+		@apply h-12;
 	}
 </style>
