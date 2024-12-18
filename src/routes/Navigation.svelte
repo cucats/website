@@ -31,6 +31,6 @@
 
 <style>
 	.nav-link {
-		@apply btn btn-sm variant-ghost-surface hover:variant-filled-primary;
+		@apply btn btn-sm hover:variant-ringed-primary active:variant-ghost-primary;
 	}
 </style>
