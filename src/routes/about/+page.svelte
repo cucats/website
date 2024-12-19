@@ -25,15 +25,15 @@
 		</li>
 		<li>
 			4. To provide members with funding and assistance in setting up and running their own events
-			that align with the society’s aims
+			that align with the society's aims
 		</li>
 	</ol>
 	<h2 class="h2">Committee</h2>
 	<ul class="list ml-2">
-		<li>President: Jeremy Chen (jc2483@cam.ac.uk)</li>
-		<li>Vice-President: Sophie Ring (sr2079@cam.ac.uk)</li>
-		<li>Junior Treasurer: Bruce Chen (qc272@cam.ac.uk)</li>
-		<li>Secretary: Jonathon Sun (js2944@cam.ac.uk)</li>
+		<li>President: Jeremy Chen (president@cucats.org)</li>
+		<li>Vice-President: Sophie Ring (vice-president@cucats.org)</li>
+		<li>Junior Treasurer: Bruce Chen (treasurer@cucats.org)</li>
+		<li>Secretary: Jonathon Sun (secretary@cucats.org)</li>
 	</ul>
 	<div class="icon-container">
 		<a href="https://www.instagram.com/cucats.cam">
