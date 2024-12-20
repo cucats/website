@@ -1,93 +1,87 @@
 <script lang="ts">
-	import Navigation from './Navigation.svelte';
-	import { page } from '$app/stores';
+    import Navigation from "$lib/components/Navigation.svelte";
 
-	import '../app.postcss';
-	import { AppBar, Drawer, initializeStores, getDrawerStore } from '@skeletonlabs/skeleton';
+    import "../app.css";
+    import { AppBar, Drawer, initializeStores, getDrawerStore } from "@skeletonlabs/skeleton";
 
-	initializeStores();
+    initializeStores();
 
-	// Highlight JS
-	import hljs from 'highlight.js/lib/core';
-	import 'highlight.js/styles/github-dark.css';
-	import { storeHighlightJs } from '@skeletonlabs/skeleton';
-	import xml from 'highlight.js/lib/languages/xml'; // for HTML
-	import css from 'highlight.js/lib/languages/css';
-	import javascript from 'highlight.js/lib/languages/javascript';
-	import typescript from 'highlight.js/lib/languages/typescript';
+    // Highlight JS
+    import hljs from "highlight.js/lib/core";
+    import "highlight.js/styles/github-dark.css";
+    import { storeHighlightJs } from "@skeletonlabs/skeleton";
+    import xml from "highlight.js/lib/languages/xml"; // for HTML
+    import css from "highlight.js/lib/languages/css";
+    import javascript from "highlight.js/lib/languages/javascript";
+    import typescript from "highlight.js/lib/languages/typescript";
 
-	hljs.registerLanguage('xml', xml); // for HTML
-	hljs.registerLanguage('css', css);
-	hljs.registerLanguage('javascript', javascript);
-	hljs.registerLanguage('typescript', typescript);
-	storeHighlightJs.set(hljs);
+    import Hamburger from "$lib/components/Hamburger.svelte";
+    import { afterNavigate } from "$app/navigation";
+    import { storePopup } from "@skeletonlabs/skeleton";
+    import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
 
-	// Floating UI for Popups
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+    hljs.registerLanguage("xml", xml); // for HTML
+    hljs.registerLanguage("css", css);
+    hljs.registerLanguage("javascript", javascript);
+    hljs.registerLanguage("typescript", typescript);
+    storeHighlightJs.set(hljs);
 
-	import Hamburger from '$lib/icons/Hamburger.svelte';
-	import { afterNavigate } from '$app/navigation';
+    // Floating UI for Popups
+    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	const drawerStore = getDrawerStore();
+    const drawerStore = getDrawerStore();
 
-	afterNavigate(() => {
-		drawerStore.close();
-	});
+    afterNavigate(() => {
+        drawerStore.close();
+    });
 
-	const launchNavigationSidebar = () => {
-		drawerStore.open({
-			id: 'navigation'
-		});
-	};
-
-	$: title = ['CUCaTS', ...$page.url.pathname.split('/').slice(-1)].join(' ');
+    const launchNavigationSidebar = () => {
+        drawerStore.open({
+            id: "navigation",
+        });
+    };
 </script>
 
 <svelte:head>
-	<title>{title}</title>
+    <title>CUCaTS</title>
 </svelte:head>
 
 <Drawer>
-	{#if $drawerStore.id === 'navigation'}
-		<div class="flex flex-col gap-4 p-8 mt-12">
-			<Navigation />
-		</div>
-	{:else}
-		<span>Drawer Contents</span>
-	{/if}
+    {#if $drawerStore.id === "navigation"}
+        <div class="flex flex-col gap-4 p-8 mt-12">
+            <Navigation />
+        </div>
+    {/if}
 </Drawer>
 
 <!-- Background gradient overlay -->
-<div class="bg-black opacity-65 fixed w-screen h-screen -z-50" />
+<div class="bg-black opacity-60 fixed w-screen h-screen -z-50"></div>
 <header class="sticky top-0 z-10">
-	<!-- App Bar -->
-	<AppBar class="text-xl">
-		<svelte:fragment slot="lead">
-			<a href="/" class="contents">
-				<img
-					class="size-8 ml-4"
-					src="/logo/dark/logo-white-cat.svg"
-					alt="CUCaTS logo of a white cat in ASCII art"
-				/>
-				<span class="px-2 mr-4">CUCaTS</span>
-			</a>
-		</svelte:fragment>
-		<svelte:fragment slot="trail">
-			<div class="hidden md:flex gap-4">
-				<Navigation />
-			</div>
-			<button
-				type="button"
-				class="btn-icon md:hidden"
-				on:click={launchNavigationSidebar}
-				aria-label="Menu"
-			>
-				<Hamburger />
-			</button>
-		</svelte:fragment>
-	</AppBar>
+    <AppBar>
+        <svelte:fragment slot="lead">
+            <a href="/" class="contents">
+                <img
+                    class="size-8 ml-4"
+                    src="/logo/dark/logo-white-cat.svg"
+                    alt="CUCaTS logo of a white cat in ASCII art"
+                />
+                <span class="px-2 mr-4">CUCaTS</span>
+            </a>
+        </svelte:fragment>
+        <svelte:fragment slot="trail">
+            <div class="hidden md:flex gap-4">
+                <Navigation />
+            </div>
+            <button
+                type="button"
+                class="btn-icon md:hidden"
+                on:click={launchNavigationSidebar}
+                aria-label="Menu"
+            >
+                <Hamburger />
+            </button>
+        </svelte:fragment>
+    </AppBar>
 </header>
 <!-- Page Route Content -->
 <slot />
