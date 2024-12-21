@@ -12,7 +12,7 @@ socsudo () {
 cd /societies/cucats/public_html/website
 . /societies/cucats/.config/.nvm/nvm.sh
 git pull
-npm i
+pnpm i
 socsudo cucats systemctl --user stop website
 rm -rf build
 npx vite build
