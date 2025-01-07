@@ -3,7 +3,7 @@
 </script>
 
 <main class="p-4 flex flex-col gap-y-4 max-w-screen-lg mx-auto lg:pt-12" in:fade>
-    <h1 class="h1">Events</h1>
+    <h1 class="text-5xl">Events</h1>
 
     <div class="event-card">
         <div class="title">Cambridge Game Jam 2025</div>
@@ -21,7 +21,7 @@
 
     Check our Discord for up-to-date information.
 
-    <h2 class="h2 my-8">Archive</h2>
+    <h2 class="my-4 text-4xl">Archive</h2>
 
     <div class="event-card">
         <div class="title">CUCaTS Advent of Code</div>
@@ -41,13 +41,13 @@
             projects from the ground up.
         </p>
         <a href="https://camhack.org/" class="btn variant-soft-primary">Website</a>
-        <img src="./events/camhack.png" alt="" />
+        <img src="./events/camhack.png" alt="Cam Hack logo" />
     </div>
 </main>
 
 <style lang="postcss">
     .event-card {
-        @apply bg-opacity-60 bg-zinc-900 whitespace-pre-line p-10 mx-8 rounded-lg relative text-center md:text-justify;
+        @apply bg-opacity-60 bg-zinc-900 whitespace-pre-line p-8 md:p-10 md:mx-8 rounded-lg relative text-center md:text-justify;
     }
 
     .title {
@@ -59,7 +59,7 @@
     }
 
     .event-card p {
-        @apply mt-4 text-gray-100;
+        @apply mt-4 text-gray-100 whitespace-normal;
     }
 
     .event-card a {
@@ -67,6 +67,6 @@
     }
 
     .event-card img {
-        @apply h-full flex absolute right-0 top-0 opacity-10 -z-10;
+        @apply max-h-full flex absolute right-0 top-0 opacity-10 -z-10;
     }
 </style>
