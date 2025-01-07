@@ -6,16 +6,17 @@
     <h1 class="h1">Events</h1>
 
     <div class="event-card">
-        <div class="title">Game Jam</div>
-        <div class="date">7 Feb 2025 - 9 Feb 2025</div>
+        <div class="title">Cambridge Game Jam 2025</div>
+        <div class="date">7 Feb 2025 &ndash; 9 Feb 2025</div>
         <p>
             The Game Jam is similar to a hackathon: you have 48h to develop a game that fits a
             specific theme (revealed at the beginning of the event).
         </p>
     </div>
     <div class="event-card">
-        <div class="title">Puzzle hunt</div>
-        <p>Details TBC</p>
+        <div class="title">Puzzle Hunt</div>
+        <p>The CUCaTS Puzzle Hunt is returning this year!</p>
+        <a href="https://ph.cucats.org" class="btn variant-soft-primary">Website</a>
     </div>
 
     Check our Discord for up-to-date information.
@@ -24,7 +25,7 @@
 
     <div class="event-card">
         <div class="title">CUCaTS Advent of Code</div>
-        <div class="date">1 Dec 2024 - 25 Dec 2024</div>
+        <div class="date">1 Dec 2024 &ndash; 25 Dec 2024</div>
         <p>
             Inspired by the global Advent of Code, our version adds a CUCaTS twist! Each day at
             12:00 p.m., a new challenge will be posted for you to solve and earn points.
@@ -33,7 +34,7 @@
     </div>
     <div class="event-card">
         <div class="title">Cam Hack 2024</div>
-        <div class="date">2 Nov 2024 - 3 Nov 2024</div>
+        <div class="date">2 Nov 2024 &ndash; 3 Nov 2024</div>
         <p>
             Cam Hack is a 32 hour hackathon for the innovative minds at the University of Cambridge.
             Over an action-packed weekend, students come together to design and build technology

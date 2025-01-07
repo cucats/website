@@ -10,7 +10,6 @@
     } from "@skeletonlabs/skeleton";
     import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
     import { afterNavigate } from "$app/navigation";
-    import type { Snippet } from "svelte";
     import "../app.css";
 
     initializeStores();
@@ -20,11 +19,7 @@
     afterNavigate(drawerStore.close);
     const launchNavigationSidebar = () => drawerStore.open({ id: "navigation" });
 
-    interface Props {
-        children: Snippet;
-    }
-
-    let { children }: Props = $props();
+    let { children } = $props();
 </script>
 
 <svelte:head>
