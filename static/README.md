@@ -23,4 +23,3 @@ X (formerly Twitter)
 Cam Hack
 
 - https://camhack.org/cam-hack-logo-text.png
-
