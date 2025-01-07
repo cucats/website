@@ -17,3 +17,10 @@ Instagram
 X (formerly Twitter)
 
 - https://about.x.com/en/who-we-are/brand-toolkit
+
+## Events
+
+Cam Hack
+
+- https://camhack.org/cam-hack-logo-text.png
+
