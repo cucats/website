@@ -186,17 +186,19 @@
             class="invert object-contain h-24 m-2"
         />
         <p>
-            We leverage expertise in data science, engineering, and economics to help organizations
-            turn data into decisions. Started by 4 PhDs from Harvard and Stanford, we are now more
-            than 100 professionals with extensive quantitative, engineering, and business
-            experience.
+            We leverage expertise in data science, engineering, artificial intelligence, and
+            economics to help organizations turn data into decisions. Founded by 4 PhDs from Harvard
+            and Stanford, we are now more than 200 professionals with extensive quantitative,
+            engineering, and business acumen.
         </p>
         <p>
-            Headquartered in Boston, we have offices in San Francisco, Berlin, Cologne, Karlsruhe,
-            London, Munich, and Zurich. Our product line includes algorithmic pricing, data-driven
-            claims management, and high-dimensional forecasting solutions. Our customers include
-            some of the largest financial, retail, and healthcare organizations in the US and
-            Europe.
+            Our teams apply cutting-edge research to solve real-world problems within algorithmic
+            pricing, fraud detection, and cancer diagnostics. Our customers include some of the
+            largest financial, retail, and healthcare organizations in the US and Europe.
+        </p>
+        <p>
+            We're a rapidly scaling company that offers full-time and internship opportunities in
+            London, Zurich, Berlin, Munich, Karlsruhe, Cologne, Boston and San Francisco.
         </p>
         <div class="button-container">
             <a href="https://www.quantco.com/" class="btn variant-outline-primary">Website</a>

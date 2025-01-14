@@ -12,6 +12,7 @@
             The Game Jam is similar to a hackathon: you have 48h to develop a game that fits a
             specific theme (revealed at the beginning of the event).
         </p>
+        <a href="https://camgamejam.com/" class="btn variant-soft-primary">Website</a>
     </div>
     <div class="event-card">
         <div class="title">Puzzle Hunt</div>
