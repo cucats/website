@@ -13,7 +13,9 @@
             specific theme (revealed at the beginning of the event).
         </p>
         <a href="https://camgamejam.com/" class="btn variant-soft-primary">Website</a>
+        <img src="./events/jam.png" alt="Cam Game Jam logo" />
     </div>
+
     <div class="event-card">
         <div class="title">Puzzle Hunt</div>
         <p>The CUCaTS Puzzle Hunt is returning this year!</p>
@@ -33,6 +35,7 @@
         </p>
         <a href="https://aoc.cucats.org/about" class="btn variant-soft-primary">Website</a>
     </div>
+
     <div class="event-card">
         <div class="title">Cam Hack 2024</div>
         <div class="date">2 Nov 2024 &ndash; 3 Nov 2024</div>
