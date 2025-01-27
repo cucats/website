@@ -1,6 +1,6 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import Event from "../../components/Event.svelte";
+    import Event from "$lib/components/Event.svelte";
     import events from "../../data/events.json";
 
     // Should still display on end date

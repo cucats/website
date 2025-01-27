@@ -7,7 +7,7 @@
     <h2 class="h2">Gold</h2>
 
     <section class="sponsor-card">
-        <img src="/sponsors/hrt.png" alt="Hudson River Trading" class="object-contain h-24 m-2" />
+        <img src="/sponsors/hrt.png" alt="Hudson River Trading"/>
         <p>
             At Hudson River Trading (HRT) we are mathematicians, computer scientists, statisticians,
             physicists and engineers. We research and develop automated trading algorithms using
@@ -52,7 +52,7 @@
         <img
             src="/sponsors/js_stacked.png"
             alt="Jane Street Logo"
-            class="invert object-contain h-24 m-2"
+            class="invert"
         />
         <p>
             Our INSIGHT program is part of our commitment to give as many people as possible the
@@ -90,7 +90,7 @@
     </section>
 
     <section class="sponsor-card">
-        <img src="/sponsors/qrt.svg" alt="QRT Logo" class="object-contain h-24 m-2" />
+        <img src="/sponsors/qrt.svg" alt="QRT Logo"  />
         <p>
             Qube Research & Technologies (QRT) is a global investment manager where we deploy a
             diverse range of investment strategies across geographies, asset classes and time
@@ -111,7 +111,7 @@
 
     <section class="sponsor-card">
         <div class="flex items-center">
-            <img src="/sponsors/nustom.svg" alt="Nustom logo" class="object-contain h-24 m-2" />
+            <img src="/sponsors/nustom.svg" alt="Nustom logo" />
             <span class="select-none text-4xl">Nustom</span>
         </div>
         <p>
@@ -146,7 +146,7 @@
     </section>
 
     <section class="sponsor-card">
-        <img src="/sponsors/optiver.png" alt="Optiver Logo" class="object-contain h-24 m-2" />
+        <img src="/sponsors/optiver.png" alt="Optiver Logo" />
         <p>
             Unlock the world of algorithmic trading with The Optiver & Cambridge Trading Academy.
             Led by industry experts, this comprehensive 8-session course takes you from options
@@ -211,7 +211,7 @@
     <h2 class="h2">Bronze</h2>
 
     <section class="sponsor-card">
-        <img src="/sponsors/imc.png" alt="IMC Trading" class="object-contain h-24 m-2" />
+        <img src="/sponsors/imc.png" alt="IMC Trading" />
         <p>
             IMC is a leading trading firm, known worldwide for our advanced, low-latency technology
             and world-class execution capabilities. Over the past 35 years, we've been a stabilizing
@@ -231,7 +231,7 @@
     </section>
 
     <section class="sponsor-card">
-        <img src="/sponsors/TPP.png" alt="TPP Logo" class="object-contain h-24 m-2" />
+        <img src="/sponsors/TPP.png" alt="TPP Logo" />
         <p>
             TPP is a global digital health company. With over 7,000 organisations using our
             solutions to care for over 50 million patients, our software is used across all health
@@ -277,6 +277,10 @@
 
         & a:not(.btn) {
             @apply text-primary-400 underline;
+        }
+
+        img {
+            @apply object-contain h-24 m-2;
         }
     }
 
