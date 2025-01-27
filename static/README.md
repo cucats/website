@@ -23,3 +23,7 @@ X (formerly Twitter)
 Cam Hack
 
 - https://camhack.org/cam-hack-logo-text.png
+
+Cam Game Jam
+
+- https://camgamejam.com/2025/jam.png
