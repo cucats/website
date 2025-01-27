@@ -46,5 +46,4 @@
             @apply max-h-full flex absolute right-0 top-0 opacity-10 -z-10;
         }
     }
-
 </style>

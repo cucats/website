@@ -12,7 +12,7 @@
 
     {#each events as event}
         {#if !event.date || Date.parse(event.date[1]) >= today}
-            <Event event={event} />
+            <Event {event} />
         {/if}
     {/each}
 
@@ -22,8 +22,7 @@
 
     {#each events as event}
         {#if event.date && Date.parse(event.date[1]) < today}
-            <Event event={event} />
+            <Event {event} />
         {/if}
     {/each}
 </main>
-

@@ -5,14 +5,14 @@
 <main class="p-10 flex flex-col gap-y-6 max-w-screen-lg mx-auto pt-12" in:fade>
     <h1 class="h1">About Us</h1>
     <p>
-        The Cambridge University Computing and Technology Society (CUCaTS) is a student-run society
-        at the University of Cambridge. We aim to provide a platform for students to explore and
-        engage with technology, regardless of their degree or experience level.
+        The Cambridge University Computing and Technology Society (CUCaTS) is the primary
+        student-run society at the University of Cambridge. We aim to provide a platform for
+        students to explore and engage with technology, regardless of their degree or experience
+        level.
     </p>
     <p>
-        CUCaTS is the primary society within the University of Cambridge for those interested in
-        Computer Science and Technology. The society runs both its own events/programmes and
-        provides resources and funding to those who want to do the same.
+        With hundreds of members, the society has a thriving community to run both its own
+        events/programmes and provide resources and funding to those who want to do the same.
     </p>
     <h2 class="h2">Aims</h2>
     <ol class="list ml-2">
