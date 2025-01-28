@@ -5,11 +5,17 @@
         ["gold", ["#ffc000", "#ffa000"]],
         ["silver", ["#cccccc", "#888888"]],
         ["bronze", ["#ffa000", "#cc8033"]],
-    ])
+    ]);
 </script>
 
 <!-- Couldn't get tailwind to work so just set style manually... -->
-<div class="sponsor-card" style="background: linear-gradient({colours.get(sponsor.tier)?.[0]}, {colours.get(sponsor.tier)?.[1]})">
+<div
+    class="sponsor-card"
+    style="background: linear-gradient(
+        {colours.get(sponsor.tier)?.[0]},
+        {colours.get(sponsor.tier)?.[1]}
+    )"
+>
     <img src={sponsor.logo} alt="{sponsor.name} logo" />
 
     <!--
