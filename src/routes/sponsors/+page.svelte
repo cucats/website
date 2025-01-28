@@ -7,6 +7,8 @@
 <main class="p-4 flex flex-col gap-y-4 max-w-screen-lg mx-auto lg:pt-12 lg:gap-y-8" in:fade>
     <h1 class="h1 mb-4">Sponsors</h1>
 
+    Click on sponsors for more information and opportunities!
+
     <h2 class="h2">Gold</h2>
 
     <div class="sponsor-container">

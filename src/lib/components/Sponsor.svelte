@@ -66,11 +66,11 @@
     }
 
     .popup-container {
-        @apply bg-black bg-opacity-60 fixed pt-24 top-0 h-full;
+        @apply bg-black bg-opacity-60 fixed pt-24 top-0 h-full w-full;
     }
 
     .popup {
-        @apply overflow-y-scroll bg-cyan-800 bg-opacity-100 p-10 mx-4 md:mx-24 rounded-xl max-h-full;
+        @apply overflow-y-scroll bg-cyan-800 bg-opacity-100 p-10 rounded-xl max-h-full max-w-screen-lg mx-auto;
 
         p {
             @apply my-4;
