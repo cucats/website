@@ -9,25 +9,38 @@
 
     <h2 class="h2">Gold</h2>
 
-    {#each sponsors as sponsor}
-        {#if sponsor.tier == "gold"}
-            <Sponsor {sponsor} />
-        {/if}
-    {/each}
+    <div class="sponsor-container">
+        {#each sponsors as sponsor}
+            {#if sponsor.tier == "gold"}
+                <Sponsor {sponsor} />
+            {/if}
+        {/each}
+    </div>
 
     <h2 class="h2">Silver</h2>
 
-    {#each sponsors as sponsor}
-        {#if sponsor.tier == "silver"}
-            <Sponsor {sponsor} />
-        {/if}
-    {/each}
+    <div class="sponsor-container">
+        {#each sponsors as sponsor}
+            {#if sponsor.tier == "silver"}
+                <Sponsor {sponsor} />
+            {/if}
+        {/each}
+    </div>
 
     <h2 class="h2">Bronze</h2>
 
-    {#each sponsors as sponsor}
-        {#if sponsor.tier == "bronze"}
-            <Sponsor {sponsor} />
-        {/if}
-    {/each}
+    <div class="sponsor-container">
+        {#each sponsors as sponsor}
+            {#if sponsor.tier == "bronze"}
+                <Sponsor {sponsor} />
+            {/if}
+        {/each}
+    </div>
+
 </main>
+
+<style lang="postcss">
+    .sponsor-container {
+        @apply flex flex-wrap gap-4 justify-center
+    }
+</style>

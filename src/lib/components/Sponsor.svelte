@@ -33,7 +33,7 @@
 
 <style lang="postcss">
     .sponsor-card {
-        @apply flex flex-col w-96 items-center rounded-xl p-4 shadow-sm hover:shadow-2xl hover:scale-105 transition mx-auto;
+        @apply flex flex-col w-80 items-center rounded-xl p-4 shadow-sm hover:shadow-2xl hover:scale-105 transition;
 
         img {
             @apply object-contain h-24 my-8;
