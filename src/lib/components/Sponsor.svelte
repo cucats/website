@@ -82,7 +82,7 @@
         }
 
         img {
-            @apply h-24;
+            @apply object-contain h-24;
         }
     }
 </style>
