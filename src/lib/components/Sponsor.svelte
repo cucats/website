@@ -1,12 +1,6 @@
 <script>
     export let sponsor;
 
-    let colours = new Map([
-        ["gold", ["#ffc000", "#ffa000"]],
-        ["silver", ["#cccccc", "#888888"]],
-        ["bronze", ["#ffa000", "#cc8033"]],
-    ]);
-
     /**
      * @param {string} id - Sponsor name
      */
@@ -20,10 +14,7 @@
 <!-- Couldn't get tailwind to work so just set style manually... -->
 <button
     class="sponsor-card"
-    style="background: linear-gradient(
-        {colours.get(sponsor.tier)?.[0]},
-        {colours.get(sponsor.tier)?.[1]}
-    )"
+    style="background: linear-gradient(#cccccc, #888890)"
     onclick={() => togglePopUp(sponsor.name)}
 >
     <img src={sponsor.logo} alt="{sponsor.name} logo" />
