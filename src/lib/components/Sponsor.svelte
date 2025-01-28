@@ -1,5 +1,5 @@
 <script>
-    export let sponsor = {};
+    export let sponsor;
 </script>
 
 <section class="sponsor-card">

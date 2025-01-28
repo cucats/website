@@ -1,5 +1,5 @@
 <script>
-    export let event = {};
+    export let event;
 </script>
 
 <div class="event-card">
