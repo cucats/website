@@ -36,11 +36,10 @@
             {/if}
         {/each}
     </div>
-
 </main>
 
 <style lang="postcss">
     .sponsor-container {
-        @apply flex flex-wrap gap-4 justify-center
+        @apply flex flex-wrap gap-4 justify-center;
     }
 </style>

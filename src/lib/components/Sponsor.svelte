@@ -6,15 +6,25 @@
         ["silver", ["#cccccc", "#888888"]],
         ["bronze", ["#ffa000", "#cc8033"]],
     ]);
+
+    /**
+     * @param {string} id - Sponsor name
+     */
+    function togglePopUp(id) {
+        document.getElementById(id)?.classList.toggle("hidden");
+        document.body.style.overflowY =
+            document.body.style.overflowY == "hidden" ? "auto" : "hidden";
+    }
 </script>
 
 <!-- Couldn't get tailwind to work so just set style manually... -->
-<div
+<button
     class="sponsor-card"
     style="background: linear-gradient(
         {colours.get(sponsor.tier)?.[0]},
         {colours.get(sponsor.tier)?.[1]}
     )"
+    onclick={() => togglePopUp(sponsor.name)}
 >
     <img src={sponsor.logo} alt="{sponsor.name} logo" />
 
@@ -23,12 +33,24 @@
         <p>{paragraph}</p>
     {/each}
 
-    <div class="button-container">
-        {#each Object.entries(sponsor.links) as [key, value]}
-            <a href={value} class="btn variant-outline-primary capitalize">{key}</a>
-        {/each}
-    </div>
     -->
+</button>
+
+<div class="popup-container hidden" id={sponsor.name}>
+    <div class="popup">
+        <img src={sponsor.logo} alt="{sponsor.name} logo" />
+
+        {#each sponsor.paragraphs as paragraph}
+            <p>{paragraph}</p>
+        {/each}
+
+        <div class="button-container">
+            {#each Object.entries(sponsor.links) as [key, value]}
+                <a href={value} class="btn variant-soft-primary">{key}</a>
+            {/each}
+            <button onclick={() => togglePopUp(sponsor.name)}>Close</button>
+        </div>
+    </div>
 </div>
 
 <style lang="postcss">
@@ -42,5 +64,25 @@
 
     .button-container {
         @apply flex justify-center w-full pt-4 gap-x-8 gap-y-4 flex-wrap;
+
+        a {
+            @apply capitalize;
+        }
+    }
+
+    .popup-container {
+        @apply bg-black bg-opacity-60 fixed pt-24 top-0 h-full;
+    }
+
+    .popup {
+        @apply overflow-y-scroll bg-cyan-800 bg-opacity-100 p-10 mx-4 md:mx-24 rounded-xl max-h-full;
+
+        p {
+            @apply m-4;
+        }
+
+        img {
+            @apply h-24;
+        }
     }
 </style>
