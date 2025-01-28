@@ -59,6 +59,10 @@
         a {
             @apply capitalize;
         }
+
+        button {
+            @apply text-slate-200 hover:text-white;
+        }
     }
 
     .popup-container {
@@ -69,7 +73,7 @@
         @apply overflow-y-scroll bg-cyan-800 bg-opacity-100 p-10 mx-4 md:mx-24 rounded-xl max-h-full;
 
         p {
-            @apply m-4;
+            @apply my-4;
         }
 
         img {
