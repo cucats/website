@@ -1,7 +1,5 @@
 ## `events.json`
 
-This file contains the event data with each event in the following form...
-
 ```json
 {
     "title": "",
@@ -17,3 +15,21 @@ This file contains the event data with each event in the following form...
 - `"logo"` should be a path to the `events` folder (under `static`)
 
 Ideally, events should be sorted by date, if they exist.
+
+## `sponsors.json`
+
+```json
+{
+    "name": "",
+    "logo": "",
+    "tier": "",
+    "paragraphs": [""],
+    "links": {
+        "": ""
+    }
+}
+```
+
+- All fields are required
+- `"logo"` should be a path to the `sponsors` folder (under `static`)
+- `"links"` consist of the link names as the keys and the links as the values
