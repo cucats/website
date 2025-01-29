@@ -14,17 +14,10 @@
 <!-- Couldn't get tailwind to work so just set style manually... -->
 <button
     class="sponsor-card"
-    style="background: linear-gradient(#cccccc, #888890)"
+    style="background: linear-gradient(#fff9, #fffa)"
     onclick={() => togglePopUp(sponsor.name)}
 >
     <img src={sponsor.logo} alt="{sponsor.name} logo" />
-
-    <!--
-    {#each sponsor.paragraphs as paragraph}
-        <p>{paragraph}</p>
-    {/each}
-
-    -->
 </button>
 
 <div class="popup-container hidden" id={sponsor.name}>
@@ -49,7 +42,7 @@
         @apply flex flex-col w-80 items-center rounded-xl p-4 shadow-sm hover:shadow-2xl hover:scale-105 transition;
 
         img {
-            @apply object-contain h-24 my-8;
+            @apply object-contain h-20 my-8;
         }
     }
 

@@ -9,7 +9,7 @@
 
     Click on sponsors for more information and opportunities!
 
-    <h2 class="h2">Gold</h2>
+    <h2 class="h2 text-[#ffc000]">Gold</h2>
 
     <div class="sponsor-container">
         {#each sponsors as sponsor}
@@ -19,7 +19,7 @@
         {/each}
     </div>
 
-    <h2 class="h2">Silver</h2>
+    <h2 class="h2 text-white">Silver</h2>
 
     <div class="sponsor-container">
         {#each sponsors as sponsor}
@@ -29,7 +29,7 @@
         {/each}
     </div>
 
-    <h2 class="h2">Bronze</h2>
+    <h2 class="h2 text-[#fca956]">Bronze</h2>
 
     <div class="sponsor-container">
         {#each sponsors as sponsor}
