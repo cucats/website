@@ -38,7 +38,7 @@
 <div class="bg-black opacity-60 fixed w-screen h-screen -z-50"></div>
 
 <header class="sticky top-0 z-10">
-    <AppBar>
+    <AppBar class="px-[5%]">
         {#snippet lead()}
             <a href="/" class="contents">
                 <img
