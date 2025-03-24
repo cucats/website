@@ -8,21 +8,9 @@
     }
 </script>
 
-<a
-    class="btn btn-sm opacity-80 transition delay-150 duration-200 ease-in-out hover:scale-105 hover:variant-ringed-primary hover:opacity-100"
-    href="/about"
-    on:click={allowScroll}>About Us</a
->
-<a
-    class="btn btn-sm opacity-80 transition delay-150 duration-200 ease-in-out hover:scale-105 hover:variant-ringed-primary hover:opacity-100"
-    href="/events"
-    on:click={allowScroll}>Events</a
->
-<a
-    class="btn btn-sm opacity-80 transition delay-150 duration-200 ease-in-out hover:scale-105 hover:variant-ringed-primary hover:opacity-100"
-    href="/sponsors"
-    on:click={allowScroll}>Sponsors</a
->
+<a class="navlink" href="/about" on:click={allowScroll}>About Us</a>
+<a class="navlink" href="/events" on:click={allowScroll}>Events</a>
+<a class="navlink" href="/sponsors" on:click={allowScroll}>Sponsors</a>
 
 <!-- {#if user}
     <form action="/auth/signout" method="POST" class="text-center">
@@ -33,3 +21,9 @@
         <button class="btn btn-sm variant-outline-primary">Sign in</button>
     </form>
 {/if} -->
+
+<style lang="postcss">
+    .navlink {
+        @apply block opacity-80 transition duration-200 ease-in-out sm:hover:scale-105 hover:opacity-100 text-3xl ml-4 sm:text-lg p-4;
+    }
+</style>

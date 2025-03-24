@@ -1,68 +1,59 @@
 <script lang="ts">
     import Navigation from "$lib/components/Navigation.svelte";
     import Hamburger from "$lib/components/Hamburger.svelte";
-    import {
-        AppBar,
-        Drawer,
-        getDrawerStore,
-        initializeStores,
-        storePopup,
-    } from "@skeletonlabs/skeleton";
-    import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
-    import { afterNavigate } from "$app/navigation";
     import "../app.css";
 
-    initializeStores();
-    // Floating UI for Popups
-    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-    const drawerStore = getDrawerStore();
-    afterNavigate(drawerStore.close);
-    const launchNavigationSidebar = () => drawerStore.open({ id: "navigation" });
-
     let { children } = $props();
+    let visible = $state(false);
 </script>
 
 <svelte:head>
     <title>CUCaTS</title>
 </svelte:head>
 
-<Drawer>
-    {#if $drawerStore.id === "navigation"}
-        <div class="flex flex-col gap-4 p-8 mt-12">
-            <Navigation />
-        </div>
-    {/if}
-</Drawer>
-
 <!-- Background gradient overlay -->
 <div class="bg-black opacity-60 fixed w-screen h-screen -z-50"></div>
 
-<header class="sticky top-0 z-10">
-    <AppBar class="px-[5%]">
-        {#snippet lead()}
-            <a href="/" class="contents">
-                <img
-                    class="size-8 ml-4"
-                    src="/logo/dark/logo-white-cat.svg"
-                    alt="CUCaTS logo of a white cat in ASCII art"
-                />
-                <span class="px-2 mr-4">CUCaTS</span>
-            </a>
-        {/snippet}
-        {#snippet trail()}
-            <div class="hidden md:flex gap-4">
+<!-- Navbar -->
+<header class="fixed z-10 w-screen backdrop-blur-2xl bg-black bg-opacity-30">
+    <div class="relative flex h-16 items-center">
+        <!-- Logo -->
+        <a href="/" class="contents">
+            <img
+                class="size-8 ml-8"
+                src="/logo/dark/logo-white-cat.svg"
+                alt="CUCaTS logo of a white cat in ASCII art"
+            />
+            <span class="px-2 text-lg">CUCaTS</span>
+        </a>
+
+        <!-- Hamburger -->
+        <button
+            class="absolute right-0 flex items-center sm:hidden px-8"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+            onclick={() => (visible = !visible)}
+        >
+            <Hamburger />
+        </button>
+
+        <!-- Links -->
+        <div class="hidden sm:block ml-auto mr-16">
+            <div class="flex">
                 <Navigation />
             </div>
-            <button
-                type="button"
-                class="btn-icon md:hidden"
-                onclick={launchNavigationSidebar}
-                aria-label="Menu"
-            >
-                <Hamburger />
-            </button>
-        {/snippet}
-    </AppBar>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    {#if visible}
+        <div class="sm:hidden h-screen">
+            <Navigation />
+        </div>
+    {/if}
 </header>
+
+<!-- Push content downwards -->
+<div class="h-16"></div>
 
 {@render children()}
