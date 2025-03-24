@@ -30,7 +30,7 @@
 
         <div class="button-container">
             {#each Object.entries(sponsor.links) as [key, value]}
-                <a href={value} class="btn variant-soft-primary">{key}</a>
+                <a href={value} class="variant-soft-primary btn">{key}</a>
             {/each}
             <button onclick={() => togglePopUp(sponsor.name)}>Close</button>
         </div>
@@ -39,15 +39,15 @@
 
 <style lang="postcss">
     .sponsor-card {
-        @apply flex flex-col w-80 items-center rounded-xl p-4 shadow-sm hover:shadow-2xl hover:scale-105 transition;
+        @apply flex w-80 flex-col items-center rounded-xl p-4 shadow-sm transition hover:scale-105 hover:shadow-2xl;
 
         img {
-            @apply object-contain h-20 my-8;
+            @apply my-8 h-20 object-contain;
         }
     }
 
     .button-container {
-        @apply flex justify-center w-full pt-4 gap-x-8 gap-y-4 flex-wrap;
+        @apply flex w-full flex-wrap justify-center gap-x-8 gap-y-4 pt-4;
 
         a {
             @apply capitalize;
@@ -59,18 +59,18 @@
     }
 
     .popup-container {
-        @apply bg-black bg-opacity-60 fixed pt-24 top-0 h-full w-full backdrop-blur-xl;
+        @apply fixed top-0 h-full w-full bg-black bg-opacity-60 pt-24 backdrop-blur-xl;
     }
 
     .popup {
-        @apply overflow-y-scroll bg-cyan-800 bg-opacity-100 p-10 rounded-xl max-h-full max-w-screen-lg mx-auto;
+        @apply mx-auto max-h-full max-w-screen-lg overflow-y-scroll rounded-xl bg-cyan-800 bg-opacity-100 p-10;
 
         p {
             @apply my-4;
         }
 
         img {
-            @apply object-contain h-24;
+            @apply h-24 object-contain;
         }
     }
 </style>

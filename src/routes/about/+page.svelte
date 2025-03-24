@@ -2,7 +2,7 @@
     import { fade } from "svelte/transition";
 </script>
 
-<main class="p-10 flex flex-col gap-y-6 max-w-screen-lg mx-auto pt-12" in:fade>
+<main class="mx-auto flex max-w-screen-lg flex-col gap-y-6 p-10 pt-12" in:fade>
     <h1 class="h1">About Us</h1>
     <p>
         The Cambridge University Computing and Technology Society (CUCaTS) is the primary

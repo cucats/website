@@ -12,16 +12,18 @@
 </svelte:head>
 
 <!-- Background gradient overlay -->
-<div class="fixed w-screen h-screen bg-gradient-to-r variant-gradient-primary-secondary -z-50"></div>
-<div class="bg-black opacity-60 fixed w-screen h-screen -z-40"></div>
+<div
+    class="variant-gradient-primary-secondary fixed -z-50 h-screen w-screen bg-gradient-to-r"
+></div>
+<div class="fixed -z-40 h-screen w-screen bg-black opacity-60"></div>
 
 <!-- Navbar -->
-<header class="fixed z-10 w-screen backdrop-blur-xl bg-black bg-opacity-50">
+<header class="fixed z-10 w-screen bg-black bg-opacity-50 backdrop-blur-xl">
     <div class="relative flex h-16 items-center">
         <!-- Logo -->
         <a href="/" class="contents">
             <img
-                class="size-8 ml-8"
+                class="ml-8 size-8"
                 src="/logo/dark/logo-white-cat.svg"
                 alt="CUCaTS logo of a white cat in ASCII art"
             />
@@ -30,7 +32,7 @@
 
         <!-- Hamburger -->
         <button
-            class="absolute right-0 flex items-center sm:hidden px-8"
+            class="absolute right-0 flex items-center px-8 sm:hidden"
             aria-controls="mobile-menu"
             aria-expanded="false"
             onclick={() => (visible = !visible)}
@@ -39,7 +41,7 @@
         </button>
 
         <!-- Links -->
-        <div class="hidden sm:block ml-auto mr-16">
+        <div class="ml-auto mr-16 hidden sm:block">
             <div class="flex">
                 <Navigation />
             </div>
@@ -48,7 +50,7 @@
 
     <!-- Mobile drawer -->
     {#if visible}
-        <div class="sm:hidden h-screen">
+        <div class="h-screen sm:hidden">
             <Navigation />
         </div>
     {/if}

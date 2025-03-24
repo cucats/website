@@ -4,7 +4,7 @@
     import sponsors from "../../data/sponsors.json";
 </script>
 
-<main class="p-4 flex flex-col gap-y-4 max-w-screen-lg mx-auto lg:pt-12 lg:gap-y-8" in:fade>
+<main class="mx-auto flex max-w-screen-lg flex-col gap-y-4 p-4 lg:gap-y-8 lg:pt-12" in:fade>
     <h1 class="h1 mb-4">Sponsors</h1>
 
     Click on sponsors for more information and opportunities!
@@ -42,6 +42,6 @@
 
 <style lang="postcss">
     .sponsor-container {
-        @apply flex flex-wrap gap-4 justify-center;
+        @apply flex flex-wrap justify-center gap-4;
     }
 </style>

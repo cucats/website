@@ -24,6 +24,6 @@
 
 <style lang="postcss">
     .navlink {
-        @apply block opacity-80 transition duration-200 ease-in-out sm:hover:scale-105 hover:opacity-100 text-3xl ml-4 sm:text-lg p-4;
+        @apply ml-4 block p-4 text-3xl opacity-80 transition duration-200 ease-in-out hover:opacity-100 sm:text-lg sm:hover:scale-105;
     }
 </style>
