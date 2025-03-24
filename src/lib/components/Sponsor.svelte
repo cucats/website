@@ -59,7 +59,7 @@
     }
 
     .popup-container {
-        @apply bg-black bg-opacity-60 fixed pt-24 top-0 h-full w-full;
+        @apply bg-black bg-opacity-60 fixed pt-24 top-0 h-full w-full backdrop-blur-xl;
     }
 
     .popup {

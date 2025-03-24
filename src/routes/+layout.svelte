@@ -12,10 +12,11 @@
 </svelte:head>
 
 <!-- Background gradient overlay -->
-<div class="bg-black opacity-60 fixed w-screen h-screen -z-50"></div>
+<div class="fixed w-screen h-screen bg-gradient-to-r variant-gradient-primary-secondary -z-50"></div>
+<div class="bg-black opacity-60 fixed w-screen h-screen -z-40"></div>
 
 <!-- Navbar -->
-<header class="fixed z-10 w-screen backdrop-blur-2xl bg-black bg-opacity-30">
+<header class="fixed z-10 w-screen backdrop-blur-xl bg-black bg-opacity-50">
     <div class="relative flex h-16 items-center">
         <!-- Logo -->
         <a href="/" class="contents">
