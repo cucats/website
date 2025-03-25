@@ -8,7 +8,7 @@
 </script>
 
 <main class="mx-auto flex max-w-screen-lg flex-col gap-y-4 p-4 lg:pt-12" in:fade>
-    <h1 class="text-5xl">Events</h1>
+    <h1>Events</h1>
 
     {#each events as event}
         {#if !event.date || Date.parse(event.date[1]) >= today}
@@ -18,7 +18,7 @@
 
     Check our Discord for up-to-date information.
 
-    <h2 class="my-4 text-4xl">Archive</h2>
+    <h2 class="mt-8">Archive</h2>
 
     {#each events as event}
         {#if event.date && Date.parse(event.date[1]) < today}

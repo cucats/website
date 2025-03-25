@@ -10,6 +10,10 @@ export default {
         join(require.resolve("@skeletonlabs/skeleton"), "../**/*.{html,js,svelte,ts}"),
     ],
     theme: {
+        fontFamily: {
+            mono: "'JetBrains Mono', monospace",
+            sans: "Arial",
+        },
         extend: {},
     },
     plugins: [

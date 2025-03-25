@@ -5,7 +5,7 @@
 
 html,
 body {
-    @apply h-full;
+    @apply h-full font-mono;
     touch-action: manipulation;
 }
 
@@ -33,6 +33,10 @@ body {
     src: url("/Open_Sans/OpenSans-Italic-VariableFont_wdth,wght.ttf") format("truetype");
 }
 
-.dark body * {
-    font-family: "JetBrains Mono", monospace;
+h1 {
+    @apply text-5xl;
+}
+
+h2 {
+    @apply text-4xl;
 }

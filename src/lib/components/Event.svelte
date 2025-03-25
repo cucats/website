@@ -27,7 +27,7 @@
         @apply relative whitespace-pre-line rounded-lg bg-zinc-900 bg-opacity-60 p-8 text-center md:mx-8 md:p-10 md:text-justify;
 
         .title {
-            @apply text-4xl font-bold;
+            @apply text-3xl font-bold sm:text-4xl;
         }
 
         .date {

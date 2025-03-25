@@ -10,7 +10,7 @@
     <Grid />
     <div class="flex flex-col items-center lg:flex-row lg:gap-8">
         <img src="/logo/dark/logo-white-cat.svg" alt="Logo" class="size-48" />
-        <h1 class="h2 text-center lg:h1">
+        <h1 class="text-center">
             Cambridge Uni Computing
             <br />
             and Technology Society
