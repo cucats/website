@@ -23,7 +23,10 @@
 <div class="fixed -z-40 h-screen w-screen bg-black opacity-60"></div>
 
 <!-- Navbar -->
-<header class="fixed z-10 max-h-16 w-screen overflow-hidden duration-100 ease-out" class:w={active}>
+<header
+    class="fixed z-10 max-h-16 w-screen overflow-hidden transition-[max-height] duration-100 ease-out"
+    class:w={active}
+>
     <div class="mx-auto bg-black bg-opacity-50 backdrop-blur-xl">
         <div class="relative flex h-16 items-center">
             <Hamburger bind:active />
