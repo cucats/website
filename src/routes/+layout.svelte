@@ -17,10 +17,7 @@
 </svelte:head>
 
 <!-- Background gradient overlay -->
-<div
-    class="variant-gradient-primary-secondary fixed -z-50 h-screen w-screen bg-gradient-to-r"
-></div>
-<div class="fixed -z-40 h-screen w-screen bg-black opacity-60"></div>
+<div class="background"></div>
 
 <!-- Navbar -->
 <header
@@ -64,5 +61,24 @@
 <style lang="postcss">
     .w {
         @apply max-h-72 duration-200;
+    }
+
+    .background {
+        @apply fixed -z-50 h-screen w-screen opacity-90;
+        background: repeating-linear-gradient(90deg, #2b3354 0%, #266 40%, #266 60%, #2b3354 100%);
+        background-size: 400% 400%;
+        animation: gradient 20s linear infinite;
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
 </style>
