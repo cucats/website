@@ -28,7 +28,7 @@
     class:w={active}
 >
     <div class="mx-auto bg-black bg-opacity-50 backdrop-blur-xl">
-        <div class="relative flex h-16 items-center">
+        <div class="relative mx-auto flex h-16 max-w-screen-xl items-center">
             <Hamburger bind:active />
 
             <!-- Logo -->
@@ -38,7 +38,7 @@
                     src="/logo/dark/logo-white-cat.svg"
                     alt="CUCaTS logo of a white cat in ASCII art"
                 />
-                <span class="px-2 text-2xl">CUCaTS</span>
+                <span class="px-2 text-2xl font-extrabold">CUCaTS</span>
             </a>
 
             <!-- Links -->
