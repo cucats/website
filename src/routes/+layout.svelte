@@ -48,7 +48,7 @@
 
         <!-- Mobile drawer -->
         <div id="mobile-menu" class="pb-4 pl-4 sm:hidden">
-            <Navigation bind:toggle={visible} />
+            <Navigation bind:active />
         </div>
     </div>
 </header>
