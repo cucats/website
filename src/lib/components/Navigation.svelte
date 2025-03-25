@@ -1,16 +1,18 @@
 <script lang="ts">
     import { page } from "$app/stores";
+    export let toggle = false;
 
     const user = $page.data.user;
 
-    function allowScroll() {
+    function onclick() {
         document.body.style.overflowY = "auto";
+        toggle = !toggle;
     }
 </script>
 
-<a class="navlink" href="/about" on:click={allowScroll}>About Us</a>
-<a class="navlink" href="/events" on:click={allowScroll}>Events</a>
-<a class="navlink" href="/sponsors" on:click={allowScroll}>Sponsors</a>
+<a class="navlink" href="/about" on:click={onclick}>About Us</a>
+<a class="navlink" href="/events" on:click={onclick}>Events</a>
+<a class="navlink" href="/sponsors" on:click={onclick}>Sponsors</a>
 
 <!-- {#if user}
     <form action="/auth/signout" method="POST" class="text-center">
