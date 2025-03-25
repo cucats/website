@@ -18,7 +18,7 @@
 
     <h2>Aims</h2>
 
-    <ol class="ml-8 list-outside list-decimal font-sans text-lg">
+    <ol class="ml-8 list-outside list-decimal">
         <li>Promote interest for members and the public in computing and information technology</li>
         <li>Provide members with networking opportunities with potential employers</li>
         <li>
@@ -62,6 +62,6 @@
     }
 
     p {
-        @apply font-sans text-lg text-gray-200;
+        @apply text-gray-200;
     }
 </style>

@@ -35,7 +35,7 @@
         }
 
         p {
-            @apply mt-6 whitespace-normal font-sans text-xl text-gray-300;
+            @apply mt-6 whitespace-normal text-lg font-semibold text-gray-300;
         }
 
         a {
