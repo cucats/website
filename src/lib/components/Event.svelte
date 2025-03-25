@@ -24,10 +24,10 @@
 
 <style lang="postcss">
     .event-card {
-        @apply relative whitespace-pre-line rounded-lg bg-zinc-900 bg-opacity-60 p-8 text-center md:mx-8 md:p-10 md:text-justify;
+        @apply relative whitespace-pre-line rounded-lg bg-zinc-900 bg-opacity-60 p-8 md:mx-8 md:p-10;
 
         .title {
-            @apply text-3xl font-bold sm:text-4xl;
+            @apply text-3xl font-black sm:text-4xl;
         }
 
         .date {
@@ -35,11 +35,11 @@
         }
 
         p {
-            @apply mt-4 whitespace-normal text-gray-100;
+            @apply font-sans text-xl mt-6 whitespace-normal text-gray-300;
         }
 
         a {
-            @apply mt-4;
+            @apply mt-4 font-bold;
         }
 
         img {
