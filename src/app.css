@@ -40,3 +40,7 @@ h1 {
 h2 {
     @apply text-4xl;
 }
+
+.main {
+    @apply mx-auto flex max-w-screen-lg flex-col gap-y-6 p-4 pt-12;
+}

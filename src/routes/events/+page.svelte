@@ -7,7 +7,7 @@
     let today = new Date().setHours(0, 0, 0, 0);
 </script>
 
-<main class="mx-auto flex max-w-screen-lg flex-col gap-y-4 p-4 lg:pt-12" in:fade>
+<main class="main" in:fade>
     <h1>Events</h1>
 
     {#each events as event}

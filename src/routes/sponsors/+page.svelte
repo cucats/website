@@ -4,7 +4,7 @@
     import sponsors from "../../data/sponsors.json";
 </script>
 
-<main class="mx-auto flex max-w-screen-lg flex-col gap-y-4 p-4 lg:gap-y-8 lg:pt-12" in:fade>
+<main class="main" in:fade>
     <h1>Sponsors</h1>
 
     <p>Click on sponsors for more information and opportunities!</p>
