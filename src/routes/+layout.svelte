@@ -24,7 +24,7 @@
 
 <!-- Navbar -->
 <header
-    class="fixed z-10 max-h-16 w-screen overflow-hidden transition-[max-height] duration-100 ease-out"
+    class="fixed z-10 max-h-16 w-screen overflow-hidden font-mono transition-[max-height] duration-100 ease-out"
     class:w={active}
 >
     <div class="mx-auto bg-black bg-opacity-50 backdrop-blur-xl">

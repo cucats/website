@@ -33,14 +33,23 @@ body {
     src: url("/Open_Sans/OpenSans-Italic-VariableFont_wdth,wght.ttf") format("truetype");
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply mt-6 font-mono uppercase;
+}
+
 h1 {
-    @apply text-5xl;
+    @apply text-4xl md:text-5xl;
 }
 
 h2 {
-    @apply text-4xl;
+    @apply text-3xl md:text-4xl;
 }
 
 .main {
-    @apply mx-auto flex max-w-screen-lg flex-col gap-y-6 p-6 pt-12 sm:p-12;
+    @apply mx-auto flex max-w-screen-lg flex-col gap-y-4 px-6 py-6 sm:px-12;
 }
