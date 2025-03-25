@@ -1,12 +1,12 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    export let toggle = false;
+    export let active = false;
 
     const user = $page.data.user;
 
     function onclick() {
         document.body.style.overflowY = "auto";
-        toggle = !toggle;
+        active = !active;
     }
 </script>
 

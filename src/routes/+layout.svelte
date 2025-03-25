@@ -5,10 +5,10 @@
 
     let { children } = $props();
 
-    let visible = $state(false);
+    let active = $state(false);
 
     function toggle() {
-        visible = !visible;
+        active = !active;
     }
 </script>
 
@@ -23,13 +23,10 @@
 <div class="fixed -z-40 h-screen w-screen bg-black opacity-60"></div>
 
 <!-- Navbar -->
-<header
-    class="fixed z-10 max-h-16 w-screen overflow-hidden duration-100 ease-out"
-    class:w={visible}
->
+<header class="fixed z-10 max-h-16 w-screen overflow-hidden duration-100 ease-out" class:w={active}>
     <div class="mx-auto bg-black bg-opacity-50 backdrop-blur-xl">
         <div class="relative flex h-16 items-center">
-            <Hamburger bind:active={visible} />
+            <Hamburger bind:active />
 
             <!-- Logo -->
             <a href="/" class="contents" onclick={toggle}>
