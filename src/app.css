@@ -39,7 +39,7 @@ h3,
 h4,
 h5,
 h6 {
-    @apply mt-6 font-mono uppercase;
+    @apply mt-6 font-mono font-bold uppercase;
 }
 
 h1 {
