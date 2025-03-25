@@ -32,7 +32,7 @@
             <Hamburger bind:active={visible} />
 
             <!-- Logo -->
-            <a href="/" class="contents">
+            <a href="/" class="contents" onclick={toggle}>
                 <img
                     class="ml-8 size-8"
                     src="/logo/dark/logo-white-cat.svg"
