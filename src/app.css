@@ -6,6 +6,7 @@
 html,
 body {
     @apply h-full;
+    touch-action: manipulation;
 }
 
 @font-face {

@@ -31,7 +31,7 @@
 
 <style lang="postcss">
     button {
-        @apply absolute right-0 flex items-center px-8 sm:hidden;
+        @apply absolute right-0 mx-8 flex items-center sm:hidden;
     }
 
     .top,
