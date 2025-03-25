@@ -23,9 +23,14 @@
 <div class="fixed -z-40 h-screen w-screen bg-black opacity-60"></div>
 
 <!-- Navbar -->
-<header class="fixed z-10 w-screen">
+<header
+    class="fixed z-10 max-h-16 w-screen overflow-hidden duration-100 ease-out"
+    class:w={visible}
+>
     <div class="mx-auto bg-black bg-opacity-50 backdrop-blur-xl">
         <div class="relative flex h-16 items-center">
+            <Hamburger bind:active={visible} />
+
             <!-- Logo -->
             <a href="/" class="contents">
                 <img
@@ -36,8 +41,6 @@
                 <span class="px-2 text-2xl">CUCaTS</span>
             </a>
 
-            <Hamburger bind:active={visible} />
-
             <!-- Links -->
             <div class="ml-auto mr-16 hidden sm:block">
                 <div class="flex">
@@ -46,12 +49,10 @@
             </div>
         </div>
 
-        {#if visible}
-            <!-- Mobile drawer -->
-            <div id="mobile-menu" class="h-screen sm:hidden">
-                <Navigation bind:toggle={visible} />
-            </div>
-        {/if}
+        <!-- Mobile drawer -->
+        <div id="mobile-menu" class="pb-4 pl-4 sm:hidden">
+            <Navigation bind:toggle={visible} />
+        </div>
     </div>
 </header>
 
@@ -59,3 +60,9 @@
 <div class="h-16"></div>
 
 {@render children()}
+
+<style lang="postcss">
+    .w {
+        @apply max-h-72 duration-200;
+    }
+</style>
