@@ -15,9 +15,7 @@
 
         <div class="mt-4 flex flex-wrap justify-center gap-4">
             {#each data.links as link}
-                <a class="rounded-md bg-black bg-opacity-40" href={link.url}>
-                    {link.text}
-                </a>
+                <a class="rounded-md bg-black bg-opacity-40" href={link.url}>{link.text}</a>
             {/each}
 
             <a class="text-gray-200" href="/sponsors">Back</a>
@@ -27,6 +25,6 @@
 
 <style lang="postcss">
     a {
-        @apply text-nowrap p-4 font-bold uppercase opacity-90 duration-200 hover:scale-105 hover:opacity-100;
+        @apply text-nowrap px-4 py-3 font-bold uppercase opacity-90 duration-200 hover:scale-105 hover:opacity-100;
     }
 </style>

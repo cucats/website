@@ -5,16 +5,28 @@
     let id = sponsor.name.toLowerCase().replace(" ", "-");
 </script>
 
-<a class="sponsor-card" href="/sponsors/{id}">
-    <img src={sponsor.logo} alt="{sponsor.name} logo" />
-</a>
+<div class="sponsor-card">
+    <img class="layer" src={sponsor.logo} alt="{sponsor.name} logo" />
+
+    <div class="layer rounded-xl opacity-0 duration-300 hover:opacity-100 hover:backdrop-blur-xl">
+        <a class="layer" href="/sponsors/{id}">Learn More</a>
+    </div>
+</div>
 
 <style lang="postcss">
     .sponsor-card {
-        @apply flex w-72 flex-col items-center rounded-xl bg-white bg-opacity-50 p-4 shadow-sm transition hover:scale-105 hover:shadow-2xl;
+        @apply h-40 w-72;
+    }
 
-        img {
-            @apply my-8 h-20 object-contain;
-        }
+    .layer {
+        @apply absolute flex h-40 w-72 items-center justify-center;
+    }
+
+    img {
+        @apply h-20 rounded-lg bg-white bg-opacity-50 object-contain p-8;
+    }
+
+    a {
+        @apply rounded-lg bg-black bg-opacity-80 text-xl font-bold uppercase;
     }
 </style>
