@@ -1,44 +1,50 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
+    import Member from "$lib/components/Member.svelte";
 </script>
 
-<main class="main" in:fade>
+<main class="main text-gray-100" in:fade>
     <h1>About Us</h1>
 
     <p>
         The Cambridge University Computing and Technology Society (CUCaTS) is the primary
-        student-run society at the University of Cambridge. We aim to provide a platform for
-        students to explore and engage with technology, regardless of their degree or experience
-        level.
+        student-run computing society at Cambridge. We aim to provide a platform for students to
+        explore and engage with technology, regardless of their degree or experience level.
     </p>
     <p>
-        With hundreds of members, the society has a thriving community to run both its own
-        events/programmes and provide resources and funding to those who want to do the same.
+        With hundreds of members, the society has a thriving community to run both its own events
+        and programmes, whilst providing resources and funding to others with similar goals.
     </p>
 
-    <h2>Aims</h2>
+    <div class="mt-20 max-w-lg md:ml-auto">
+        <h2>Aims</h2>
+        <ol class="ml-12 mt-4 list-outside list-decimal">
+            <li>To provide members with networking opportunities with potential employers</li>
+            <li>
+                To promote interest for members and the public in computing and information
+                technology
+            </li>
+            <li>
+                To provide a forum for discussion on issues and topics concerning information
+                technology
+            </li>
+            <li>
+                To fund and assist members in setting up and running their own events that align
+                with the society's aims
+            </li>
+        </ol>
+    </div>
 
-    <ol class="ml-8 list-outside list-decimal">
-        <li>Promote interest for members and the public in computing and information technology</li>
-        <li>Provide members with networking opportunities with potential employers</li>
-        <li>
-            Provide a forum for discussion on issues and topics concerning information technology
-        </li>
-        <li>
-            Fund and assist members in setting up and running their own events that align with the
-            society's aims
-        </li>
-    </ol>
+    <h2 class="mx-auto mb-8 mt-20">Committee</h2>
 
-    <h2>Committee</h2>
+    <div class="mx-auto grid grid-cols-2 justify-center gap-x-8 gap-y-12 md:gap-x-24">
+        <Member name="Jeremy Chen" role="president" />
+        <Member name="Sophie Ring" role="vice-president" />
+        <Member name="Bruce Chen" role="treasurer" />
+        <Member name="Jonathon Sun" role="secretary" />
+    </div>
 
-    <ul class="list ml-2">
-        <li>President: Jeremy Chen (president@cucats.org)</li>
-        <li>Vice-President: Sophie Ring (vice-president@cucats.org)</li>
-        <li>Junior Treasurer: Bruce Chen (treasurer@cucats.org)</li>
-        <li>Secretary: Jonathon Sun (secretary@cucats.org)</li>
-    </ul>
-
+    <h2 class="mx-auto mt-20">Socials</h2>
     <div class="icon-container">
         <a href="https://www.instagram.com/cucats.cam">
             <img src="socials/Instagram_Glyph_White.svg" alt="Instagram Logo" />
@@ -54,7 +60,7 @@
 
 <style lang="postcss">
     .icon-container {
-        @apply mx-auto my-8 flex gap-8;
+        @apply mx-auto my-4 mb-16 flex gap-8;
     }
 
     .icon-container img {
@@ -62,6 +68,6 @@
     }
 
     p {
-        @apply text-gray-200;
+        @apply max-w-lg;
     }
 </style>

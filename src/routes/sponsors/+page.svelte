@@ -7,7 +7,11 @@
 <main class="main" in:fade>
     <h1>Sponsors</h1>
 
-    <p>Click on sponsors for more information and opportunities!</p>
+    <p>
+        A huge thank you to our sponsors! Contributions are greatly appreciated as they help CUCaTS
+        continue running events. For more information and opportunities about our sponsors, click
+        below.
+    </p>
 
     <h2 class="text-[#ffc000]">Gold</h2>
 

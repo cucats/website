@@ -14,7 +14,7 @@
 <!-- Couldn't get tailwind to work so just set style manually... -->
 <button
     class="sponsor-card"
-    style="background: linear-gradient(#fff9, #fffa)"
+    style="background: linear-gradient(#fff9, #ccca)"
     onclick={() => togglePopUp(sponsor.name)}
 >
     <img src={sponsor.logo} alt="{sponsor.name} logo" />

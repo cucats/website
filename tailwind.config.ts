@@ -12,7 +12,7 @@ export default {
     theme: {
         fontFamily: {
             mono: "'JetBrains Mono', monospace",
-            sans: "Arial",
+            sans: "'Open Sans', monospace",
         },
         extend: {},
     },

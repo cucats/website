@@ -64,10 +64,10 @@
     }
 
     .background {
-        @apply fixed -z-50 h-screen w-screen opacity-90;
+        @apply fixed -z-50 h-screen w-screen opacity-80;
         background: repeating-linear-gradient(90deg, #2b3354 0%, #266 40%, #266 60%, #2b3354 100%);
         background-size: 400% 400%;
-        animation: gradient 20s linear infinite;
+        animation: gradient 60s linear infinite;
     }
 
     @keyframes gradient {
