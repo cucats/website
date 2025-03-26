@@ -4,7 +4,7 @@
 </script>
 
 <main class="main text-gray-100" in:fade>
-    <h1>About Us</h1>
+    <h1 class="md:mt-20">About Us</h1>
 
     <p>
         The Cambridge University Computing and Technology Society (CUCaTS) is the primary
@@ -60,7 +60,7 @@
 
 <style lang="postcss">
     .icon-container {
-        @apply mx-auto my-4 mb-16 flex gap-8;
+        @apply mx-auto my-4 flex gap-8;
     }
 
     .icon-container img {

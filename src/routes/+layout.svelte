@@ -53,9 +53,6 @@
     </div>
 </header>
 
-<!-- Push content downwards -->
-<div class="h-16"></div>
-
 {@render children()}
 
 <style lang="postcss">

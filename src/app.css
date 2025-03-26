@@ -51,5 +51,5 @@ h2 {
 }
 
 .main {
-    @apply mx-auto flex max-w-screen-lg flex-col gap-y-4 px-6 py-6 sm:px-12;
+    @apply mx-auto flex max-w-screen-lg flex-col gap-y-4 px-6 py-20 sm:px-12;
 }
