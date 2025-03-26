@@ -3,13 +3,6 @@
 @tailwind utilities;
 @tailwind variants;
 
-html,
-body {
-    @apply h-full font-mono;
-    touch-action: manipulation;
-    overflow: hidden;
-}
-
 @font-face {
     font-family: "JetBrains Mono";
     font-style: normal;
@@ -34,6 +27,11 @@ body {
     src: url("/Open_Sans/OpenSans-Italic-VariableFont_wdth,wght.ttf") format("truetype");
 }
 
+html,
+body {
+    @apply touch-manipulation font-mono;
+}
+
 h1,
 h2,
 h3,
@@ -52,5 +50,5 @@ h2 {
 }
 
 .main {
-    @apply mx-auto flex max-w-screen-lg flex-col gap-y-4 px-6 py-20 sm:px-12;
+    @apply mx-auto flex max-w-screen-lg flex-col gap-y-4 overflow-x-hidden px-6 py-20 sm:px-12;
 }

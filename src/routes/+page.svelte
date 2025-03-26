@@ -4,7 +4,7 @@
 </script>
 
 <main
-    class="absolute left-0 top-0 flex h-screen w-screen flex-col items-center justify-center gap-4 lg:gap-0"
+    class="absolute left-0 top-0 flex h-screen w-screen flex-col items-center justify-center gap-4 overflow-x-hidden lg:gap-0"
     in:fade
 >
     <Grid />
