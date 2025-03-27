@@ -6,10 +6,6 @@
     let { children } = $props();
 
     let active = $state(false);
-
-    function toggle() {
-        active = !active;
-    }
 </script>
 
 <svelte:head>
@@ -29,7 +25,7 @@
             <Hamburger bind:active />
 
             <!-- Logo -->
-            <a href="/" class="contents" onclick={toggle}>
+            <a href="/" class="contents" onclick={() => (active = false)}>
                 <img
                     class="ml-8 size-8"
                     src="/logo/dark/logo-white-cat.svg"
