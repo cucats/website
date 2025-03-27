@@ -8,7 +8,7 @@
 <div class="sponsor-card">
     <img class="layer" src={sponsor.logo} alt="{sponsor.name} logo" />
 
-    <div class="layer rounded-xl opacity-0 duration-300 hover:opacity-100 hover:backdrop-blur-xl">
+    <div class="layer rounded-xl opacity-0 duration-200 hover:opacity-100 hover:backdrop-blur-md">
         <a class="layer" href="/sponsors/{id}">Learn More</a>
     </div>
 </div>
@@ -27,6 +27,6 @@
     }
 
     a {
-        @apply rounded-lg bg-black bg-opacity-80 text-xl font-bold uppercase;
+        @apply rounded-lg bg-black bg-opacity-80 text-xl font-bold uppercase opacity-0 duration-[400ms] hover:opacity-100;
     }
 </style>
