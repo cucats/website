@@ -12,7 +12,7 @@
         <a class="layer" href="/sponsors/{id}">
             <div>
                 <span class="text-3xl text-white">{sponsor.name}</span> <br />
-                Learn More ->
+                Learn More -&gt;
             </div>
         </a>
     </div>
@@ -32,6 +32,6 @@
     }
 
     a {
-        @apply rounded-lg bg-black bg-opacity-80 text-sm font-bold uppercase text-gray-200 opacity-0 duration-[400ms] hover:opacity-100;
+        @apply rounded-lg bg-black bg-opacity-80 text-sm font-bold uppercase tracking-tighter text-gray-200 opacity-0 duration-300 hover:tracking-wider hover:opacity-100;
     }
 </style>

@@ -27,7 +27,7 @@
         @apply relative whitespace-pre-line rounded-lg bg-zinc-900 bg-opacity-60 p-8 md:mx-8 md:p-10;
 
         .title {
-            @apply font-mono text-3xl font-bold sm:text-4xl;
+            @apply font-mono text-3xl font-bold tracking-tight sm:text-4xl;
         }
 
         .date {
@@ -35,7 +35,7 @@
         }
 
         p {
-            @apply mt-4 whitespace-normal font-mono text-lg text-gray-200;
+            @apply mt-4 whitespace-normal font-mono text-lg tracking-tighter text-gray-200;
         }
 
         a {

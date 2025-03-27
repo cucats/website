@@ -16,7 +16,7 @@
         {/if}
     {/each}
 
-    Check our private Discord for up-to-date information.
+    <p>Check our private Discord for up-to-date information.</p>
 
     <h2 class="mt-8">Archive</h2>
 

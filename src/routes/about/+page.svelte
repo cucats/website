@@ -20,7 +20,7 @@
 
     <div class="mt-20 max-w-lg space-y-4 md:ml-auto">
         <h2>Aims</h2>
-        <ol class="ml-8 list-outside list-decimal space-y-4">
+        <ol class="ml-8 list-outside list-decimal space-y-4 tracking-tight">
             <li>To connect members and potential employers via networking opportunities</li>
             <li>
                 To promote interest in computing and information technology amongst members and the
@@ -36,7 +36,7 @@
 
     <h2 class="mx-auto mb-8 mt-20">Committee</h2>
 
-    <div class="mx-auto grid grid-cols-2 justify-center gap-x-8 gap-y-12 md:gap-x-24">
+    <div class="mx-auto grid grid-cols-2 justify-center gap-x-4 gap-y-8 sm:gap-x-8 md:gap-x-24">
         <Member name="Jeremy Chen" role="president" />
         <Member name="Sophie Ring" role="vice-president" />
         <Member name="Bruce Chen" role="treasurer" />
@@ -64,6 +64,6 @@
     }
 
     .icon-container img {
-        @apply h-12 duration-200 hover:scale-110;
+        @apply h-10 duration-200 hover:scale-110 sm:h-12;
     }
 </style>
