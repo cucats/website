@@ -4,34 +4,33 @@
 </script>
 
 <main class="main text-gray-100" in:fade>
-    <h1 class="md:mt-20">About Us</h1>
+    <div class="max-w-lg space-y-4">
+        <h1>About Us</h1>
+        <p>
+            The Cambridge University Computing and Technology Society (CUCaTS) is the primary
+            student-run computing society at Cambridge. We aim to provide a platform for students to
+            explore and engage with technology, regardless of their degree or experience level.
+        </p>
+        <p>
+            With hundreds of members, the society has a thriving community to run both its own
+            events and programmes, whilst providing resources and funding to others with similar
+            goals.
+        </p>
+    </div>
 
-    <p>
-        The Cambridge University Computing and Technology Society (CUCaTS) is the primary
-        student-run computing society at Cambridge. We aim to provide a platform for students to
-        explore and engage with technology, regardless of their degree or experience level.
-    </p>
-    <p>
-        With hundreds of members, the society has a thriving community to run both its own events
-        and programmes, whilst providing resources and funding to others with similar goals.
-    </p>
-
-    <div class="mt-20 max-w-lg md:ml-auto">
+    <div class="mt-20 max-w-lg space-y-4 md:ml-auto">
         <h2>Aims</h2>
-        <ol class="ml-12 mt-4 list-outside list-decimal">
-            <li>To provide members with networking opportunities with potential employers</li>
+        <ol class="ml-8 list-outside list-decimal space-y-4">
+            <li>To connect members and potential employers via networking opportunities</li>
             <li>
-                To promote interest for members and the public in computing and information
-                technology
+                To promote interest in computing and information technology amongst members and the
+                general public
             </li>
             <li>
                 To provide a forum for discussion on issues and topics concerning information
                 technology
             </li>
-            <li>
-                To fund and assist members in setting up and running their own events that align
-                with the society's aims
-            </li>
+            <li>To support members in hosting events that align with our mission</li>
         </ol>
     </div>
 
@@ -42,6 +41,7 @@
         <Member name="Sophie Ring" role="vice-president" />
         <Member name="Bruce Chen" role="treasurer" />
         <Member name="Jonathon Sun" role="secretary" />
+        <Member name="Xi Nan Shu" role="webmaster" />
     </div>
 
     <h2 class="mx-auto mt-20">Socials</h2>
@@ -65,9 +65,5 @@
 
     .icon-container img {
         @apply h-12 duration-200 hover:scale-110;
-    }
-
-    p {
-        @apply max-w-lg;
     }
 </style>

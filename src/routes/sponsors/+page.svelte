@@ -9,7 +9,7 @@
 
     <p>
         A huge thank you to our sponsors! Contributions are greatly appreciated as they help CUCaTS
-        continue running events. For more information and opportunities about our sponsors, click
+        continue running events. For more information and opportunities from our sponsors, click
         below.
     </p>
 

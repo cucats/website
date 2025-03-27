@@ -16,7 +16,7 @@
         {/if}
     {/each}
 
-    Check our Discord for up-to-date information.
+    Check our private Discord for up-to-date information.
 
     <h2 class="mt-8">Archive</h2>
 
