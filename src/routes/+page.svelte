@@ -10,13 +10,13 @@
     <Grid />
     <div class="flex flex-col items-center lg:flex-row lg:gap-8">
         <img src="/logo/dark/logo-white-cat.svg" alt="Logo" class="size-48" />
-        <h1 class="text-center normal-case z-10">
+        <h1 class="z-10 text-center normal-case">
             Cambridge Uni Computing
             <br />
             and Technology Society
         </h1>
     </div>
-    <p class="mx-10 text-center z-10">
+    <p class="z-10 mx-10 text-center">
         The main student-led CS and tech society at the University of Cambridge!
     </p>
 </main>

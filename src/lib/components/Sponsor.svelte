@@ -8,8 +8,13 @@
 <div class="sponsor-card">
     <img class="layer" src={sponsor.logo} alt="{sponsor.name} logo" />
 
-    <div class="layer rounded-xl opacity-0 duration-200 hover:opacity-100 hover:backdrop-blur-md">
-        <a class="layer" href="/sponsors/{id}">Learn More</a>
+    <div class="layer rounded-xl opacity-0 duration-200 hover:opacity-100 hover:backdrop-blur-sm">
+        <a class="layer" href="/sponsors/{id}">
+            <div>
+                <span class="text-3xl text-white">{sponsor.name}</span> <br />
+                Learn More ->
+            </div>
+        </a>
     </div>
 </div>
 
@@ -27,6 +32,6 @@
     }
 
     a {
-        @apply rounded-lg bg-black bg-opacity-80 text-xl font-bold uppercase opacity-0 duration-[400ms] hover:opacity-100;
+        @apply rounded-lg bg-black bg-opacity-80 text-sm font-bold uppercase text-gray-200 opacity-0 duration-[400ms] hover:opacity-100;
     }
 </style>
