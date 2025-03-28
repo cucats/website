@@ -3,7 +3,7 @@
     export let role: string;
 </script>
 
-<div>
+<div class="min-w-40 sm:min-w-64">
     <div class="text-sm sm:text-base">
         <span class="mr-2 block font-bold lowercase sm:inline">{role}</span><span
             class="inline text-gray-300 opacity-60">@cucats.org</span

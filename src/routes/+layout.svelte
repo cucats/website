@@ -20,7 +20,7 @@
     class="fixed z-10 max-h-16 w-screen overflow-hidden font-mono transition-[max-height] duration-100 ease-out"
     class:w={active}
 >
-    <div class="bg-black bg-opacity-50 backdrop-blur-xl">
+    <div class="bg-black bg-opacity-30 backdrop-blur-3xl">
         <div class="relative mx-auto flex h-16 max-w-screen-xl items-center">
             <Hamburger bind:active />
 
