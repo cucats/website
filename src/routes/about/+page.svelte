@@ -78,7 +78,7 @@
     </div>
     <h2 class="mt-32">Committee</h2>
 
-    <div class="flex flex-wrap gap-10 rounded-lg bg-black bg-opacity-40 p-10">
+    <div class="flex flex-wrap justify-center gap-10 rounded-lg bg-black bg-opacity-40 px-6 py-10">
         <Member name="Jeremy Chen" role="president" />
         <Member name="Sophie Ring" role="vice-president" />
         <Member name="Bruce Chen" role="treasurer" />
