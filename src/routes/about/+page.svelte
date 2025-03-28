@@ -40,7 +40,7 @@
             </p>
         </div>
 
-        <div class="m-auto duration-200" style="perspective: {depth}px; ">
+        <div class="m-auto hidden duration-200 md:block" style="perspective: {depth}px; ">
             <img
                 id="cucat"
                 class="max-h-40 object-contain"
