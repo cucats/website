@@ -85,6 +85,7 @@
         <Member name="Jonathon Sun" role="secretary" />
         <Member name="Xi Nan Shu" role="webmaster" />
     </div>
+    + Many thanks to Steven for GoL!
 
     <div class="icon-container">
         <a href="https://www.instagram.com/cucats.cam">
