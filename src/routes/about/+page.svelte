@@ -40,10 +40,10 @@
             </p>
         </div>
 
-        <div class="m-auto hidden duration-200 md:block" style="perspective: {depth}px; ">
+        <div class="m-auto hidden md:block" style="perspective: {depth}px; ">
             <img
                 id="cucat"
-                class="max-h-40 object-contain"
+                class="max-h-40 object-contain duration-75"
                 style="transform: rotateY({y}rad) rotateX({x}rad)"
                 src="logo/dark/logo-white-cat.png"
                 alt="cucats logo"

@@ -13,8 +13,8 @@ const config = {
             precompress: true,
         }),
         alias: {
-            "data": "src/data"
-        }
+            data: "src/data",
+        },
     },
 };
 
