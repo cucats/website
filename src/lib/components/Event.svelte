@@ -14,7 +14,7 @@
     {/if}
 
     {#if event.website}
-        <a href={event.website} class="btn variant-soft-primary">Website</a>
+        <a href={event.website} class="variant-soft-primary btn">Website</a>
     {/if}
 
     {#if event.logo}
@@ -24,26 +24,26 @@
 
 <style lang="postcss">
     .event-card {
-        @apply bg-opacity-60 bg-zinc-900 whitespace-pre-line p-8 md:p-10 md:mx-8 rounded-lg relative text-center md:text-justify;
+        @apply relative whitespace-pre-line rounded-lg bg-zinc-900 bg-opacity-60 p-8 md:mx-8 md:p-10;
 
         .title {
-            @apply text-4xl font-bold;
+            @apply font-mono text-3xl font-bold tracking-tight sm:text-4xl;
         }
 
         .date {
-            @apply uppercase;
+            @apply uppercase text-gray-300;
         }
 
         p {
-            @apply mt-4 text-gray-100 whitespace-normal;
+            @apply mt-4 whitespace-normal font-mono text-lg tracking-tighter text-gray-200;
         }
 
         a {
-            @apply mt-4;
+            @apply mt-2 font-bold;
         }
 
         img {
-            @apply max-h-full flex absolute right-0 top-0 opacity-10 -z-10;
+            @apply absolute right-0 top-0 -z-10 flex max-h-full opacity-10;
         }
     }
 </style>

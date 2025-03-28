@@ -3,26 +3,56 @@
 @tailwind utilities;
 @tailwind variants;
 
-html,
-body {
-    @apply h-full;
-    @apply bg-gradient-to-r variant-gradient-primary-secondary;
-}
-
 @font-face {
     font-family: "JetBrains Mono";
     font-style: normal;
-    font-weight: 50 950;
-    src: url("/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("ttf");
+    src: url("/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "JetBrains Mono";
     font-style: italic;
-    font-weight: 50 950;
-    src: url("/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf") format("ttf");
+    src: url("/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf") format("truetype");
 }
 
-.dark body * {
-    font-family: "JetBrains Mono", monospace;
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    src: url("/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: italic;
+    src: url("/Open_Sans/OpenSans-Italic-VariableFont_wdth,wght.ttf") format("truetype");
+}
+
+html,
+body {
+    @apply touch-manipulation font-mono;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply mt-6 font-mono font-bold uppercase tracking-tight;
+}
+
+h1 {
+    @apply text-4xl md:text-5xl;
+}
+
+h2 {
+    @apply text-3xl md:text-4xl;
+}
+
+p {
+    @apply tracking-tight;
+}
+
+.main {
+    @apply mx-auto flex max-w-screen-lg flex-col gap-y-4 overflow-x-hidden px-6 py-20 sm:px-12;
 }

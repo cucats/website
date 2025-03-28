@@ -4,12 +4,16 @@
     import sponsors from "../../data/sponsors.json";
 </script>
 
-<main class="p-4 flex flex-col gap-y-4 max-w-screen-lg mx-auto lg:pt-12 lg:gap-y-8" in:fade>
-    <h1 class="h1 mb-4">Sponsors</h1>
+<main class="main" in:fade>
+    <h1>Sponsors</h1>
 
-    Click on sponsors for more information and opportunities!
+    <p>
+        A huge thank you to our sponsors! Contributions are greatly appreciated as they help CUCaTS
+        continue running events. For more information and opportunities from our sponsors, click
+        below.
+    </p>
 
-    <h2 class="h2 text-[#ffc000]">Gold</h2>
+    <h2 class="text-[#ffc000]">Gold</h2>
 
     <div class="sponsor-container">
         {#each sponsors as sponsor}
@@ -19,7 +23,7 @@
         {/each}
     </div>
 
-    <h2 class="h2 text-white">Silver</h2>
+    <h2 class="text-white">Silver</h2>
 
     <div class="sponsor-container">
         {#each sponsors as sponsor}
@@ -29,7 +33,7 @@
         {/each}
     </div>
 
-    <h2 class="h2 text-[#fca956]">Bronze</h2>
+    <h2 class="text-[#fca956]">Bronze</h2>
 
     <div class="sponsor-container">
         {#each sponsors as sponsor}
@@ -42,6 +46,6 @@
 
 <style lang="postcss">
     .sponsor-container {
-        @apply flex flex-wrap gap-4 justify-center;
+        @apply flex flex-wrap justify-center gap-4;
     }
 </style>

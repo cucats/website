@@ -1,76 +1,37 @@
-<script>
-    export let sponsor;
+<script lang="ts">
+    import type { PageProps } from "./$types";
+    let { sponsor }: PageProps = $props();
 
-    /**
-     * @param {string} id - Sponsor name
-     */
-    function togglePopUp(id) {
-        document.getElementById(id)?.classList.toggle("hidden");
-        document.body.style.overflowY =
-            document.body.style.overflowY == "hidden" ? "auto" : "hidden";
-    }
+    let id = sponsor.name.toLowerCase().replace(" ", "-");
 </script>
 
-<!-- Couldn't get tailwind to work so just set style manually... -->
-<button
-    class="sponsor-card"
-    style="background: linear-gradient(#fff9, #fffa)"
-    onclick={() => togglePopUp(sponsor.name)}
->
-    <img src={sponsor.logo} alt="{sponsor.name} logo" />
-</button>
+<div class="sponsor-card">
+    <img class="layer" src={sponsor.logo} alt="{sponsor.name} logo" />
 
-<div class="popup-container hidden" id={sponsor.name}>
-    <div class="popup">
-        <img src={sponsor.logo} alt="{sponsor.name} logo" />
-
-        {#each sponsor.paragraphs as paragraph}
-            <p>{paragraph}</p>
-        {/each}
-
-        <div class="button-container">
-            {#each Object.entries(sponsor.links) as [key, value]}
-                <a href={value} class="btn variant-soft-primary">{key}</a>
-            {/each}
-            <button onclick={() => togglePopUp(sponsor.name)}>Close</button>
-        </div>
+    <div class="layer rounded-xl opacity-0 duration-200 hover:opacity-100 hover:backdrop-blur-sm">
+        <a class="layer" href="/sponsors/{id}">
+            <div>
+                <span class="text-3xl text-white">{sponsor.name}</span> <br />
+                Learn More -&gt;
+            </div>
+        </a>
     </div>
 </div>
 
 <style lang="postcss">
     .sponsor-card {
-        @apply flex flex-col w-80 items-center rounded-xl p-4 shadow-sm hover:shadow-2xl hover:scale-105 transition;
-
-        img {
-            @apply object-contain h-20 my-8;
-        }
+        @apply h-40 w-72;
     }
 
-    .button-container {
-        @apply flex justify-center w-full pt-4 gap-x-8 gap-y-4 flex-wrap;
-
-        a {
-            @apply capitalize;
-        }
-
-        button {
-            @apply text-slate-200 hover:text-white;
-        }
+    .layer {
+        @apply absolute flex h-40 w-72 items-center justify-center;
     }
 
-    .popup-container {
-        @apply bg-black bg-opacity-60 fixed pt-24 top-0 h-full w-full;
+    img {
+        @apply h-20 rounded-lg bg-white bg-opacity-50 object-contain p-8;
     }
 
-    .popup {
-        @apply overflow-y-scroll bg-cyan-800 bg-opacity-100 p-10 rounded-xl max-h-full max-w-screen-lg mx-auto;
-
-        p {
-            @apply my-4;
-        }
-
-        img {
-            @apply object-contain h-24;
-        }
+    a {
+        @apply rounded-lg bg-black bg-opacity-80 text-sm font-bold uppercase tracking-tighter text-gray-200 opacity-0 duration-300 hover:tracking-wider hover:opacity-100;
     }
 </style>

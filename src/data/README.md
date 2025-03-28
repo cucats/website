@@ -24,12 +24,9 @@ Ideally, events should be sorted by date, if they exist.
     "logo": "",
     "tier": "",
     "paragraphs": [""],
-    "links": {
-        "": ""
-    }
+    "links": [{ "text": "", "url": "" }]
 }
 ```
 
 - All fields are required
 - `"logo"` should be a path to the `sponsors` folder (under `static`)
-- `"links"` consist of the link names as the keys and the links as the values

@@ -1,68 +1,77 @@
 <script lang="ts">
     import Navigation from "$lib/components/Navigation.svelte";
     import Hamburger from "$lib/components/Hamburger.svelte";
-    import {
-        AppBar,
-        Drawer,
-        getDrawerStore,
-        initializeStores,
-        storePopup,
-    } from "@skeletonlabs/skeleton";
-    import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
-    import { afterNavigate } from "$app/navigation";
     import "../app.css";
 
-    initializeStores();
-    // Floating UI for Popups
-    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-    const drawerStore = getDrawerStore();
-    afterNavigate(drawerStore.close);
-    const launchNavigationSidebar = () => drawerStore.open({ id: "navigation" });
-
     let { children } = $props();
+
+    let active = $state(false);
 </script>
 
 <svelte:head>
     <title>CUCaTS</title>
 </svelte:head>
 
-<Drawer>
-    {#if $drawerStore.id === "navigation"}
-        <div class="flex flex-col gap-4 p-8 mt-12">
-            <Navigation />
-        </div>
-    {/if}
-</Drawer>
-
 <!-- Background gradient overlay -->
-<div class="bg-black opacity-60 fixed w-screen h-screen -z-50"></div>
+<div class="background"></div>
 
-<header class="sticky top-0 z-10">
-    <AppBar class="px-[5%]">
-        {#snippet lead()}
-            <a href="/" class="contents">
+<!-- Navbar -->
+<header
+    class="fixed z-10 max-h-16 w-screen overflow-hidden font-mono transition-[max-height] duration-100 ease-out"
+    class:w={active}
+>
+    <div class="bg-black bg-opacity-30 backdrop-blur-3xl">
+        <div class="relative mx-auto flex h-16 max-w-screen-xl items-center">
+            <Hamburger bind:active />
+
+            <!-- Logo -->
+            <a href="/" class="contents" onclick={() => (active = false)}>
                 <img
-                    class="size-8 ml-4"
+                    class="ml-8 size-8"
                     src="/logo/dark/logo-white-cat.svg"
                     alt="CUCaTS logo of a white cat in ASCII art"
                 />
-                <span class="px-2 mr-4">CUCaTS</span>
+                <span class="px-2 text-2xl font-extrabold">CUCaTS</span>
             </a>
-        {/snippet}
-        {#snippet trail()}
-            <div class="hidden md:flex gap-4">
-                <Navigation />
+
+            <!-- Links -->
+            <div class="ml-auto mr-8 hidden sm:block">
+                <div class="flex">
+                    <Navigation />
+                </div>
             </div>
-            <button
-                type="button"
-                class="btn-icon md:hidden"
-                onclick={launchNavigationSidebar}
-                aria-label="Menu"
-            >
-                <Hamburger />
-            </button>
-        {/snippet}
-    </AppBar>
+        </div>
+
+        <!-- Mobile drawer -->
+        <div id="mobile-menu" class="pb-4 pl-4 sm:hidden">
+            <Navigation bind:active />
+        </div>
+    </div>
 </header>
 
 {@render children()}
+
+<style lang="postcss">
+    .w {
+        @apply max-h-72 duration-200;
+    }
+
+    .background {
+        @apply fixed -z-50 h-screen w-screen opacity-80;
+        background: repeating-linear-gradient(90deg, #2b3354 0%, #266 40%, #266 60%, #2b3354 100%);
+        background-size: 400% 400%;
+        animation: gradient 60s linear infinite;
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+</style>
