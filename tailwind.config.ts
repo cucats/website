@@ -12,7 +12,6 @@ export default {
     theme: {
         fontFamily: {
             mono: "'JetBrains Mono', monospace",
-            sans: "'Open Sans', monospace",
         },
         extend: {},
     },

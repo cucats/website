@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import Event from "$lib/components/Event.svelte";
-    import events from "../../data/events.json";
+    import events from "data/events.json";
 
     // Should still display on end date
     let today = new Date().setHours(0, 0, 0, 0);

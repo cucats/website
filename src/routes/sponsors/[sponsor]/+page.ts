@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
-import sponsors from "../../../data/sponsors.json";
+import sponsors from "data/sponsors.json";
 
 export const load: PageLoad = (event) => {
     let sponsor = event.params.sponsor;

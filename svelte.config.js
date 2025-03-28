@@ -12,6 +12,9 @@ const config = {
         adapter: adapter({
             precompress: true,
         }),
+        alias: {
+            "data": "src/data"
+        }
     },
 };
 

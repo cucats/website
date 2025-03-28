@@ -6,25 +6,13 @@
 @font-face {
     font-family: "JetBrains Mono";
     font-style: normal;
-    src: url("/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+    src: url("/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "JetBrains Mono";
     font-style: italic;
-    src: url("/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Open Sans";
-    font-style: normal;
-    src: url("/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Open Sans";
-    font-style: italic;
-    src: url("/Open_Sans/OpenSans-Italic-VariableFont_wdth,wght.ttf") format("truetype");
+    src: url("/fonts/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf") format("truetype");
 }
 
 html,

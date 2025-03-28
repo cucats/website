@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import Sponsor from "$lib/components/Sponsor.svelte";
-    import sponsors from "../../data/sponsors.json";
+    import sponsors from "data/sponsors.json";
 </script>
 
 <main class="main" in:fade>
