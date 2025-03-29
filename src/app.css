@@ -6,13 +6,14 @@
 @font-face {
     font-family: "JetBrains Mono";
     font-style: normal;
-    src: url("/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+    src: url("/assets/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "JetBrains Mono";
     font-style: italic;
-    src: url("/fonts/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf") format("truetype");
+    src: url("/assets/fonts/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf")
+        format("truetype");
 }
 
 html,
