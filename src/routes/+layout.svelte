@@ -20,7 +20,7 @@
     class="fixed z-10 max-h-16 w-screen overflow-hidden font-mono transition-[max-height] duration-100 ease-out"
     class:w={active}
 >
-    <div class="bg-black bg-opacity-30 backdrop-blur-3xl">
+    <div class="bg-black bg-opacity-30 backdrop-blur-xl">
         <div class="relative mx-auto flex h-16 max-w-screen-xl items-center">
             <Hamburger bind:active />
 
@@ -58,20 +58,20 @@
 
     .background {
         @apply fixed -z-50 h-screen w-screen opacity-80;
-        background: repeating-linear-gradient(90deg, #2b3354 0%, #266 40%, #266 60%, #2b3354 100%);
+        background: repeating-linear-gradient(#2b3354 0%, #266 40%, #266 60%, #2b3354 100%);
         background-size: 400% 400%;
         animation: gradient 60s linear infinite;
     }
 
     @keyframes gradient {
         0% {
-            background-position: 0% 50%;
+            background-position: 0% 0%;
         }
         50% {
-            background-position: 100% 50%;
+            background-position: 100% 100%;
         }
         100% {
-            background-position: 0% 50%;
+            background-position: 0% 0%;
         }
     }
 </style>
