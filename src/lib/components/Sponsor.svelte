@@ -8,14 +8,18 @@
 <div class="sponsor-card">
     <img class="layer" src={sponsor.logo} alt="{sponsor.name} logo" />
 
-    <div class="layer rounded-xl opacity-0 duration-200 hover:opacity-100 hover:backdrop-blur-sm">
-        <a class="layer" href="/sponsors/{id}">
-            <div>
-                <span class="text-3xl text-white">{sponsor.name}</span> <br />
-                Learn More -&gt;
+    <a class="layer" href="/sponsors/{id}">
+        <div
+            class="layer rounded-lg bg-black bg-opacity-80 opacity-0 duration-200 hover:opacity-100 hover:backdrop-blur-sm"
+        >
+            <div class="layer tracking-tighter duration-300 hover:tracking-wider">
+                <div class="text-sm font-bold uppercase text-gray-200">
+                    <span class="text-3xl text-white">{sponsor.name}</span> <br />
+                    Learn More -&gt;
+                </div>
             </div>
-        </a>
-    </div>
+        </div>
+    </a>
 </div>
 
 <style lang="postcss">
@@ -29,9 +33,5 @@
 
     img {
         @apply h-20 rounded-lg bg-white bg-opacity-50 object-contain p-8;
-    }
-
-    a {
-        @apply rounded-lg bg-black bg-opacity-80 text-sm font-bold uppercase tracking-tighter text-gray-200 opacity-0 duration-300 hover:tracking-wider hover:opacity-100;
     }
 </style>
