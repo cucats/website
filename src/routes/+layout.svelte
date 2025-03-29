@@ -28,7 +28,7 @@
             <a href="/" class="contents" onclick={() => (active = false)}>
                 <img
                     class="ml-8 size-8"
-                    src="/logo/dark/logo-white-cat.svg"
+                    src="/assets/logo/dark/logo-white-cat.svg"
                     alt="CUCaTS logo of a white cat in ASCII art"
                 />
                 <span class="px-2 text-2xl font-extrabold">CUCaTS</span>

@@ -9,7 +9,7 @@
 >
     <Grid />
     <div class="flex flex-col items-center lg:flex-row lg:gap-8">
-        <img src="/logo/dark/logo-white-cat.svg" alt="Logo" class="size-48" />
+        <img src="/assets/logo/dark/logo-white-cat.svg" alt="Logo" class="size-48" />
         <h1 class="z-10 text-center normal-case">
             Cambridge Uni Computing
             <br />

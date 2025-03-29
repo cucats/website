@@ -4,7 +4,7 @@
         "date": ["7 Feb 2025", "9 Feb 2025"],
         "description": "The Game Jam is similar to a hackathon: you have 48h to develop a game that fits a specific theme (revealed at the beginning of the event).",
         "website": "https://camgamejam.com",
-        "logo": "./events/jam.png"
+        "logo": "/assets/events/jam.png"
     },
     {
         "title": "Puzzle Hunt",
@@ -22,6 +22,6 @@
         "date": ["2 Nov 2024", "3 Nov 2024"],
         "description": "Cam Hack is a 32 hour hackathon for the innovative minds at the University of Cambridge. Over an action-packed weekend, students come together to design and build technology projects from the ground up.",
         "website": "https://camhack.org",
-        "logo": "./events/camhack.png"
+        "logo": "/assets/events/camhack.png"
     }
 ]

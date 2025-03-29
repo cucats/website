@@ -45,7 +45,7 @@
                 id="cucat"
                 class="max-h-40 object-contain duration-75"
                 style="transform: rotateY({y}rad) rotateX({x}rad)"
-                src="logo/dark/logo-white-cat.png"
+                src="/assets/logo/dark/logo-white-cat.png"
                 alt="cucats logo"
             />
         </div>
@@ -55,22 +55,22 @@
         <h2>Aims</h2>
         <div class="h-90 mt-4 flex flex-wrap gap-4">
             <Aim
-                url="/icons/graph.png"
+                url="/assets/icons/graph.png"
                 title="Build connections"
                 desc="Provide members and potential employers with networking opportunities"
             />
             <Aim
-                url="/icons/loudspeaker.png"
+                url="/assets/icons/loudspeaker.png"
                 title="Promote interest"
                 desc="Spark curiosity in computing amongst members and the general public"
             />
             <Aim
-                url="/icons/steps.png"
+                url="/assets/icons/steps.png"
                 title="Support members"
                 desc="Help and fund members host events that align with our mission"
             />
             <Aim
-                url="/icons/text.png"
+                url="/assets/icons/text.png"
                 title="Encourage discussion"
                 desc="Provide a forum to discuss topics and issues concerning computing and IT"
             />
@@ -89,13 +89,13 @@
 
     <div class="icon-container">
         <a href="https://www.instagram.com/cucats.cam">
-            <img src="socials/Instagram_Glyph_White.svg" alt="Instagram Logo" />
+            <img src="/assets/socials/Instagram_Glyph_White.svg" alt="Instagram Logo" />
         </a>
         <a href="https://www.facebook.com/cucats/">
-            <img src="socials/Facebook_Logo_Secondary.png" alt="Facebook Logo" />
+            <img src="/assets/socials/Facebook_Logo_Secondary.png" alt="Facebook Logo" />
         </a>
         <a href="https://x.com/cucatscam">
-            <img src="socials/x-logo.svg" alt="X Logo" />
+            <img src="/assets/socials/x-logo.svg" alt="X Logo" />
         </a>
     </div>
 </main>

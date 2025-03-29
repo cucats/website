@@ -1,7 +1,7 @@
 [
     {
         "name": "HRT",
-        "logo": "/sponsors/hrt.png",
+        "logo": "/assets/sponsors/hrt.png",
         "tier": "gold",
         "paragraphs": [
             "At Hudson River Trading (HRT) we are mathematicians, computer scientists, statisticians, physicists and engineers. We research and develop automated trading algorithms using advanced mathematical techniques. We have built one of the world's most sophisticated compute environments, and our researchers are at the forefront of innovation in the world of algorithmic trading and machine learning.",
@@ -16,7 +16,7 @@
 
     {
         "name": "Jane Street",
-        "logo": "/sponsors/js_stacked.png",
+        "logo": "/assets/sponsors/js_stacked.png",
         "tier": "gold",
         "paragraphs": [
             "Our INSIGHT program is part of our commitment to give as many people as possible the chance to learn more about what we do.",
@@ -38,7 +38,7 @@
 
     {
         "name": "QRT",
-        "logo": "/sponsors/qrt.svg",
+        "logo": "/assets/sponsors/qrt.svg",
         "tier": "gold",
         "paragraphs": [
             "Qube Research & Technologies (QRT) is a global investment manager where we deploy a diverse range of investment strategies across geographies, asset classes and time frames. Combining data, research, technology and trading expertise has shaped QRT's collaborative mindset which enables us to solve the most complex challenges. QRT's culture of innovation continuously drives our ambition to deliver high quality returns for our investors."
@@ -51,7 +51,7 @@
 
     {
         "name": "Nustom",
-        "logo": "/sponsors/nustom.svg",
+        "logo": "/assets/sponsors/nustom.svg",
         "tier": "silver",
         "paragraphs": [
             "We're a startup that makes startups! We use AI to minimise the cost of building, operating and growing startups. Previously, we helped build Monzo. We're founded in March 2024 by former Monzo Co-Founder and CTO and backed by some of the world's best investors (Garry Tan, Naval Ravikant, Tom Blomfield, Accel, Index Ventures, OpenAI, founders of Anthropic, Perplexity, etc).",
@@ -72,7 +72,7 @@
 
     {
         "name": "Optiver",
-        "logo": "/sponsors/optiver.png",
+        "logo": "/assets/sponsors/optiver.png",
         "tier": "silver",
         "paragraphs": [
             "Unlock the world of algorithmic trading with The Optiver & Cambridge Trading Academy. Led by industry experts, this comprehensive 8-session course takes you from options theory to hands-on Python algorithm design.",
@@ -92,7 +92,7 @@
 
     {
         "name": "Quantco",
-        "logo": "/sponsors/quantco.png",
+        "logo": "/assets/sponsors/quantco.png",
         "tier": "silver",
         "paragraphs": [
             "We leverage expertise in data science, engineering, artificial intelligence, and economics to help organizations turn data into decisions. Founded by 4 PhDs from Harvard and Stanford, we are now more than 200 professionals with extensive quantitative, engineering, and business acumen.",
@@ -107,7 +107,7 @@
 
     {
         "name": "IMC Trading",
-        "logo": "/sponsors/imc.png",
+        "logo": "/assets/sponsors/imc.png",
         "tier": "bronze",
         "paragraphs": [
             "IMC is a leading trading firm, known worldwide for our advanced, low-latency technology and world-class execution capabilities. Over the past 35 years, we've been a stabilizing force in the financial markets - providing the essential liquidity our counterparties depend on. Across offices in the US, Europe, and Asia Pacific, our talented employees are united by our entrepreneurial spirit, exceptional culture, and commitment to giving back. It's a strong foundation that allows us to grow and add new capabilities, year after year. From entering dynamic new markets, to developing a state-of-the-art research environment and diversifying our trading strategies, we dare to imagine what could be and work together to make it happen."
@@ -117,7 +117,7 @@
 
     {
         "name": "TPP",
-        "logo": "/sponsors/TPP.png",
+        "logo": "/assets/sponsors/TPP.png",
         "tier": "bronze",
         "paragraphs": [
             "TPP is a global digital health company. With over 7,000 organisations using our solutions to care for over 50 million patients, our software is used across all health and social care settings, including GPs, emergency departments, hospitals and mental health services. This means that wherever and whenever a patient needs care, a detailed and up-to-date record is available. No other company has a digital healthcare solution on this scale. Our database is one of the largest in the world. It processes a billion transactions daily – more than the London Stock Exchange and Visa combined.",
