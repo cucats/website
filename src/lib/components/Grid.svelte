@@ -61,6 +61,7 @@
      */
     function drawGrid(): void {
         if (!context) return;
+        if (!canvas) return;
 
         context.clearRect(0, 0, canvas.width, canvas.height);
 
