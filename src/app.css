@@ -7,6 +7,7 @@
     font-family: "JetBrains Mono";
     font-style: normal;
     src: url("/assets/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+    font-display: swap;
 }
 
 @font-face {
@@ -14,6 +15,7 @@
     font-style: italic;
     src: url("/assets/fonts/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf")
         format("truetype");
+    font-display: swap;
 }
 
 html,
