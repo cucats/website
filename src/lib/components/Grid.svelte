@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    let canvas: HTMLCanvasElement;
+    let canvas: HTMLCanvasElement = $state();
     let context: CanvasRenderingContext2D | null = null;
 
     let gridSizeX: number;

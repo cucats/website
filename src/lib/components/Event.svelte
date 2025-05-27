@@ -1,12 +1,20 @@
-<script>
-    export let event;
+<script lang="ts">
+    import type { EventData } from "data/events";
+
+    interface Props {
+        event: EventData;
+    }
+
+    let { event }: Props = $props();
 </script>
 
 <div class="event-card">
     <div class="title">{event.title}</div>
 
     {#if event.date}
-        <div class="date">{event.date[0]} &ndash; {event.date[1]}</div>
+        <div class="date">
+            {event.date.map((d) => d.toDateString()).join(" – ")}
+        </div>
     {/if}
 
     {#if event.description}

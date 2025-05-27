@@ -1,17 +1,18 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import Event from "$lib/components/Event.svelte";
-    import events from "data/events.json";
+    import { events } from "data/events";
 
     // Should still display on end date
-    let today = new Date().setHours(0, 0, 0, 0);
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
 </script>
 
 <main class="main" in:fade>
     <h1>Events</h1>
 
     {#each events as event}
-        {#if !event.date || Date.parse(event.date[1]) >= today}
+        {#if event.date[event.date.length - 1] >= today}
             <Event {event} />
         {/if}
     {/each}
@@ -21,7 +22,7 @@
     <h2 class="mt-8">Archive</h2>
 
     {#each events as event}
-        {#if event.date && Date.parse(event.date[1]) < today}
+        {#if event.date[event.date.length - 1] < today}
             <Event {event} />
         {/if}
     {/each}

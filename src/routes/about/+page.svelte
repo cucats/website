@@ -3,8 +3,8 @@
     import Member from "$lib/components/Member.svelte";
     import Aim from "$lib/components/Aim.svelte";
 
-    let x = 0;
-    let y = 0;
+    let x = $state(0);
+    let y = $state(0);
     let depth = 600;
 
     function move(event: MouseEvent) {

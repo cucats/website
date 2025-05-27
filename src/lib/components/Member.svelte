@@ -1,6 +1,10 @@
 <script lang="ts">
-    export let name: string;
-    export let role: string;
+    interface Props {
+        name: string;
+        role: string;
+    }
+
+    let { name, role }: Props = $props();
 </script>
 
 <div class="min-w-40 md:min-w-64">

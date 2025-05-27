@@ -1,5 +1,9 @@
 <script lang="ts">
-    export let active = false;
+    interface Props {
+        active?: boolean;
+    }
+
+    let { active = $bindable(false) }: Props = $props();
 </script>
 
 <button

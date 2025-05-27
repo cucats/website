@@ -1,6 +1,10 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    export let active = false;
+    interface Props {
+        active?: boolean;
+    }
+
+    let { active = $bindable(false) }: Props = $props();
 
     const user = $page.data.user;
 
@@ -10,9 +14,9 @@
     }
 </script>
 
-<a class="navlink" href="/about" on:click={onclick}>About Us</a>
-<a class="navlink" href="/events" on:click={onclick}>Events</a>
-<a class="navlink" href="/sponsors" on:click={onclick}>Sponsors</a>
+<a class="navlink" href="/about" {onclick}>About Us</a>
+<a class="navlink" href="/events" {onclick}>Events</a>
+<a class="navlink" href="/sponsors" {onclick}>Sponsors</a>
 
 <!-- {#if user}
     <form action="/auth/signout" method="POST" class="text-center">
