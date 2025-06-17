@@ -33,12 +33,11 @@ export const sponsors: SponsorData[] = [
             "Our INSIGHT program is part of our commitment to give as many people as possible the chance to learn more about what we do.",
             "In this multi-day program, we invite women, transgender, and/or gender-expansive individuals to learn about the roles within our firm and how we solve challenges at Jane Street — including the specific concepts and tools we use in our daily work.",
             "As you explore opportunities within the program, you'll notice that event topics and locations will vary. We offer classes and activities in three separate tracks: software engineering, trading, and strategy and product.",
-            "Our next INSIGHT event based in our London office will run Monday, 7th April - Saturday, 12th April, 2025. Candidates will be notified about their applications status after the deadline date. The deadline to apply is Sunday, 12th January 2025 at 11:59pm GMT.",
         ],
         links: [
             {
-                text: "apply now",
-                url: "https://janestreet.com/apply-insight-ldn/?utm_source=program_email&utm_medium=email&utm_campaign=insight_ldn_program&utm_content=apply_button",
+                text: "website",
+                url: "https://janestreet.com",
             },
             {
                 text: "view opportunities",
