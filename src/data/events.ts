@@ -11,7 +11,7 @@ export const events: EventData[] = [
         title: "CUCaTS × Anthropic Speaker Event + Hackathon",
         date: [new Date("2025-06-18")],
         description:
-            "AI alignment talk by Hoagy Cunningham, free food provided by Aromi, Claude demo with Greg Feingold, and a fast-paced, informal hackathon. All participants will receive $50 of free Anthropic API Credits, with large prizes for winners.",
+            "AI alignment talk by Hoagy Cunningham, free food provided by Aromi, Claude demo with Greg Feingold, and a fast-paced, informal hackathon. All participants will receive $50 of free Anthropic API Credits, with additional prizes for winners.",
         website: "https://forms.gle/5BNss8APeFZdZEgG9",
     },
     {
