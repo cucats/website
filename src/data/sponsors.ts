@@ -38,7 +38,7 @@ export const sponsors: SponsorData[] = [
 
     {
         name: "Jane Street",
-        logo: "/assets/sponsors/js_stacked.png",
+        logo: "/assets/sponsors/janestreet.png",
         tier: "gold",
         paragraphs: [
             "Our INSIGHT program is part of our commitment to give as many people as possible the chance to learn more about what we do.",
@@ -138,7 +138,7 @@ export const sponsors: SponsorData[] = [
 
     {
         name: "TPP",
-        logo: "/assets/sponsors/TPP.png",
+        logo: "/assets/sponsors/tpp.png",
         tier: "bronze",
         paragraphs: [
             "TPP is a global digital health company. With over 7,000 organisations using our solutions to care for over 50 million patients, our software is used across all health and social care settings, including GPs, emergency departments, hospitals and mental health services. This means that wherever and whenever a patient needs care, a detailed and up-to-date record is available. No other company has a digital healthcare solution on this scale. Our database is one of the largest in the world. It processes a billion transactions daily – more than the London Stock Exchange and Visa combined.",
