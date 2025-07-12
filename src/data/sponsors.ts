@@ -48,7 +48,7 @@ export const sponsors: SponsorData[] = [
         links: [
             {
                 text: "website",
-                url: "https://janestreet.com",
+                url: "https://www.janestreet.com",
             },
             {
                 text: "view opportunities",
@@ -71,22 +71,22 @@ export const sponsors: SponsorData[] = [
     },
 
     {
-        name: "Nustom",
-        logo: "/assets/sponsors/nustom.svg",
+        name: "Iterate",
+        logo: "/assets/sponsors/iterate.svg",
         tier: "silver",
         paragraphs: [
-            "We're a startup that makes startups! We use AI to minimise the cost of building, operating and growing startups. Previously, we helped build Monzo. We're founded in March 2024 by former Monzo Co-Founder and CTO and backed by some of the world's best investors (Garry Tan, Naval Ravikant, Tom Blomfield, Accel, Index Ventures, OpenAI, founders of Anthropic, Perplexity, etc).",
-            "In a few years' time, we believe that the majority of software will be made by people with no technical background, collaborating with an AI. What today takes weeks or months and a team of specialists will be accessible to everyone, take only minutes, and cost very little. Instead of one-size-fits-all products, everyone will be making their own tools, customized to their needs.",
-            "Come spend 3 or 6 months with us to build and launch a revenue generating startup! You can build whatever you like. The only catch is that you have to use our AI generator to build your startup from human language input. And if it's not able to do so, you first need to improve the generator to make it generatable.",
+            "Iterate is building the future of autonomous companies. We believe one of the most valuable uses of AGI will be to build startups. We're starting by helping small teams automate their startups - today, we offer a customizable, AI chief of staff that automates tedious ops processes like filing invoices, onboarding new hires, requesting tax credits etc.",
+            "Founded by the former co-founder and CTO of Monzo, Iterate is backed by the world's best investors, including OpenAI, Index Ventures, and the founders behind Anthropic, Mistral, and other class-leading companies.",
+            "We are a small, deeply technical team based out of London, driven by the ambition to redefine what humans can build with AI.",
         ],
         links: [
             {
                 text: "website",
-                url: "https://nustom.com",
+                url: "https://iterate.com",
             },
             {
                 text: "apply now",
-                url: "https://nustom.notion.site/150622a338eb802aa204efb2997f7202",
+                url: "https://www.iterate.com/careers",
             },
         ],
     },
