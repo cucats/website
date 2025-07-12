@@ -3,21 +3,6 @@
 @tailwind utilities;
 @tailwind variants;
 
-@font-face {
-    font-family: "JetBrains Mono";
-    font-style: normal;
-    src: url("/assets/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "JetBrains Mono";
-    font-style: italic;
-    src: url("/assets/fonts/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf")
-        format("truetype");
-    font-display: swap;
-}
-
 html,
 body {
     @apply touch-manipulation font-mono;
