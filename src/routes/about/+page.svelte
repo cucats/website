@@ -1,7 +1,5 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import Member from "$lib/components/Member.svelte";
-    import Aim from "$lib/components/Aim.svelte";
 
     let x = $state(0);
     let y = $state(0);
@@ -53,59 +51,102 @@
 
     <div class="mt-20">
         <h2>Aims</h2>
-        <div class="h-90 mt-4 flex flex-wrap gap-4">
-            <Aim
-                url="/assets/icons/graph.png"
-                title="Build connections"
-                desc="Provide members and potential employers with networking opportunities"
-            />
-            <Aim
-                url="/assets/icons/loudspeaker.png"
-                title="Promote interest"
-                desc="Spark curiosity in computing amongst members and the general public"
-            />
-            <Aim
-                url="/assets/icons/steps.png"
-                title="Support members"
-                desc="Help and fund members host events that align with our mission"
-            />
-            <Aim
-                url="/assets/icons/text.png"
-                title="Encourage discussion"
-                desc="Provide a forum to discuss topics and issues concerning computing and IT"
-            />
+        <div class="mt-4 flex flex-wrap gap-4">
+            <div class="min-w-80 flex-1 rounded-lg bg-black bg-opacity-40 p-8">
+                <img src="/assets/icons/graph.png" class="h-8" alt="Build connections icon" />
+                <div class="mt-4 text-xl font-bold uppercase">Build connections</div>
+                <p class="mt-4">
+                    Provide members and potential employers with networking opportunities
+                </p>
+            </div>
+            <div class="min-w-80 flex-1 rounded-lg bg-black bg-opacity-40 p-8">
+                <img src="/assets/icons/loudspeaker.png" class="h-8" alt="Promote interest icon" />
+                <div class="mt-4 text-xl font-bold uppercase">Promote interest</div>
+                <p class="mt-4">
+                    Spark curiosity in computing amongst members and the general public
+                </p>
+            </div>
+            <div class="min-w-80 flex-1 rounded-lg bg-black bg-opacity-40 p-8">
+                <img src="/assets/icons/steps.png" class="h-8" alt="Support members icon" />
+                <div class="mt-4 text-xl font-bold uppercase">Support members</div>
+                <p class="mt-4">Help and fund members host events that align with our mission</p>
+            </div>
+            <div class="min-w-80 flex-1 rounded-lg bg-black bg-opacity-40 p-8">
+                <img src="/assets/icons/text.png" class="h-8" alt="Encourage discussion icon" />
+                <div class="mt-4 text-xl font-bold uppercase">Encourage discussion</div>
+                <p class="mt-4">
+                    Provide a forum to discuss topics and issues concerning computing and IT
+                </p>
+            </div>
         </div>
     </div>
     <h2 class="mt-32">Committee</h2>
 
     <div class="flex flex-wrap justify-center gap-10 rounded-lg bg-black bg-opacity-40 px-6 py-10">
-        <Member name="Jeremy Chen" role="president" />
-        <Member name="Sophie Ring" role="vice-president" />
-        <Member name="Bruce Chen" role="treasurer" />
-        <Member name="Jonathon Sun" role="secretary" />
-        <Member name="Xi Nan Shu" role="webmaster" />
+        <div class="min-w-40 md:min-w-64">
+            <div class="text-sm md:text-base">
+                <span class="mr-2 block font-bold lowercase md:inline">president</span><span
+                    class="inline text-gray-300 opacity-60">@cucats.org</span
+                >
+            </div>
+            <div class="text-xl font-medium tracking-tight md:text-3xl">Jeremy Chen</div>
+        </div>
+        <div class="min-w-40 md:min-w-64">
+            <div class="text-sm md:text-base">
+                <span class="mr-2 block font-bold lowercase md:inline">vice-president</span><span
+                    class="inline text-gray-300 opacity-60">@cucats.org</span
+                >
+            </div>
+            <div class="text-xl font-medium tracking-tight md:text-3xl">Sophie Ring</div>
+        </div>
+        <div class="min-w-40 md:min-w-64">
+            <div class="text-sm md:text-base">
+                <span class="mr-2 block font-bold lowercase md:inline">treasurer</span><span
+                    class="inline text-gray-300 opacity-60">@cucats.org</span
+                >
+            </div>
+            <div class="text-xl font-medium tracking-tight md:text-3xl">Bruce Chen</div>
+        </div>
+        <div class="min-w-40 md:min-w-64">
+            <div class="text-sm md:text-base">
+                <span class="mr-2 block font-bold lowercase md:inline">secretary</span><span
+                    class="inline text-gray-300 opacity-60">@cucats.org</span
+                >
+            </div>
+            <div class="text-xl font-medium tracking-tight md:text-3xl">Jonathon Sun</div>
+        </div>
+        <div class="min-w-40 md:min-w-64">
+            <div class="text-sm md:text-base">
+                <span class="mr-2 block font-bold lowercase md:inline">webmaster</span><span
+                    class="inline text-gray-300 opacity-60">@cucats.org</span
+                >
+            </div>
+            <div class="text-xl font-medium tracking-tight md:text-3xl">Xi Nan Shu</div>
+        </div>
     </div>
     + Many thanks to Steven for GoL!
 
-    <div class="icon-container">
+    <div class="mx-auto my-4 flex gap-8">
         <a href="https://www.instagram.com/cucats.cam">
-            <img src="/assets/socials/Instagram_Glyph_White.svg" alt="Instagram Logo" />
+            <img
+                src="/assets/socials/Instagram_Glyph_White.svg"
+                alt="Instagram Logo"
+                class="h-10 duration-200 hover:scale-110 sm:h-12"
+            />
         </a>
         <a href="https://www.facebook.com/cucats/">
-            <img src="/assets/socials/Facebook_Logo_Secondary.png" alt="Facebook Logo" />
+            <img
+                src="/assets/socials/Facebook_Logo_Secondary.png"
+                alt="Facebook Logo"
+                class="h-10 duration-200 hover:scale-110 sm:h-12"
+            />
         </a>
         <a href="https://x.com/cucatscam">
-            <img src="/assets/socials/x-logo.svg" alt="X Logo" />
+            <img
+                src="/assets/socials/x-logo.svg"
+                alt="X Logo"
+                class="h-10 duration-200 hover:scale-110 sm:h-12"
+            />
         </a>
     </div>
 </main>
-
-<style lang="postcss">
-    .icon-container {
-        @apply mx-auto my-4 flex gap-8;
-    }
-
-    .icon-container img {
-        @apply h-10 duration-200 hover:scale-110 sm:h-12;
-    }
-</style>
