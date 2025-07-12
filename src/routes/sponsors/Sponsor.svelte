@@ -1,8 +1,13 @@
 <script lang="ts">
-    import type { PageProps } from "./$types";
-    let { sponsor }: PageProps = $props();
+    import type { SponsorData } from "./data";
 
-    let id = sponsor.name.toLowerCase().replace(" ", "-");
+    interface Props {
+        sponsor: SponsorData;
+    }
+
+    let { sponsor }: Props = $props();
+
+    const id = $derived(sponsor.name.toLowerCase().replace(" ", "-"));
 </script>
 
 <div class="sponsor-card">
