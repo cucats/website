@@ -11,6 +11,17 @@ export type SponsorData = {
 
 export const sponsors: SponsorData[] = [
     {
+        name: "Anthropic",
+        logo: "/assets/sponsors/anthropic.png",
+        tier: "gold",
+        paragraphs: [],
+        links: [
+            { text: "website", url: "https://www.anthropic.com" },
+            { text: "opportunities", url: "https://www.anthropic.com/careers" },
+        ],
+    },
+
+    {
         name: "HRT",
         logo: "/assets/sponsors/hrt.png",
         tier: "gold",
