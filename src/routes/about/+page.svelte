@@ -129,21 +129,21 @@
     <div class="mx-auto my-4 flex gap-8">
         <a href="https://www.instagram.com/cucats.cam">
             <img
-                src="/assets/socials/Instagram_Glyph_White.svg"
+                src="/assets/socials/instagram.svg"
                 alt="Instagram Logo"
                 class="h-10 duration-200 hover:scale-110 sm:h-12"
             />
         </a>
         <a href="https://www.facebook.com/cucats/">
             <img
-                src="/assets/socials/Facebook_Logo_Secondary.png"
+                src="/assets/socials/facebook.png"
                 alt="Facebook Logo"
                 class="h-10 duration-200 hover:scale-110 sm:h-12"
             />
         </a>
         <a href="https://x.com/cucatscam">
             <img
-                src="/assets/socials/x-logo.svg"
+                src="/assets/socials/x.svg"
                 alt="X Logo"
                 class="h-10 duration-200 hover:scale-110 sm:h-12"
             />
