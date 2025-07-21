@@ -11,19 +11,23 @@
 <main class="main" in:fade>
     <h1>Events</h1>
 
-    {#each events as event}
-        {#if event.date[event.date.length - 1] >= today}
-            <Event {event} />
-        {/if}
-    {/each}
+    <div class="events-grid">
+        {#each events as event}
+            {#if event.date[event.date.length - 1] >= today}
+                <Event {event} class="mb-6 md:mx-8" />
+            {/if}
+        {/each}
+    </div>
 
     <p>Check our private Discord for up-to-date information.</p>
 
     <h2 class="mt-8">Archive</h2>
 
-    {#each events as event}
-        {#if event.date[event.date.length - 1] < today}
-            <Event {event} />
-        {/if}
-    {/each}
+    <div class="events-grid">
+        {#each events as event}
+            {#if event.date[event.date.length - 1] < today}
+                <Event {event} class="mb-6 md:mx-8" compact />
+            {/if}
+        {/each}
+    </div>
 </main>

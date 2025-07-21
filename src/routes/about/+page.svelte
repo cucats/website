@@ -26,7 +26,7 @@
         <div class="max-w-lg space-y-4">
             <h1>About Us</h1>
             <p>
-                The Cambridge University Computing and Technology Society (CUCaTS) is the primary
+                Cambridge University Computing and Technology Society (CUCaTS) is the primary
                 student-run computing society at Cambridge. We aim to provide a platform for
                 students to explore and engage with technology, regardless of their degree or
                 experience level.

@@ -6,7 +6,7 @@
 
     let gridSizeX: number;
     let gridSizeY: number;
-    const cellSize = 16;
+    const cellSize = 20;
     const animationDelay = 100; // in ms
     const liveCellOpacity = 0.1;
     const deadCellOpacity = 0.0;
