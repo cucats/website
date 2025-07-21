@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { EventData } from "data/events";
+    import type { EventData } from "./events";
 
     interface Props {
         event: EventData;

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Navigation from "$lib/components/Navigation.svelte";
-    import Hamburger from "$lib/components/Hamburger.svelte";
+    import Navigation from "./Navigation.svelte";
+    import Hamburger from "./Hamburger.svelte";
     import "../app.css";
 
     let { children } = $props();
