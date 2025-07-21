@@ -3,13 +3,11 @@
 ## Development server:
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 ## Production
 
 ```bash
-npm run build
+bun run build
 ```
-
-You can preview the production build with `npm run preview`.
