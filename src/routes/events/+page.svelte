@@ -31,7 +31,7 @@
     <section class="bg-tertiary-800 pt-24 text-neutral-300">
         <div class="c-4 p-4-8 mx-auto max-w-screen-xl">
             <h1 class="text-4xl font-bold md:text-5xl">Events</h1>
-            <p>Check our private Discord for up-to-date information and announcemets.</p>
+            <p>Check our private Discord for up-to-date information and announcements.</p>
         </div>
     </section>
 
