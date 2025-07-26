@@ -94,14 +94,16 @@
     class="c-4 from-tertiary-700 via-secondary-700 to-primary-700 border-tertiary-300 rounded-lg border bg-gradient-to-br p-6"
 >
     <div class="flex items-center justify-between overflow-hidden">
-        <h3 class="text-2xl font-bold">{currentTerm.name}</h3>
-        <div class="flex gap-2">
+        <h3 class="text-xl font-bold sm:text-2xl">{currentTerm.name}</h3>
+
+        <!-- Uncomment when more terms added -->
+        <!-- <div class="flex gap-2">
             <button
                 onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
                 disabled={currentTermIndex === 0}
                 class="btn neutral sm"
             >
-                ← Previous
+                &lt;
             </button>
             <button
                 onclick={() =>
@@ -109,9 +111,9 @@
                 disabled={currentTermIndex === allTerms.length - 1}
                 class="btn neutral sm"
             >
-                Next →
+                &gt;
             </button>
-        </div>
+        </div> -->
     </div>
 
     <!-- Calendar Grid -->
