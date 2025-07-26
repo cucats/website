@@ -285,7 +285,7 @@
     {/if}
 </Modal>
 
-<style class="postcss">
+<style lang="postcss">
     @reference "../../app.css";
 
     .event-description :global(ul) {
