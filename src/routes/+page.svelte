@@ -1,23 +1,31 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
     import GameOfLife from "./GameOfLife.svelte";
 </script>
 
-<GameOfLife />
+<main class="bg-tertiary-800">
+    <section
+        class="from-primary-700 via-secondary-800 to-tertiary-800 relative flex h-[60rem] items-center justify-center bg-gradient-to-b sm:h-[72rem]"
+    >
+        <div class="absolute bottom-0 z-0 size-full overflow-x-hidden">
+            <GameOfLife />
+        </div>
 
-<main
-    class="flex h-screen flex-col items-center justify-center gap-4 overflow-x-hidden lg:gap-0"
-    in:fade
->
-    <div class="flex flex-col items-center lg:flex-row lg:gap-8">
-        <img src="/assets/logo/dark/logo-white-cat.svg" alt="CUCaTS logo" class="size-48" />
-        <h1 class="z-10 text-center normal-case">
-            Cambridge University Computing
-            <br />
-            and Technology Society
-        </h1>
-    </div>
-    <p class="z-10 mx-10 text-center">
-        The main student-led CS and tech society at the University of Cambridge!
-    </p>
+        <div class="c-4 p-4-8 z-10 max-w-screen-lg">
+            <div class="flex flex-col items-center gap-4 lg:flex-row">
+                <img src="/assets/logo/dark/logo-white-cat.svg" alt="CUCaTS logo" class="size-40" />
+                <h1
+                    class="p-4 text-center text-2xl font-bold text-neutral-100 sm:text-4xl md:text-5xl"
+                >
+                    Cambridge University<br />Computing and Technology Society
+                </h1>
+            </div>
+            <h2 class="text-center text-neutral-300">
+                The main student-led CS and tech society at the University of Cambridge!
+            </h2>
+        </div>
+    </section>
+
+    <section class="bg-tertiary-800 h-20 text-neutral-100">
+        <div class="c-4 p-4-8 z-10 max-w-screen-lg"></div>
+    </section>
 </main>

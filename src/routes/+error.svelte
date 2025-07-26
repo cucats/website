@@ -4,9 +4,9 @@
     const { error, status } = page;
 </script>
 
-<main
-    class="absolute left-0 top-0 flex h-screen w-screen flex-col items-center justify-center gap-4 lg:gap-0"
->
-    <h1 class="text-4xl">{status}</h1>
-    <h2 class="text-2xl">{error?.message}</h2>
-</main>
+<section class="bg-secondary-500 pt-24">
+    <div class="c-4 p-4-8 mx-auto max-w-screen-lg">
+        <h1 class="text-4xl font-bold md:text-5xl">{status}</h1>
+        <h2 class="text-3xl font-bold md:text-4xl">{error?.message}</h2>
+    </div>
+</section>
