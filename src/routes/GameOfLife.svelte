@@ -1,148 +1,152 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    let canvas: HTMLCanvasElement = $state()!;
-    let context: CanvasRenderingContext2D | null = null;
-
     let gridSizeX: number;
     let gridSizeY: number;
-    const cellSize = 20;
-    const animationDelay = 100; // in ms
-    const liveCellOpacity = 0.1;
-    const deadCellOpacity = 0.0;
-    let grid: number[][] = [];
 
-    /**
-     * Initialize the grid with random live (1) and dead (0) cells
-     */
-    function initializeGrid(): void {
-        grid = Array.from({ length: gridSizeY }, () =>
-            Array.from({ length: gridSizeX }, () => (Math.random() > 0.8 ? 1 : 0)),
+    let div: HTMLDivElement;
+
+    const cellSize = 32;
+    const tick = 160; // milliseconds
+    let grid: boolean[][] = [];
+
+    const initGrid = (f: (x: number, y: number) => boolean) =>
+        Array.from({ length: gridSizeY }, (_, y) =>
+            Array.from({ length: gridSizeX }, (_, x) => f(x, y)),
         );
-    }
 
-    /**
-     * Compute the next state of the grid
-     */
-    function computeNextState(): void {
-        const nextGrid = grid.map((row) => [...row]); // Create a copy of the grid
+    const cutoff = (x: number) =>
+        gridSizeY -
+        10 +
+        Math.floor(
+            2 * Math.sin(x / 8 + 2) +
+                1 * Math.sin(x) +
+                1 * Math.sin(3 * x + 1) +
+                1 * Math.sin(5 * x + 2) +
+                2 * Math.sin(7 * x + 3) +
+                2 * Math.sin(17 * x + 9),
+        );
 
-        for (let y = 0; y < gridSizeY; y++) {
-            for (let x = 0; x < gridSizeX; x++) {
-                let neighbors = 0;
+    const nextGrid = (grid: boolean[][]) =>
+        initGrid((x, y) => {
+            const ytop = cutoff(x);
 
-                // Count live neighbors
-                for (let dy of [-1, 0, 1]) {
-                    for (let dx of [-1, 0, 1]) {
-                        if (dx === 0 && dy === 0) continue; // Skip the current cell
-                        const nx = x + dx;
-                        const ny = y + dy;
+            // Stop updating cells above the cutoff + transition zone
+            if (y > ytop + 3) {
+                return grid[y][x];
+            }
 
-                        // Check boundaries
-                        if (nx >= 0 && ny >= 0 && nx < gridSizeX && ny < gridSizeY) {
-                            neighbors += grid[ny][nx];
+            // Gradually reduce update probability near cutoff
+            if (y > ytop - 4) {
+                const distance = y - (ytop - 4);
+                const updateProbability = 1 - distance / 7;
+                if (Math.random() > updateProbability) {
+                    return grid[y][x];
+                }
+            }
+
+            // Neighbours
+            let nb = 0;
+
+            for (let dy of [-1, 0, 1]) {
+                for (let dx of [-1, 0, 1]) {
+                    if (dx === 0 && dy === 0) continue;
+                    const nx = x + dx;
+                    const ny = y + dy;
+
+                    // Check boundaries
+                    if (0 <= nx && nx < gridSizeX && 0 <= ny && ny < gridSizeY) {
+                        if (grid[ny][nx]) {
+                            nb++;
                         }
                     }
                 }
-
-                if (grid[y][x] === 1) {
-                    nextGrid[y][x] = neighbors === 2 || neighbors === 3 ? 1 : 0;
-                } else {
-                    nextGrid[y][x] = neighbors === 3 ? 1 : 0;
-                }
             }
-        }
 
-        grid = nextGrid;
+            return !grid[y][x] ? nb === 3 || nb === 4 : nb === 3 || nb === 4;
+        });
+
+    function getCellClass(x: number, y: number): string {
+        const ytop = cutoff(x);
+
+        if (y < ytop - 3) return grid[y][x] ? "opacity-40" : "opacity-35";
+        if (y === ytop - 3) return grid[y][x] ? "opacity-35" : "opacity-35";
+        if (y === ytop - 2) return grid[y][x] ? "opacity-30" : "opacity-25";
+        if (y === ytop - 1) return grid[y][x] ? "opacity-25" : "opacity-20";
+        if (y === ytop + 0) return grid[y][x] ? "opacity-20" : "opacity-15";
+        if (y === ytop + 1) return grid[y][x] ? "opacity-15" : "opacity-10";
+        if (y === ytop + 2) return grid[y][x] ? "opacity-10" : "opacity-5";
+        if (y === ytop + 3) return grid[y][x] ? "opacity-5" : "opacity-0";
+        return "opacity-0";
     }
 
     /**
-     * Draw the grid on the canvas
+     * Calculate grid dimensions based on container
      */
-    function drawGrid(): void {
-        if (!context) return;
-        if (!canvas) return;
+    function calculateGrid() {
+        const rect = div.getBoundingClientRect();
+        const newSizeX = Math.ceil(rect.width / cellSize);
+        const newSizeY = Math.ceil(rect.height / cellSize);
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        for (let y = 0; y < gridSizeY; y++) {
-            for (let x = 0; x < gridSizeX; x++) {
-                if (grid[y][x] === 1) {
-                    // Live cells
-                    context.fillStyle = `rgba(52, 152, 219, ${liveCellOpacity})`;
-                } else {
-                    // Dead cells
-                    context.fillStyle = `rgba(236, 240, 241, ${deadCellOpacity})`;
-                }
-                context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-            }
-        }
-    }
-
-    /**
-     * Animation loop with delay
-     */
-    function animate(): void {
-        setTimeout(() => {
-            computeNextState();
-            drawGrid();
-            animate();
-        }, animationDelay);
-    }
-
-    /**
-     * Resize canvas to fit the screen
-     */
-    function resizeCanvas(): void {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        // Calculate grid dimensions based on the screen size
-        gridSizeX = Math.floor(width / cellSize);
-        gridSizeY = Math.floor(height / cellSize);
-
-        canvas.width = gridSizeX * cellSize;
-        canvas.height = gridSizeY * cellSize;
-
-        initializeGrid();
-        drawGrid();
-    }
-
-    /**
-     * Toggle cell state on mouse click
-     */
-    function toggleCell(event: MouseEvent): void {
-        const rect = canvas.getBoundingClientRect(); // Get canvas position
-
-        // calculate clicked cell coordinates
-        const x = Math.floor((event.clientX - rect.left) / cellSize);
-        const y = Math.floor((event.clientY - rect.top) / cellSize);
-
-        if (x >= 0 && y >= 0 && x < gridSizeX && y < gridSizeY) {
-            grid[y][x] = grid[y][x] === 1 ? 0 : 1;
-            drawGrid();
-        }
-    }
-
-    onMount(() => {
-        context = canvas.getContext("2d");
-        if (!context) {
-            console.error("Failed to get canvas context");
+        // If this is the first time, initialize the grid
+        if (!grid.length) {
+            gridSizeX = newSizeX;
+            gridSizeY = newSizeY;
+            grid = initGrid(() => Math.random() < 0.2);
             return;
         }
 
-        resizeCanvas();
-        animate();
+        // Initialize new grid with random values
+        const newGrid: boolean[][] = Array.from({ length: newSizeY }, () =>
+            Array.from({ length: newSizeX }, () => Math.random() < 0.25),
+        );
 
-        canvas.addEventListener("click", toggleCell);
+        // Copy existing cells to center of new grid, overwriting the random values
+        const offsetX = Math.floor((newSizeX - gridSizeX) / 2);
+        const offsetY = Math.floor((newSizeY - gridSizeY) / 2);
 
-        window.addEventListener("resize", resizeCanvas);
+        for (let y = 0; y < Math.min(gridSizeY, newSizeY); y++) {
+            for (let x = 0; x < Math.min(gridSizeX, newSizeX); x++) {
+                const newX = x + (offsetX > 0 ? offsetX : 0);
+                const newY = y + (offsetY > 0 ? offsetY : 0);
+                const oldX = x + (offsetX < 0 ? -offsetX : 0);
+                const oldY = y + (offsetY < 0 ? -offsetY : 0);
+
+                if (oldX < gridSizeX && oldY < gridSizeY && newX < newSizeX && newY < newSizeY) {
+                    newGrid[newY][newX] = grid[oldY][oldX];
+                }
+            }
+        }
+
+        gridSizeX = newSizeX;
+        gridSizeY = newSizeY;
+        grid = newGrid;
+    }
+
+    onMount(() => {
+        calculateGrid();
+
+        const interval = window.setInterval(() => {
+            grid = nextGrid(grid);
+        }, tick);
+
+        window.addEventListener("resize", calculateGrid);
+
         return () => {
-            window.removeEventListener("resize", resizeCanvas);
-            canvas.removeEventListener("click", toggleCell);
+            window.clearInterval(interval);
+            window.removeEventListener("resize", calculateGrid);
         };
     });
 </script>
 
-<canvas bind:this={canvas} style="position: fixed; top: 0; left: 0; z-index: 0; cursor: pointer;"
-></canvas>
+<div
+    bind:this={div}
+    class="grid h-full duration-100"
+    style="grid-template-columns: repeat({gridSizeX}, {cellSize}px); grid-template-rows: repeat({gridSizeY}, {cellSize}px);"
+>
+    {#each grid as row, y}
+        {#each row as _, x}
+            <div class="bg-primary-950 {getCellClass(x, y)}"></div>
+        {/each}
+    {/each}
+</div>

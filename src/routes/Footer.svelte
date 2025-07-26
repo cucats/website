@@ -19,34 +19,33 @@
         { name: "About", href: "/about" },
         { name: "Events", href: "/events" },
         { name: "Sponsors", href: "/sponsors" },
+        { name: "Constitution", href: "/constitution" },
     ];
 </script>
 
-<footer class="relative bg-zinc-900 bg-opacity-80 backdrop-blur-sm">
-    <div class="mx-auto grid max-w-screen-xl gap-8 px-8 py-12 md:grid-cols-3">
+<footer class="bg-neutral-900">
+    <div class="px-4-8 mx-auto grid max-w-screen-xl gap-8 py-12 md:grid-cols-3">
         <div class="space-y-4">
-            <div class="flex items-center gap-3">
+            <div class="r-4 items-center">
                 <img
                     src="/assets/logo/dark/logo-white-cat.svg"
                     alt="CUCaTS logo"
                     class="h-10 w-10"
                 />
-                <h3 class="font-mono text-2xl font-extrabold text-white">CUCaTS</h3>
+                <h3 class="text-2xl font-extrabold text-neutral-100">CUCaTS</h3>
             </div>
-            <p class="text-sm leading-relaxed text-gray-300">
+            <p class="text-sm leading-relaxed text-neutral-300">
                 Cambridge University Computing and Technology Society
             </p>
         </div>
 
         <div class="space-y-4">
-            <h4 class="font-mono text-lg font-bold uppercase tracking-wider text-gray-100">
-                Quick Links
-            </h4>
+            <h4 class="text-lg font-bold text-neutral-100 uppercase">Quick Links</h4>
             <nav class="flex flex-col space-y-2">
                 {#each quickLinks as link}
                     <a
                         href={link.href}
-                        class="font-mono text-gray-300 transition-colors hover:text-white"
+                        class="text-neutral-300 transition-colors hover:text-neutral-100"
                         >{link.name}</a
                     >
                 {/each}
@@ -54,9 +53,7 @@
         </div>
 
         <div class="space-y-4">
-            <h4 class="font-mono text-lg font-bold uppercase tracking-wider text-gray-100">
-                Connect
-            </h4>
+            <h4 class="text-lg font-bold text-neutral-100 uppercase">Connect</h4>
             <div class="flex gap-4">
                 {#each socialLinks as social}
                     <a
@@ -73,7 +70,7 @@
         </div>
     </div>
 
-    <div class="border-t border-zinc-800 px-8 py-6 text-center">
-        <p class="text-sm text-gray-400">&copy; {currentYear} CUCaTS</p>
+    <div class="p-4-8 mx-auto max-w-screen-xl text-center">
+        <p class="text-sm text-neutral-400">&copy; {currentYear} CUCaTS</p>
     </div>
 </footer>
