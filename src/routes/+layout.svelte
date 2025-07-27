@@ -2,7 +2,6 @@
     import Header from "./Header.svelte";
     import Footer from "./Footer.svelte";
     import "../app.css";
-    import { fade } from "svelte/transition";
 
     let { data, children } = $props();
 </script>
