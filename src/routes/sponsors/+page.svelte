@@ -4,7 +4,7 @@
 
 <main class="bg-tertiary-700">
     <section class="from-secondary-700 to-tertiary-700 bg-gradient-to-br pt-24 text-neutral-100">
-        <div class="c-4 p-4-8 mx-auto max-w-screen-lg">
+        <div class="c-4 mx-auto max-w-5xl p-4">
             <h1 class="text-4xl font-bold sm:text-5xl">Sponsors</h1>
 
             <p>
@@ -23,7 +23,7 @@
     <section
         class="from-primary-800 via-secondary-800 to-tertiary-800 border-y-2 border-y-neutral-100 bg-gradient-to-br"
     >
-        <div class="c-4 p-4-8 mx-auto max-w-screen-xl">
+        <div class="c-4 mx-auto max-w-7xl p-4">
             <h2 class="my-8 text-center text-3xl font-bold text-neutral-100 md:text-4xl">Gold</h2>
 
             <div class="r-4 flex-wrap justify-center">

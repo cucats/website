@@ -1,16 +1,12 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
     import { fade, scale } from "svelte/transition";
-    import { onMount } from "svelte";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    interface Props {
+    interface Props extends HTMLAttributes<HTMLDivElement> {
         active: boolean;
-        children: Snippet;
-        // Customizable styles
-        class?: string;
     }
 
-    let { active = $bindable(), children, class: className = "relative" }: Props = $props();
+    let { active = $bindable(), ...props }: Props = $props();
 
     const onkeydown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
@@ -32,7 +28,7 @@
 {#if active}
     <!-- Modal backdrop -->
     <div
-        class="p-4-8 fixed inset-0 z-50 flex items-center justify-center"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
         onclick={() => (active = false)}
         {onkeydown}
         role="dialog"
@@ -44,11 +40,11 @@
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-            class={className}
+            {...props}
             onclick={(e) => e.stopPropagation()}
             transition:scale={{ duration: 200, start: 0.9 }}
         >
-            {@render children()}
+            {@render props.children?.()}
         </div>
     </div>
 {/if}

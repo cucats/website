@@ -12,7 +12,7 @@
 </script>
 
 <header class="absolute z-50 w-full">
-    <div class="r-4 px-4-8 mx-auto h-24 max-w-screen-xl justify-between">
+    <div class="r-4 mx-auto h-24 max-w-7xl justify-between px-4">
         <!-- Logo -->
         <a href="/" class="r-4 items-center" onclick={() => (active = false)}>
             <img

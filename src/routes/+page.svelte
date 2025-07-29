@@ -10,7 +10,7 @@
             <GameOfLife />
         </div>
 
-        <div class="c-4 p-4-8 z-10 max-w-screen-lg">
+        <div class="c-4 z-10 max-w-5xl p-4">
             <div class="flex flex-col items-center gap-4 lg:flex-row">
                 <img src="/assets/logo/dark/logo-white-cat.svg" alt="CUCaTS logo" class="size-40" />
                 <h1
@@ -26,6 +26,6 @@
     </section>
 
     <section class="bg-tertiary-800 h-20 text-neutral-100">
-        <div class="c-4 p-4-8 z-10 max-w-screen-lg"></div>
+        <div class="c-4 z-10 max-w-5xl p-4"></div>
     </section>
 </main>

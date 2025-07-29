@@ -1,12 +1,14 @@
 <script lang="ts">
+    import type { ClassValue } from "svelte/elements";
+
     interface Props {
-        class?: string;
+        class?: ClassValue;
     }
 
-    let { class: className }: Props = $props();
+    let props: Props = $props();
 </script>
 
-<svg class="size-6 {className ?? ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<svg class={["size-6", props.class]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path
         stroke-linecap="round"
         stroke-linejoin="round"

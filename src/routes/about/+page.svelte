@@ -2,7 +2,7 @@
 
 <main class="bg-secondary-900">
     <section class="bg-secondary-800 pt-24 text-neutral-300">
-        <div class="c-4 p-4-8 mx-auto max-w-screen-lg">
+        <div class="c-4 mx-auto max-w-5xl p-4">
             <h1 class="text-4xl font-bold md:text-5xl">About Us</h1>
             <p>
                 Cambridge University Computing and Technology Society (<strong>CUCaTS</strong>) is
@@ -19,11 +19,11 @@
     </section>
 
     <section class="bg-secondary-700 text-neutral-300">
-        <div class="c-4 p-4-8 mx-auto max-w-screen-lg">
+        <div class="c-4 mx-auto max-w-5xl p-4">
             <h2 class="my-4 text-3xl font-bold md:text-4xl">Aims</h2>
 
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div class="c-4 bg-opacity-40 p-4-8 rounded-lg bg-neutral-800">
+                <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
                     <div>
                         <img
                             src="/assets/icons/graph.png"
@@ -34,7 +34,7 @@
                     <div class="text-xl font-bold uppercase">Build connections</div>
                     <p>Provide members and potential employers with networking opportunities</p>
                 </div>
-                <div class="c-4 bg-opacity-40 p-4-8 rounded-lg bg-neutral-800">
+                <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
                     <div>
                         <img
                             src="/assets/icons/loudspeaker.png"
@@ -45,7 +45,7 @@
                     <div class="text-xl font-bold uppercase">Promote interest</div>
                     <p>Spark curiosity in computing amongst members and the general public</p>
                 </div>
-                <div class="c-4 bg-opacity-40 p-4-8 rounded-lg bg-neutral-800">
+                <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
                     <div>
                         <img
                             src="/assets/icons/steps.png"
@@ -56,7 +56,7 @@
                     <div class="text-xl font-bold uppercase">Support members</div>
                     <p>Help and fund members host events that align with our mission</p>
                 </div>
-                <div class="c-4 bg-opacity-40 p-4-8 rounded-lg bg-neutral-800">
+                <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
                     <div>
                         <img
                             src="/assets/icons/text.png"
@@ -72,10 +72,10 @@
     </section>
 
     <section class="bg-secondary-900 text-neutral-300">
-        <div class="c-4 p-4-8 mx-auto max-w-screen-lg">
+        <div class="c-4 mx-auto max-w-5xl p-4">
             <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
 
-            <div class="r-4 bg-secondary-800/50 p-4-8 flex-wrap justify-center gap-10 rounded-lg">
+            <div class="r-4 bg-secondary-800/50 flex-wrap justify-center gap-10 rounded-lg p-4">
                 {#snippet committeeMember(role: string, name: string)}
                     <div class="min-w-40 md:min-w-64">
                         <div class="text-sm md:text-base">

@@ -53,7 +53,7 @@
 
 <Modal
     bind:active
-    class="p-4-8 relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg bg-neutral-800 shadow-2xl"
+    class="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg bg-neutral-800 p-4 shadow-2xl"
 >
     <!-- Close button -->
     <button

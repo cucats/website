@@ -1,7 +1,7 @@
 <main class="bg-neutral-100">
     <section class="bg-tertiary-800 h-24"></section>
     <section>
-        <div class="p-4-8 c-4 mx-auto max-w-screen-lg font-sans">
+        <div class="c-4 mx-auto max-w-5xl p-4 font-sans">
             <h1 class="my-8">Constitution</h1>
             <h2>Name</h2>
             <p>

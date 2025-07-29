@@ -24,7 +24,7 @@
 </script>
 
 <footer class="bg-neutral-900">
-    <div class="px-4-8 mx-auto grid max-w-screen-xl gap-8 py-12 md:grid-cols-3">
+    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-3">
         <div class="space-y-4">
             <div class="r-4 items-center">
                 <img
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div class="p-4-8 mx-auto max-w-screen-xl text-center">
+    <div class="mx-auto max-w-7xl p-4 text-center">
         <p class="text-sm text-neutral-400">&copy; {currentYear} CUCaTS</p>
     </div>
 </footer>

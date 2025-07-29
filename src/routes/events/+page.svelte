@@ -29,20 +29,20 @@
 
 <main class="bg-tertiary-800">
     <section class="bg-tertiary-800 pt-24 text-neutral-300">
-        <div class="c-4 p-4-8 mx-auto max-w-screen-xl">
+        <div class="c-4 mx-auto max-w-7xl p-4">
             <h1 class="text-4xl font-bold md:text-5xl">Events</h1>
             <p>Check our private Discord for up-to-date information and announcements.</p>
         </div>
     </section>
 
     <section class="bg-tertiary-900 text-neutral-300">
-        <div class="p-4-8 mx-auto max-w-screen-xl">
+        <div class="mx-auto max-w-7xl p-4">
             <Calendar />
         </div>
     </section>
 
     <section class="bg-tertiary-800 text-neutral-300">
-        <div class="c-4 p-4-8 mx-auto max-w-screen-lg">
+        <div class="c-4 mx-auto max-w-5xl p-4">
             <h2 class="text-3xl font-bold md:text-4xl">Archive</h2>
 
             <div class="c-4">

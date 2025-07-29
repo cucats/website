@@ -13,7 +13,7 @@
     let { title, date, description, website, logo, class: className = "" }: Props = $props();
 </script>
 
-<article class="clearfix p-4-8 rounded-lg bg-neutral-800/50 {className}">
+<article class={["clearfix rounded-lg bg-neutral-800/50 p-4", className]}>
     {#if logo}
         <img class="float-right mb-4 ml-4 h-auto max-w-48" src={logo} alt="" aria-hidden="true" />
     {/if}

@@ -16,5 +16,6 @@
     {#key data.pathname}
         {@render children()}
     {/key}
+
     <Footer />
 </div>
