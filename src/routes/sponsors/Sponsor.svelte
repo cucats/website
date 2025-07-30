@@ -4,7 +4,7 @@
     import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
 
     interface Props {
-        tier: "large" | "medium" | "small";
+        tier: "gold" | "silver" | "bronze";
         name: Snippet;
         logo: string;
         children: Snippet;
@@ -16,21 +16,25 @@
 </script>
 
 <button
-    class="group relative flex {{
-        large: 'h-48 w-80',
-        medium: 'h-40 w-72',
-        small: 'h-32 w-64',
-    }[
-        tier
-    ]} cursor-pointer items-center justify-center overflow-hidden rounded-lg border-0 bg-neutral-200"
+    class={[
+        "group relative flex cursor-pointer items-center justify-center overflow-hidden rounded-lg border-0 bg-neutral-200",
+        {
+            "h-48 w-80": tier === "gold",
+            "h-40 w-72": tier === "silver",
+            "h-32 w-64": tier === "bronze",
+        },
+    ]}
     onclick={() => (active = true)}
 >
     <img
-        class="{{
-            large: 'h-36',
-            medium: 'h-32',
-            small: 'h-24',
-        }[tier]} w-full object-contain p-6"
+        class={[
+            "w-full object-contain p-6",
+            {
+                "h-36": tier === "gold",
+                "h-32": tier === "silver",
+                "h-24": tier === "bronze",
+            },
+        ]}
         src={logo}
         alt="sponsor logo"
     />
@@ -40,11 +44,14 @@
     >
         <div class="text-center font-bold tracking-tighter uppercase">
             <span
-                class="{{
-                    large: 'text-2xl',
-                    medium: 'text-xl',
-                    small: 'text-lg',
-                }[tier]} block text-neutral-100">{@render name()}</span
+                class={[
+                    "block text-neutral-100",
+                    {
+                        "text-2xl": tier === "gold",
+                        "text-xl": tier === "silver",
+                        "text-lg": tier === "bronze",
+                    },
+                ]}>{@render name()}</span
             >
             <span class="mt-2 block text-sm text-neutral-200">Learn More -&gt;</span>
         </div>

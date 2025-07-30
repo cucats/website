@@ -27,7 +27,7 @@
             <h2 class="my-8 text-center text-3xl font-bold text-neutral-100 md:text-4xl">Gold</h2>
 
             <div class="r-4 flex-wrap justify-center">
-                <Sponsor tier="large" logo="/assets/sponsors/anthropic.png">
+                <Sponsor tier="gold" logo="/assets/sponsors/anthropic.png">
                     {#snippet name()}Anthropic{/snippet}
                     <div class="r-4">
                         <a class="btn primary sm font-bold" href="https://www.anthropic.com">
@@ -42,7 +42,7 @@
                     </div>
                 </Sponsor>
 
-                <Sponsor tier="large" logo="/assets/sponsors/hrt.png">
+                <Sponsor tier="gold" logo="/assets/sponsors/hrt.png">
                     {#snippet name()}Hudson River Trading{/snippet}
                     <p>
                         At Hudson River Trading (HRT) we are mathematicians, computer scientists,
@@ -81,7 +81,7 @@
                     </div>
                 </Sponsor>
 
-                <Sponsor tier="large" logo="/assets/sponsors/janestreet.png">
+                <Sponsor tier="gold" logo="/assets/sponsors/janestreet.png">
                     {#snippet name()}Jane Street{/snippet}
                     <p>
                         Our INSIGHT program is part of our commitment to give as many people as
@@ -111,7 +111,7 @@
                     </div>
                 </Sponsor>
 
-                <Sponsor tier="large" logo="/assets/sponsors/qrt.svg">
+                <Sponsor tier="gold" logo="/assets/sponsors/qrt.svg">
                     {#snippet name()}Qube Research & Technologies{/snippet}
                     <p>
                         Qube Research & Technologies (QRT) is a global investment manager where we
@@ -135,7 +135,7 @@
             <h2 class="my-8 text-center text-3xl font-bold text-neutral-100 md:text-4xl">Silver</h2>
 
             <div class="r-4 flex-wrap justify-center">
-                <Sponsor tier="medium" logo="/assets/sponsors/iterate.svg">
+                <Sponsor tier="silver" logo="/assets/sponsors/iterate.svg">
                     {#snippet name()}Iterate{/snippet}
                     <p>
                         Iterate is building the future of autonomous companies. We believe one of
@@ -161,7 +161,47 @@
                     </div>
                 </Sponsor>
 
-                <Sponsor tier="medium" logo="/assets/sponsors/optiver.png">
+                <Sponsor tier="silver" logo="/assets/sponsors/mwam.png">
+                    {#snippet name()}Marshall Wace{/snippet}
+                    <p>Marshall Wace is a leading provider of alternative investment solutions.</p>
+                    <p>
+                        Operating as a single team across the globe, we are dedicated to creating
+                        long-term relationships with our clients built on trust and integrity. We
+                        define our culture as one of continuous innovation and a quest for
+                        improvement. We instinctively strive to do things differently, with fresh
+                        thinking that we believe enables us to create proprietary value and maximise
+                        the benefits to our clients.
+                    </p>
+                    <p>
+                        As a firm, we have a hunger to do more, chasing innovation and pushing the
+                        boundaries of what's possible.
+                    </p>
+                    <p>
+                        Technological innovation has long been the cornerstone of our business. We
+                        continuously invest in our systems, data, infrastructure and people in our
+                        efforts to maximise the alpha we deliver for our clients.
+                    </p>
+                    <p>
+                        We strive to stay at the forefront of advancements in technology and view
+                        this as a key competitive advantage. Our staff are constantly seeking new
+                        ways to automate and streamline complex processes using a diverse mix of
+                        cutting-edge tools. Every member of our staff is expected to seek out new
+                        opportunities and push for advancements to our platform.
+                    </p>
+                    <div class="r-4">
+                        <a class="btn primary sm font-bold" href="https://www.mwam.com">
+                            Website
+                        </a>
+                        <a
+                            class="btn primary sm font-bold"
+                            href="https://www.mwam.com/technology-internship-programme"
+                        >
+                            View opportunities
+                        </a>
+                    </div>
+                </Sponsor>
+
+                <Sponsor tier="silver" logo="/assets/sponsors/optiver.png">
                     {#snippet name()}Optiver{/snippet}
                     <p>
                         Unlock the world of algorithmic trading with The Optiver & Cambridge Trading
@@ -191,7 +231,7 @@
                     </div>
                 </Sponsor>
 
-                <Sponsor tier="medium" logo="/assets/sponsors/quantco.png">
+                <Sponsor tier="silver" logo="/assets/sponsors/quantco.png">
                     {#snippet name()}Quantco{/snippet}
                     <p>
                         We leverage expertise in data science, engineering, artificial intelligence,
@@ -224,7 +264,7 @@
             <h2 class="my-8 text-center text-3xl font-bold text-neutral-100 md:text-4xl">Bronze</h2>
 
             <div class="r-4 flex-wrap justify-center">
-                <Sponsor tier="small" logo="/assets/sponsors/imc.png">
+                <Sponsor tier="bronze" logo="/assets/sponsors/imc.png">
                     {#snippet name()}IMC Trading{/snippet}
                     <p>
                         IMC is a leading trading firm, known worldwide for our advanced, low-latency
@@ -249,7 +289,7 @@
                     </div>
                 </Sponsor>
 
-                <Sponsor tier="small" logo="/assets/sponsors/tpp.png">
+                <Sponsor tier="bronze" logo="/assets/sponsors/tpp.png">
                     {#snippet name()}TPP{/snippet}
                     <p>
                         TPP is a global digital health company. With over 7,000 organisations using
