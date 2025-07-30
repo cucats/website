@@ -1,21 +1,21 @@
 <script lang="ts">
-    import Header from "./Header.svelte";
-    import Footer from "./Footer.svelte";
-    import "../app.css";
+  import Header from "./Header.svelte";
+  import Footer from "./Footer.svelte";
+  import "../app.css";
 
-    let { data, children } = $props();
+  let { data, children } = $props();
 </script>
 
 <svelte:head>
-    <title>CUCaTS</title>
+  <title>CUCaTS</title>
 </svelte:head>
 
 <div class="flex min-h-screen flex-col">
-    <Header />
+  <Header />
 
-    {#key data.pathname}
-        {@render children()}
-    {/key}
+  {#key data.pathname}
+    {@render children()}
+  {/key}
 
-    <Footer />
+  <Footer />
 </div>

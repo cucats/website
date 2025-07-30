@@ -1,255 +1,255 @@
 @import "tailwindcss";
 
 @theme {
-    /* Disable default colours */
-    --color-*: initial;
+  /* Disable default colours */
+  --color-*: initial;
 
-    --color-primary-50: #edf0f7;
-    --color-primary-100: #dce1ef;
-    --color-primary-200: #b8c2e0;
-    --color-primary-300: #95a4d0;
-    --color-primary-400: #7285c0;
-    --color-primary-500: #4f68b1;
-    --color-primary-600: #3f528d;
-    --color-primary-700: #2f3e6a;
-    --color-primary-800: #1f2947;
-    --color-primary-900: #101523;
-    --color-primary-950: #080a12;
+  --color-primary-50: #edf0f7;
+  --color-primary-100: #dce1ef;
+  --color-primary-200: #b8c2e0;
+  --color-primary-300: #95a4d0;
+  --color-primary-400: #7285c0;
+  --color-primary-500: #4f68b1;
+  --color-primary-600: #3f528d;
+  --color-primary-700: #2f3e6a;
+  --color-primary-800: #1f2947;
+  --color-primary-900: #101523;
+  --color-primary-950: #080a12;
 
-    --color-secondary-50: #e4fbfc;
-    --color-secondary-100: #c4f7f8;
-    --color-secondary-200: #88eff1;
-    --color-secondary-300: #4de8ea;
-    --color-secondary-400: #1adce0;
-    --color-secondary-500: #13a0a3;
-    --color-secondary-600: #0f8284;
-    --color-secondary-700: #0b5e60;
-    --color-secondary-800: #073f40;
-    --color-secondary-900: #041f20;
-    --color-secondary-950: #021212;
+  --color-secondary-50: #e4fbfc;
+  --color-secondary-100: #c4f7f8;
+  --color-secondary-200: #88eff1;
+  --color-secondary-300: #4de8ea;
+  --color-secondary-400: #1adce0;
+  --color-secondary-500: #13a0a3;
+  --color-secondary-600: #0f8284;
+  --color-secondary-700: #0b5e60;
+  --color-secondary-800: #073f40;
+  --color-secondary-900: #041f20;
+  --color-secondary-950: #021212;
 
-    --color-tertiary-50: #f2f2f8;
-    --color-tertiary-100: #e4e4f1;
-    --color-tertiary-200: #cdcde5;
-    --color-tertiary-300: #b2b2d7;
-    --color-tertiary-400: #9b9acb;
-    --color-tertiary-500: #8180bd;
-    --color-tertiary-600: #5957a8;
-    --color-tertiary-700: #42417c;
-    --color-tertiary-800: #2c2c54;
-    --color-tertiary-900: #151528;
-    --color-tertiary-950: #0b0a14;
+  --color-tertiary-50: #f2f2f8;
+  --color-tertiary-100: #e4e4f1;
+  --color-tertiary-200: #cdcde5;
+  --color-tertiary-300: #b2b2d7;
+  --color-tertiary-400: #9b9acb;
+  --color-tertiary-500: #8180bd;
+  --color-tertiary-600: #5957a8;
+  --color-tertiary-700: #42417c;
+  --color-tertiary-800: #2c2c54;
+  --color-tertiary-900: #151528;
+  --color-tertiary-950: #0b0a14;
 
-    --color-neutral-50: #fafafa;
-    --color-neutral-100: #f5f5f5;
-    --color-neutral-200: #e5e5e5;
-    --color-neutral-300: #d4d4d4;
-    --color-neutral-400: #a3a3a3;
-    --color-neutral-500: #737373;
-    --color-neutral-600: #525252;
-    --color-neutral-700: #404040;
-    --color-neutral-800: #262626;
-    --color-neutral-900: #171717;
-    --color-neutral-950: #0a0a0a;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-neutral-950: #0a0a0a;
 
-    --color-error-400: #ef5350;
-    --color-error-600: #e53935;
+  --color-error-400: #ef5350;
+  --color-error-600: #e53935;
 
-    --color-transparent: transparent;
+  --color-transparent: transparent;
 
-    --font-*: initial;
-    --font-sans: IBM Plex Sans, sans-serif;
-    --font-mono: JetBrains Mono, monospace;
+  --font-*: initial;
+  --font-sans: IBM Plex Sans, sans-serif;
+  --font-mono: JetBrains Mono, monospace;
 }
 
 @layer utilities {
-    .c-4 {
-        @apply flex flex-col gap-4;
-    }
+  .c-4 {
+    @apply flex flex-col gap-4;
+  }
 
-    .c-8 {
-        @apply flex flex-col gap-8;
-    }
+  .c-8 {
+    @apply flex flex-col gap-8;
+  }
 
-    .r-4 {
-        @apply flex flex-row gap-4;
-    }
+  .r-4 {
+    @apply flex flex-row gap-4;
+  }
 
-    .r-8 {
-        @apply flex flex-row gap-8;
-    }
+  .r-8 {
+    @apply flex flex-row gap-8;
+  }
 
-    .pixel {
-        image-rendering: pixelated;
-    }
+  .pixel {
+    image-rendering: pixelated;
+  }
 }
 
 @layer components {
-    .btn {
-        @apply inline-flex cursor-pointer items-center justify-center rounded-md border font-medium transition-colors duration-200 disabled:cursor-default disabled:opacity-50;
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-md border font-medium transition-colors duration-200 disabled:cursor-default disabled:opacity-50;
 
-        @variant focus-visible {
-            @apply ring-primary-500 ring-2 outline-none;
-        }
-
-        &.primary {
-            @apply border-primary-600 bg-primary-700 hover:bg-primary-800 text-neutral-100;
-
-            @variant dark {
-                @apply hover:bg-primary-600;
-            }
-        }
-
-        &.secondary {
-            @apply border-secondary-600 bg-secondary-700 hover:bg-secondary-800 text-neutral-100;
-
-            @variant dark {
-                @apply hover:bg-secondary-600;
-            }
-        }
-
-        &.neutral {
-            @apply border-neutral-300 bg-neutral-100 text-neutral-900 hover:border-neutral-400 hover:bg-neutral-200;
-
-            @variant dark {
-                @apply border-neutral-600 bg-neutral-800 text-neutral-100 hover:border-neutral-500 hover:bg-neutral-700;
-            }
-        }
-
-        &.ghost {
-            @apply border-primary-700 text-primary-800 hover:bg-primary-100/20 bg-transparent;
-
-            @variant dark {
-                @apply border-primary-400 text-primary-400 hover:bg-primary-100/10;
-            }
-        }
-
-        &.gradient {
-            @apply border-primary-400 bg-gradient-to-r from-[#51a2ff] to-[#00b8db] text-neutral-100;
-
-            @variant dark {
-                @apply before:from-primary-400 before:to-primary-500;
-            }
-        }
-
-        &.sm {
-            @apply px-3 py-1 text-sm;
-        }
-        &.md {
-            @apply px-5 py-2 text-base;
-        }
-        &.lg {
-            @apply px-7 py-3 text-lg;
-        }
+    @variant focus-visible {
+      @apply ring-primary-500 ring-2 outline-none;
     }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="number"],
-    input[type="tel"],
-    input[type="url"],
-    input[type="search"],
-    input[type="date"],
-    input[type="time"],
-    input[type="datetime-local"],
-    input {
-        @apply w-full text-neutral-900 transition-all duration-200 disabled:cursor-default disabled:opacity-50;
+    &.primary {
+      @apply border-primary-600 bg-primary-700 hover:bg-primary-800 text-neutral-100;
+
+      @variant dark {
+        @apply hover:bg-primary-600;
+      }
+    }
+
+    &.secondary {
+      @apply border-secondary-600 bg-secondary-700 hover:bg-secondary-800 text-neutral-100;
+
+      @variant dark {
+        @apply hover:bg-secondary-600;
+      }
+    }
+
+    &.neutral {
+      @apply border-neutral-300 bg-neutral-100 text-neutral-900 hover:border-neutral-400 hover:bg-neutral-200;
+
+      @variant dark {
+        @apply border-neutral-600 bg-neutral-800 text-neutral-100 hover:border-neutral-500 hover:bg-neutral-700;
+      }
+    }
+
+    &.ghost {
+      @apply border-primary-700 text-primary-800 hover:bg-primary-100/20 bg-transparent;
+
+      @variant dark {
+        @apply border-primary-400 text-primary-400 hover:bg-primary-100/10;
+      }
+    }
+
+    &.gradient {
+      @apply border-primary-400 bg-gradient-to-r from-[#51a2ff] to-[#00b8db] text-neutral-100;
+
+      @variant dark {
+        @apply before:from-primary-400 before:to-primary-500;
+      }
+    }
+
+    &.sm {
+      @apply px-3 py-1 text-sm;
+    }
+    &.md {
+      @apply px-5 py-2 text-base;
+    }
+    &.lg {
+      @apply px-7 py-3 text-lg;
+    }
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  input {
+    @apply w-full text-neutral-900 transition-all duration-200 disabled:cursor-default disabled:opacity-50;
+
+    @variant focus {
+      @apply outline-none;
+    }
+
+    @variant dark {
+      @apply text-neutral-100;
+    }
+
+    &.default {
+      @apply rounded-md border border-neutral-300 bg-transparent px-4 py-2 placeholder-neutral-500;
+
+      @variant focus {
+        @apply border-primary-500 ring-primary-500 ring-2;
+      }
+
+      @variant dark {
+        @apply placeholder-neutral-400;
 
         @variant focus {
-            @apply outline-none;
+          @apply border-primary-400 ring-offset-neutral-900;
         }
-
-        @variant dark {
-            @apply text-neutral-100;
-        }
-
-        &.default {
-            @apply rounded-md border border-neutral-300 bg-transparent px-4 py-2 placeholder-neutral-500;
-
-            @variant focus {
-                @apply border-primary-500 ring-primary-500 ring-2;
-            }
-
-            @variant dark {
-                @apply placeholder-neutral-400;
-
-                @variant focus {
-                    @apply border-primary-400 ring-offset-neutral-900;
-                }
-            }
-        }
-
-        &.filled {
-            @apply rounded-md border border-transparent bg-neutral-100 px-4 py-2;
-
-            @variant focus {
-                @apply ring-primary-500 ring-2;
-            }
-
-            @variant dark {
-                @apply bg-neutral-800 ring-offset-neutral-900;
-            }
-        }
-
-        &.line {
-            @apply border-b-2 border-b-neutral-300 bg-transparent px-0 py-2;
-
-            @variant focus {
-                @apply border-b-primary-500;
-            }
-
-            @variant dark {
-                @apply border-b-neutral-600;
-
-                @variant focus {
-                    @apply border-b-primary-400;
-                }
-            }
-        }
-
-        &.error {
-            @apply border-error-600 text-error-400 placeholder-error-400;
-
-            @variant focus {
-                @apply ring-error-600;
-            }
-        }
+      }
     }
 
-    label {
-        @apply mb-1 block text-sm font-medium text-neutral-700;
+    &.filled {
+      @apply rounded-md border border-transparent bg-neutral-100 px-4 py-2;
 
-        @variant dark {
-            @apply text-neutral-300;
-        }
+      @variant focus {
+        @apply ring-primary-500 ring-2;
+      }
 
-        input {
-            @apply mt-1 block;
-        }
+      @variant dark {
+        @apply bg-neutral-800 ring-offset-neutral-900;
+      }
     }
 
-    .helper-text {
-        @apply mt-1 text-sm text-neutral-600;
+    &.line {
+      @apply border-b-2 border-b-neutral-300 bg-transparent px-0 py-2;
 
-        @variant dark {
-            @apply text-neutral-400;
+      @variant focus {
+        @apply border-b-primary-500;
+      }
+
+      @variant dark {
+        @apply border-b-neutral-600;
+
+        @variant focus {
+          @apply border-b-primary-400;
         }
-
-        &.error {
-            @apply text-error-400;
-
-            @variant dark {
-                @apply text-error-400;
-            }
-        }
+      }
     }
+
+    &.error {
+      @apply border-error-600 text-error-400 placeholder-error-400;
+
+      @variant focus {
+        @apply ring-error-600;
+      }
+    }
+  }
+
+  label {
+    @apply mb-1 block text-sm font-medium text-neutral-700;
+
+    @variant dark {
+      @apply text-neutral-300;
+    }
+
+    input {
+      @apply mt-1 block;
+    }
+  }
+
+  .helper-text {
+    @apply mt-1 text-sm text-neutral-600;
+
+    @variant dark {
+      @apply text-neutral-400;
+    }
+
+    &.error {
+      @apply text-error-400;
+
+      @variant dark {
+        @apply text-error-400;
+      }
+    }
+  }
 }
 
 :root {
-    @apply font-mono;
+  @apply font-mono;
 }
 
 main {
-    @apply flex-grow;
+  @apply flex-grow;
 }

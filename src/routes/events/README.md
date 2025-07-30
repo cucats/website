@@ -2,11 +2,11 @@
 
 ```json
 {
-    "title": "",
-    "date": ["", ""],
-    "description": "",
-    "website": "",
-    "logo": ""
+  "title": "",
+  "date": ["", ""],
+  "description": "",
+  "website": "",
+  "logo": ""
 }
 ```
 
@@ -20,11 +20,11 @@ Ideally, events should be sorted by date, if they exist.
 
 ```json
 {
-    "name": "",
-    "logo": "",
-    "tier": "",
-    "paragraphs": [""],
-    "links": [{ "text": "", "url": "" }]
+  "name": "",
+  "logo": "",
+  "tier": "",
+  "paragraphs": [""],
+  "links": [{ "text": "", "url": "" }]
 }
 ```
 

@@ -1,58 +1,53 @@
 {
-    "name": "@cucats/website",
-    "version": "0.0.2",
-    "devDependencies": {
-        "@sveltejs/adapter-node": "^5.2.13",
-        "@sveltejs/kit": "^2.25.2",
-        "@sveltejs/vite-plugin-svelte": "^5.1.1",
-        "@tailwindcss/forms": "0.5.9",
-        "@tailwindcss/typography": "0.5.15",
-        "@tailwindcss/vite": "^4.1.11",
-        "prettier": "^3.6.2",
-        "prettier-plugin-svelte": "^3.4.0",
-        "prettier-plugin-tailwindcss": "^0.6.14",
-        "svelte": "^5.36.14",
-        "svelte-check": "^4.3.0",
-        "tailwindcss": "^4.1.11",
-        "tslib": "^2.8.1",
-        "typescript": "^5.8.3",
-        "vite": "^7.0.5"
-    },
-    "private": true,
-    "scripts": {
-        "dev": "vite dev",
-        "build": "rm -rf build && vite build",
-        "preview": "vite preview",
-        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-        "format": "prettier --write .",
-        "docker:build": "docker compose build",
-        "docker:up": "docker compose up -d",
-        "docker:down": "docker compose down",
-        "docker:logs": "docker compose logs -f"
-    },
-    "type": "module",
-    "dependencies": {
-        "dompurify": "^3.2.6",
-        "ical.js": "^2.2.0"
-    },
-    "prettier": {
-        "useTabs": false,
-        "tabWidth": 4,
-        "singleQuote": false,
-        "trailingComma": "all",
-        "printWidth": 100,
-        "plugins": [
-            "prettier-plugin-svelte",
-            "prettier-plugin-tailwindcss"
-        ],
-        "overrides": [
-            {
-                "files": "*.svelte",
-                "options": {
-                    "parser": "svelte"
-                }
-            }
-        ]
-    }
+  "name": "@cucats/website",
+  "version": "0.0.2",
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^5.2.13",
+    "@sveltejs/kit": "^2.25.2",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "@tailwindcss/forms": "0.5.9",
+    "@tailwindcss/typography": "0.5.15",
+    "@tailwindcss/vite": "^4.1.11",
+    "prettier": "^3.6.2",
+    "prettier-plugin-svelte": "^3.4.0",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "svelte": "^5.36.14",
+    "svelte-check": "^4.3.0",
+    "tailwindcss": "^4.1.11",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.5"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "rm -rf build && vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "format": "prettier --write .",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "type": "module",
+  "dependencies": {
+    "dompurify": "^3.2.6",
+    "ical.js": "^2.2.0"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-svelte",
+      "prettier-plugin-tailwindcss"
+    ],
+    "overrides": [
+      {
+        "files": "*.svelte",
+        "options": {
+          "parser": "svelte"
+        }
+      }
+    ]
+  }
 }
