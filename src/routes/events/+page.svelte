@@ -77,7 +77,7 @@
         <!-- CUES × CUCATS AI Hackathon -->
         <Event
           website="https://www.cues.org.uk/event/cues-x-cucats-ai-hackathon-2025"
-          logo="/assets/events/cues.png"
+          logo="/assets/events/cues.svg"
         >
           {#snippet title()}CUES × CUCATS AI Hackathon{/snippet}
           {#snippet date()}{formatDateRange([
