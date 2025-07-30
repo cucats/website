@@ -19,7 +19,7 @@
         { name: "About", href: "/about" },
         { name: "Events", href: "/events" },
         { name: "Sponsors", href: "/sponsors" },
-        { name: "Constitution", href: "/constitution" },
+        { name: "Constitution", href: "/constitution.pdf" },
     ];
 </script>
 
