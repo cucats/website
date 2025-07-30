@@ -20,7 +20,9 @@
   }: Props = $props();
 </script>
 
-<article class={["clearfix rounded-lg bg-neutral-800/50 p-4", className]}>
+<article
+  class={["clearfix rounded-lg bg-neutral-800/50 p-4 sm:p-8", className]}
+>
   {#if logo}
     <img
       class="float-right mb-4 ml-4 h-auto max-w-48"
