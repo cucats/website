@@ -95,7 +95,7 @@
 </script>
 
 <div
-  class="c-4 from-tertiary-700 via-secondary-700 to-primary-700 border-tertiary-300 rounded-lg border bg-gradient-to-br p-6"
+  class="c-4 from-tertiary-700 via-secondary-700 to-primary-700 border-tertiary-300 rounded-lg border bg-gradient-to-br p-4 sm:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden">
     <h3 class="text-xl font-bold sm:text-2xl">{currentTerm.name}</h3>
