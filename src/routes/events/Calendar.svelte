@@ -42,7 +42,7 @@
   const eventsByWeek = $derived.by(() => {
     const weekMap = new Map<number, CalendarEvent[]>();
 
-    for (let week = 1; week <= 8; week++) {
+    for (let week = 0; week <= 8; week++) {
       weekMap.set(week, []);
     }
 
@@ -50,7 +50,7 @@
       const eventDate = new Date(event.start);
       const weekNum = getWeekNumber(eventDate, currentTerm.start);
 
-      if (weekNum >= 1 && weekNum <= 8) {
+      if (0 <= weekNum && weekNum <= 8) {
         weekMap.get(weekNum)?.push(event);
       }
     });
@@ -100,24 +100,29 @@
   <div class="flex items-center justify-between overflow-hidden">
     <h3 class="text-xl font-bold sm:text-2xl">{currentTerm.name}</h3>
 
-    <!-- Uncomment when more terms added -->
-    <!-- <div class="flex gap-2">
-            <button
-                onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
-                disabled={currentTermIndex === 0}
-                class="btn neutral sm"
-            >
-                &lt;
-            </button>
-            <button
-                onclick={() =>
-                    (currentTermIndex = Math.min(allTerms.length - 1, currentTermIndex + 1))}
-                disabled={currentTermIndex === allTerms.length - 1}
-                class="btn neutral sm"
-            >
-                &gt;
-            </button>
-        </div> -->
+    <!-- Until more terms added -->
+    {#if 2 + 2 === 5}
+      <div class="flex gap-2">
+        <button
+          onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
+          disabled={currentTermIndex === 0}
+          class="btn neutral sm"
+        >
+          &lt;
+        </button>
+        <button
+          onclick={() =>
+            (currentTermIndex = Math.min(
+              allTerms.length - 1,
+              currentTermIndex + 1,
+            ))}
+          disabled={currentTermIndex === allTerms.length - 1}
+          class="btn neutral sm"
+        >
+          &gt;
+        </button>
+      </div>
+    {/if}
   </div>
 
   <!-- Calendar Grid -->
@@ -136,7 +141,7 @@
       </div>
 
       <!-- Calendar weeks -->
-      {#each [0, 1, 2, 3, 4, 5, 6, 7] as week}
+      {#each [-1, 0, 1, 2, 3, 4, 5, 6, 7] as week}
         <div class="grid grid-cols-[30px_repeat(7,_152px)] gap-2">
           <!-- Week number -->
           <div
