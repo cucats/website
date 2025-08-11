@@ -202,9 +202,7 @@
   <div>
     <div class="grid flex-col gap-0.5 lg:gap-2">
       <!-- Day headers -->
-      <div
-        class="grid grid-cols-[repeat(7,_1fr)] gap-0.5 lg:grid-cols-[30px_repeat(7,_1fr)] lg:gap-2"
-      >
+      <div class="grid grid-cols-7 gap-0.5 lg:gap-2">
         <!-- Weekday headings -->
         {#each dayOrder as day}
           <div
