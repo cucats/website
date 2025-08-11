@@ -15,48 +15,121 @@
     url?: string;
   }
 
+  interface EventEntry {
+    event: CalendarEvent;
+    cont: boolean;
+  }
+
+  interface CalendarDay {
+    date: Date;
+    events: EventEntry[];
+    isInTerm: boolean;
+  }
+
   const today = new Date();
-  let currentTermIndex = $state(0);
+  const terms = [
+    {
+      name: "Easter 2025",
+      start: new Date("2025-04-29"),
+      end: new Date("2025-06-20"),
+    },
+    {
+      name: "Michaelmas 2025",
+      start: new Date("2025-10-07"),
+      end: new Date("2025-12-05"),
+    },
+  ];
+
+  let currentTermIndex = $state(1);
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
+  let weekStartsMonday = $state(false); // false = Thursday first, true = Monday first
 
-  const allTerms = [
-    {
-      name: "Michaelmas 2025",
-      start: new Date("2025-10-09"),
-      type: "michaelmas",
-    },
-    { name: "Lent 2026", start: new Date("2026-01-22"), type: "lent" },
-    { name: "Easter 2026", start: new Date("2026-04-30"), type: "easter" },
-  ];
+  const currentTerm = $derived(terms[currentTermIndex]);
 
-  const currentTerm = $derived(allTerms[currentTermIndex]);
+  const dayOrder = $derived(
+    weekStartsMonday
+      ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      : ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"],
+  );
 
-  function getWeekNumber(date: Date, termStart: Date): number {
-    const diffTime = date.getTime() - termStart.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return Math.floor(diffDays / 7) + 1;
-  }
+  const calendarDays = $derived.by(() => {
+    const termEnd = currentTerm.end;
 
-  const eventsByWeek = $derived.by(() => {
-    const weekMap = new Map<number, CalendarEvent[]>();
+    const startDayOfWeek = currentTerm.start.getDay();
 
-    for (let week = 0; week <= 8; week++) {
-      weekMap.set(week, []);
+    // Calculate calendar start based on week preference
+    const weekStartDay = weekStartsMonday ? 1 : 4; // Mon, Thu
+    const daysToWeekStart = (startDayOfWeek - weekStartDay + 7) % 7;
+    const calendarStart = new Date(currentTerm.start);
+    calendarStart.setDate(currentTerm.start.getDate() - daysToWeekStart);
+
+    // Calculate calendar end (complete the last week)
+    const endDayOfWeek = termEnd.getDay();
+    const weekEndDay = weekStartsMonday ? 0 : 3; // Sunday = 0, Wednesday = 3
+    // If term already ends on the last day of the week, don't add any days
+    const daysToWeekEnd =
+      endDayOfWeek === weekEndDay ? 0 : (weekEndDay - endDayOfWeek + 7) % 7;
+    const calendarEnd = new Date(termEnd);
+    calendarEnd.setDate(termEnd.getDate() + daysToWeekEnd);
+
+    // Calculate total days needed
+    const totalDays =
+      Math.ceil(
+        (calendarEnd.getTime() - calendarStart.getTime()) /
+          (1000 * 60 * 60 * 24),
+      ) + 1;
+
+    // Generate all days
+
+    const days: CalendarDay[] = [];
+
+    for (let i = 0; i < totalDays; i++) {
+      const date = new Date(calendarStart);
+      date.setDate(calendarStart.getDate() + i);
+
+      // Check if date is within term (inclusive of both start and end dates)
+      const dateStart = new Date(date);
+      dateStart.setHours(0, 0, 0, 0);
+      const termStartDate = new Date(currentTerm.start);
+      termStartDate.setHours(0, 0, 0, 0);
+      const termEndDate = new Date(termEnd);
+      termEndDate.setHours(23, 59, 59, 999);
+
+      const isInTerm = termStartDate <= dateStart && dateStart <= termEndDate;
+
+      // Find events for this day
+      const dayEvents: EventEntry[] = [];
+      for (const event of events) {
+        const eventStart = new Date(event.start);
+        const eventEnd = new Date(event.end);
+
+        // Reset to start of day for comparison
+        const dayStart = new Date(date);
+        dayStart.setHours(0, 0, 0, 0);
+        const dayEnd = new Date(date);
+        dayEnd.setHours(23, 59, 59, 999);
+
+        // Check if event spans this day
+        if (eventStart <= dayEnd && eventEnd > dayStart) {
+          const cont = eventStart.toDateString() !== date.toDateString();
+
+          dayEvents.push({ event, cont });
+        }
+      }
+
+      days.push({
+        date: new Date(date),
+        events: dayEvents,
+        isInTerm,
+      });
     }
 
-    events.forEach((event) => {
-      const eventDate = new Date(event.start);
-      const weekNum = getWeekNumber(eventDate, currentTerm.start);
-
-      if (0 <= weekNum && weekNum <= 8) {
-        weekMap.get(weekNum)?.push(event);
-      }
-    });
-
-    return weekMap;
+    return days;
   });
+
+  const numberOfWeeks = $derived(Math.ceil(calendarDays.length / 7));
 
   onMount(async () => {
     try {
@@ -73,11 +146,11 @@
         const urlProp = vevent.getFirstPropertyValue("url");
 
         return {
-          summary: event.summary || "",
-          start: event.startDate?.toJSDate() || new Date(),
-          end: event.endDate?.toJSDate() || new Date(),
-          location: event.location || "",
-          description: event.description || "",
+          summary: event.summary,
+          start: event.startDate.toJSDate(),
+          end: event.endDate.toJSDate(),
+          location: event.location,
+          description: event.description,
           url: urlProp?.toString() || undefined,
         };
       });
@@ -95,101 +168,107 @@
 </script>
 
 <div
-  class="c-4 from-tertiary-700 via-secondary-700 to-primary-700 border-tertiary-300 rounded-lg border bg-gradient-to-br p-4 sm:p-8"
+  class="from-tertiary-700 via-secondary-700 to-primary-700 lg:c-4 lg:border-tertiary-300 bg-gradient-to-br p-0.5 lg:rounded-lg lg:border lg:p-8"
 >
-  <div class="flex items-center justify-between overflow-hidden">
-    <h3 class="text-xl font-bold sm:text-2xl">{currentTerm.name}</h3>
+  <div class="flex items-center justify-between overflow-hidden p-2">
+    <h3 class="text-lg font-bold lg:text-2xl">{currentTerm.name}</h3>
 
-    <!-- Until more terms added -->
-    {#if 2 + 2 === 5}
-      <div class="flex gap-2">
-        <button
-          onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
-          disabled={currentTermIndex === 0}
-          class="btn neutral sm"
-        >
-          &lt;
-        </button>
-        <button
-          onclick={() =>
-            (currentTermIndex = Math.min(
-              allTerms.length - 1,
-              currentTermIndex + 1,
-            ))}
-          disabled={currentTermIndex === allTerms.length - 1}
-          class="btn neutral sm"
-        >
-          &gt;
-        </button>
-      </div>
-    {/if}
+    <div class="flex items-center gap-2">
+      <!-- <button
+        onclick={() => (weekStartsMonday = !weekStartsMonday)}
+        class="cursor-pointer rounded bg-neutral-700 px-2 py-1 text-[10px] transition-colors hover:bg-neutral-600 lg:text-sm"
+      >
+        {weekStartsMonday ? "Mon start" : "Thu start"}
+      </button> -->
+      <button
+        onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
+        disabled={currentTermIndex === 0}
+        class="btn neutral sm"
+      >
+        &lt;
+      </button>
+      <button
+        onclick={() =>
+          (currentTermIndex = Math.min(terms.length - 1, currentTermIndex + 1))}
+        disabled={currentTermIndex === terms.length - 1}
+        class="btn neutral sm"
+      >
+        &gt;
+      </button>
+    </div>
   </div>
 
   <!-- Calendar Grid -->
-  <div class="overflow-x-auto">
-    <div class="grid min-w-[700px] flex-col gap-2">
+  <div>
+    <div class="grid flex-col gap-0.5 lg:gap-2">
       <!-- Day headers -->
-      <div class="grid grid-cols-[30px_repeat(7,_152px)] gap-2">
-        <!-- Empty cell for week numbers -->
-        <div class="text-center text-neutral-100">Wk</div>
+      <div
+        class="grid grid-cols-[repeat(7,_1fr)] gap-0.5 lg:grid-cols-[30px_repeat(7,_1fr)] lg:gap-2"
+      >
         <!-- Weekday headings -->
-        {#each ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"] as day}
-          <div class="text-center font-bold text-neutral-100">
-            {day}
+        {#each dayOrder as day}
+          <div
+            class="text-center text-[8px] font-bold text-neutral-100 lg:text-sm"
+          >
+            <span class="lg:hidden">{day.slice(0, 2)}</span>
+            <span class="hidden lg:inline">{day}</span>
           </div>
         {/each}
       </div>
 
-      <!-- Calendar weeks -->
-      {#each [-1, 0, 1, 2, 3, 4, 5, 6, 7] as week}
-        <div class="grid grid-cols-[30px_repeat(7,_152px)] gap-2">
-          <!-- Week number -->
-          <div
-            class="flex items-center justify-center text-sm font-semibold text-neutral-100"
-          >
-            {week + 1}
-          </div>
-
+      <!-- Calendar rows -->
+      {#each { length: numberOfWeeks } as _, weekIndex}
+        <div class="grid grid-cols-7 gap-0.5 lg:gap-2">
           <!-- Day cells -->
-          {#each [0, 1, 2, 3, 4, 5, 6] as day}
-            {@const weekEvents: CalendarEvent[] = eventsByWeek.get(week + 1) || []}
-            {@const cellDate = new Date(
-              currentTerm.start.getTime() +
-                (week * 7 + day) * 24 * 60 * 60 * 1000,
-            )}
-            {@const dayOfWeek = cellDate.getDay()}
-            {@const isWeekend = dayOfWeek === 0 || dayOfWeek === 6}
+          {#each calendarDays.slice(weekIndex * 7, (weekIndex + 1) * 7) as day}
+            {@const isWeekend =
+              day.date.getDay() === 0 || day.date.getDay() === 6}
             {@const isToday =
-              cellDate.getFullYear() === today.getFullYear() &&
-              cellDate.getMonth() === today.getMonth() &&
-              cellDate.getDate() === today.getDate()}
+              day.date.getFullYear() === today.getFullYear() &&
+              day.date.getMonth() === today.getMonth() &&
+              day.date.getDate() === today.getDate()}
+            {@const showMonth =
+              day.date.getDate() === 1 ||
+              (weekIndex === 0 && day.date.getDay() === 4)}
 
             <div
-              class="h-32 rounded p-1 {isWeekend
-                ? 'bg-neutral-700/30'
-                : 'bg-neutral-800/30'} {isToday
-                ? 'ring-secondary-700 ring-2'
-                : ''}"
+              class="h-20 p-0.5 lg:h-32 lg:rounded lg:p-1 {isWeekend
+                ? 'bg-neutral-700/50'
+                : 'bg-neutral-800/50'} {isToday
+                ? 'ring-secondary-700 ring-1 lg:ring-2'
+                : ''} {!day.isInTerm ? 'opacity-40' : ''} overflow-hidden"
             >
               <!-- Day of month -->
-              <div class="mb-1 text-xs text-neutral-400 select-none">
-                {cellDate.getDate()}
+              <div
+                class="text-[8px] select-none lg:mb-1 lg:text-xs {!day.isInTerm
+                  ? 'text-neutral-500'
+                  : 'text-neutral-400'}"
+              >
+                {day.date.toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: showMonth ? "short" : undefined,
+                })}
               </div>
-              <div class="overflow-y-auto">
-                {#each weekEvents.filter((e) => {
-                  const eventDate = new Date(e.start);
-                  return eventDate.toDateString() === cellDate.toDateString();
-                }) as event}
+              <div
+                class="h-[calc(100%-14px)] overflow-y-auto lg:h-[calc(100%-20px)]"
+              >
+                {#each day.events as entry}
                   <button
-                    class="bg-primary-500 hover:bg-primary-600 w-full cursor-pointer rounded p-1 text-left text-sm transition-colors"
-                    onclick={() => selectEvent(event)}
+                    class="bg-primary-600 hover:bg-primary-700 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] transition-colors lg:mb-1 lg:p-1 lg:text-sm"
+                    onclick={() => selectEvent(entry.event)}
                   >
-                    <div class="font-bold">{event.summary}</div>
-                    <div class="text-xs">
-                      {new Date(event.start).toLocaleTimeString("en-GB", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                    <div class="line-clamp-1 font-bold">
+                      {entry.event.summary}
+                    </div>
+                    <div class="text-[7px] lg:text-xs">
+                      {#if entry.cont}
+                        (cont)
+                      {:else}
+                        {entry.event.start.toLocaleTimeString("en-GB", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      {/if}
                     </div>
                   </button>
                 {/each}
@@ -201,13 +280,12 @@
     </div>
   </div>
 
-  <p class="mt-4 text-sm text-neutral-300">
+  <p class="p-2 text-sm text-neutral-300">
     Events are loaded from the CUCaTS calendar.
     <a href="/events/calendar.ics" class="underline">Subscribe to calendar</a>
   </p>
 </div>
 
-<!-- Event Details Modal -->
 <Modal
   bind:active={showEventModal}
   class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-neutral-800 p-6 shadow-2xl"

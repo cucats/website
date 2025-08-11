@@ -38,7 +38,7 @@
   </section>
 
   <section class="bg-tertiary-900 text-neutral-300">
-    <div class="mx-auto max-w-7xl p-2 sm:p-4">
+    <div class="mx-auto max-w-7xl p-0 lg:p-4">
       <Calendar />
     </div>
   </section>
