@@ -159,6 +159,28 @@
       </h2>
 
       <div class="r-4 flex-wrap justify-center">
+        <Sponsor tier="silver" logo="/assets/sponsors/incident.io.png">
+          {#snippet name()}incident.io{/snippet}
+          <p>
+            incident.io is the single place you go when things go wrong - backed
+            by a $62m Series B and trusted by companies like OpenAI, Lovable,
+            and Netflix. We help engineering teams respond to and learn from
+            incidents, minimise downtime, and focus on solving the problems that
+            matter.
+          </p>
+          <div class="r-4">
+            <a class="btn primary sm font-bold" href="https://incident.io">
+              Website
+            </a>
+            <a
+              class="btn primary sm font-bold"
+              href="https://incident.io/careers#open-roles"
+            >
+              View opportunities
+            </a>
+          </div>
+        </Sponsor>
+
         <Sponsor tier="silver" logo="/assets/sponsors/iterate.svg">
           {#snippet name()}Iterate{/snippet}
           <p>
