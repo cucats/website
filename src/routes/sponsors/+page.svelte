@@ -174,7 +174,7 @@
             </a>
             <a
               class="btn primary sm font-bold"
-              href="https://incident.io/careers#open-roles"
+              href="https://incidentio.notion.site/incident-io-Candidate-Hub-8f23b415a73b4b52af2a8887a7479e36"
             >
               View opportunities
             </a>
