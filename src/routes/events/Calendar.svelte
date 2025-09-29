@@ -279,8 +279,15 @@
   </div>
 
   <p class="p-2 text-sm text-neutral-300">
-    Events are loaded from the CUCaTS calendar.
-    Subscribe to <a href="webcal://cucats.org/events/calendar.ics" class="underline">the CUCaTS calendar</a> or <a href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info" class="underline">the mailing list</a>.
+    Events are loaded from the CUCaTS calendar. Subscribe to <a
+      href="webcal://cucats.org/events/calendar.ics"
+      class="underline">the CUCaTS calendar</a
+    >
+    or
+    <a
+      href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
+      class="underline">the mailing list</a
+    >.
   </p>
 </div>
 
