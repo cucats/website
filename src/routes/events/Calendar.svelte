@@ -280,7 +280,7 @@
 
   <p class="p-2 text-sm text-neutral-300">
     Events are loaded from the CUCaTS calendar.
-    <a href="/events/calendar.ics" class="underline">Subscribe to calendar</a>
+    <a href="webcal://cucats.org/events/calendar.ics" class="underline">Subscribe to calendar</a>
   </p>
 </div>
 
