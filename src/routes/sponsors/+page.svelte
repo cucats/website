@@ -174,7 +174,7 @@
             </a>
             <a
               class="btn primary sm font-bold"
-              href="https://incident.io/careers#open-roles"
+              href="https://go.incident.io/cucats"
             >
               View opportunities
             </a>
