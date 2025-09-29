@@ -306,7 +306,7 @@
         {selectedEvent.summary}
       </h2>
 
-      <div class="c-4">
+      <div class="c-4 wrap-anywhere">
         <MetadataItem icon="/assets/icons/calendar.png" title="Date & Time">
           <p class="text-sm text-neutral-300">
             {#if isSameDay}
