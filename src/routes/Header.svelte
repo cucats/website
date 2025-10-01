@@ -15,9 +15,9 @@
   <div class="r-4 mx-auto h-24 max-w-7xl justify-between px-4">
     <!-- Logo -->
     <a href="/" class="r-4 items-center" onclick={() => (active = false)}>
-      <img
+      <enhanced:img
         class="size-10"
-        src="/assets/logo/dark/logo-white-cat.svg"
+        src="$lib/assets/logo/dark/logo-white-cat.svg"
         alt="CUCaTS logo of a white cat in ASCII art"
       />
       <span class="px-2 text-2xl font-extrabold text-neutral-100">CUCaTS</span>
@@ -43,8 +43,8 @@
       aria-label="Toggle menu"
       onclick={() => (active = !active)}
     >
-      <img
-        src="/assets/icons/hamburger.png"
+      <enhanced:img
+        src="$lib/assets/icons/hamburger.png"
         class="pixel size-8"
         alt="Build connections"
       />

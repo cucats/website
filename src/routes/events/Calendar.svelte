@@ -6,6 +6,11 @@
   import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
   import MetadataItem from "./EventData.svelte";
 
+  import CalendarIcon from "$lib/assets/icons/calendar.png?enhanced";
+  import LocationIcon from "$lib/assets/icons/location.png?enhanced";
+  import DescriptionIcon from "$lib/assets/icons/description.png?enhanced";
+  import LinkIcon from "$lib/assets/icons/link.png?enhanced";
+
   interface CalendarEvent {
     summary: string;
     start: Date;
@@ -314,7 +319,7 @@
       </h2>
 
       <div class="c-4 wrap-anywhere">
-        <MetadataItem icon="/assets/icons/calendar.png" title="Date & Time">
+        <MetadataItem icon={CalendarIcon} title="Date & Time">
           <p class="text-sm text-neutral-300">
             {#if isSameDay}
               {startDate.toLocaleDateString("en-GB", {
@@ -352,7 +357,7 @@
         </MetadataItem>
 
         {#if selectedEvent.location}
-          <MetadataItem icon="/assets/icons/location.png" title="Location">
+          <MetadataItem icon={LocationIcon} title="Location">
             <p class="text-sm text-neutral-300">
               {selectedEvent.location}
             </p>
@@ -360,10 +365,7 @@
         {/if}
 
         {#if selectedEvent.description}
-          <MetadataItem
-            icon="/assets/icons/description.png"
-            title="Description"
-          >
+          <MetadataItem icon={DescriptionIcon} title="Description">
             <div class="event-description text-sm text-neutral-300">
               {@html DOMPurify.sanitize(selectedEvent.description)}
             </div>
@@ -371,7 +373,7 @@
         {/if}
 
         {#if selectedEvent.url}
-          <MetadataItem icon="/assets/icons/link.png" title="Link">
+          <MetadataItem icon={LinkIcon} title="Link">
             <a
               href={selectedEvent.url}
               target="_blank"
