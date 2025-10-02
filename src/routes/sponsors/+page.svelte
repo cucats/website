@@ -150,6 +150,33 @@
             </a>
           </div>
         </Sponsor>
+
+        <Sponsor tier="gold" logo="/assets/sponsors/sierra.png">
+          {#snippet name()}Sierra{/snippet}
+          <p>
+            Sierra was founded in 2023 by Bret Taylor (chairman of the OpenAI
+            board, ex-CTO of Meta) and Clay Bavor (led Google AR/VR labs, Google
+            docs and enterprise products). Our mission is to help businesses
+            build better, more human customer experiences with AI, by enabling
+            the creation of customer-facing AI agents. Our global company has
+            over 300 employees, four offices including our European hub in
+            London, and works across a variety of industry verticals.
+          </p>
+          <p>
+            Our solution replaces scripted bots with agents that can operate
+            with operational flexibility that truly understand customers.
+            Through our Agent OS, SDK, voice products and Agent Studio, we power
+            hundreds of millions of conversations for some of the largest brands
+            in the world, and we're just getting started. Sierra is valued at
+            $10B with $635M in funding through Benchmark, Greenoaks and Sequoia
+            Capital.
+          </p>
+          <div class="r-4">
+            <a class="btn primary sm font-bold" href="https://sierra.ai/">
+              Website
+            </a>
+          </div>
+        </Sponsor>
       </div>
 
       <h2
