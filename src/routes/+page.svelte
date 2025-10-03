@@ -12,8 +12,8 @@
 
     <div class="c-4 z-10 max-w-5xl p-4">
       <div class="flex flex-col items-center gap-4 lg:flex-row">
-        <img
-          src="/assets/logo/dark/logo-white-cat.svg"
+        <enhanced:img
+          src="$lib/assets/logo/dark/logo-white-cat.svg"
           alt="CUCaTS logo"
           class="size-40"
         />

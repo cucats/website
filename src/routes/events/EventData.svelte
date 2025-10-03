@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+  import type { Picture } from "vite-imagetools";
 
   interface Props {
-    icon: string;
+    icon: string | Picture;
     title: string;
     children: Snippet;
   }
@@ -11,8 +12,8 @@
 </script>
 
 <div class="flex items-start">
-  <img src={icon} class="pixel mt-3 mr-3 size-8" alt={title} />
-  <div>
+  <enhanced:img src={icon} class="pixel mt-3 mr-3 size-8" alt={title} />
+  <div class="flex-1">
     <h3 class="font-semibold">{title}</h3>
     {@render children()}
   </div>

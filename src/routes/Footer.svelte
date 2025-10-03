@@ -31,8 +31,8 @@
   <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-3">
     <div class="space-y-4">
       <div class="r-4 items-center">
-        <img
-          src="/assets/logo/dark/logo-white-cat.svg"
+        <enhanced:img
+          src="$lib/assets/logo/dark/logo-white-cat.svg"
           alt="CUCaTS logo"
           class="h-10 w-10"
         />

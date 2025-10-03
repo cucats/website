@@ -26,8 +26,8 @@
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
           <div>
-            <img
-              src="/assets/icons/graph.png"
+            <enhanced:img
+              src="$lib/assets/icons/graph.png"
               class="pixel size-8"
               alt="Build connections"
             />
@@ -40,8 +40,8 @@
         </div>
         <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
           <div>
-            <img
-              src="/assets/icons/loudspeaker.png"
+            <enhanced:img
+              src="$lib/assets/icons/loudspeaker.png"
               class="pixel size-8"
               alt="Promote interest"
             />
@@ -53,8 +53,8 @@
         </div>
         <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
           <div>
-            <img
-              src="/assets/icons/steps.png"
+            <enhanced:img
+              src="$lib/assets/icons/steps.png"
               class="pixel size-8"
               alt="Support members"
             />
@@ -64,8 +64,8 @@
         </div>
         <div class="c-4 bg-opacity-40 rounded-lg bg-neutral-800 p-4">
           <div>
-            <img
-              src="/assets/icons/text.png"
+            <enhanced:img
+              src="$lib/assets/icons/text.png"
               class="pixel size-8"
               alt="Encourage discussion"
             />
