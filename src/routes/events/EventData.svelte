@@ -12,7 +12,7 @@
 </script>
 
 <div class="flex items-start">
-  <enhanced:img src={icon} class="pixel mt-3 mr-3 size-8" alt={title} />
+  <enhanced:img src={icon} class="pixel mt-1 mr-3 size-8" alt={title} />
   <div class="flex-1">
     <h3 class="font-semibold">{title}</h3>
     {@render children()}

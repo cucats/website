@@ -176,7 +176,7 @@
   class="from-tertiary-700 via-secondary-700 to-primary-700 lg:c-4 lg:border-tertiary-300 bg-gradient-to-br p-0.5 lg:rounded-lg lg:border lg:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden p-2">
-    <h3 class="text-lg font-bold lg:text-2xl">{currentTerm.name}</h3>
+    <h2 class="text-lg font-bold lg:text-2xl">{currentTerm.name}</h2>
 
     <div class="flex items-center gap-2">
       <!-- <button
@@ -260,7 +260,7 @@
                     class="bg-primary-600 hover:bg-primary-700 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] transition-colors lg:mb-1 lg:p-1 lg:text-sm"
                     onclick={() => selectEvent(entry.event)}
                   >
-                    <div class="line-clamp-1 font-bold">
+                    <div class="truncate font-bold text-clip lg:text-ellipsis">
                       {entry.event.summary}
                     </div>
                     <div class="text-[7px] lg:text-xs">
@@ -298,7 +298,7 @@
 
 <Modal
   bind:active={showEventModal}
-  class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-neutral-800 p-6 shadow-2xl"
+  class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-neutral-800 p-4 shadow-2xl sm:p-6"
 >
   {#if selectedEvent}
     {@const startDate = new Date(selectedEvent.start)}
@@ -313,8 +313,8 @@
       <CloseIcon />
     </button>
 
-    <div class="pr-8">
-      <h2 class="mb-4 text-2xl font-bold text-neutral-100">
+    <div>
+      <h2 class="mb-4 pr-6 text-xl font-bold text-neutral-100 sm:text-2xl">
         {selectedEvent.summary}
       </h2>
 
