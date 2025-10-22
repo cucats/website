@@ -349,6 +349,42 @@
             </a>
           </div>
         </Sponsor>
+
+        <Sponsor tier="silver" logo="/assets/sponsors/visa.svg">
+          {#snippet name()}Visa{/snippet}
+          <p>
+            Visa is a world leader in digital payments, facilitating more than
+            276 billion payments transactions between consumers, merchants,
+            financial institutions, and government entities across more than 200
+            countries and territories each year. Our mission is to connect the
+            world through the most innovative, convenient, reliable, and secure
+            payments network, enabling individuals, businesses, and economies to
+            thrive.
+          </p>
+          <p>
+            When you join Visa, you join a culture of purpose and belonging –
+            where your growth is priority, your identity is embraced, and the
+            work you do matters. We believe that economies that include everyone
+            everywhere, uplift everyone everywhere. Your work will have a direct
+            impact on billions of people around the world – helping unlock
+            financial access to enable the future of money movement.
+          </p>
+
+          <div class="r-4">
+            <a
+              class="btn primary sm font-bold"
+              href="https://usa.visa.com/business.html"
+            >
+              Website
+            </a>
+            <a
+              class="btn primary sm font-bold"
+              href="https://corporate.visa.com/en/careers/early-careers.html"
+            >
+              View opportunities
+            </a>
+          </div>
+        </Sponsor>
       </div>
 
       <h2
