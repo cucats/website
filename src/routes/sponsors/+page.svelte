@@ -53,46 +53,6 @@
           </div>
         </Sponsor>
 
-        <Sponsor tier="gold" logo="/assets/sponsors/hrt.png">
-          {#snippet name()}Hudson River Trading{/snippet}
-          <p>
-            At Hudson River Trading (HRT) we are mathematicians, computer
-            scientists, statisticians, physicists and engineers. We research and
-            develop automated trading algorithms using advanced mathematical
-            techniques. We have built one of the world's most sophisticated
-            compute environments, and our researchers are at the forefront of
-            innovation in the world of algorithmic trading and machine learning.
-          </p>
-          <p>
-            HRT was founded in 2002 by computer scientists and mathematicians
-            who believed that math and technology could transform financial
-            markets. They developed the algorithms that became the foundation
-            for HRT's continued success across global asset classes. Today, we
-            are global industry leaders, and a leading voice for fair and open
-            markets. Our trading creates stronger markets for all investors, and
-            all our work is built upon our rigorous code of ethics.
-          </p>
-          <p>
-            We're a community of self-starters, critical thinkers, and eager
-            problem-solvers. Collaboration is at the heart of our success — from
-            an open-source code base to lively cross-team lunches in our cafe, a
-            spirit of openness underscores everything we do. We celebrate great
-            ideas from HRT veterans and new hires alike. We love solving the
-            most complex problems in trading and technology, and believe the
-            best work can only be done together.
-          </p>
-          <div class="r-4">
-            <a
-              class="btn primary sm font-bold"
-              href="https://www.hudsonrivertrading.com">Website</a
-            >
-            <a
-              class="btn primary sm font-bold"
-              href="https://www.hudsonrivertrading.com/hrtbeat">Blog</a
-            >
-          </div>
-        </Sponsor>
-
         <Sponsor tier="gold" logo="/assets/sponsors/janestreet.png">
           {#snippet name()}Jane Street{/snippet}
           <p>
@@ -317,39 +277,6 @@
           </div>
         </Sponsor>
 
-        <Sponsor tier="silver" logo="/assets/sponsors/quantco.png">
-          {#snippet name()}Quantco{/snippet}
-          <p>
-            We leverage expertise in data science, engineering, artificial
-            intelligence, and economics to help organizations turn data into
-            decisions. Founded by 4 PhDs from Harvard and Stanford, we are now
-            more than 200 professionals with extensive quantitative,
-            engineering, and business acumen.
-          </p>
-          <p>
-            Our teams apply cutting-edge research to solve real-world problems
-            within algorithmic pricing, fraud detection, and cancer diagnostics.
-            Our customers include some of the largest financial, retail, and
-            healthcare organizations in the US and Europe.
-          </p>
-          <p>
-            We're a rapidly scaling company that offers full-time and internship
-            opportunities in London, Zurich, Berlin, Munich, Karlsruhe, Cologne,
-            Boston and San Francisco.
-          </p>
-          <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://www.quantco.com">
-              Website
-            </a>
-            <a
-              class="btn primary sm font-bold"
-              href="https://jobs.lever.co/quantco-"
-            >
-              View opportunities
-            </a>
-          </div>
-        </Sponsor>
-
         <Sponsor tier="silver" logo="/assets/sponsors/visa.svg">
           {#snippet name()}Visa{/snippet}
           <p>
@@ -394,35 +321,6 @@
       </h2>
 
       <div class="r-4 flex-wrap justify-center">
-        <Sponsor tier="bronze" logo="/assets/sponsors/imc.png">
-          {#snippet name()}IMC Trading{/snippet}
-          <p>
-            IMC is a leading trading firm, known worldwide for our advanced,
-            low-latency technology and world-class execution capabilities. Over
-            the past 35 years, we've been a stabilizing force in the financial
-            markets - providing the essential liquidity our counterparties
-            depend on. Across offices in the US, Europe, and Asia Pacific, our
-            talented employees are united by our entrepreneurial spirit,
-            exceptional culture, and commitment to giving back. It's a strong
-            foundation that allows us to grow and add new capabilities, year
-            after year. From entering dynamic new markets, to developing a
-            state-of-the-art research environment and diversifying our trading
-            strategies, we dare to imagine what could be and work together to
-            make it happen.
-          </p>
-          <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://www.imc.com/eu">
-              Website
-            </a>
-            <a
-              class="btn primary sm font-bold"
-              href="https://grnh.se/863b7422teu"
-            >
-              View opportunities
-            </a>
-          </div>
-        </Sponsor>
-
         <Sponsor tier="bronze" logo="/assets/sponsors/tpp.png">
           {#snippet name()}TPP{/snippet}
           <p>
