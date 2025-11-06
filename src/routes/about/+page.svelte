@@ -101,10 +101,10 @@
           </div>
         {/snippet}
 
-        {@render committeeMember("president", "Jeremy Chen")}
-        {@render committeeMember("vice-president", "Sophie Ring")}
-        {@render committeeMember("treasurer", "Bruce Chen")}
-        {@render committeeMember("secretary", "Jonathon Sun")}
+        {@render committeeMember("president", "Martina King")}
+        {@render committeeMember("vice-president", "Jonathon Sun")}
+        {@render committeeMember("treasurer", "Kkabir Bhalla")}
+        {@render committeeMember("secretary", "Steven Wang")}
         {@render committeeMember("webmaster", "Xi Nan Shu")}
       </div>
     </div>
