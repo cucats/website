@@ -18,6 +18,10 @@ X (formerly Twitter)
 
 - https://about.x.com/en/who-we-are/brand-toolkit
 
+LinkedIn
+
+- https://brand.linkedin.com/downloads
+
 ## Events
 
 Cam Hack
@@ -27,3 +31,9 @@ Cam Hack
 Cam Game Jam
 
 - https://camgamejam.com/2025/jam.png
+
+## Icons
+
+Material (Google)
+
+- https://fonts.google.com/icons
