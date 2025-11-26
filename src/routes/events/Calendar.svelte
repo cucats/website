@@ -49,7 +49,7 @@
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
-  let weekStartsMonday = $state(false); // false = Thursday first, true = Monday first
+  let weekStartsMonday = $state(true); // false = Thursday first, true = Monday first
 
   const currentTerm = $derived(terms[currentTermIndex]);
 
@@ -173,7 +173,7 @@
 </script>
 
 <div
-  class="from-tertiary-700 via-secondary-700 to-primary-700 lg:c-4 lg:border-tertiary-300 bg-gradient-to-br p-0.5 lg:rounded-lg lg:border lg:p-8"
+  class="from-tertiary-700 via-secondary-700 to-primary-700 lg:c-4 bg-gradient-to-br p-0.5 lg:rounded-lg lg:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden p-2">
     <h2 class="text-lg font-bold lg:text-2xl">{currentTerm.name}</h2>
@@ -260,7 +260,7 @@
                     class="bg-primary-600 hover:bg-primary-700 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] transition-colors lg:mb-1 lg:p-1 lg:text-sm"
                     onclick={() => selectEvent(entry.event)}
                   >
-                    <div class="truncate font-bold text-clip lg:text-ellipsis">
+                    <div class="truncate font-bold text-clip">
                       {entry.event.summary}
                     </div>
                     <div class="text-[7px] lg:text-xs">
