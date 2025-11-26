@@ -84,29 +84,65 @@
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
 
-      <div
-        class="r-4 bg-secondary-800/50 flex-wrap justify-center gap-10 rounded-lg p-4"
-      >
-        {#snippet committeeMember(role: string, name: string)}
-          <div class="min-w-40 md:min-w-64">
-            <div class="text-sm md:text-base">
-              <span class="block font-bold lowercase md:inline">{role}</span
-              ><span class="inline text-neutral-300 opacity-60"
-                >@cucats.org</span
-              >
-            </div>
-            <div class="text-xl font-medium tracking-tight md:text-2xl">
-              {name}
-            </div>
+      {#snippet committeeMember(role: string, name: string)}
+        <div class="bg-secondary-800 w-50 overflow-hidden rounded-lg">
+          <div class="bg-secondary-900 h-50">
+            <!-- Image goes here when uploaded -->
           </div>
-        {/snippet}
+          <div class="p-4">
+            <div class="mb-1 text-sm uppercase">
+              <span class="font-bold text-neutral-300 opacity-80">{role}</span>
+            </div>
+            <div class="text-xl font-bold text-neutral-50">{name}</div>
+          </div>
+        </div>
+      {/snippet}
 
+      <h3 class="member-container-title">Executive</h3>
+      <div class="member-container">
         {@render committeeMember("president", "Martina King")}
         {@render committeeMember("vice-president", "Jonathon Sun")}
         {@render committeeMember("treasurer", "Kkabir Bhalla")}
         {@render committeeMember("secretary", "Steven Wang")}
+      </div>
+
+      <h3 class="member-container-title">Socials</h3>
+      <div class="member-container">
+        {@render committeeMember("socials director", "Emily Kelt")}
+        {@render committeeMember("part IA", "Lucas Evans")}
+        {@render committeeMember("part IA", "Amey Gupta")}
+        {@render committeeMember("part IB", "Emily Kelt")}
+        {@render committeeMember("part II", "Tom Brennan")}
+        {@render committeeMember("part II", "James Leung")}
+        {@render committeeMember("part III", "Yasith Disanayakage")}
+      </div>
+
+      <h3 class="member-container-title">Events</h3>
+      <div class="member-container">
+        {@render committeeMember("event officer", "Amey Gupta")}
+        {@render committeeMember("event officer", "Alex Pylypenko")}
+        {@render committeeMember("event officer", "Andy Wu")}
+      </div>
+
+      <h3 class="member-container-title">Tech</h3>
+      <div class="member-container">
+        {@render committeeMember("tech director", "Steven Wang")}
         {@render committeeMember("webmaster", "Xi Nan Shu")}
+        {@render committeeMember("tech officer", "Arya Golkari")}
+        {@render committeeMember("tech officer", "John Williams")}
       </div>
     </div>
   </section>
 </main>
+
+<style lang="postcss">
+  @reference "../../app.css";
+
+  .member-container-title {
+    @apply text-2xl font-bold;
+  }
+
+  .member-container {
+    @apply bg-secondary-800/20 mb-4 flex flex-wrap justify-center gap-4 rounded-lg p-4;
+  }
+</style>
