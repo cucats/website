@@ -49,7 +49,7 @@
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
-  let weekStartsMonday = $state(true); // false = Thursday first, true = Monday first
+  let weekStartsMonday = $state(false); // false = Thursday first, true = Monday first
 
   const currentTerm = $derived(terms[currentTermIndex]);
 
