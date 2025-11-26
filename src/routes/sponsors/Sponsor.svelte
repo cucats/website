@@ -17,7 +17,7 @@
 
 <button
   class={[
-    "group relative flex cursor-pointer items-center justify-center overflow-hidden rounded-lg border-0 bg-neutral-200",
+    "group relative flex cursor-pointer items-center rounded-lg bg-neutral-200",
     {
       "h-48 w-80": tier === "gold",
       "h-40 w-72": tier === "silver",
@@ -39,8 +39,12 @@
     alt="sponsor logo"
   />
 
+  <!--
+    Using overflow-clip on parent leaves a small gap on browsers for some reason.
+    Instead, use a border with a smaller radius in child.
+  -->
   <div
-    class="absolute top-0 left-0 flex size-full items-center justify-center bg-neutral-950/90 opacity-0 duration-200 group-hover:opacity-100 group-hover:backdrop-blur-sm"
+    class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-neutral-950/90 opacity-0 duration-200 group-hover:opacity-100 group-hover:backdrop-blur-sm"
   >
     <div class="text-center font-bold tracking-tighter uppercase">
       <span
