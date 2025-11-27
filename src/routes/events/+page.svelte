@@ -19,13 +19,17 @@
       <p class="mb-4 ml-4 text-neutral-300">
         Subscribe to <a
           href="webcal://cucats.org/events/calendar.ics"
-          class="underline">the CUCaTS calendar</a
+          class="underline hover:text-neutral-100"
         >
+          the CUCaTS calendar
+        </a>
         or
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
-          class="underline">the mailing list</a
-        >.
+          class="underline hover:text-neutral-100"
+        >
+          the mailing list
+        </a>.
       </p>
       <Calendar />
     </div>
