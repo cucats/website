@@ -46,7 +46,7 @@
   <div
     class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-neutral-950/90 opacity-0 duration-200 group-hover:opacity-100 group-hover:backdrop-blur-sm"
   >
-    <div class="text-center font-bold tracking-tighter uppercase">
+    <div class="text-center font-bold uppercase">
       <span
         class={[
           "block text-neutral-100",
