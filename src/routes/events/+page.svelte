@@ -13,6 +13,24 @@
     </div>
   </section>
 
+  <section class="bg-tertiary-900 text-neutral-300">
+    <div class="mx-auto max-w-7xl py-8">
+      <h1 class="mb-2 ml-2 text-4xl font-bold">Calendar</h1>
+      <p class="mb-4 ml-2 text-neutral-300">
+        Subscribe to <a
+          href="webcal://cucats.org/events/calendar.ics"
+          class="underline">the CUCaTS calendar</a
+        >
+        or
+        <a
+          href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
+          class="underline">the mailing list</a
+        >.
+      </p>
+      <Calendar />
+    </div>
+  </section>
+
   <section class="bg-tertiary-700 overflow-hidden text-neutral-300">
     <div class="c-4 mx-auto max-w-7xl py-4">
       <h2 class="mt-4 ml-4 text-3xl font-bold md:text-4xl">Flagship events</h2>
@@ -39,24 +57,6 @@
           picture="assets/events/december-challenge.png"
         ></Event>
       </div>
-    </div>
-  </section>
-
-  <section class="bg-tertiary-900 text-neutral-300">
-    <div class="mx-auto max-w-7xl py-8">
-      <h1 class="mb-2 ml-2 text-4xl font-bold">Calendar</h1>
-      <p class="mb-4 ml-2 text-neutral-300">
-        Subscribe to <a
-          href="webcal://cucats.org/events/calendar.ics"
-          class="underline">the CUCaTS calendar</a
-        >
-        or
-        <a
-          href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
-          class="underline">the mailing list</a
-        >.
-      </p>
-      <Calendar />
     </div>
   </section>
 </main>
