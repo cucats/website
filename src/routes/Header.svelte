@@ -67,7 +67,7 @@
 
   <!-- Drawer -->
   <div
-    class="fixed top-0 right-0 z-50 h-full w-64 bg-neutral-900 shadow-xl sm:hidden"
+    class="fixed top-0 right-0 z-50 h-full w-full bg-neutral-900 shadow-xl sm:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Navigation menu"
@@ -75,18 +75,18 @@
   >
     <!-- Close button -->
     <button
-      class="absolute top-4 right-4 cursor-pointer p-2 text-neutral-300 hover:text-neutral-100"
+      class="object-fit absolute top-0 right-0 m-4 size-16 cursor-pointer text-neutral-300 hover:text-neutral-100"
       onclick={() => (active = false)}
       aria-label="Close menu"
     >
-      <CloseIcon />
+      <CloseIcon class="m-auto h-8 w-8" />
     </button>
 
     <!-- Navigation links -->
     <nav class="flex flex-col pt-20">
       {#each links as link}
         <a
-          class="px-6 py-4 text-lg font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+          class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
           href={link.href}
           onclick={() => (active = false)}
         >
