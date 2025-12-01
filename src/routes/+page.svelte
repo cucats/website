@@ -4,7 +4,7 @@
 
 <main class="bg-tertiary-800">
   <section
-    class="from-primary-700 via-secondary-800 to-tertiary-800 relative flex h-screen items-center justify-center bg-gradient-to-b"
+    class="from-primary-700 via-secondary-800 to-tertiary-800 relative flex h-screen items-center justify-center bg-linear-to-b"
   >
     <div class="absolute bottom-0 z-0 size-full overflow-hidden">
       <GameOfLife />

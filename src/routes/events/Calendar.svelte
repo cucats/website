@@ -173,7 +173,7 @@
 </script>
 
 <div
-  class="from-tertiary-700 via-secondary-700 to-primary-700 lg:c-4 bg-gradient-to-br p-0.5 lg:rounded-lg lg:p-8"
+  class="from-tertiary-700 via-secondary-700 to-primary-700 lg:c-4 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden p-2">
     <h2 class="text-lg font-bold lg:text-2xl">{currentTerm.name}</h2>
