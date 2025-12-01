@@ -56,8 +56,8 @@
         ></Event>
 
         <Event
-          website="https://aoc.cucats.org/about"
-          title="CUCaTS Advent of Code"
+          website="https://cc.cucats.org/about"
+          title="CUCaTS Codevent Calendar"
           picture="assets/events/december-challenge.png"
         ></Event>
       </div>
