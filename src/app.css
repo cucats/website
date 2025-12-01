@@ -125,7 +125,7 @@
     }
 
     &.gradient {
-      @apply border-primary-400 bg-gradient-to-r from-[#51a2ff] to-[#00b8db] text-neutral-100;
+      @apply border-primary-400 bg-linear-to-r from-[#51a2ff] to-[#00b8db] text-neutral-100;
 
       @variant dark {
         @apply before:from-primary-400 before:to-primary-500;
@@ -251,5 +251,5 @@
 }
 
 main {
-  @apply flex-grow;
+  @apply grow;
 }
