@@ -1,12 +1,15 @@
 <script lang="ts">
-  import DefaultProfile from '$lib/assets/default-profile.webp';
-    import { onMount } from 'svelte';
-    let committee: any[] = [];
+  import DefaultProfile from "$lib/assets/default-profile.webp";
+  import { onMount } from "svelte";
+  let committee: any[] = [];
 
-    onMount( async () => fetch("/data/committee.json")
-      .then(res => res.json())
-      .then(res => {committee = res})
-    );
+  onMount(async () =>
+    fetch("/data/committee.json")
+      .then((res) => res.json())
+      .then((res) => {
+        committee = res;
+      }),
+  );
 </script>
 
 <main class="bg-secondary-900">
@@ -94,35 +97,55 @@
       <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
 
       {#snippet committeeMember(member: any)}
-        <div class="overflow-hidden w-32 md:w-48">
-          <div class="size-32 select-none md:size-48 bg-secondary-900 rounded-lg overflow-hidden">
+        <div class="w-32 overflow-hidden md:w-48">
+          <div
+            class="bg-secondary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
+          >
             {#if member.image}
-              <img src={member.image} alt={`${member.name}'s portrait`}>
+              <img src={member.image} alt={`${member.name}'s portrait`} />
             {:else}
-              <enhanced:img class="opacity-80" src={DefaultProfile} alt={`${member.name}'s portrait`} />
+              <enhanced:img
+                class="opacity-80"
+                src={DefaultProfile}
+                alt={`${member.name}'s portrait`}
+              />
             {/if}
           </div>
 
           <div class="mt-4">
-            <div class="text-xs uppercase font-bold text-neutral-50 opacity-60">{member.role}</div>
+            <div class="text-xs font-bold text-neutral-50 uppercase opacity-60">
+              {member.role}
+            </div>
             <div class="text-md font-bold text-neutral-50">{member.name}</div>
 
             <div class="mt-2 flex gap-3 select-none">
               {#if member.email}
                 <a href={`mailto:${member.email}`}>
-                  <img class="size-6 opacity-70 hover:opacity-90" src="assets/icons/mail.svg" alt="Mail icon">
+                  <img
+                    class="size-6 opacity-70 hover:opacity-90"
+                    src="assets/icons/mail.svg"
+                    alt="Mail icon"
+                  />
                 </a>
               {/if}
 
               {#if member.linkedin}
                 <a href={member.linkedin}>
-                  <img class="size-6 invert opacity-70 hover:opacity-90 object-contain" src="assets/socials/linkedin.png" alt="LinkedIn logo">
+                  <img
+                    class="size-6 object-contain opacity-70 invert hover:opacity-90"
+                    src="assets/socials/linkedin.png"
+                    alt="LinkedIn logo"
+                  />
                 </a>
               {/if}
 
               {#if member.website}
                 <a href={member.website}>
-                  <img class="size-6 opacity-70 hover:opacity-90" src="assets/icons/globe.svg" alt="Website icon">
+                  <img
+                    class="size-6 opacity-70 hover:opacity-90"
+                    src="assets/icons/globe.svg"
+                    alt="Website icon"
+                  />
                 </a>
               {/if}
             </div>
@@ -150,6 +173,6 @@
   }
 
   .member-container {
-    @apply bg-secondary-600/20 mb-4 flex flex-wrap gap-x-4 gap-y-8 md:gap-8 rounded-lg px-4 py-8 md:p-8 justify-center;
+    @apply bg-secondary-600/20 mb-4 flex flex-wrap justify-center gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:gap-8 md:p-8;
   }
 </style>
