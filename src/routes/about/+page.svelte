@@ -1,4 +1,16 @@
-<script lang="ts"></script>
+<script lang="ts">
+  import DefaultProfile from "$lib/assets/default-profile.webp";
+  import { onMount } from "svelte";
+  let committee: any[] = [];
+
+  onMount(async () =>
+    fetch("/data/committee.json")
+      .then((res) => res.json())
+      .then((res) => {
+        committee = res;
+      }),
+  );
+</script>
 
 <main class="bg-secondary-900">
   <section class="bg-secondary-800 pt-24 text-neutral-300">
@@ -80,33 +92,91 @@
     </div>
   </section>
 
-  <section class="bg-secondary-900 text-neutral-300">
-    <div class="c-4 mx-auto max-w-5xl p-4">
-      <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
+  {#if committee.length}
+    <section class="bg-secondary-900 text-neutral-300">
+      <div class="c-4 mx-auto max-w-5xl p-4">
+        <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
 
-      <div
-        class="r-4 bg-secondary-800/50 flex-wrap justify-center gap-10 rounded-lg p-4"
-      >
-        {#snippet committeeMember(role: string, name: string)}
-          <div class="min-w-40 md:min-w-64">
-            <div class="text-sm md:text-base">
-              <span class="block font-bold lowercase md:inline">{role}</span
-              ><span class="inline text-neutral-300 opacity-60"
-                >@cucats.org</span
-              >
+        {#snippet committeeMember(member: any)}
+          <div class="w-32 overflow-hidden md:w-48">
+            <div
+              class="bg-secondary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
+            >
+              {#if member.image}
+                <img src={member.image} alt={`${member.name}'s portrait`} />
+              {:else}
+                <enhanced:img
+                  class="opacity-80"
+                  src={DefaultProfile}
+                  alt={`${member.name}'s portrait`}
+                />
+              {/if}
             </div>
-            <div class="text-xl font-medium tracking-tight md:text-2xl">
-              {name}
+
+            <div class="mt-4">
+              <div
+                class="text-xs font-bold text-neutral-50 uppercase opacity-60"
+              >
+                {member.role}
+              </div>
+              <div class="text-md font-bold text-neutral-50">{member.name}</div>
+
+              <div class="mt-2 flex gap-3 select-none">
+                {#if member.email}
+                  <a href={`mailto:${member.email}`}>
+                    <img
+                      class="size-6 opacity-70 hover:opacity-90"
+                      src="/assets/icons/mail.svg"
+                      alt="Mail icon"
+                    />
+                  </a>
+                {/if}
+
+                {#if member.linkedin}
+                  <a href={member.linkedin}>
+                    <img
+                      class="size-6 object-contain opacity-70 invert hover:opacity-90"
+                      src="/assets/socials/linkedin.png"
+                      alt="LinkedIn logo"
+                    />
+                  </a>
+                {/if}
+
+                {#if member.website}
+                  <a href={member.website}>
+                    <img
+                      class="size-6 opacity-70 hover:opacity-90"
+                      src="/assets/icons/globe.svg"
+                      alt="Website icon"
+                    />
+                  </a>
+                {/if}
+              </div>
             </div>
           </div>
         {/snippet}
 
-        {@render committeeMember("president", "Martina King")}
-        {@render committeeMember("vice-president", "Jonathon Sun")}
-        {@render committeeMember("treasurer", "Kkabir Bhalla")}
-        {@render committeeMember("secretary", "Steven Wang")}
-        {@render committeeMember("webmaster", "Xi Nan Shu")}
+        {#each committee as group}
+          <h3 class="member-container-title">{group.title}</h3>
+          <div class="member-container">
+            {#each group.members as member}
+              {@render committeeMember(member)}
+            {/each}
+          </div>
+        {/each}
       </div>
-    </div>
-  </section>
+    </section>
+  {/if}
 </main>
+
+<style lang="postcss">
+  @reference "../../app.css";
+
+  .member-container-title {
+    @apply text-2xl font-bold;
+  }
+
+  .member-container {
+    @apply bg-secondary-600/20 mb-4 flex flex-wrap justify-center gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:gap-8 md:p-8;
+  }
+</style>

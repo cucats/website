@@ -19,3 +19,7 @@ bun run dev
 ```bash
 bun run build
 ```
+
+## Extra
+
+Place committee information under `static/data`.
