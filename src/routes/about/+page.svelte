@@ -92,77 +92,81 @@
     </div>
   </section>
 
-  <section class="bg-secondary-900 text-neutral-300">
-    <div class="c-4 mx-auto max-w-5xl p-4">
-      <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
+  {#if committee.length}
+    <section class="bg-secondary-900 text-neutral-300">
+      <div class="c-4 mx-auto max-w-5xl p-4">
+        <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
 
-      {#snippet committeeMember(member: any)}
-        <div class="w-32 overflow-hidden md:w-48">
-          <div
-            class="bg-secondary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
-          >
-            {#if member.image}
-              <img src={member.image} alt={`${member.name}'s portrait`} />
-            {:else}
-              <enhanced:img
-                class="opacity-80"
-                src={DefaultProfile}
-                alt={`${member.name}'s portrait`}
-              />
-            {/if}
-          </div>
-
-          <div class="mt-4">
-            <div class="text-xs font-bold text-neutral-50 uppercase opacity-60">
-              {member.role}
-            </div>
-            <div class="text-md font-bold text-neutral-50">{member.name}</div>
-
-            <div class="mt-2 flex gap-3 select-none">
-              {#if member.email}
-                <a href={`mailto:${member.email}`}>
-                  <img
-                    class="size-6 opacity-70 hover:opacity-90"
-                    src="assets/icons/mail.svg"
-                    alt="Mail icon"
-                  />
-                </a>
-              {/if}
-
-              {#if member.linkedin}
-                <a href={member.linkedin}>
-                  <img
-                    class="size-6 object-contain opacity-70 invert hover:opacity-90"
-                    src="assets/socials/linkedin.png"
-                    alt="LinkedIn logo"
-                  />
-                </a>
-              {/if}
-
-              {#if member.website}
-                <a href={member.website}>
-                  <img
-                    class="size-6 opacity-70 hover:opacity-90"
-                    src="assets/icons/globe.svg"
-                    alt="Website icon"
-                  />
-                </a>
+        {#snippet committeeMember(member: any)}
+          <div class="w-32 overflow-hidden md:w-48">
+            <div
+              class="bg-secondary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
+            >
+              {#if member.image}
+                <img src={member.image} alt={`${member.name}'s portrait`} />
+              {:else}
+                <enhanced:img
+                  class="opacity-80"
+                  src={DefaultProfile}
+                  alt={`${member.name}'s portrait`}
+                />
               {/if}
             </div>
-          </div>
-        </div>
-      {/snippet}
 
-      {#each committee as group}
-        <h3 class="member-container-title">{group.title}</h3>
-        <div class="member-container">
-          {#each group.members as member}
-            {@render committeeMember(member)}
-          {/each}
-        </div>
-      {/each}
-    </div>
-  </section>
+            <div class="mt-4">
+              <div
+                class="text-xs font-bold text-neutral-50 uppercase opacity-60"
+              >
+                {member.role}
+              </div>
+              <div class="text-md font-bold text-neutral-50">{member.name}</div>
+
+              <div class="mt-2 flex gap-3 select-none">
+                {#if member.email}
+                  <a href={`mailto:${member.email}`}>
+                    <img
+                      class="size-6 opacity-70 hover:opacity-90"
+                      src="/assets/icons/mail.svg"
+                      alt="Mail icon"
+                    />
+                  </a>
+                {/if}
+
+                {#if member.linkedin}
+                  <a href={member.linkedin}>
+                    <img
+                      class="size-6 object-contain opacity-70 invert hover:opacity-90"
+                      src="/assets/socials/linkedin.png"
+                      alt="LinkedIn logo"
+                    />
+                  </a>
+                {/if}
+
+                {#if member.website}
+                  <a href={member.website}>
+                    <img
+                      class="size-6 opacity-70 hover:opacity-90"
+                      src="/assets/icons/globe.svg"
+                      alt="Website icon"
+                    />
+                  </a>
+                {/if}
+              </div>
+            </div>
+          </div>
+        {/snippet}
+
+        {#each committee as group}
+          <h3 class="member-container-title">{group.title}</h3>
+          <div class="member-container">
+            {#each group.members as member}
+              {@render committeeMember(member)}
+            {/each}
+          </div>
+        {/each}
+      </div>
+    </section>
+  {/if}
 </main>
 
 <style lang="postcss">
