@@ -22,4 +22,4 @@ bun run build
 
 ## Extra
 
-Place committee information under `static/data`.
+Expects `DATA_PATH` env var for committee information.
