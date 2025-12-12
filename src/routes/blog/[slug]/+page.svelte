@@ -62,7 +62,7 @@
       <nav class="mt-12 grid gap-4 pt-8 sm:grid-cols-2">
         {#if data.prev}
           <a
-            href="/blog/{data.prev.slug}"
+            href="/{data.prev.slug}"
             class="group bg-tertiary-900 rounded-lg p-4 transition-all hover:brightness-125"
           >
             <span class="text-xs text-neutral-500">Previous</span>
@@ -76,7 +76,7 @@
         {/if}
         {#if data.next}
           <a
-            href="/blog/{data.next.slug}"
+            href="/{data.next.slug}"
             class="group bg-tertiary-900 rounded-lg p-4 text-right transition-all hover:brightness-125"
           >
             <span class="text-xs text-neutral-500">Next</span>
