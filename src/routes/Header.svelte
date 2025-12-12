@@ -8,6 +8,7 @@
     { href: "/about", label: "About Us" },
     { href: "/events", label: "Events" },
     { href: "/blog", label: "Blog" },
+    { href: "/wiki", label: "Wiki" },
     { href: "/sponsors", label: "Sponsors" },
   ];
 </script>

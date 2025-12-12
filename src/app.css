@@ -86,57 +86,45 @@
 
 @layer components {
   .btn {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-md border font-medium transition-colors duration-200 disabled:cursor-default disabled:opacity-50;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-lg font-medium transition-all duration-200 disabled:cursor-default disabled:opacity-50;
 
     @variant focus-visible {
-      @apply ring-primary-500 ring-2 outline-none;
+      @apply ring-primary-500 ring-2 ring-offset-2 outline-none;
     }
 
     &.primary {
-      @apply border-primary-600 bg-primary-700 hover:bg-primary-800 text-neutral-100;
-
-      @variant dark {
-        @apply hover:bg-primary-600;
-      }
+      @apply bg-primary-600 text-neutral-100 hover:bg-primary-500;
     }
 
     &.secondary {
-      @apply border-secondary-600 bg-secondary-700 hover:bg-secondary-800 text-neutral-100;
-
-      @variant dark {
-        @apply hover:bg-secondary-600;
-      }
+      @apply bg-secondary-600 text-neutral-100 hover:bg-secondary-500;
     }
 
     &.neutral {
-      @apply border-neutral-300 bg-neutral-100 text-neutral-900 hover:border-neutral-400 hover:bg-neutral-200;
+      @apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300;
 
       @variant dark {
-        @apply border-neutral-600 bg-neutral-800 text-neutral-100 hover:border-neutral-500 hover:bg-neutral-700;
+        @apply bg-neutral-700 text-neutral-100 hover:bg-neutral-600;
       }
     }
 
     &.ghost {
-      @apply border-primary-700 text-primary-800 hover:bg-primary-100/20 bg-transparent;
+      @apply bg-transparent text-primary-600 hover:bg-primary-100;
 
       @variant dark {
-        @apply border-primary-400 text-primary-400 hover:bg-primary-100/10;
+        @apply text-primary-400 hover:bg-primary-900/30;
       }
     }
 
     &.gradient {
-      @apply border-primary-400 bg-linear-to-r from-[#51a2ff] to-[#00b8db] text-neutral-100;
-
-      @variant dark {
-        @apply before:from-primary-400 before:to-primary-500;
-      }
+      @apply bg-linear-to-r from-[#51a2ff] to-[#00b8db] text-neutral-100 hover:opacity-90;
     }
 
     &.sm {
-      @apply px-3 py-1 text-sm;
+      @apply px-3 py-1.5 text-sm;
     }
     &.md {
-      @apply px-5 py-2 text-base;
+      @apply px-5 py-2.5 text-base;
     }
     &.lg {
       @apply px-7 py-3 text-lg;
