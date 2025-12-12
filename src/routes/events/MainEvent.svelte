@@ -37,7 +37,7 @@
   </div>
 
   <div class="p-4">
-    <h3 class="text-2xl font-bold md:text-3xl">
+    <h3 class="text-lg font-bold">
       {title}
     </h3>
   </div>

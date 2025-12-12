@@ -76,9 +76,13 @@ export async function create_index(
         // Build breadcrumbs
         let breadcrumbParts = [...parts];
         while (breadcrumbParts.length) {
-          const parentDoc = content[breadcrumbParts.join("/")];
+          const parentSlug = breadcrumbParts.join("/");
+          const parentDoc = content[parentSlug];
           if (parentDoc) {
-            document.breadcrumbs.unshift({ title: parentDoc.metadata.title });
+            document.breadcrumbs.unshift({
+              slug: parentSlug,
+              title: parentDoc.metadata.title,
+            });
           }
           breadcrumbParts.pop();
         }

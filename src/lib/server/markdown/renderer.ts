@@ -6,10 +6,10 @@ import { slugify } from "./utils";
 let highlighter: Highlighter | null = null;
 
 // Regex to match math expressions
-// Inline: $...$ (but not $$)
-// Display: $$...$$ or \[...\]
-const INLINE_MATH_REGEX = /(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)/g;
-const DISPLAY_MATH_REGEX = /\$\$(.+?)\$\$/gs;
+// Display: $$...$$ (multiline)
+// Inline: $...$ (single line, not preceded/followed by $)
+const DISPLAY_MATH_REGEX = /\$\$([\s\S]+?)\$\$/g;
+const INLINE_MATH_REGEX = /(?<!\$)\$(?!\$)((?:[^$]|\\\$)+?)\$(?!\$)/g;
 
 const SHIKI_LANGUAGE_MAP: Record<string, string> = {
   bash: "bash",
@@ -82,6 +82,57 @@ export async function render(markdown: string): Promise<RenderResult> {
   const hl = await getHighlighter();
   const sections: Section[] = [];
   const headings: string[] = [];
+
+  // Extract math expressions BEFORE markdown parsing to prevent marked from mangling them
+  const mathPlaceholders: Map<string, string> = new Map();
+  let placeholderIndex = 0;
+
+  // Extract display math first ($$...$$)
+  let processedMarkdown = markdown.replace(DISPLAY_MATH_REGEX, (_, math) => {
+    const placeholder = `%%MATH_DISPLAY_${placeholderIndex++}%%`;
+    try {
+      mathPlaceholders.set(
+        placeholder,
+        katex.renderToString(math.trim(), {
+          displayMode: true,
+          throwOnError: false,
+          strict: false,
+        }),
+      );
+    } catch (e) {
+      console.error("KaTeX error:", e);
+      mathPlaceholders.set(
+        placeholder,
+        `<span class="math-error">Math error: ${escapeHtml(math)}</span>`,
+      );
+    }
+    return placeholder;
+  });
+
+  // Extract inline math ($...$)
+  processedMarkdown = processedMarkdown.replace(
+    INLINE_MATH_REGEX,
+    (_, math) => {
+      const placeholder = `%%MATH_INLINE_${placeholderIndex++}%%`;
+      try {
+        mathPlaceholders.set(
+          placeholder,
+          katex.renderToString(math.trim(), {
+            displayMode: false,
+            throwOnError: false,
+            strict: false,
+          }),
+        );
+      } catch (e) {
+        console.error("KaTeX error:", e);
+        mathPlaceholders.set(
+          placeholder,
+          `<span class="math-error">Math error: ${escapeHtml(math)}</span>`,
+        );
+      }
+      return placeholder;
+    },
+  );
 
   const marked = new Marked({
     async: true,
@@ -172,47 +223,14 @@ export async function render(markdown: string): Promise<RenderResult> {
     },
   });
 
-  let html = (await marked.parse(markdown)) ?? "";
+  let html = (await marked.parse(processedMarkdown)) ?? "";
 
-  // Process math expressions (after markdown parsing to avoid conflicts)
-  html = renderMath(html);
+  // Restore math expressions from placeholders
+  for (const [placeholder, rendered] of mathPlaceholders) {
+    html = html.replace(placeholder, rendered);
+  }
 
   return { html, sections };
-}
-
-/**
- * Render LaTeX math expressions using KaTeX
- */
-function renderMath(html: string): string {
-  // Process display math first ($$...$$)
-  html = html.replace(DISPLAY_MATH_REGEX, (_, math) => {
-    try {
-      return katex.renderToString(math.trim(), {
-        displayMode: true,
-        throwOnError: false,
-        strict: false,
-      });
-    } catch (e) {
-      console.error("KaTeX error:", e);
-      return `<span class="math-error">Math error: ${escapeHtml(math)}</span>`;
-    }
-  });
-
-  // Process inline math ($...$)
-  html = html.replace(INLINE_MATH_REGEX, (_, math) => {
-    try {
-      return katex.renderToString(math.trim(), {
-        displayMode: false,
-        throwOnError: false,
-        strict: false,
-      });
-    } catch (e) {
-      console.error("KaTeX error:", e);
-      return `<span class="math-error">Math error: ${escapeHtml(math)}</span>`;
-    }
-  });
-
-  return html;
 }
 
 function escapeHtml(text: string): string {

@@ -18,7 +18,7 @@
           Add calendar
         </a>
         <a
-          href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
+          href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
           class="text-primary-400 hover:underline"
         >
           Join mailing list

@@ -188,17 +188,17 @@
       <button
         onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
         disabled={currentTermIndex === 0}
-        class="btn neutral sm"
+        class="btn neutral sm font-mono"
       >
-        &lt;
+        &lt;-
       </button>
       <button
         onclick={() =>
           (currentTermIndex = Math.min(terms.length - 1, currentTermIndex + 1))}
         disabled={currentTermIndex === terms.length - 1}
-        class="btn neutral sm"
+        class="btn neutral sm font-mono"
       >
-        &gt;
+        -&gt;
       </button>
     </div>
   </div>
