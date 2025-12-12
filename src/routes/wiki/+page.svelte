@@ -11,8 +11,8 @@
   {/if}
 </svelte:head>
 
-<main class="min-h-screen bg-neutral-900">
-  <section class="bg-neutral-900 pt-24 text-neutral-300">
+<main class="bg-tertiary-800 min-h-screen">
+  <section class="bg-tertiary-800 pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400">
@@ -32,7 +32,7 @@
           {#each data.children as child}
             <a
               href="/wiki/{child.slug}"
-              class="block rounded-lg bg-neutral-800 p-6 transition-colors hover:bg-neutral-700"
+              class="bg-tertiary-900 block rounded-lg p-6 transition-all hover:brightness-125"
             >
               <h2 class="mb-2 text-xl font-semibold text-neutral-100">
                 {child.title}

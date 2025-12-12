@@ -339,6 +339,10 @@ main {
     }
   }
 
+  img {
+    @apply my-6 max-h-96 w-auto rounded-lg;
+  }
+
   code {
     @apply rounded bg-neutral-100 px-1.5 py-0.5 text-sm;
     @variant dark {
