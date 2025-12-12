@@ -36,7 +36,7 @@
       <h2 class="my-4 text-3xl font-bold md:text-4xl">Aims</h2>
 
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div class="c-4 rounded-lg bg-tertiary-800 p-4">
+        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/graph.png"
@@ -50,7 +50,7 @@
             opportunities
           </p>
         </div>
-        <div class="c-4 rounded-lg bg-tertiary-800 p-4">
+        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/loudspeaker.png"
@@ -63,7 +63,7 @@
             Spark curiosity in computing amongst members and the general public
           </p>
         </div>
-        <div class="c-4 rounded-lg bg-tertiary-800 p-4">
+        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/steps.png"
@@ -74,7 +74,7 @@
           <div class="text-xl font-bold uppercase">Support members</div>
           <p>Help and fund members host events that align with our mission</p>
         </div>
-        <div class="c-4 rounded-lg bg-tertiary-800 p-4">
+        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/text.png"

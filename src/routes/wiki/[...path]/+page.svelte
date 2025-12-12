@@ -17,6 +17,8 @@
       <!-- Breadcrumbs -->
       {#if data.breadcrumbs.length > 0}
         <nav class="mb-6 text-sm text-neutral-400">
+          <a href="/" class="hover:text-neutral-200 hover:underline">Home</a>
+          <span class="mx-2">/</span>
           <a href="/wiki" class="hover:text-neutral-200 hover:underline">Wiki</a
           >
           {#each data.breadcrumbs as crumb, i}

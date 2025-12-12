@@ -69,8 +69,18 @@ export async function get_blog_post(slug: string): Promise<{
     post,
     html,
     sections,
-    prev: prevPost ? { slug: prevPost.slug.replace('blog/', ''), title: prevPost.metadata.title } : null,
-    next: nextPost ? { slug: nextPost.slug.replace('blog/', ''), title: nextPost.metadata.title } : null,
+    prev: prevPost
+      ? {
+          slug: prevPost.slug.replace("blog/", ""),
+          title: prevPost.metadata.title,
+        }
+      : null,
+    next: nextPost
+      ? {
+          slug: nextPost.slug.replace("blog/", ""),
+          title: nextPost.metadata.title,
+        }
+      : null,
   };
 }
 
