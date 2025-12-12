@@ -311,10 +311,14 @@ main {
   }
 
   blockquote.callout {
-    @apply rounded-r-lg border-l-4 bg-neutral-100 p-4 not-italic;
+    @apply rounded-r-lg border-l-4 bg-neutral-100 p-4 text-base not-italic;
     @variant dark {
       @apply bg-neutral-800;
     }
+  }
+
+  blockquote.callout p {
+    @apply m-0 text-base;
   }
 
   blockquote.callout.note {
@@ -343,7 +347,7 @@ main {
   }
 
   pre {
-    @apply my-4 overflow-x-auto rounded-lg p-4 text-sm;
+    @apply my-4 overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm;
   }
 
   pre code {
@@ -355,7 +359,7 @@ main {
   }
 
   .code-block pre {
-    @apply m-0 rounded-none;
+    @apply m-0 rounded-none bg-neutral-900;
   }
 
   img {

@@ -16,8 +16,9 @@
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumbs -->
       {#if data.breadcrumbs.length > 0}
-        <nav class="mb-6 text-sm text-neutral-400">
-          <a href="/wiki" class="hover:underline">Wiki</a>
+        <nav class="text-secondary-300 mb-6 text-sm">
+          <a href="/wiki" class="hover:text-primary-400 hover:underline">Wiki</a
+          >
           {#each data.breadcrumbs as crumb}
             <span class="mx-2">/</span>
             <span>{crumb.title}</span>
@@ -30,16 +31,14 @@
 
         <!-- Table of contents -->
         {#if data.sections.length > 0}
-          <nav
-            class="bg-secondary-700 mb-8 rounded-lg border border-neutral-600 p-4"
-          >
+          <nav class="bg-secondary-700 mb-8 rounded-lg p-4">
             <h2 class="mb-2 font-semibold text-neutral-100">On this page</h2>
             <ul class="space-y-1">
               {#each data.sections as section}
                 <li>
                   <a
                     href="#{section.slug}"
-                    class="text-primary-400 hover:underline"
+                    class="text-secondary-200 hover:text-neutral-100 hover:underline"
                   >
                     {section.title}
                   </a>
@@ -60,13 +59,13 @@
           {#each data.children as child}
             <a
               href="/wiki/{child.slug}"
-              class="bg-secondary-700 hover:border-primary-500 hover:bg-secondary-600 block rounded-lg border border-neutral-600 p-6 transition-colors"
+              class="bg-secondary-700 hover:bg-secondary-600 block rounded-lg p-6 transition-colors"
             >
               <h2 class="mb-2 text-xl font-semibold text-neutral-100">
                 {child.title}
               </h2>
               {#if child.description}
-                <p class="text-neutral-400">{child.description}</p>
+                <p class="text-secondary-300">{child.description}</p>
               {/if}
             </a>
           {/each}
@@ -74,7 +73,7 @@
       {/if}
 
       <!-- Prev/Next navigation -->
-      <nav class="mt-12 flex justify-between border-t border-neutral-600 pt-8">
+      <nav class="mt-12 flex justify-between pt-8">
         {#if data.prev}
           <a
             href="/wiki/{data.prev.slug}"

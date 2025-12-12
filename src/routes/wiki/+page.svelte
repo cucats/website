@@ -25,13 +25,13 @@
           {#each data.children as child}
             <a
               href="/wiki/{child.slug}"
-              class="bg-secondary-700 hover:border-primary-500 hover:bg-secondary-600 block rounded-lg border border-neutral-600 p-6 transition-colors"
+              class="bg-secondary-700 hover:bg-secondary-600 block rounded-lg p-6 transition-colors"
             >
               <h2 class="mb-2 text-xl font-semibold text-neutral-100">
                 {child.title}
               </h2>
               {#if child.description}
-                <p class="text-neutral-400">{child.description}</p>
+                <p class="text-secondary-300">{child.description}</p>
               {/if}
             </a>
           {/each}

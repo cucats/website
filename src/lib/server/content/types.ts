@@ -12,7 +12,7 @@ export interface Document {
     [key: string]: string | undefined;
   };
   /** Breadcrumb trail */
-  breadcrumbs: Array<{ title: string }>;
+  breadcrumbs: Array<{ slug: string; title: string }>;
   /** Raw markdown body */
   body: string;
   /** Section headings (h2) */
