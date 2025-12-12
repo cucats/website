@@ -3,8 +3,8 @@
   import Calendar from "./Calendar.svelte";
 </script>
 
-<main class="bg-tertiary-800">
-  <section class="bg-tertiary-800 pt-24 text-neutral-300">
+<main class="bg-primary-800">
+  <section class="pt-24 text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl p-4 pt-6">
       <h1 class="text-4xl font-bold md:text-5xl">Events</h1>
       <p>
@@ -27,7 +27,7 @@
     </div>
   </section>
 
-  <section class="bg-tertiary-700 overflow-hidden text-neutral-300">
+  <section class="bg-primary-700 overflow-hidden text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl px-4 py-4">
       <h2 class="mt-4 text-3xl font-bold md:text-4xl">Flagship events</h2>
       <p>

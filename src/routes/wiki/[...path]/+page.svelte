@@ -11,8 +11,8 @@
   {/if}
 </svelte:head>
 
-<main class="bg-tertiary-800 min-h-screen">
-  <section class="bg-tertiary-800 pt-24 text-neutral-300">
+<main class="bg-primary-800 min-h-screen">
+  <section class="pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumbs -->
       {#if data.breadcrumbs.length > 0}

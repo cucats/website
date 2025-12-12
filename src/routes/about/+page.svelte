@@ -12,8 +12,8 @@
   );
 </script>
 
-<main class="bg-primary-900">
-  <section class="bg-tertiary-800 pt-24 text-neutral-300">
+<main class="bg-primary-800">
+  <section class="pt-24 text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="text-4xl font-bold md:text-5xl">About Us</h1>
       <p>
@@ -31,7 +31,7 @@
     </div>
   </section>
 
-  <section class="bg-tertiary-800 text-neutral-300">
+  <section class="text-neutral-300">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h2 class="my-4 text-3xl font-bold md:text-4xl">Aims</h2>
 
