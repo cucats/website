@@ -1,10 +1,10 @@
 ---
 title: Tutorials
-description: Step-by-step guides and tutorials
+description: Guides and tutorials on various computing topics
 ---
 
-Welcome to our tutorials section! Here you'll find guides on various computing topics.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 ## Available Tutorials
 
-Browse our collection of tutorials below.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

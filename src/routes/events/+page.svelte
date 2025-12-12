@@ -27,12 +27,6 @@
     </div>
   </section>
 
-  <section class="bg-tertiary-900 text-neutral-300">
-    <div class="mx-auto max-w-7xl py-8">
-      <Calendar />
-    </div>
-  </section>
-
   <section class="bg-tertiary-700 overflow-hidden text-neutral-300">
     <div class="c-4 mx-auto max-w-7xl py-4">
       <h2 class="mt-4 ml-4 text-3xl font-bold md:text-4xl">Flagship events</h2>
@@ -59,6 +53,12 @@
           picture="assets/events/december-challenge.png"
         ></Event>
       </div>
+    </div>
+  </section>
+
+  <section class="bg-tertiary-900 text-neutral-300">
+    <div class="mx-auto max-w-7xl py-8">
+      <Calendar />
     </div>
   </section>
 </main>

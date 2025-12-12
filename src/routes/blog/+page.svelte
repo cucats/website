@@ -12,8 +12,8 @@
   />
 </svelte:head>
 
-<main class="bg-secondary-900 min-h-screen">
-  <section class="bg-secondary-800 pt-24 text-neutral-300">
+<main class="min-h-screen bg-neutral-900">
+  <section class="bg-neutral-900 pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400">
@@ -30,7 +30,7 @@
       <div class="space-y-6">
         {#each data.posts as post}
           <article
-            class="group bg-secondary-700 hover:bg-secondary-600 rounded-lg p-6 transition-colors"
+            class="group rounded-lg bg-neutral-800 p-6 transition-colors hover:bg-neutral-700"
           >
             <a href="/blog/{post.slug}" class="block">
               <div

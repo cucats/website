@@ -139,7 +139,9 @@ export async function render(markdown: string): Promise<RenderResult> {
     renderer: {
       heading({ tokens, depth }) {
         const text = this.parser!.parseInline(tokens);
-        const plainText = text.replace(/<\/?[^>]+(>|$)/g, ""); // Strip HTML tags
+        const plainText = decodeHtmlEntities(
+          text.replace(/<\/?[^>]+(>|$)/g, ""),
+        ); // Strip HTML tags and decode entities
 
         headings[depth - 1] = slugify(plainText);
         headings.length = depth;
@@ -240,4 +242,15 @@ function escapeHtml(text: string): string {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&#039;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
 }

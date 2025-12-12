@@ -11,8 +11,8 @@
   {/if}
 </svelte:head>
 
-<main class="bg-secondary-900 min-h-screen">
-  <section class="bg-secondary-800 pt-24 text-neutral-300">
+<main class="min-h-screen bg-neutral-900">
+  <section class="bg-neutral-900 pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400">
@@ -63,7 +63,7 @@
         {#if data.prev}
           <a
             href="/blog/{data.prev.slug}"
-            class="group bg-secondary-700 hover:bg-secondary-600 rounded-lg p-4 transition-colors"
+            class="group rounded-lg bg-neutral-800 p-4 transition-colors hover:bg-neutral-700"
           >
             <span class="text-xs text-neutral-500">Previous</span>
             <span
@@ -77,7 +77,7 @@
         {#if data.next}
           <a
             href="/blog/{data.next.slug}"
-            class="group bg-secondary-700 hover:bg-secondary-600 rounded-lg p-4 text-right transition-colors"
+            class="group rounded-lg bg-neutral-800 p-4 text-right transition-colors hover:bg-neutral-700"
           >
             <span class="text-xs text-neutral-500">Next</span>
             <span

@@ -1,14 +1,8 @@
 ---
 title: CUCaTS Wiki
-description: Knowledge base and documentation for CUCaTS
+description: Resources and guides from the Cambridge University Computing and Technology Society
 ---
 
-Welcome to the CUCaTS wiki! This is our knowledge base for tutorials, guides, and documentation.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Categories
-
-Browse our wiki by category:
-
-- [Getting Started](/wiki/getting-started) - New to CUCaTS? Start here
-- [Tutorials](/wiki/tutorials) - Step-by-step guides
-- [Resources](/wiki/resources) - Useful links and references
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

@@ -1,18 +1,14 @@
 ---
 title: Getting Started
-description: New to CUCaTS? Start here!
+description: How to get involved with CUCaTS
 ---
 
-Welcome to CUCaTS! This guide will help you get started with our society and resources.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Joining CUCaTS
+## Overview
 
-CUCaTS is open to all students at the University of Cambridge. To join:
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 
-1. Sign up on the Freshers' Fair or at any of our events
-2. Join our mailing list for event announcements
-3. Follow us on social media
+## Next Steps
 
-## Your First Event
-
-Check out our [events page](/events) to see what's coming up. We recommend starting with one of our beginner-friendly workshops!
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
