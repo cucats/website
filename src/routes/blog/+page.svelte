@@ -30,9 +30,9 @@
       <div class="space-y-6">
         {#each data.posts as post}
           <article
-            class="group bg-tertiary-900 rounded-lg p-6 transition-all hover:brightness-125"
+            class="group bg-tertiary-900 rounded-lg transition-all hover:brightness-125"
           >
-            <a href="/blog/{post.slug}" class="block">
+            <a href="/blog/{post.slug}" class="block p-6">
               <div
                 class="mb-2 flex items-center gap-3 text-xs text-neutral-300"
               >
@@ -53,7 +53,7 @@
               {/if}
               <span
                 class="mt-3 inline-block text-sm text-neutral-300 group-hover:text-neutral-100 group-hover:underline"
-                >Read more →</span
+                >Read more -&gt;</span
               >
             </a>
           </article>
