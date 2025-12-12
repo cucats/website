@@ -16,14 +16,14 @@
   <section class="bg-secondary-800 pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
-      <nav class="text-secondary-300 mb-6 text-sm">
-        <a href="/" class="hover:text-primary-400 hover:underline">Home</a>
+      <nav class="mb-6 text-sm text-neutral-400">
+        <a href="/" class="hover:text-neutral-200 hover:underline">Home</a>
         <span class="mx-2">/</span>
-        <span class="text-neutral-100">Blog</span>
+        <span class="text-neutral-200">Blog</span>
       </nav>
 
       <h1 class="mb-2 text-4xl font-bold text-neutral-100">Blog</h1>
-      <p class="text-secondary-300 mb-8">
+      <p class="mb-8 text-neutral-400">
         News, tutorials, and updates from CUCaTS
       </p>
 
@@ -34,26 +34,25 @@
           >
             <a href="/blog/{post.slug}" class="block">
               <div
-                class="text-secondary-300 mb-2 flex items-center gap-3 text-xs"
+                class="mb-2 flex items-center gap-3 text-xs text-neutral-300"
               >
                 {#if post.date_formatted}
                   <time datetime={post.date}>{post.date_formatted}</time>
                 {/if}
                 {#if post.authors.length > 0}
-                  <span class="text-secondary-400">•</span>
                   <span>{post.authors.map((a) => a.name).join(", ")}</span>
                 {/if}
               </div>
               <h2
-                class="group-hover:text-primary-400 mb-2 text-xl font-semibold text-neutral-100"
+                class="mb-2 text-xl font-semibold text-neutral-100 group-hover:text-neutral-50"
               >
                 {post.title}
               </h2>
               {#if post.description}
-                <p class="text-secondary-200 text-sm">{post.description}</p>
+                <p class="text-sm text-neutral-300">{post.description}</p>
               {/if}
               <span
-                class="text-primary-400 mt-3 inline-block text-sm group-hover:underline"
+                class="mt-3 inline-block text-sm text-neutral-300 group-hover:text-neutral-100 group-hover:underline"
                 >Read more →</span
               >
             </a>

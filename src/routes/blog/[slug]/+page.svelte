@@ -15,31 +15,30 @@
   <section class="bg-secondary-800 pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
-      <nav class="text-secondary-300 mb-6 text-sm">
-        <a href="/" class="hover:text-primary-400 hover:underline">Home</a>
+      <nav class="mb-6 text-sm text-neutral-400">
+        <a href="/" class="hover:text-neutral-200 hover:underline">Home</a>
         <span class="mx-2">/</span>
-        <a href="/blog" class="hover:text-primary-400 hover:underline">Blog</a>
+        <a href="/blog" class="hover:text-neutral-200 hover:underline">Blog</a>
         <span class="mx-2">/</span>
-        <span class="text-neutral-100">{data.title}</span>
+        <span class="text-neutral-200">{data.title}</span>
       </nav>
 
       <article>
         <header class="mb-8">
           <h1 class="mb-4 text-4xl font-bold text-neutral-100">{data.title}</h1>
           <div
-            class="text-secondary-300 flex flex-wrap items-center gap-4 text-sm"
+            class="flex flex-wrap items-center gap-4 text-sm text-neutral-300"
           >
             {#if data.date_formatted}
               <time datetime={data.date}>{data.date_formatted}</time>
             {/if}
             {#if data.authors.length > 0}
-              <span class="text-secondary-400">•</span>
               <span>
                 by {#each data.authors as author, i}
                   {#if author.url}
                     <a
                       href={author.url}
-                      class="text-primary-400 hover:underline"
+                      class="text-neutral-100 hover:underline"
                       target="_blank"
                       rel="noopener noreferrer">{author.name}</a
                     >
@@ -66,8 +65,9 @@
             href="/blog/{data.prev.slug}"
             class="group bg-secondary-700 hover:bg-secondary-600 rounded-lg p-4 transition-colors"
           >
-            <span class="text-secondary-300 text-xs">Previous</span>
-            <span class="text-primary-400 block group-hover:underline"
+            <span class="text-xs text-neutral-500">Previous</span>
+            <span
+              class="block text-neutral-200 group-hover:text-neutral-50 group-hover:underline"
               >{data.prev.title}</span
             >
           </a>
@@ -79,8 +79,9 @@
             href="/blog/{data.next.slug}"
             class="group bg-secondary-700 hover:bg-secondary-600 rounded-lg p-4 text-right transition-colors"
           >
-            <span class="text-secondary-300 text-xs">Next</span>
-            <span class="text-primary-400 block group-hover:underline"
+            <span class="text-xs text-neutral-500">Next</span>
+            <span
+              class="block text-neutral-200 group-hover:text-neutral-50 group-hover:underline"
               >{data.next.title}</span
             >
           </a>
@@ -93,7 +94,7 @@
       <div class="mt-8 text-center">
         <a
           href="/blog"
-          class="hover:text-primary-400 text-secondary-300 inline-flex items-center gap-2 text-sm"
+          class="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-200"
         >
           ← Back to all posts
         </a>
