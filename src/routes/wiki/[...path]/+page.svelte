@@ -89,7 +89,7 @@
             href="/{data.prev.slug}"
             class="text-neutral-300 hover:text-neutral-100 hover:underline"
           >
-            ← {data.prev.title}
+            &lt;- {data.prev.title}
           </a>
         {:else}
           <span></span>
@@ -99,7 +99,7 @@
             href="/{data.next.slug}"
             class="text-neutral-300 hover:text-neutral-100 hover:underline"
           >
-            {data.next.title} →
+            {data.next.title} -&gt;
           </a>
         {:else}
           <span></span>

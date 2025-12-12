@@ -96,7 +96,7 @@
           href="/blog"
           class="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-200"
         >
-          ← Back to all posts
+          &lt;- Back to all posts
         </a>
       </div>
     </div>
