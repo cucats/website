@@ -19,9 +19,16 @@
         <nav class="mb-6 text-sm text-neutral-400">
           <a href="/wiki" class="hover:text-neutral-200 hover:underline">Wiki</a
           >
-          {#each data.breadcrumbs as crumb}
+          {#each data.breadcrumbs as crumb, i}
             <span class="mx-2">/</span>
-            <span>{crumb.title}</span>
+            {#if i < data.breadcrumbs.length - 1}
+              <a
+                href="/wiki/{crumb.slug}"
+                class="hover:text-neutral-200 hover:underline">{crumb.title}</a
+              >
+            {:else}
+              <span class="text-neutral-200">{crumb.title}</span>
+            {/if}
           {/each}
         </nav>
       {/if}
