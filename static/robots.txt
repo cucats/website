@@ -1,5 +1,7 @@
+# Only index to actual pages on the website
 User-agent: *
 Disallow: /static/
+Disallow: /data/
 
 # Block AI bots
 # https://developers.cloudflare.com/bots/concepts/bot/
