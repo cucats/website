@@ -15,7 +15,7 @@
   <section class="bg-secondary-800 pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
-      <nav class="mb-6 text-sm text-secondary-300">
+      <nav class="text-secondary-300 mb-6 text-sm">
         <a href="/" class="hover:text-primary-400 hover:underline">Home</a>
         <span class="mx-2">/</span>
         <a href="/blog" class="hover:text-primary-400 hover:underline">Blog</a>
@@ -27,7 +27,7 @@
         <header class="mb-8">
           <h1 class="mb-4 text-4xl font-bold text-neutral-100">{data.title}</h1>
           <div
-            class="flex flex-wrap items-center gap-4 text-sm text-secondary-300"
+            class="text-secondary-300 flex flex-wrap items-center gap-4 text-sm"
           >
             {#if data.date_formatted}
               <time datetime={data.date}>{data.date_formatted}</time>
@@ -60,15 +60,13 @@
       </article>
 
       <!-- Post navigation -->
-      <nav
-        class="mt-12 grid gap-4 border-t border-secondary-600 pt-8 sm:grid-cols-2"
-      >
+      <nav class="mt-12 grid gap-4 pt-8 sm:grid-cols-2">
         {#if data.prev}
           <a
             href="/blog/{data.prev.slug}"
-            class="group bg-secondary-700 hover:border-primary-500 hover:bg-secondary-600 rounded-lg border border-secondary-500 p-4 transition-colors"
+            class="group bg-secondary-700 hover:bg-secondary-600 rounded-lg p-4 transition-colors"
           >
-            <span class="text-xs text-secondary-300">← Previous</span>
+            <span class="text-secondary-300 text-xs">Previous</span>
             <span class="text-primary-400 block group-hover:underline"
               >{data.prev.title}</span
             >
@@ -79,9 +77,9 @@
         {#if data.next}
           <a
             href="/blog/{data.next.slug}"
-            class="group bg-secondary-700 hover:border-primary-500 hover:bg-secondary-600 rounded-lg border border-secondary-500 p-4 text-right transition-colors"
+            class="group bg-secondary-700 hover:bg-secondary-600 rounded-lg p-4 text-right transition-colors"
           >
-            <span class="text-xs text-secondary-300">Next →</span>
+            <span class="text-secondary-300 text-xs">Next</span>
             <span class="text-primary-400 block group-hover:underline"
               >{data.next.title}</span
             >
@@ -95,7 +93,7 @@
       <div class="mt-8 text-center">
         <a
           href="/blog"
-          class="hover:text-primary-400 inline-flex items-center gap-2 text-sm text-secondary-300"
+          class="hover:text-primary-400 text-secondary-300 inline-flex items-center gap-2 text-sm"
         >
           ← Back to all posts
         </a>

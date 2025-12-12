@@ -10,16 +10,16 @@
       <p>
         Check our private Discord for up-to-date information and announcements.
       </p>
-      <p class="mb-4 text-neutral-300">
+      <p class="mb-4 flex gap-4 text-neutral-300">
         <a
           href="webcal://cucats.org/events/calendar.ics"
-          class="btn secondary p-2"
+          class="text-primary-400 hover:underline"
         >
           Add calendar
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
-          class="btn neutral p-2"
+          class="text-primary-400 hover:underline"
         >
           Join mailing list
         </a>
@@ -29,7 +29,6 @@
 
   <section class="bg-tertiary-900 text-neutral-300">
     <div class="mx-auto max-w-7xl py-8">
-      <h1 class="mb-4 ml-4 text-4xl font-bold">Calendar</h1>
       <Calendar />
     </div>
   </section>
