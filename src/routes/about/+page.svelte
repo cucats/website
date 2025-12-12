@@ -12,8 +12,8 @@
   );
 </script>
 
-<main class="bg-secondary-900">
-  <section class="bg-secondary-800 pt-24 text-neutral-300">
+<main class="bg-primary-900">
+  <section class="bg-tertiary-800 pt-24 text-neutral-300">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="text-4xl font-bold md:text-5xl">About Us</h1>
       <p>
@@ -31,12 +31,12 @@
     </div>
   </section>
 
-  <section class="bg-secondary-700 text-neutral-300">
+  <section class="bg-tertiary-800 text-neutral-300">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h2 class="my-4 text-3xl font-bold md:text-4xl">Aims</h2>
 
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
+        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/graph.png"
@@ -50,7 +50,7 @@
             opportunities
           </p>
         </div>
-        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
+        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/loudspeaker.png"
@@ -63,7 +63,7 @@
             Spark curiosity in computing amongst members and the general public
           </p>
         </div>
-        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
+        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/steps.png"
@@ -74,7 +74,7 @@
           <div class="text-xl font-bold uppercase">Support members</div>
           <p>Help and fund members host events that align with our mission</p>
         </div>
-        <div class="c-4 bg-tertiary-800 rounded-lg p-4">
+        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
             <enhanced:img
               src="$lib/assets/icons/text.png"
@@ -93,7 +93,7 @@
   </section>
 
   {#if committee.length}
-    <section class="bg-secondary-900 text-neutral-300">
+    <section class="bg-tertiary-900 text-neutral-300">
       <div class="c-4 mx-auto max-w-5xl p-4">
         <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
 
@@ -181,6 +181,6 @@
   }
 
   .member-container {
-    @apply bg-secondary-600/20 mb-4 flex flex-wrap justify-center gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:gap-8 md:p-8;
+    @apply bg-primary-600/20 mb-4 flex flex-wrap justify-center gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:gap-8 md:p-8;
   }
 </style>
