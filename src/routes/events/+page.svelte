@@ -5,7 +5,7 @@
 
 <main class="bg-tertiary-800">
   <section class="bg-tertiary-800 pt-24 text-neutral-300">
-    <div class="c-4 mx-auto max-w-7xl p-4 pt-6">
+    <div class="c-4 mx-auto max-w-5xl p-4 pt-6">
       <h1 class="text-4xl font-bold md:text-5xl">Events</h1>
       <p>
         Check our private Discord for up-to-date information and announcements.
@@ -28,9 +28,9 @@
   </section>
 
   <section class="bg-tertiary-700 overflow-hidden text-neutral-300">
-    <div class="c-4 mx-auto max-w-7xl py-4">
-      <h2 class="mt-4 ml-4 text-3xl font-bold md:text-4xl">Flagship events</h2>
-      <p class="ml-4">
+    <div class="c-4 mx-auto max-w-5xl py-4">
+      <h2 class="mt-4 text-3xl font-bold md:text-4xl">Flagship events</h2>
+      <p>
         Our yearly events attract many Cambridge students, giving opportunities
         to compete and win prizes!
       </p>
