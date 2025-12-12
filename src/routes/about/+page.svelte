@@ -103,7 +103,11 @@
               class="bg-secondary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
             >
               {#if member.image}
-                <img src={member.image} alt={`${member.name}'s portrait`} />
+                <img
+                  class="size-full object-cover"
+                  src={member.image}
+                  alt={`${member.name}'s portrait`}
+                />
               {:else}
                 <enhanced:img
                   class="opacity-80"
