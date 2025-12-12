@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fly, fade } from "svelte/transition";
   import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
+  import { searchState } from "$lib/search-state.svelte";
 
   let active = $state(false);
 
@@ -27,16 +28,29 @@
 
     <!-- Navigation -->
     <nav
-      class="hidden items-center gap-4 text-lg font-semibold text-neutral-100 uppercase sm:flex"
+      class="hidden items-center gap-2 text-lg font-semibold text-neutral-100 uppercase sm:flex"
     >
       {#each links as link}
         <a
-          class="p-4 transition duration-200 ease-in-out sm:hover:scale-105"
+          class="p-3 transition duration-200 ease-in-out sm:hover:scale-105"
           href={link.href}
         >
           {link.label}
         </a>
       {/each}
+
+      <!-- Search button -->
+      <button
+        onclick={() => searchState.open()}
+        class="ml-2 flex items-center gap-2 rounded-lg bg-neutral-800/50 px-3 py-2 text-sm font-normal normal-case text-neutral-400 transition-colors hover:bg-neutral-700/50 hover:text-neutral-300"
+        aria-label="Search"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <span class="hidden lg:inline">Search</span>
+        <kbd class="hidden rounded bg-neutral-700 px-1.5 py-0.5 text-xs lg:inline">Ctrl K</kbd>
+      </button>
     </nav>
 
     <!-- Hamburger -->
@@ -84,8 +98,19 @@
       <CloseIcon class="m-auto h-8 w-8" />
     </button>
 
+    <!-- Search button -->
+    <button
+      onclick={() => { active = false; searchState.open(); }}
+      class="mx-6 mt-4 flex items-center gap-3 rounded-lg bg-neutral-800 px-4 py-3 text-neutral-400 transition-colors hover:bg-neutral-700"
+    >
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <span>Search...</span>
+    </button>
+
     <!-- Navigation links -->
-    <nav class="flex flex-col pt-20">
+    <nav class="flex flex-col pt-4">
       {#each links as link}
         <a
           class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"

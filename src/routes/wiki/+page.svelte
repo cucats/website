@@ -14,6 +14,13 @@
 <main class="bg-secondary-900 min-h-screen">
   <section class="bg-secondary-800 pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
+      <!-- Breadcrumb navigation -->
+      <nav class="text-secondary-300 mb-6 text-sm">
+        <a href="/" class="hover:text-primary-400 hover:underline">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-neutral-100">Wiki</span>
+      </nav>
+
       <h1 class="mb-8 text-4xl font-bold text-neutral-100">{data.title}</h1>
 
       <div class="prose prose-lg prose-invert mb-12 max-w-none">
