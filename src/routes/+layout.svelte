@@ -1,6 +1,7 @@
 <script lang="ts">
   import Header from "./Header.svelte";
   import Footer from "./Footer.svelte";
+  import SearchModal from "$lib/components/SearchModal.svelte";
   import "../app.css";
 
   let { data, children } = $props();
@@ -19,3 +20,5 @@
 
   <Footer />
 </div>
+
+<SearchModal />

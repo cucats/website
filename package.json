@@ -34,7 +34,11 @@
   "type": "module",
   "dependencies": {
     "dompurify": "^3.3.1",
-    "ical.js": "^2.2.1"
+    "flexsearch": "^0.8.212",
+    "ical.js": "^2.2.1",
+    "katex": "^0.16.25",
+    "marked": "^17.0.1",
+    "shiki": "^3.17.1"
   },
   "prettier": {
     "plugins": [
