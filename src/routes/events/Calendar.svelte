@@ -43,6 +43,11 @@
       start: new Date("2025-10-07"),
       end: new Date("2025-12-05"),
     },
+    {
+      name: "Lent 2026",
+      start: new Date("2026-01-22"),
+      end: new Date("2026-03-18"),
+    },
   ];
 
   let currentTermIndex = $state(1);
