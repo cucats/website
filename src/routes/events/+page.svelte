@@ -10,27 +10,26 @@
       <p>
         Check our private Discord for up-to-date information and announcements.
       </p>
+      <p class="mb-4 text-neutral-300">
+        <a
+          href="webcal://cucats.org/events/calendar.ics"
+          class="btn secondary p-2"
+        >
+          Add calendar
+        </a>
+        <a
+          href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
+          class="btn neutral p-2"
+        >
+          Join mailing list
+        </a>
+      </p>
     </div>
   </section>
 
   <section class="bg-tertiary-900 text-neutral-300">
     <div class="mx-auto max-w-7xl py-8">
-      <h1 class="mb-2 ml-4 text-4xl font-bold">Calendar</h1>
-      <p class="mb-4 ml-4 text-neutral-300">
-        Subscribe to <a
-          href="webcal://cucats.org/events/calendar.ics"
-          class="underline hover:text-neutral-100"
-        >
-          the CUCaTS calendar
-        </a>
-        or
-        <a
-          href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events?previous_action=info"
-          class="underline hover:text-neutral-100"
-        >
-          the mailing list
-        </a>.
-      </p>
+      <h1 class="mb-4 ml-4 text-4xl font-bold">Calendar</h1>
       <Calendar />
     </div>
   </section>

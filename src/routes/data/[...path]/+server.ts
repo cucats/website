@@ -5,6 +5,10 @@ import path from "path";
 import { env } from "$env/dynamic/private";
 
 export const GET: RequestHandler = ({ params }) => {
+  if (env.DATA_PATH === undefined) {
+    return new Response("Not found", { status: 404 });
+  }
+
   const file_path = path.resolve(env.DATA_PATH, params.path);
 
   // Be careful of directory traversal!
