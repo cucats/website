@@ -138,7 +138,7 @@ const months = [
 function format_date(date: string): string {
   const [y, m, d] = date.split("-");
   const month = months[+m - 1];
-  return `${month} ${+d}, ${y}`;
+  return `${+d} ${month} ${y}`;
 }
 
 /**

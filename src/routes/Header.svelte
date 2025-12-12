@@ -42,14 +42,27 @@
       <!-- Search button -->
       <button
         onclick={() => searchState.open()}
-        class="ml-2 flex items-center gap-2 rounded-lg bg-neutral-800/50 px-3 py-2 text-sm font-normal normal-case text-neutral-400 transition-colors hover:bg-neutral-700/50 hover:text-neutral-300"
+        class="ml-2 flex items-center gap-2 rounded-lg bg-neutral-800/50 px-3 py-2 text-sm font-normal text-neutral-400 normal-case transition-colors hover:bg-neutral-700/50 hover:text-neutral-300"
         aria-label="Search"
       >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
         </svg>
         <span class="hidden lg:inline">Search</span>
-        <kbd class="hidden rounded bg-neutral-700 px-1.5 py-0.5 text-xs lg:inline">Ctrl K</kbd>
+        <kbd
+          class="hidden rounded bg-neutral-700 px-1.5 py-0.5 text-xs lg:inline"
+          >Ctrl K</kbd
+        >
       </button>
     </nav>
 
@@ -100,11 +113,24 @@
 
     <!-- Search button -->
     <button
-      onclick={() => { active = false; searchState.open(); }}
+      onclick={() => {
+        active = false;
+        searchState.open();
+      }}
       class="mx-6 mt-4 flex items-center gap-3 rounded-lg bg-neutral-800 px-4 py-3 text-neutral-400 transition-colors hover:bg-neutral-700"
     >
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      <svg
+        class="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
       </svg>
       <span>Search...</span>
     </button>
