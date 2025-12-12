@@ -5,10 +5,8 @@ date: 2025-10-16
 author: James Leung
 ---
 
-To welcome everyone to Cambridge, and start the year off right, CUCaTS stuck to a winning formula for our first social: bubble tea and board games. Because who doesn't like boba?
+To welcome everyone to Cambridge and kick off the year, we decided to stick to what we know and love: boba and board games. (I mean, who doesn't love boba?)
 
-We wanted to strip away the formalities of networking and create a space where people could actually get to know each other.
+We really wanted to skip the awkward "networking" phase and just create a space where we could actually hang out. It was amazing to see 50 of you packed into the room, bringing the energy and getting surprisingly intense over games of Coup.
 
-We had 50 people packed into a room, with lots of conversation and a few intense games of Coup.
-
-It was a chaotic, loud and incredibly fun start to the year. Thanks to everyone who joined us!
+It was chaotic, loud, and the perfect start to the year. Thanks so much to everyone who came out!
