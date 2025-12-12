@@ -1,8 +1,8 @@
 ---
 title: Bubble Tea & Board Games Social
 description: Kicking off the year with boba and Coup
-date: 2024-10-16
-author: CUCaTS Committee
+date: 2025-10-16
+author: James Leung
 ---
 
 To welcome everyone to Cambridge, and start the year off right, CUCaTS stuck to a winning formula for our first social: bubble tea and board games. Because who doesn't like boba?
