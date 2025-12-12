@@ -17,21 +17,22 @@
       <!-- Breadcrumbs -->
       {#if data.breadcrumbs.length > 0}
         <nav class="mb-6 text-sm text-neutral-400">
-          <a href="/" class="hover:text-neutral-200 hover:underline">Home</a>
-          <span class="mx-2">/</span>
-          <a href="/wiki" class="hover:text-neutral-200 hover:underline">Wiki</a>
+          <a href="/" class="float-left hover:text-neutral-200 hover:underline"
+            >Home</a
+          >
 
-          {#each data.breadcrumbs as crumb, i}
-            <span class="mx-2">/</span>
-            {#if i < data.breadcrumbs.length - 1}
-              <a
-                href="/wiki/{crumb.slug}"
-                class="hover:text-neutral-200 hover:underline">{crumb.title}</a
-              >
-            {:else}
-              <span class="text-neutral-200">{crumb.title}</span>
-            {/if}
+          {#each data.breadcrumbs as crumb}
+            <span class="float-left mx-4">/</span>
+
+            <a
+              href="/{crumb.slug}"
+              class="float-left hover:text-neutral-200 hover:underline"
+              >{crumb.title}</a
+            >
           {/each}
+
+          <span class="float-left mx-4">/</span>
+          <span class="text-neutral-200">{data.title}</span>
         </nav>
       {/if}
 
@@ -67,7 +68,7 @@
         <nav class="mt-12 grid gap-4 sm:grid-cols-2">
           {#each data.children as child}
             <a
-              href="/wiki/{child.slug}"
+              href="/{child.slug}"
               class="bg-tertiary-900 block rounded-lg p-6 transition-all hover:brightness-125"
             >
               <h2 class="mb-2 text-xl font-semibold text-neutral-100">
@@ -85,7 +86,7 @@
       <nav class="mt-12 flex justify-between pt-8">
         {#if data.prev}
           <a
-            href="/wiki/{data.prev.slug}"
+            href="/{data.prev.slug}"
             class="text-neutral-300 hover:text-neutral-100 hover:underline"
           >
             ← {data.prev.title}
@@ -95,7 +96,7 @@
         {/if}
         {#if data.next}
           <a
-            href="/wiki/{data.next.slug}"
+            href="/{data.next.slug}"
             class="text-neutral-300 hover:text-neutral-100 hover:underline"
           >
             {data.next.title} →

@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { get_wiki_page, wiki } from "$lib/server/content";
+import { get_wiki_page } from "$lib/server/content";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -18,19 +18,19 @@ export const load: PageServerLoad = async ({ params }) => {
     sections,
     breadcrumbs: document.breadcrumbs,
     children: document.children.map((child) => ({
-      slug: child.slug.replace("wiki/", ""),
+      slug: child.slug,
       title: child.metadata.title,
       description: child.metadata.description,
     })),
     prev: document.prev
       ? {
-          slug: document.prev.slug.replace("wiki/", ""),
+          slug: document.prev.slug,
           title: document.prev.title,
         }
       : null,
     next: document.next
       ? {
-          slug: document.next.slug.replace("wiki/", ""),
+          slug: document.next.slug,
           title: document.next.title,
         }
       : null,

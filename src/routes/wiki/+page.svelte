@@ -16,9 +16,11 @@
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400">
-        <a href="/" class="hover:text-neutral-200 hover:underline">Home</a>
-        <span class="mx-2">/</span>
-        <span class="text-neutral-200">Wiki</span>
+        <a href="/" class="float-left hover:text-neutral-200 hover:underline"
+          >Home</a
+        >
+        <span class="float-left mx-4">/</span>
+        <span class="text-neutral-200">CUCaTS Wiki</span>
       </nav>
 
       <h1 class="mb-8 text-4xl font-bold text-neutral-100">{data.title}</h1>
@@ -31,7 +33,7 @@
         <nav class="grid gap-4 sm:grid-cols-2">
           {#each data.children as child}
             <a
-              href="/wiki/{child.slug}"
+              href="/{child.slug}"
               class="bg-tertiary-900 block rounded-lg p-6 transition-all hover:brightness-125"
             >
               <h2 class="mb-2 text-xl font-semibold text-neutral-100">

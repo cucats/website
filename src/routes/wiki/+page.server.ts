@@ -17,7 +17,7 @@ export const load: PageServerLoad = async () => {
     html,
     sections,
     children: document.children.map((child) => ({
-      slug: child.slug.replace("wiki/", ""),
+      slug: child.slug,
       title: child.metadata.title,
       description: child.metadata.description,
     })),
