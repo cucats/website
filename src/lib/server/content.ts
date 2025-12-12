@@ -71,13 +71,13 @@ export async function get_blog_post(slug: string): Promise<{
     sections,
     prev: prevPost
       ? {
-          slug: prevPost.slug.replace("blog/", ""),
+          slug: prevPost.slug,
           title: prevPost.metadata.title,
         }
       : null,
     next: nextPost
       ? {
-          slug: nextPost.slug.replace("blog/", ""),
+          slug: nextPost.slug,
           title: nextPost.metadata.title,
         }
       : null,
