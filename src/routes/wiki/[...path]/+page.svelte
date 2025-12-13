@@ -11,8 +11,8 @@
   {/if}
 </svelte:head>
 
-<main class="bg-tertiary-800 min-h-screen">
-  <section class="bg-tertiary-800 pt-24 text-neutral-300">
+<main class="bg-primary-800 min-h-screen">
+  <section class="pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumbs -->
       {#if data.breadcrumbs.length > 0}
@@ -87,9 +87,9 @@
         {#if data.prev}
           <a
             href="/{data.prev.slug}"
-            class="text-neutral-300 hover:text-neutral-100 hover:underline"
+            class="smooth-underline font-bold text-neutral-300 hover:text-neutral-100"
           >
-            ← {data.prev.title}
+            &lt;- {data.prev.title}
           </a>
         {:else}
           <span></span>
@@ -97,9 +97,9 @@
         {#if data.next}
           <a
             href="/{data.next.slug}"
-            class="text-neutral-300 hover:text-neutral-100 hover:underline"
+            class="smooth-underline font-bold text-neutral-300 hover:text-neutral-100"
           >
-            {data.next.title} →
+            {data.next.title} -&gt;
           </a>
         {:else}
           <span></span>

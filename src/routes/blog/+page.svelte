@@ -12,8 +12,8 @@
   />
 </svelte:head>
 
-<main class="bg-tertiary-800 min-h-screen">
-  <section class="bg-tertiary-800 pt-24 text-neutral-300">
+<main class="bg-primary-800 min-h-screen">
+  <section class="pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400">
@@ -23,16 +23,16 @@
       </nav>
 
       <h1 class="mb-2 text-4xl font-bold text-neutral-100">Blog</h1>
-      <p class="mb-8 text-neutral-400">
+      <p class="mb-8 text-neutral-300">
         News, tutorials, and updates from CUCaTS
       </p>
 
       <div class="space-y-6">
         {#each data.posts as post}
           <article
-            class="group bg-tertiary-900 rounded-lg p-6 transition-all hover:brightness-125"
+            class="group bg-tertiary-900 rounded-lg transition-all hover:brightness-125"
           >
-            <a href="/blog/{post.slug}" class="block">
+            <a href="/blog/{post.slug}" class="block p-6">
               <div
                 class="mb-2 flex items-center gap-3 text-xs text-neutral-300"
               >
@@ -51,10 +51,6 @@
               {#if post.description}
                 <p class="text-sm text-neutral-300">{post.description}</p>
               {/if}
-              <span
-                class="mt-3 inline-block text-sm text-neutral-300 group-hover:text-neutral-100 group-hover:underline"
-                >Read more →</span
-              >
             </a>
           </article>
         {/each}

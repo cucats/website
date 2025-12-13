@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { goto, afterNavigate } from "$app/navigation";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import { init, search, inited, lookup } from "$lib/search";
   import { searchState } from "$lib/search-state.svelte";
   import type {
@@ -12,7 +12,7 @@
   let results: SearchBlockGroup[] = $state([]);
   let recentResults: SearchBlock[] = $state([]);
   let selectedIndex = $state(0);
-  let inputElement: HTMLInputElement;
+  let inputElement: HTMLInputElement | undefined = $state();
 
   // Flatten results for keyboard navigation
   let flatResults = $derived(results.flatMap((group) => group.blocks));
@@ -70,7 +70,7 @@
 
   $effect(() => {
     if (searchState.query.trim()) {
-      results = search(searchState.query, $page.url.pathname);
+      results = search(searchState.query, page.url.pathname);
       selectedIndex = 0;
     } else {
       results = [];

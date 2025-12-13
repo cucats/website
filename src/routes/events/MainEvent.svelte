@@ -11,7 +11,7 @@
 
 <div
   class={[
-    "relative h-90 w-80 min-w-70 overflow-hidden rounded-lg bg-neutral-800/80",
+    "bg-tertiary-900 relative h-90 w-80 min-w-70 overflow-hidden rounded-lg",
     className,
   ]}
 >
@@ -37,7 +37,7 @@
   </div>
 
   <div class="p-4">
-    <h3 class="text-lg font-bold">
+    <h3 class="text-xl font-bold text-neutral-300">
       {title}
     </h3>
   </div>
