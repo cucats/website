@@ -281,8 +281,9 @@ main {
 
   a {
     @apply text-primary-600 decoration-primary-300 hover:text-primary-700 hover:decoration-primary-500 underline underline-offset-2 transition-colors;
+
     @variant dark {
-      @apply text-primary-400 decoration-primary-600 hover:text-primary-300 hover:decoration-primary-400;
+      @apply text-secondary-400 decoration-secondary-400 hover:text-secondary-200 hover:decoration-secondary-200;
     }
   }
 
