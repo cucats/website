@@ -23,7 +23,7 @@
       </nav>
 
       <h1 class="mb-2 text-4xl font-bold text-neutral-100">Blog</h1>
-      <p class="mb-8 text-neutral-400">
+      <p class="mb-8 text-neutral-300">
         News, tutorials, and updates from CUCaTS
       </p>
 
@@ -51,10 +51,6 @@
               {#if post.description}
                 <p class="text-sm text-neutral-300">{post.description}</p>
               {/if}
-              <span
-                class="mt-3 inline-block text-sm text-neutral-300 group-hover:text-neutral-100 group-hover:underline"
-                >Read more -&gt;</span
-              >
             </a>
           </article>
         {/each}

@@ -4,22 +4,22 @@
 </script>
 
 <main class="bg-primary-800">
-  <section class="pt-24 text-neutral-200">
-    <div class="c-4 mx-auto max-w-5xl p-4 pt-6">
+  <section class="pt-32 pb-8 text-neutral-200">
+    <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="text-4xl font-bold md:text-5xl">Events</h1>
       <p>
         Check our private Discord for up-to-date information and announcements.
       </p>
-      <p class="mb-4 flex gap-4 text-neutral-300">
+      <p class="flex gap-4 font-bold">
         <a
           href="webcal://cucats.org/events/calendar.ics"
-          class="text-primary-400 hover:underline"
+          class="btn primary p-2"
         >
           Add calendar
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="text-primary-400 hover:underline"
+          class="smooth-underline p-2 text-neutral-200 hover:text-neutral-50"
         >
           Join mailing list
         </a>
@@ -56,8 +56,8 @@
     </div>
   </section>
 
-  <section class="bg-tertiary-900 text-neutral-300">
-    <div class="mx-auto max-w-7xl py-8">
+  <section class="bg-primary-900 text-neutral-300 lg:p-16">
+    <div class="mx-auto max-w-7xl">
       <Calendar />
     </div>
   </section>

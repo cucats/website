@@ -12,8 +12,13 @@
   );
 </script>
 
-<main class="bg-primary-800">
-  <section class="pt-24 text-neutral-200">
+<svelte:head>
+  <title>About Us</title>
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+</svelte:head>
+
+<main class="bg-primary-800 text-neutral-200">
+  <section class="pt-32 pb-8">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="text-4xl font-bold md:text-5xl">About Us</h1>
       <p>
@@ -28,79 +33,53 @@
         both its own events and programmes, whilst providing resources and
         funding to others with similar goals.
       </p>
-    </div>
-  </section>
 
-  <section class="text-neutral-300">
-    <div class="c-4 mx-auto max-w-5xl p-4">
-      <h2 class="my-4 text-3xl font-bold md:text-4xl">Aims</h2>
+      <h2 class="mt-8 text-3xl font-bold md:text-4xl">Aims</h2>
 
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      {#snippet aim(image: string, title: string, description: string)}
         <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
-            <enhanced:img
-              src="$lib/assets/icons/graph.png"
-              class="pixel size-8"
-              alt="Build connections"
-            />
+            <img src={image} class="pixel size-8" alt="" />
           </div>
-          <div class="text-xl font-bold uppercase">Build connections</div>
-          <p>
-            Provide members and potential employers with networking
-            opportunities
-          </p>
+          <h3 class="text-xl font-bold uppercase">{title}</h3>
+          <p>{description}</p>
         </div>
-        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
-          <div>
-            <enhanced:img
-              src="$lib/assets/icons/loudspeaker.png"
-              class="pixel size-8"
-              alt="Promote interest"
-            />
-          </div>
-          <div class="text-xl font-bold uppercase">Promote interest</div>
-          <p>
-            Spark curiosity in computing amongst members and the general public
-          </p>
-        </div>
-        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
-          <div>
-            <enhanced:img
-              src="$lib/assets/icons/steps.png"
-              class="pixel size-8"
-              alt="Support members"
-            />
-          </div>
-          <div class="text-xl font-bold uppercase">Support members</div>
-          <p>Help and fund members host events that align with our mission</p>
-        </div>
-        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
-          <div>
-            <enhanced:img
-              src="$lib/assets/icons/text.png"
-              class="pixel size-8"
-              alt="Encourage discussion"
-            />
-          </div>
-          <div class="text-xl font-bold uppercase">Encourage discussion</div>
-          <p>
-            Provide a forum to discuss topics and issues concerning computing
-            and IT
-          </p>
-        </div>
+      {/snippet}
+
+      <div class="grid grid-cols-1 gap-4 text-neutral-300 md:grid-cols-2">
+        {@render aim(
+          "assets/icons/graph.svg",
+          "Build connections",
+          "Provide members and potential employers with networking opportunities",
+        )}
+        {@render aim(
+          "assets/icons/loudspeaker.svg",
+          "Promote interest",
+          "Spark curiosity in computing amongst members and the general public",
+        )}
+        {@render aim(
+          "assets/icons/steps.svg",
+          "Support members",
+          "Help and fund members host events that align with our mission",
+        )}
+        {@render aim(
+          "assets/icons/text.svg",
+          "Encourage discussion",
+          "Provide a forum to discuss topics and issues concerning computing and IT",
+        )}
       </div>
     </div>
   </section>
 
   {#if committee.length}
-    <section class="bg-tertiary-900 text-neutral-300">
+    <section class="bg-tertiary-900 pt-8 text-neutral-300">
       <div class="c-4 mx-auto max-w-5xl p-4">
-        <h2 class="my-4 text-3xl font-bold md:text-4xl">Committee</h2>
+        <h2 class="mb-4 text-3xl font-bold md:text-4xl">Committee</h2>
 
         {#snippet committeeMember(member: any)}
           <div class="w-32 overflow-hidden md:w-48">
             <div
-              class="bg-secondary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
+              class="bg-tertiary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
             >
               {#if member.image}
                 <img
@@ -161,8 +140,10 @@
         {/snippet}
 
         {#each committee as group}
-          <h3 class="member-container-title">{group.title}</h3>
-          <div class="member-container">
+          <h3 class="text-2xl font-bold">{group.title}</h3>
+          <div
+            class="bg-primary-600/20 mb-4 flex flex-wrap justify-center gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:gap-8 md:p-8"
+          >
             {#each group.members as member}
               {@render committeeMember(member)}
             {/each}
@@ -172,15 +153,3 @@
     </section>
   {/if}
 </main>
-
-<style lang="postcss">
-  @reference "../../app.css";
-
-  .member-container-title {
-    @apply text-2xl font-bold;
-  }
-
-  .member-container {
-    @apply bg-primary-600/20 mb-4 flex flex-wrap justify-center gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:gap-8 md:p-8;
-  }
-</style>

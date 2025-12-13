@@ -64,7 +64,7 @@
 
 <Modal
   bind:active
-  class="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg bg-neutral-800 p-4 shadow-2xl sm:p-8"
+  class="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-neutral-700 bg-neutral-900 p-4 shadow-2xl sm:p-8"
 >
   <!-- Close button -->
   <button
@@ -80,7 +80,7 @@
     <h3 class="mb-4 text-xl font-bold sm:text-2xl">
       {@render name()}
     </h3>
-    <div class="c-4 text-base sm:text-lg">
+    <div class="c-4 text-sm sm:text-lg">
       {@render children()}
     </div>
   </div>

@@ -1,15 +1,13 @@
 <script lang="ts">
+  import type { Picture } from "vite-imagetools";
   import Ical from "ical.js";
   import { onMount } from "svelte";
   import DOMPurify from "dompurify";
   import Modal from "$lib/components/Modal.svelte";
   import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
-  import MetadataItem from "./EventData.svelte";
 
   import CalendarIcon from "$lib/assets/icons/calendar.png?enhanced";
   import LocationIcon from "$lib/assets/icons/location.png?enhanced";
-  import DescriptionIcon from "$lib/assets/icons/description.png?enhanced";
-  import LinkIcon from "$lib/assets/icons/link.png?enhanced";
 
   interface CalendarEvent {
     summary: string;
@@ -17,7 +15,6 @@
     end: Date;
     location?: string;
     description: string;
-    url?: string;
   }
 
   interface EventEntry {
@@ -49,6 +46,31 @@
       end: new Date("2026-03-18"),
     },
   ];
+
+  function formatDateDuration(event: CalendarEvent) {
+    function formatDateTime(date: Date): string {
+      return date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+    }
+
+    function formatTime(date: Date): string {
+      return date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    if (event.start.toDateString() == event.end.toDateString()) {
+      return `${formatDateTime(event.start)} - ${formatTime(event.end)}`;
+    }
+
+    return `${formatDateTime(event.start)} - ${formatDateTime(event.end)}`;
+  }
 
   let currentTermIndex = $state(1);
   let events = $state<CalendarEvent[]>([]);
@@ -152,8 +174,6 @@
 
       const parsedEvents: CalendarEvent[] = vevents.map((vevent) => {
         const event = new Ical.Event(vevent);
-        // Get URL from the component properties
-        const urlProp = vevent.getFirstPropertyValue("url");
 
         return {
           summary: event.summary,
@@ -161,7 +181,6 @@
           end: event.endDate.toJSDate(),
           location: event.location,
           description: event.description,
-          url: urlProp?.toString() || undefined,
         };
       });
 
@@ -178,10 +197,12 @@
 </script>
 
 <div
-  class="from-tertiary-700 via-secondary-700 to-primary-700 lg:c-4 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
+  class="from-secondary-700 to-primary-700 lg:c-4 border border-neutral-700 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
 >
-  <div class="flex items-center justify-between overflow-hidden p-2">
-    <h2 class="text-lg font-bold lg:text-2xl">{currentTerm.name}</h2>
+  <div class="flex items-center justify-between overflow-hidden p-2 pb-10">
+    <h2 class="text-lg font-bold text-neutral-200 lg:text-3xl">
+      {currentTerm.name}
+    </h2>
 
     <div class="flex items-center gap-2">
       <!-- <button
@@ -216,7 +237,7 @@
         <!-- Weekday headings -->
         {#each dayOrder as day}
           <div
-            class="text-center text-[8px] font-bold text-neutral-100 lg:text-sm"
+            class="text-center text-[8px] font-bold text-neutral-50/80 uppercase lg:text-sm"
           >
             <span class="lg:hidden">{day.slice(0, 2)}</span>
             <span class="hidden lg:inline">{day}</span>
@@ -291,13 +312,9 @@
 
 <Modal
   bind:active={showEventModal}
-  class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-neutral-800 p-4 shadow-2xl sm:p-6"
+  class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-neutral-700 bg-neutral-900 p-4 shadow-2xl sm:p-6"
 >
   {#if selectedEvent}
-    {@const startDate = new Date(selectedEvent.start)}
-    {@const endDate = new Date(selectedEvent.end)}
-    {@const isSameDay = startDate.toDateString() === endDate.toDateString()}
-
     <button
       class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-100"
       onclick={() => (showEventModal = false)}
@@ -311,71 +328,33 @@
         {selectedEvent.summary}
       </h2>
 
+      {#snippet eventData(icon: Picture, title: string, data: string)}
+        <div class="flex items-start">
+          <enhanced:img src={icon} class="pixel mt-1 mr-3 size-8" alt={title} />
+          <div class="flex-1">
+            <h3 class="text-xs font-bold text-neutral-400 uppercase">
+              {title}
+            </h3>
+            <p class="text-sm text-neutral-300">{data}</p>
+          </div>
+        </div>
+      {/snippet}
+
       <div class="c-4 wrap-anywhere">
-        <MetadataItem icon={CalendarIcon} title="Date & Time">
-          <p class="text-sm text-neutral-300">
-            {#if isSameDay}
-              {startDate.toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-              {startDate.toLocaleTimeString("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })} - {endDate.toLocaleTimeString("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            {:else}
-              {startDate.toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-              {startDate.toLocaleTimeString("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })} - {endDate.toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-              {endDate.toLocaleTimeString("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            {/if}
-          </p>
-        </MetadataItem>
+        {@render eventData(
+          CalendarIcon,
+          "Date & Time",
+          formatDateDuration(selectedEvent),
+        )}
 
         {#if selectedEvent.location}
-          <MetadataItem icon={LocationIcon} title="Location">
-            <p class="text-sm text-neutral-300">
-              {selectedEvent.location}
-            </p>
-          </MetadataItem>
+          {@render eventData(LocationIcon, "Location", selectedEvent.location)}
         {/if}
 
         {#if selectedEvent.description}
-          <MetadataItem icon={DescriptionIcon} title="Description">
-            <div class="event-description text-sm text-neutral-300">
-              {@html DOMPurify.sanitize(selectedEvent.description)}
-            </div>
-          </MetadataItem>
-        {/if}
-
-        {#if selectedEvent.url}
-          <MetadataItem icon={LinkIcon} title="Link">
-            <a
-              href={selectedEvent.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-secondary-400 hover:text-secondary-300 text-sm underline"
-            >
-              {selectedEvent.url}
-            </a>
-          </MetadataItem>
+          <div class="event-description text-sm text-neutral-300 lg:text-lg">
+            {@html DOMPurify.sanitize(selectedEvent.description)}
+          </div>
         {/if}
       </div>
     </div>

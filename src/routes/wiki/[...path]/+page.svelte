@@ -87,7 +87,7 @@
         {#if data.prev}
           <a
             href="/{data.prev.slug}"
-            class="text-neutral-300 hover:text-neutral-100 hover:underline"
+            class="smooth-underline font-bold text-neutral-300 hover:text-neutral-100"
           >
             &lt;- {data.prev.title}
           </a>
@@ -97,7 +97,7 @@
         {#if data.next}
           <a
             href="/{data.next.slug}"
-            class="text-neutral-300 hover:text-neutral-100 hover:underline"
+            class="smooth-underline font-bold text-neutral-300 hover:text-neutral-100"
           >
             {data.next.title} -&gt;
           </a>

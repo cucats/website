@@ -4,7 +4,7 @@
 
 <main class="bg-tertiary-700">
   <section
-    class="from-secondary-700 to-tertiary-700 bg-linear-to-br pt-24 pb-8 text-neutral-100"
+    class="from-secondary-700 to-tertiary-700 bg-linear-to-br pt-32 pb-8 text-neutral-100"
   >
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="text-4xl font-bold sm:text-5xl">Sponsors</h1>
