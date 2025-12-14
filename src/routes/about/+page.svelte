@@ -36,10 +36,15 @@
 
       <h2 class="h2 mt-8 font-bold">Aims</h2>
 
-      {#snippet aim(image: string, alt: string, title: string, description: string)}
+      {#snippet aim(
+        image: string,
+        alt: string,
+        title: string,
+        description: string,
+      )}
         <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
-            <img src={image} class="pixel size-8" alt={alt} />
+            <img src={image} class="pixel size-8" {alt} />
           </div>
           <p class="text-xl font-bold uppercase">{title}</p>
           <p class="p">{description}</p>
@@ -93,7 +98,7 @@
                 />
               {:else}
                 <enhanced:img
-                  class="opacity-80"
+                  class="size-full opacity-80"
                   src={DefaultProfile}
                   alt={`${member.name}'s portrait`}
                 />
