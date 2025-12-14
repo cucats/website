@@ -77,10 +77,10 @@
 
   <!-- Modal body -->
   <div class="c-4 text-neutral-100">
-    <h3 class="mb-4 text-xl font-bold sm:text-2xl">
+    <h3 class="h3 mb-4 font-bold">
       {@render name()}
     </h3>
-    <div class="c-4 text-sm sm:text-lg">
+    <div class="c-4 p">
       {@render children()}
     </div>
   </div>

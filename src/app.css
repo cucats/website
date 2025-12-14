@@ -433,3 +433,23 @@ main {
 .smooth-underline:hover::after {
   width: 100%;
 }
+
+.h1 {
+  @apply text-4xl sm:text-5xl;
+}
+
+.h2 {
+  @apply text-3xl sm:text-4xl;
+}
+
+.h3 {
+  @apply text-2xl sm:text-3xl;
+}
+
+.h4 {
+  @apply text-xl sm:text-2xl;
+}
+
+.p {
+  @apply text-sm sm:text-base;
+}

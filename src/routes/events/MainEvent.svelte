@@ -28,7 +28,7 @@
   <div class="bg-tertiary-800 h-60">
     {#if picture}
       <img
-        class="h-60 w-full object-cover duration-200"
+        class="h-60 w-full object-cover"
         src={picture}
         alt=""
         aria-hidden="true"

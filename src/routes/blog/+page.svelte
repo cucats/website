@@ -22,8 +22,8 @@
         <span class="text-neutral-200">Blog</span>
       </nav>
 
-      <h1 class="mb-2 text-4xl font-bold text-neutral-100">Blog</h1>
-      <p class="mb-8 text-neutral-300">
+      <h1 class="h1 mb-4 font-bold text-neutral-100">Blog</h1>
+      <p class="p mb-8 text-neutral-200">
         News, tutorials, and updates from CUCaTS
       </p>
 

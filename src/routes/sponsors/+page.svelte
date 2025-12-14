@@ -7,15 +7,16 @@
     class="from-secondary-700 to-tertiary-700 bg-linear-to-br pt-32 pb-8 text-neutral-100"
   >
     <div class="c-4 mx-auto max-w-5xl p-4">
-      <h1 class="text-4xl font-bold sm:text-5xl">Sponsors</h1>
+      <h1 class="h1 font-bold">Sponsors</h1>
 
-      <p>
+      <p class="p">
         Our sponsors' support allows CUCaTS to continue running events. To see
         more information about a sponsor, click on the card.
       </p>
 
-      <p>
+      <p class="p">
         For sponsorship enquiries, please email <a
+          class="smooth-underline"
           href="mailto:president@cucats.org"
         >
           president@cucats.org

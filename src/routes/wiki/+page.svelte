@@ -23,7 +23,7 @@
         <span class="text-neutral-200">CUCaTS Wiki</span>
       </nav>
 
-      <h1 class="mb-8 text-4xl font-bold text-neutral-100">{data.title}</h1>
+      <h1 class="h1 mb-8 font-bold text-neutral-100">{data.title}</h1>
 
       <div class="prose prose-lg prose-invert mb-12 max-w-none">
         {@html data.html}
@@ -36,11 +36,13 @@
               href="/{child.slug}"
               class="bg-tertiary-900 block rounded-lg p-6 transition-all hover:brightness-125"
             >
-              <h2 class="mb-2 text-xl font-semibold text-neutral-100">
+              <h2
+                class="mb-2 text-lg font-semibold text-neutral-100 sm:text-xl"
+              >
                 {child.title}
               </h2>
               {#if child.description}
-                <p class="text-neutral-400">{child.description}</p>
+                <p class="p text-neutral-400">{child.description}</p>
               {/if}
             </a>
           {/each}

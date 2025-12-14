@@ -20,29 +20,29 @@
 <main class="bg-primary-800 text-neutral-200">
   <section class="pt-32 pb-8">
     <div class="c-4 mx-auto max-w-5xl p-4">
-      <h1 class="text-4xl font-bold md:text-5xl">About Us</h1>
-      <p>
+      <h1 class="h1 font-bold">About Us</h1>
+      <p class="p">
         Cambridge University Computing and Technology Society (<strong
           >CUCaTS</strong
         >) is the primary student-run computing society at Cambridge. We aim to
         provide a platform for students to explore and engage with technology,
         regardless of their degree or experience level.
       </p>
-      <p>
+      <p class="p">
         With hundreds of members, the society has a thriving community to run
         both its own events and programmes, whilst providing resources and
         funding to others with similar goals.
       </p>
 
-      <h2 class="mt-8 text-3xl font-bold md:text-4xl">Aims</h2>
+      <h2 class="h2 mt-8 font-bold">Aims</h2>
 
       {#snippet aim(image: string, title: string, description: string)}
         <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
             <img src={image} class="pixel size-8" alt="" />
           </div>
-          <h3 class="text-xl font-bold uppercase">{title}</h3>
-          <p>{description}</p>
+          <p class="text-xl font-bold uppercase">{title}</p>
+          <p class="p">{description}</p>
         </div>
       {/snippet}
 
@@ -74,7 +74,7 @@
   {#if committee.length}
     <section class="bg-tertiary-900 pt-8 text-neutral-300">
       <div class="c-4 mx-auto max-w-5xl p-4">
-        <h2 class="mb-4 text-3xl font-bold md:text-4xl">Committee</h2>
+        <h2 class="h2 mb-4 font-bold">Committee</h2>
 
         {#snippet committeeMember(member: any)}
           <div class="w-32 overflow-hidden md:w-48">
@@ -140,9 +140,9 @@
         {/snippet}
 
         {#each committee as group}
-          <h3 class="text-2xl font-bold">{group.title}</h3>
+          <h3 class="h3 font-bold">{group.title}</h3>
           <div
-            class="bg-primary-600/20 mb-4 flex flex-wrap justify-center gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:gap-8 md:p-8"
+            class="bg-primary-600/20 mb-4 flex flex-wrap justify-evenly gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:justify-center md:gap-8 md:p-8"
           >
             {#each group.members as member}
               {@render committeeMember(member)}

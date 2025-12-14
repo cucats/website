@@ -352,7 +352,7 @@
         {/if}
 
         {#if selectedEvent.description}
-          <div class="event-description text-sm text-neutral-300 lg:text-lg">
+          <div class="event-description text-sm text-neutral-300 sm:text-base">
             {@html DOMPurify.sanitize(selectedEvent.description)}
           </div>
         {/if}

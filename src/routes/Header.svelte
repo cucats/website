@@ -19,7 +19,7 @@
     <!-- Logo -->
     <a href="/" class="r-4 items-center" onclick={() => (active = false)}>
       <enhanced:img
-        class="size-10"
+        class="ml-2 size-10"
         src="$lib/assets/logo/dark/logo-white-cat.svg"
         alt="CUCaTS logo of a white cat in ASCII art"
       />
@@ -28,11 +28,11 @@
 
     <!-- Navigation -->
     <nav
-      class="hidden items-center gap-2 text-lg font-semibold text-neutral-100 uppercase sm:flex"
+      class="hidden items-center gap-2 text-lg font-semibold text-neutral-100 uppercase md:flex"
     >
       {#each links as link}
         <a
-          class="p-3 transition duration-200 ease-in-out sm:hover:scale-105"
+          class="p-3 transition duration-200 ease-in-out md:hover:scale-105"
           href={link.href}
         >
           {link.label}
@@ -68,7 +68,7 @@
 
     <!-- Hamburger -->
     <button
-      class="my-auto flex size-16 cursor-pointer flex-col justify-center gap-1 p-4 sm:hidden"
+      class="my-auto flex size-16 cursor-pointer flex-col justify-center gap-1 p-4 md:hidden"
       aria-label="Toggle menu"
       onclick={() => (active = !active)}
     >
@@ -85,7 +85,7 @@
 {#if active}
   <!-- Background overlay -->
   <div
-    class="fixed inset-0 z-40 bg-black/50 sm:hidden"
+    class="fixed inset-0 z-40 bg-black/50 md:hidden"
     onclick={() => (active = false)}
     onkeydown={(e) => e.key === "Escape" && (active = false)}
     role="button"
@@ -96,7 +96,7 @@
 
   <!-- Drawer -->
   <div
-    class="fixed top-0 right-0 z-50 h-full w-full bg-neutral-900 shadow-xl sm:hidden"
+    class="fixed top-0 right-0 z-50 h-full w-full bg-neutral-900 shadow-xl md:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Navigation menu"

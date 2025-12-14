@@ -6,31 +6,31 @@
 <main class="bg-primary-800">
   <section class="pt-32 pb-8 text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl p-4">
-      <h1 class="text-4xl font-bold md:text-5xl">Events</h1>
-      <p>
+      <h1 class="h1 font-bold">Events</h1>
+      <p class="p">
         Check our private Discord for up-to-date information and announcements.
       </p>
-      <p class="flex gap-4 font-bold">
+      <div class="flex gap-4 font-bold">
         <a
           href="webcal://cucats.org/events/calendar.ics"
-          class="btn primary p-2"
+          class="btn primary p-2 text-sm sm:text-base"
         >
           Add calendar
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="smooth-underline p-2 text-neutral-200 hover:text-neutral-50"
+          class="smooth-underline p-2 text-sm text-neutral-200 hover:text-neutral-50 sm:text-base"
         >
           Join mailing list
         </a>
-      </p>
+      </div>
     </div>
   </section>
 
   <section class="bg-primary-700 overflow-hidden text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl px-4 py-4">
-      <h2 class="mt-4 text-3xl font-bold md:text-4xl">Flagship events</h2>
-      <p>
+      <h2 class="h2 mt-4 font-bold">Flagship events</h2>
+      <p class="p">
         Our yearly events attract many Cambridge students, giving opportunities
         to compete and win prizes!
       </p>
