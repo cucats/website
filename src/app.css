@@ -341,7 +341,19 @@ main {
   }
 
   img {
-    @apply my-6 max-h-96 w-auto rounded-lg;
+    @apply mx-auto my-8 max-h-96 w-auto rounded-lg;
+  }
+
+  .img-container {
+    @apply my-8;
+
+    img {
+      @apply my-0;
+    }
+
+    p {
+      @apply mt-4 text-center text-neutral-300 italic;
+    }
   }
 
   code {
@@ -365,10 +377,6 @@ main {
 
   .code-block pre {
     @apply m-0 rounded-none bg-neutral-900;
-  }
-
-  img {
-    @apply my-4 rounded-lg;
   }
 
   hr {

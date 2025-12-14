@@ -189,7 +189,7 @@ export async function render(markdown: string): Promise<RenderResult> {
       image({ href, title, text }) {
         const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
         const altAttr = text ? ` alt="${escapeHtml(text)}"` : "";
-        return `<img src="${href}"${altAttr}${titleAttr} loading="lazy">`;
+        return `<div class="img-container"><img src="${href}"${altAttr}${titleAttr} loading="lazy"><p>${text}</p></div>`;
       },
 
       blockquote({ tokens }) {
