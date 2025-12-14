@@ -30,7 +30,7 @@
       <img
         class="h-60 w-full object-cover"
         src={picture}
-        alt=""
+        alt={title}
         aria-hidden="true"
       />
     {/if}

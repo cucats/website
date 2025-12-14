@@ -36,10 +36,10 @@
 
       <h2 class="h2 mt-8 font-bold">Aims</h2>
 
-      {#snippet aim(image: string, title: string, description: string)}
+      {#snippet aim(image: string, alt: string, title: string, description: string)}
         <div class="c-4 bg-tertiary-900 rounded-lg p-4">
           <div>
-            <img src={image} class="pixel size-8" alt="" />
+            <img src={image} class="pixel size-8" alt={alt} />
           </div>
           <p class="text-xl font-bold uppercase">{title}</p>
           <p class="p">{description}</p>
@@ -49,21 +49,25 @@
       <div class="grid grid-cols-1 gap-4 text-neutral-300 md:grid-cols-2">
         {@render aim(
           "assets/icons/graph.svg",
+          "graph",
           "Build connections",
           "Provide members and potential employers with networking opportunities",
         )}
         {@render aim(
           "assets/icons/loudspeaker.svg",
+          "loudspeaker",
           "Promote interest",
           "Spark curiosity in computing amongst members and the general public",
         )}
         {@render aim(
           "assets/icons/steps.svg",
+          "steps",
           "Support members",
           "Help and fund members host events that align with our mission",
         )}
         {@render aim(
           "assets/icons/text.svg",
+          "text",
           "Encourage discussion",
           "Provide a forum to discuss topics and issues concerning computing and IT",
         )}
@@ -85,7 +89,7 @@
                 <img
                   class="size-full object-cover"
                   src={member.image}
-                  alt={`${member.name}'s portrait`}
+                  alt="Default portrait"
                 />
               {:else}
                 <enhanced:img

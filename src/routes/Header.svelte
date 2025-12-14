@@ -75,7 +75,7 @@
       <enhanced:img
         src="$lib/assets/icons/hamburger.png"
         class="pixel size-8"
-        alt="Build connections"
+        alt="Hamburger icon"
       />
     </button>
   </div>
