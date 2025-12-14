@@ -40,7 +40,7 @@
                   <time datetime={post.date}>{post.date_formatted}</time>
                 {/if}
                 {#if post.authors.length > 0}
-                  <span>{post.authors.map((a) => a.name).join(", ")}</span>
+                  <span>| {post.authors.map((a) => a.name).join(", ")}</span>
                 {/if}
               </div>
               <h2

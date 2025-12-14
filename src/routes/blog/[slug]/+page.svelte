@@ -26,15 +26,13 @@
       <article>
         <header class="mb-8">
           <h1 class="mb-4 text-4xl font-bold text-neutral-100">{data.title}</h1>
-          <div
-            class="flex flex-wrap items-center gap-4 text-sm text-neutral-300"
-          >
+          <div class="gap-4 text-sm text-neutral-300">
             {#if data.date_formatted}
               <time datetime={data.date}>{data.date_formatted}</time>
             {/if}
             {#if data.authors.length > 0}
               <span>
-                by {#each data.authors as author, i}
+                | {#each data.authors as author, i}
                   {#if author.url}
                     <a
                       href={author.url}
