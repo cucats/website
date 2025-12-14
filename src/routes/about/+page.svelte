@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>About Us</title>
+  <title>About Us | CUCaTS</title>
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 

@@ -3,6 +3,10 @@
   import Calendar from "./Calendar.svelte";
 </script>
 
+<svelte:head>
+  <title>Events | CUCaTS</title>
+</svelte:head>
+
 <main class="bg-primary-800">
   <section class="pt-32 pb-8 text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl p-4">

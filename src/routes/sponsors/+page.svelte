@@ -2,6 +2,10 @@
   import Sponsor from "./Sponsor.svelte";
 </script>
 
+<svelte:head>
+  <title>Sponsors | CUCaTS</title>
+</svelte:head>
+
 <main class="bg-tertiary-700">
   <section
     class="from-secondary-700 to-tertiary-700 bg-linear-to-br pt-32 pb-8 text-neutral-100"

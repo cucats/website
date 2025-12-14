@@ -2,6 +2,10 @@
   import GameOfLife from "./GameOfLife.svelte";
 </script>
 
+<svelte:head>
+  <title>CUCaTS</title>
+</svelte:head>
+
 <main class="bg-tertiary-800">
   <section
     class="from-primary-700 via-secondary-800 to-tertiary-800 relative flex h-screen items-center justify-center bg-linear-to-b"

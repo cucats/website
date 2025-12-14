@@ -7,10 +7,6 @@
   let { data, children } = $props();
 </script>
 
-<svelte:head>
-  <title>CUCaTS</title>
-</svelte:head>
-
 <div class="flex min-h-screen flex-col">
   <Header />
 
