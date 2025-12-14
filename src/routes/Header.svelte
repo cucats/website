@@ -42,11 +42,11 @@
       <!-- Search button -->
       <button
         onclick={() => searchState.open()}
-        class="ml-2 flex items-center gap-2 rounded-lg bg-neutral-800/50 px-3 py-2 text-sm font-normal text-neutral-400 normal-case transition-colors hover:bg-neutral-700/50 hover:text-neutral-300"
+        class="my-auto ml-2 flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/50 px-3 py-2 text-sm font-normal text-neutral-400 normal-case transition-colors hover:bg-neutral-700/50 hover:text-neutral-300"
         aria-label="Search"
       >
         <svg
-          class="h-4 w-4"
+          class="size-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
