@@ -13,6 +13,11 @@
       <h1 class="h1 font-bold">Events</h1>
       <p class="p">
         Check our private Discord for up-to-date information and announcements.
+        We also support students running their own events! <a
+          class="a"
+          href="https://docs.google.com/document/d/1WQdX0mt8jfy-CM6IOvB9yNzkG19yL9MsVQizpaagKuE/edit?usp=sharing"
+          >Click here</a
+        > for more details.
       </p>
       <div class="flex gap-4 font-bold">
         <a
@@ -23,7 +28,7 @@
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="smooth-underline p-2 text-sm text-neutral-200 hover:text-neutral-50 sm:text-base"
+          class="btn neutral border border-neutral-600 p-2 text-sm sm:text-base"
         >
           Join mailing list
         </a>

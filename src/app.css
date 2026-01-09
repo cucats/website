@@ -450,3 +450,7 @@ main {
 .p {
   @apply text-sm sm:text-base;
 }
+
+.a {
+  @apply text-secondary-400 decoration-secondary-400 hover:text-secondary-200 hover:decoration-secondary-200 underline underline-offset-2;
+}
