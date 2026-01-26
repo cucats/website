@@ -77,37 +77,6 @@
           "Provide a forum to discuss topics and issues concerning computing and IT",
         )}
       </div>
-
-      <h2 class="h2 mt-8 font-bold">Societies</h2>
-      <p class="p">
-        CUCaTS also acts as an umbrella society for computer science, supporting 
-        smaller and nicher subsocieities within the field (e.g. through funding).
-      </p>
-
-      {#snippet society(
-        name: string,
-        description: string,
-        link: string,
-      )}
-        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
-          <p class="text-xl font-bold uppercase">{name}</p>
-          <p class="p">{description}</p>
-          <p class="p">Website: <a href="https://{link}">{link}</a></p>
-        </div>
-      {/snippet}
-
-      <div class="grid grid-cols-1 gap-4 text-neutral-300 md:grid-cols-2">
-        {@render society(
-          "University of Cambridge Competitive Programming Society (UCCPS)",
-          "Bringing together the competitive programming community in Cambridge",
-          "uccps.soc.srcf.net"
-        )}
-        {@render society(
-          "Cambridge Cybersecurity Society (CyberSoc)",
-          "Provide for and encourage an interest in Cybersecurity",
-          "cybersoc.soc.srcf.net",
-        )}
-      </div>
     </div>
   </section>
 

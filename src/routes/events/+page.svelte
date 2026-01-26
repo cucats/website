@@ -62,6 +62,26 @@
           picture="assets/events/december-challenge.png"
         ></Event>
       </div>
+
+      <h2 class="h2 mt-8 font-bold">Societies</h2>
+      <p class="p">
+        CUCaTS also supports other societies (with nicher specialisations) for 
+        computer science students, primarily through funding.
+      </p>
+
+      <div class="flex gap-4 overflow-x-auto p-4 xl:justify-center">
+        <Event
+          website="https://cybersoc.soc.srcf.net"
+          title="CyberSoc"
+          subtitle="Cambridge Cybersecurity Society"
+        ></Event>
+
+        <Event
+          website="https://uccps.soc.srcf.net"
+          title="UCCPS"
+          subtitle="Uni of Cambridge Competitive Programming Society"
+        ></Event>
+      </div>
     </div>
   </section>
 
