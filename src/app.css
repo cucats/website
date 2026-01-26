@@ -1,63 +1,59 @@
 @import "tailwindcss";
 
 @theme {
-  /* Disable default colours */
-  --color-*: initial;
+  --color-primary-50: oklch(0.958 0.015 251.15);
+  --color-primary-100: oklch(0.922 0.026 251.66);
+  --color-primary-200: oklch(0.835 0.057 252.57);
+  --color-primary-300: oklch(0.755 0.087 253.67);
+  --color-primary-400: oklch(0.67 0.119 254.06);
+  --color-primary-500: oklch(0.597 0.148 254.75);
+  --color-primary-600: oklch(0.507 0.137 255.04);
+  --color-primary-700: oklch(0.42 0.11 255.13);
+  --color-primary-800: oklch(0.316 0.077 255.09);
+  --color-primary-900: oklch(0.216 0.045 254.99);
+  --color-primary-950: oklch(0.15 0.024 248.2);
 
-  --color-primary-50: #edf0f7;
-  --color-primary-100: #dce1ef;
-  --color-primary-200: #b8c2e0;
-  --color-primary-300: #95a4d0;
-  --color-primary-400: #7285c0;
-  --color-primary-500: #4f68b1;
-  --color-primary-600: #3f528d;
-  --color-primary-700: #2f3e6a;
-  --color-primary-800: #1f2947;
-  --color-primary-900: #101523;
-  --color-primary-950: #080a12;
+  --color-secondary-50: oklch(0.962 0.018 214.3);
+  --color-secondary-100: oklch(0.93 0.032 213.85);
+  --color-secondary-200: oklch(0.856 0.064 214.9);
+  --color-secondary-300: oklch(0.794 0.091 214.63);
+  --color-secondary-400: oklch(0.728 0.112 217.08);
+  --color-secondary-500: oklch(0.631 0.103 218.13);
+  --color-secondary-600: oklch(0.535 0.086 217.43);
+  --color-secondary-700: oklch(0.442 0.07 218.47);
+  --color-secondary-800: oklch(0.332 0.05 217.8);
+  --color-secondary-900: oklch(0.228 0.032 216.83);
+  --color-secondary-950: oklch(0.155 0.018 216.49);
 
-  --color-secondary-50: #e4fbfc;
-  --color-secondary-100: #c4f7f8;
-  --color-secondary-200: #88eff1;
-  --color-secondary-300: #4de8ea;
-  --color-secondary-400: #1adce0;
-  --color-secondary-500: #13a0a3;
-  --color-secondary-600: #0f8284;
-  --color-secondary-700: #0b5e60;
-  --color-secondary-800: #073f40;
-  --color-secondary-900: #041f20;
-  --color-secondary-950: #021212;
+  --color-tertiary-50: oklch(0.942 0.021 286.04);
+  --color-tertiary-100: oklch(0.875 0.047 285.42);
+  --color-tertiary-200: oklch(0.759 0.093 283.98);
+  --color-tertiary-300: oklch(0.629 0.149 281.24);
+  --color-tertiary-400: oklch(0.508 0.202 276.49);
+  --color-tertiary-500: oklch(0.421 0.218 271.93);
+  --color-tertiary-600: oklch(0.356 0.181 272.41);
+  --color-tertiary-700: oklch(0.296 0.145 273.12);
+  --color-tertiary-800: oklch(0.235 0.105 274.77);
+  --color-tertiary-900: oklch(0.161 0.057 277.99);
+  --color-tertiary-950: oklch(0.128 0.037 279.78);
 
-  --color-tertiary-50: #f2f2f8;
-  --color-tertiary-100: #e4e4f1;
-  --color-tertiary-200: #cdcde5;
-  --color-tertiary-300: #b2b2d7;
-  --color-tertiary-400: #9b9acb;
-  --color-tertiary-500: #8180bd;
-  --color-tertiary-600: #5957a8;
-  --color-tertiary-700: #42417c;
-  --color-tertiary-800: #2c2c54;
-  --color-tertiary-900: #151528;
-  --color-tertiary-950: #0b0a14;
-
-  --color-neutral-50: #fafafa;
-  --color-neutral-100: #f5f5f5;
-  --color-neutral-200: #e5e5e5;
-  --color-neutral-300: #d4d4d4;
-  --color-neutral-400: #a3a3a3;
-  --color-neutral-500: #737373;
-  --color-neutral-600: #525252;
-  --color-neutral-700: #404040;
-  --color-neutral-800: #262626;
-  --color-neutral-900: #171717;
-  --color-neutral-950: #0a0a0a;
+  --color-neutral-50: oklch(0.96 0.003 247.8);
+  --color-neutral-100: oklch(0.93 0.006 255.49);
+  --color-neutral-200: oklch(0.857 0.012 247.95);
+  --color-neutral-300: oklch(0.777 0.02 248.07);
+  --color-neutral-400: oklch(0.702 0.027 246.32);
+  --color-neutral-500: oklch(0.628 0.034 245.36);
+  --color-neutral-600: oklch(0.533 0.033 245.3);
+  --color-neutral-700: oklch(0.432 0.026 246.28);
+  --color-neutral-800: oklch(0.339 0.019 242.35);
+  --color-neutral-900: oklch(0.224 0.01 248.26);
+  --color-neutral-950: oklch(0.158 0.005 248.16);
 
   --color-error-400: #ef5350;
   --color-error-600: #e53935;
 
   --color-transparent: transparent;
 
-  --font-*: initial;
   --font-sans: IBM Plex Sans, sans-serif;
   --font-mono: JetBrains Mono, monospace;
 }
@@ -240,6 +236,11 @@
 
 main {
   @apply grow;
+}
+
+html,
+body {
+  @apply bg-neutral-950;
 }
 
 /* Prose styles for markdown content */
@@ -432,15 +433,15 @@ main {
 }
 
 .h1 {
-  @apply text-4xl sm:text-5xl;
+  @apply text-5xl tracking-tight sm:text-6xl;
 }
 
 .h2 {
-  @apply text-3xl sm:text-4xl;
+  @apply text-3xl tracking-tight sm:text-4xl;
 }
 
 .h3 {
-  @apply text-2xl sm:text-3xl;
+  @apply text-2xl tracking-tight sm:text-3xl;
 }
 
 .h4 {
@@ -448,7 +449,7 @@ main {
 }
 
 .p {
-  @apply text-sm sm:text-base;
+  @apply text-sm tracking-wide sm:text-base;
 }
 
 .a {

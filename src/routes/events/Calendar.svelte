@@ -197,7 +197,7 @@
 </script>
 
 <div
-  class="from-secondary-700 to-primary-700 lg:c-4 border border-neutral-700 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
+  class="lg:c-4 border border-neutral-700 bg-neutral-900 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden p-2 pb-10">
     <h2 class="text-lg font-bold text-neutral-200 lg:text-3xl">
@@ -283,7 +283,7 @@
               >
                 {#each day.events as entry}
                   <button
-                    class="bg-primary-600 hover:bg-primary-700 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] transition-colors lg:mb-1 lg:p-1 lg:text-sm"
+                    class="bg-primary-600 hover:bg-primary-700 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] text-neutral-100 transition-colors lg:mb-1 lg:p-1 lg:text-sm"
                     onclick={() => selectEvent(entry.event)}
                   >
                     <div class="truncate font-bold text-clip">
@@ -377,6 +377,6 @@
   }
 
   .event-description :global(a) {
-    @apply text-tertiary-500 hover:text-tertiary-300 underline;
+    @apply text-secondary-400 decoration-secondary-400 hover:text-secondary-200 hover:decoration-secondary-200 underline underline-offset-2;
   }
 </style>

@@ -17,24 +17,24 @@
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 
-<main class="bg-primary-800 text-neutral-200">
-  <section class="pt-32 pb-8">
-    <div class="c-4 mx-auto max-w-5xl p-4">
-      <h1 class="h1 font-bold">About Us</h1>
-      <p class="p">
+<main class="bg-primary-950 text-neutral-100">
+  <section class="pt-40 pb-8">
+    <div class="c-4 mx-auto max-w-7xl p-4">
+      <h1 class="h1 mb-4 font-bold">About Us</h1>
+      <p class="p max-w-2xl">
         Cambridge University Computing and Technology Society (<strong
           >CUCaTS</strong
         >) is the primary student-run computing society at Cambridge. We aim to
         provide a platform for students to explore and engage with technology,
         regardless of their degree or experience level.
       </p>
-      <p class="p">
+      <p class="p max-w-2xl">
         With hundreds of members, the society has a thriving community to run
         both its own events and programmes, whilst providing resources and
         funding to others with similar goals.
       </p>
 
-      <h2 class="h2 mt-8 font-bold">Aims</h2>
+      <h2 class="h2 mt-24 font-bold">Aims</h2>
 
       {#snippet aim(
         image: string,
@@ -42,16 +42,19 @@
         title: string,
         description: string,
       )}
-        <div class="c-4 bg-tertiary-900 rounded-lg p-4">
-          <div>
-            <img src={image} class="pixel size-8" {alt} />
+        <div
+          class="bg-primary-950 flex items-center gap-4 border-y border-neutral-700 px-4 py-8"
+        >
+          <img src={image} class="pixel bg-primary-700 m-4 size-16" {alt} />
+
+          <div class="text-neutral-100">
+            <p class="mb-2 text-xl font-bold uppercase">{title}</p>
+            <p class="p">{description}</p>
           </div>
-          <p class="text-xl font-bold uppercase">{title}</p>
-          <p class="p">{description}</p>
         </div>
       {/snippet}
 
-      <div class="grid grid-cols-1 gap-4 text-neutral-300 md:grid-cols-2">
+      <div class="grid grid-cols-1 text-neutral-200 md:grid-cols-2">
         {@render aim(
           "assets/icons/graph.svg",
           "graph",
@@ -81,14 +84,14 @@
   </section>
 
   {#if committee.length}
-    <section class="bg-tertiary-900 pt-8 text-neutral-300">
-      <div class="c-4 mx-auto max-w-5xl p-4">
-        <h2 class="h2 mb-4 font-bold">Committee</h2>
+    <section class="bg-primary-900 mt-24 pt-8">
+      <div class="c-4 mx-auto max-w-7xl p-4">
+        <h2 class="h2 mx-auto mb-8 font-bold">Committee</h2>
 
         {#snippet committeeMember(member: any)}
-          <div class="w-32 overflow-hidden md:w-48">
+          <div class="max-w-32 md:max-w-48">
             <div
-              class="bg-tertiary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
+              class="bg-primary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
             >
               {#if member.image}
                 <img
@@ -105,7 +108,7 @@
               {/if}
             </div>
 
-            <div class="mt-4">
+            <div class="py-4">
               <div
                 class="text-xs font-bold text-neutral-50 uppercase opacity-60"
               >
@@ -149,9 +152,9 @@
         {/snippet}
 
         {#each committee as group}
-          <h3 class="h3 font-bold">{group.title}</h3>
+          <h3 class="h3 mx-auto font-bold">{group.title}</h3>
           <div
-            class="bg-primary-600/20 mb-4 flex flex-wrap justify-evenly gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:justify-center md:gap-8 md:p-8"
+            class="mb-4 flex flex-wrap justify-evenly gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:justify-center md:gap-8 md:p-8"
           >
             {#each group.members as member}
               {@render committeeMember(member)}

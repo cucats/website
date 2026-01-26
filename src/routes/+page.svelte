@@ -27,9 +27,9 @@
           Cambridge University<br />Computing and Technology Society
         </h1>
       </div>
-      <h2 class="text-center text-neutral-300">
+      <p class="text-center tracking-wide text-neutral-300">
         The main student-led CS and tech society at the University of Cambridge!
-      </h2>
+      </p>
     </div>
   </section>
 

@@ -65,7 +65,7 @@
     </div>
   </section>
 
-  <section class="bg-primary-900 text-neutral-300 lg:p-16">
+  <section class="bg-primary-950 text-neutral-300 lg:p-16">
     <div class="mx-auto max-w-7xl">
       <Calendar />
     </div>
