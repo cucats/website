@@ -73,13 +73,15 @@
         <Event
           website="https://cybersoc.soc.srcf.net"
           title="CyberSoc"
-          subtitle="Cambridge Cybersecurity Society"
+          subtitle="Cybersecurity Society"
+          picture="assets/events/cybersoc.png"
         ></Event>
 
         <Event
           website="https://uccps.soc.srcf.net"
           title="UCCPS"
           subtitle="Uni of Cambridge Competitive Programming Society"
+          picture="assets/events/uccps-resized.png"
         ></Event>
       </div>
     </div>
