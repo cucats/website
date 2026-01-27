@@ -62,14 +62,18 @@
           picture="assets/events/december-challenge.png"
         ></Event>
       </div>
+    </div>
+  </section>
 
+  <section class="bg-primary-800 overflow-hidden text-neutral-200">
+    <div class="c-4 mx-auto max-w-5xl px-4 py-4">
       <h2 class="h2 mt-8 font-bold">Societies</h2>
       <p class="p">
-        CUCaTS also supports other societies (with nicher specialisations) for 
+        CUCaTS also supports other societies (with nicher specialisations) for
         computer science students, primarily through funding.
       </p>
 
-      <div class="flex gap-4 overflow-x-auto p-4 xl:justify-center">
+      <div class="flex gap-4 overflow-x-auto p-4 sm:justify-center">
         <Event
           website="https://cybersoc.soc.srcf.net"
           title="CyberSoc"

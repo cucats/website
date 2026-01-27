@@ -7,7 +7,13 @@
     class?: string;
   }
 
-  let { title, website, subtitle, picture, class: className = "" }: Props = $props();
+  let {
+    title,
+    website,
+    subtitle,
+    picture,
+    class: className = "",
+  }: Props = $props();
 </script>
 
 <div
