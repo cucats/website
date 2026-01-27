@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Event from "./MainEvent.svelte";
+  import Card from "./MainCard.svelte";
   import Calendar from "./Calendar.svelte";
 </script>
 
@@ -44,23 +44,23 @@
         to compete and win prizes!
       </p>
       <div class="flex gap-4 overflow-x-auto p-4 xl:justify-center">
-        <Event
+        <Card
           website="https://camhack.org"
           title="Cam Hack"
           picture="assets/events/camhack-people.jpg"
-        ></Event>
+        ></Card>
 
-        <Event
+        <Card
           website="https://camgamejam.com"
           title="Cambridge Game Jam"
           picture="assets/events/jam.png"
-        ></Event>
+        ></Card>
 
-        <Event
+        <Card
           website="https://cc.cucats.org/about"
           title="CUCaTS Codevent Calendar"
           picture="assets/events/december-challenge.png"
-        ></Event>
+        ></Card>
       </div>
     </div>
   </section>
@@ -74,19 +74,19 @@
       </p>
 
       <div class="flex gap-4 overflow-x-auto p-4 sm:justify-center">
-        <Event
+        <Card
           website="https://cybersoc.soc.srcf.net"
           title="CyberSoc"
           subtitle="Cybersecurity Society"
           picture="assets/events/cybersoc.png"
-        ></Event>
+        ></Card>
 
-        <Event
+        <Card
           website="https://uccps.soc.srcf.net"
           title="UCCPS"
           subtitle="Uni of Cambridge Competitive Programming Society"
           picture="assets/events/uccps-resized.png"
-        ></Event>
+        ></Card>
       </div>
     </div>
   </section>
