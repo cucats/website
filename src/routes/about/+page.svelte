@@ -17,24 +17,27 @@
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 
-<main class="bg-primary-950 text-neutral-100">
+<main class="bg-primary-950 text-neutral-200">
   <section class="pt-40 pb-8">
-    <div class="c-4 mx-auto max-w-7xl p-4">
-      <h1 class="h1 mb-4 font-bold">About Us</h1>
-      <p class="p max-w-2xl">
-        Cambridge University Computing and Technology Society (<strong
-          >CUCaTS</strong
-        >) is the primary student-run computing society at Cambridge. We aim to
-        provide a platform for students to explore and engage with technology,
-        regardless of their degree or experience level.
-      </p>
-      <p class="p max-w-2xl">
-        With hundreds of members, the society has a thriving community to run
-        both its own events and programmes, whilst providing resources and
-        funding to others with similar goals.
-      </p>
+    <div class="mx-auto max-w-7xl p-4">
+      <h1 class="h1 mb-8 font-bold text-neutral-50">About Us</h1>
+      <div class="max-w-2xl">
+        <p class="p mb-8">
+          Cambridge University Computing and Technology Society (<strong
+            >CUCaTS</strong
+          >) is the primary student-run computing society at Cambridge. We aim
+          to provide a platform for students to explore and engage with
+          technology, regardless of their degree or experience level.
+        </p>
 
-      <h2 class="h2 mt-24 font-bold">Aims</h2>
+        <p class="p">
+          With hundreds of members, the society has a thriving community to run
+          both its own events and programmes, whilst providing resources and
+          funding to others with similar goals.
+        </p>
+      </div>
+
+      <h2 class="h2 mt-24 mb-4 font-bold">Aims</h2>
 
       {#snippet aim(
         image: string,
@@ -43,12 +46,14 @@
         description: string,
       )}
         <div
-          class="bg-primary-950 flex items-center gap-4 border-y border-neutral-700 px-4 py-8"
+          class="flex items-center gap-4 border-y border-neutral-700 px-4 py-8"
         >
-          <img src={image} class="pixel bg-primary-700 m-4 size-16" {alt} />
+          <img src={image} class="pixel bg-primary-600 m-4 size-16" {alt} />
 
-          <div class="text-neutral-100">
-            <p class="mb-2 text-xl font-bold uppercase">{title}</p>
+          <div class="">
+            <p class="mb-2 text-xl font-bold text-neutral-50 uppercase">
+              {title}
+            </p>
             <p class="p">{description}</p>
           </div>
         </div>
@@ -91,7 +96,7 @@
         {#snippet committeeMember(member: any)}
           <div class="max-w-32 md:max-w-48">
             <div
-              class="bg-primary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
+              class="bg-primary-900 size-32 overflow-hidden rounded-lg drop-shadow-xl drop-shadow-black select-none md:size-48"
             >
               {#if member.image}
                 <img
@@ -154,7 +159,7 @@
         {#each committee as group}
           <h3 class="h3 mx-auto font-bold">{group.title}</h3>
           <div
-            class="mb-4 flex flex-wrap justify-evenly gap-x-4 gap-y-8 rounded-lg px-4 py-8 md:justify-center md:gap-8 md:p-8"
+            class="mx-auto mb-4 grid grid-cols-2 justify-evenly gap-x-4 gap-y-8 rounded-lg px-4 py-8 sm:grid-cols-3 md:justify-center md:gap-8 md:p-8 lg:grid-cols-4"
           >
             {#each group.members as member}
               {@render committeeMember(member)}
