@@ -17,8 +17,8 @@
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 
-<main class="bg-primary-950 text-neutral-200">
-  <section class="pt-40 pb-8">
+<main class=" text-neutral-200">
+  <section class=" from-primary-700 to-primary-900 bg-linear-to-b py-40">
     <div class="mx-auto max-w-7xl p-4">
       <h1 class="h1 mb-8 font-bold text-neutral-50">About Us</h1>
       <div class="max-w-2xl">
@@ -46,9 +46,9 @@
         description: string,
       )}
         <div
-          class="flex items-center gap-4 border-y border-neutral-700 px-4 py-8"
+          class="flex items-center gap-4 rounded-lg border border-neutral-800 bg-neutral-900/50 px-4 py-8"
         >
-          <img src={image} class="pixel bg-primary-600 m-4 size-16" {alt} />
+          <img src={image} class="pixel m-4 size-16" {alt} />
 
           <div class="">
             <p class="mb-2 text-xl font-bold text-neutral-50 uppercase">
@@ -59,7 +59,7 @@
         </div>
       {/snippet}
 
-      <div class="grid grid-cols-1 text-neutral-200 md:grid-cols-2">
+      <div class="grid grid-cols-1 gap-8 text-neutral-200 md:grid-cols-2">
         {@render aim(
           "assets/icons/graph.svg",
           "graph",
@@ -89,7 +89,7 @@
   </section>
 
   {#if committee.length}
-    <section class="bg-primary-900 mt-24 pt-8">
+    <section class="bg-primary-900 pt-8">
       <div class="c-4 mx-auto max-w-7xl p-4">
         <h2 class="h2 mx-auto mb-8 font-bold">Committee</h2>
 
