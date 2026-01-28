@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Event from "./MainEvent.svelte";
+  import Card from "./MainCard.svelte";
   import Calendar from "./Calendar.svelte";
 </script>
 
@@ -44,23 +44,49 @@
         to compete and win prizes!
       </p>
       <div class="flex gap-4 overflow-x-auto p-4 xl:justify-center">
-        <Event
+        <Card
           website="https://camhack.org"
           title="Cam Hack"
           picture="assets/events/camhack-people.jpg"
-        ></Event>
+        ></Card>
 
-        <Event
+        <Card
           website="https://camgamejam.com"
           title="Cambridge Game Jam"
           picture="assets/events/jam.png"
-        ></Event>
+        ></Card>
 
-        <Event
+        <Card
           website="https://cc.cucats.org/about"
           title="CUCaTS Codevent Calendar"
           picture="assets/events/december-challenge.png"
-        ></Event>
+        ></Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary-800 overflow-hidden text-neutral-200">
+    <div class="c-4 mx-auto max-w-5xl px-4 py-4">
+      <h2 class="h2 mt-8 font-bold">Societies</h2>
+      <p class="p">
+        CUCaTS also supports other societies (with nicher specialisations) for
+        computer science students, primarily through funding.
+      </p>
+
+      <div class="flex gap-4 overflow-x-auto p-4 sm:justify-center">
+        <Card
+          website="https://cybersoc.soc.srcf.net"
+          title="CyberSoc"
+          subtitle="Cybersecurity Society"
+          picture="assets/events/cybersoc.png"
+        ></Card>
+
+        <Card
+          website="https://uccps.soc.srcf.net"
+          title="UCCPS"
+          subtitle="Uni of Cambridge Competitive Programming Society"
+          picture="assets/events/uccps-resized.png"
+        ></Card>
       </div>
     </div>
   </section>

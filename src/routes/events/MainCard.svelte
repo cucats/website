@@ -2,11 +2,18 @@
   interface Props {
     title: string;
     website: string;
+    subtitle?: string;
     picture?: string;
     class?: string;
   }
 
-  let { title, website, picture, class: className = "" }: Props = $props();
+  let {
+    title,
+    website,
+    subtitle,
+    picture,
+    class: className = "",
+  }: Props = $props();
 </script>
 
 <div
@@ -40,5 +47,10 @@
     <h3 class="text-xl font-bold text-neutral-300">
       {title}
     </h3>
+    {#if subtitle}
+      <p class="p">
+        {subtitle}
+      </p>
+    {/if}
   </div>
 </div>
