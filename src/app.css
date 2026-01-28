@@ -104,7 +104,7 @@
       @apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300;
 
       @variant dark {
-        @apply bg-neutral-800 text-neutral-100 hover:bg-neutral-700;
+        @apply bg-neutral-900/50 text-neutral-100 hover:bg-neutral-800/50;
       }
     }
 

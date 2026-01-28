@@ -197,14 +197,14 @@
 </script>
 
 <div
-  class="lg:c-4 border border-neutral-700 bg-neutral-900 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
+  class="lg:c-4 from-tertiary-900 via-primary-900 to-tertiary-900 border border-neutral-700 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden p-2 pb-10">
     <h2 class="text-lg font-bold text-neutral-200 lg:text-3xl">
       {currentTerm.name}
     </h2>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 text-neutral-100">
       <!-- <button
         onclick={() => (weekStartsMonday = !weekStartsMonday)}
         class="cursor-pointer rounded bg-neutral-700 px-2 py-1 text-[10px] transition-colors hover:bg-neutral-600 lg:text-sm"
@@ -214,7 +214,7 @@
       <button
         onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
         disabled={currentTermIndex === 0}
-        class="btn neutral sm font-mono"
+        class="btn hover:bg-neutral-60 sm bg-neutral-50/20"
       >
         &lt;-
       </button>
@@ -222,7 +222,7 @@
         onclick={() =>
           (currentTermIndex = Math.min(terms.length - 1, currentTermIndex + 1))}
         disabled={currentTermIndex === terms.length - 1}
-        class="btn neutral sm font-mono"
+        class="btn hover:bg-neutral-60 sm bg-neutral-50/20"
       >
         -&gt;
       </button>
@@ -329,18 +329,19 @@
       </h2>
 
       {#snippet eventData(icon: Picture, title: string, data: string)}
-        <div class="flex items-start">
-          <enhanced:img src={icon} class="pixel mt-1 mr-3 size-8" alt={title} />
+        <div class="mt-4 flex items-start">
+          <enhanced:img src={icon} class="pixel mr-3 size-8" alt={title} />
+
           <div class="flex-1">
             <h3 class="text-xs font-bold text-neutral-400 uppercase">
               {title}
             </h3>
-            <p class="text-sm text-neutral-300">{data}</p>
+            <p class="text-sm text-neutral-200">{data}</p>
           </div>
         </div>
       {/snippet}
 
-      <div class="c-4 wrap-anywhere">
+      <div class="wrap-anywhere">
         {@render eventData(
           CalendarIcon,
           "Date & Time",
@@ -352,7 +353,9 @@
         {/if}
 
         {#if selectedEvent.description}
-          <div class="event-description text-sm text-neutral-300 sm:text-base">
+          <div
+            class="p event-description mt-4 border-t border-neutral-700 pt-4 text-neutral-200"
+          >
             {@html DOMPurify.sanitize(selectedEvent.description)}
           </div>
         {/if}
@@ -374,6 +377,10 @@
 
   .event-description :global(li) {
     @apply ml-8;
+  }
+
+  .event-description :global(b) {
+    @apply text-white;
   }
 
   .event-description :global(a) {

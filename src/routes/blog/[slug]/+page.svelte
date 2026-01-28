@@ -61,11 +61,11 @@
         {#if data.prev}
           <a
             href="/{data.prev.slug}"
-            class="group bg-tertiary-900 rounded-lg p-4 transition-all hover:brightness-125"
+            class="group bg-primary-900 rounded-lg p-4 transition-all hover:brightness-125"
           >
-            <span class="text-xs text-neutral-500">Previous</span>
+            <span class="text-xs text-neutral-400">Previous</span>
             <span
-              class="block text-neutral-200 group-hover:text-neutral-50 group-hover:underline"
+              class="block text-neutral-100 group-hover:text-neutral-50 group-hover:underline"
               >{data.prev.title}</span
             >
           </a>
@@ -75,11 +75,11 @@
         {#if data.next}
           <a
             href="/{data.next.slug}"
-            class="group bg-tertiary-900 rounded-lg p-4 text-right transition-all hover:brightness-125"
+            class="group bg-primary-900 rounded-lg p-4 text-right transition-all hover:brightness-125"
           >
-            <span class="text-xs text-neutral-500">Next</span>
+            <span class="text-xs text-neutral-400">Next</span>
             <span
-              class="block text-neutral-200 group-hover:text-neutral-50 group-hover:underline"
+              class="block text-neutral-100 group-hover:text-neutral-50 group-hover:underline"
               >{data.next.title}</span
             >
           </a>

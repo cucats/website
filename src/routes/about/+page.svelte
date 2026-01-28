@@ -17,8 +17,8 @@
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 
-<main class=" text-neutral-200">
-  <section class=" from-primary-700 to-primary-900 bg-linear-to-b py-40">
+<main class="text-neutral-100">
+  <section class="from-primary-800 to-primary-900 bg-linear-to-b py-40">
     <div class="mx-auto max-w-7xl p-4">
       <h1 class="h1 mb-8 font-bold text-neutral-50">About Us</h1>
       <div class="max-w-2xl">
@@ -37,7 +37,7 @@
         </p>
       </div>
 
-      <h2 class="h2 mt-24 mb-4 font-bold">Aims</h2>
+      <h2 class="h2 mt-24 mb-8 font-bold">Aims</h2>
 
       {#snippet aim(
         image: string,
@@ -46,7 +46,7 @@
         description: string,
       )}
         <div
-          class="flex items-center gap-4 rounded-lg border border-neutral-800 bg-neutral-900/50 px-4 py-8"
+          class="flex items-center gap-4 rounded-lg border-neutral-800 bg-neutral-950/50 px-4 py-8"
         >
           <img src={image} class="pixel m-4 size-16" {alt} />
 
@@ -59,7 +59,7 @@
         </div>
       {/snippet}
 
-      <div class="grid grid-cols-1 gap-8 text-neutral-200 md:grid-cols-2">
+      <div class="grid grid-cols-1 gap-8 text-neutral-100 md:grid-cols-2">
         {@render aim(
           "assets/icons/graph.svg",
           "graph",

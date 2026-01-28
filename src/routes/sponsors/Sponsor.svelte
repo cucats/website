@@ -13,50 +13,31 @@
   let { name, logo, children, tier }: Props = $props();
 
   let active = $state(false);
+
+  let buttonSize = $derived(
+    tier === "gold"
+      ? "w-80 h-48"
+      : tier === "silver"
+        ? "w-70 h-42"
+        : "w-60 h-36",
+  );
 </script>
 
 <button
-  class={[
-    "group relative flex cursor-pointer items-center rounded-lg bg-neutral-100",
-    {
-      "h-48 w-80": tier === "gold",
-      "h-40 w-72": tier === "silver",
-      "h-32 w-64": tier === "bronze",
-    },
-  ]}
+  class="group relative flex cursor-pointer items-center justify-center rounded-lg bg-neutral-100 p-8 {buttonSize}"
   onclick={() => (active = true)}
 >
-  <img
-    class={[
-      "w-full object-contain p-6",
-      {
-        "h-36": tier === "gold",
-        "h-32": tier === "silver",
-        "h-24": tier === "bronze",
-      },
-    ]}
-    src={logo}
-    alt="sponsor logo"
-  />
+  <img class="h-full object-contain" src={logo} alt="sponsor logo" />
 
   <!--
     Using overflow-clip on parent leaves a small gap on browsers for some reason.
     Instead, use a border with a smaller radius in child.
   -->
   <div
-    class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-neutral-950/90 opacity-0 duration-200 group-hover:opacity-100 group-hover:backdrop-blur-sm"
+    class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-neutral-950/90 opacity-0 transition duration-200 group-hover:opacity-100 group-hover:backdrop-blur-sm"
   >
     <div class="text-center font-bold uppercase">
-      <span
-        class={[
-          "block text-neutral-100",
-          {
-            "text-2xl": tier === "gold",
-            "text-xl": tier === "silver",
-            "text-lg": tier === "bronze",
-          },
-        ]}>{@render name()}</span
-      >
+      <span class="block text-xl text-neutral-100">{@render name()}</span>
       <span class="mt-2 block text-sm text-neutral-200">Learn More -&gt;</span>
     </div>
   </div>

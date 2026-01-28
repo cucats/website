@@ -8,7 +8,7 @@
 </svelte:head>
 
 <main class="bg-primary-800">
-  <section class="pt-32 pb-8 text-neutral-200">
+  <section class="pt-32 pb-8 text-neutral-100">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Events</h1>
       <p class="p">
@@ -28,7 +28,7 @@
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="btn neutral border border-neutral-600 p-2 text-sm sm:text-base"
+          class="btn neutral border border-neutral-700 p-2 text-sm sm:text-base"
         >
           Join mailing list
         </a>
@@ -36,7 +36,7 @@
     </div>
   </section>
 
-  <section class="bg-primary-700 overflow-hidden text-neutral-200">
+  <section class="bg-primary-700 overflow-hidden text-neutral-100">
     <div class="c-4 mx-auto max-w-5xl px-4 py-4">
       <h2 class="h2 mt-4 font-bold">Flagship events</h2>
       <p class="p">
@@ -58,7 +58,7 @@
 
         <Card
           website="https://cc.cucats.org/about"
-          title="CUCaTS Codevent Calendar"
+          title="CUCaTS Codevent"
           picture="assets/events/december-challenge.png"
         ></Card>
       </div>

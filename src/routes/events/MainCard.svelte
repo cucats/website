@@ -17,10 +17,7 @@
 </script>
 
 <div
-  class={[
-    "relative h-90 w-80 min-w-70 overflow-hidden rounded-lg bg-neutral-900",
-    className,
-  ]}
+  class="relative h-90 w-80 min-w-70 overflow-hidden rounded-lg bg-neutral-900 select-none {className}"
 >
   <a href={website}>
     <div
