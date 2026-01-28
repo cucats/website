@@ -67,7 +67,7 @@
 
   <section class="bg-primary-800 overflow-hidden text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl px-4 py-4">
-      <h2 class="h2 mt-8 font-bold">Societies</h2>
+      <h2 class="h2 mt-8 font-bold">Supported societies</h2>
       <p class="p">
         CUCaTS also supports other societies (with nicher specialisations) for
         computer science students, primarily through funding.
