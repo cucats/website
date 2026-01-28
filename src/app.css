@@ -96,6 +96,10 @@
       @apply bg-secondary-600 hover:bg-secondary-500 text-neutral-100;
     }
 
+    &.tertiary {
+      @apply bg-tertiary-600 hover:bg-tertiary-500 text-neutral-100;
+    }
+
     &.neutral {
       @apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300;
 

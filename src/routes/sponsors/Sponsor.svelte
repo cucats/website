@@ -17,7 +17,7 @@
 
 <button
   class={[
-    "group relative flex cursor-pointer items-center rounded-lg bg-neutral-200",
+    "group relative flex cursor-pointer items-center rounded-lg bg-neutral-100",
     {
       "h-48 w-80": tier === "gold",
       "h-40 w-72": tier === "silver",
