@@ -96,7 +96,7 @@
         {#snippet committeeMember(member: any)}
           <div class="max-w-32 md:max-w-48">
             <div
-              class="bg-primary-900 size-32 overflow-hidden rounded-lg drop-shadow-xl drop-shadow-black select-none md:size-48"
+              class="bg-primary-900 size-32 overflow-hidden rounded-lg select-none md:size-48"
             >
               {#if member.image}
                 <img
