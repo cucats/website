@@ -34,7 +34,7 @@
           {#each data.children as child}
             <a
               href="/{child.slug}"
-              class="bg-tertiary-900 block rounded-lg p-6 transition-all hover:brightness-125"
+              class="bg-primary-900 block rounded-lg p-6 transition-all hover:brightness-125"
             >
               <h2
                 class="mb-2 text-lg font-semibold text-neutral-100 sm:text-xl"

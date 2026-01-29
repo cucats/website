@@ -27,7 +27,7 @@
   ];
 </script>
 
-<footer class="border-t border-neutral-500 bg-neutral-900">
+<footer class="border-t border-neutral-500 bg-neutral-950">
   <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-3">
     <div class="space-y-4">
       <div class="r-4 items-center">

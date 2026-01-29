@@ -17,10 +17,7 @@
 </script>
 
 <div
-  class={[
-    "bg-tertiary-900 relative h-90 w-80 min-w-70 overflow-hidden rounded-lg",
-    className,
-  ]}
+  class="relative h-90 w-80 min-w-70 overflow-hidden rounded-lg bg-neutral-900 select-none {className}"
 >
   <a href={website}>
     <div
@@ -32,7 +29,7 @@
     </div>
   </a>
 
-  <div class="bg-tertiary-800 h-60">
+  <div class="bg-primary-800 h-60">
     {#if picture}
       <img
         class="h-60 w-full object-cover"
@@ -44,7 +41,7 @@
   </div>
 
   <div class="p-4">
-    <h3 class="text-xl font-bold text-neutral-300">
+    <h3 class="text-xl font-bold text-neutral-200">
       {title}
     </h3>
     {#if subtitle}

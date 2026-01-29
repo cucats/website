@@ -13,7 +13,7 @@
 </svelte:head>
 
 <main class="bg-primary-800 min-h-screen">
-  <section class="pt-24 text-neutral-300">
+  <section class="pt-24 text-neutral-200">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400">
@@ -30,7 +30,7 @@
       <div class="space-y-6">
         {#each data.posts as post}
           <article
-            class="group bg-tertiary-900 rounded-lg transition-all hover:brightness-125"
+            class="group bg-primary-900 rounded-lg transition hover:brightness-125"
           >
             <a href="/blog/{post.slug}" class="block p-6">
               <div

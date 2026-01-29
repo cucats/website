@@ -6,7 +6,7 @@
   <title>Sponsors | CUCaTS</title>
 </svelte:head>
 
-<main class="bg-tertiary-700">
+<main class="">
   <section
     class="from-secondary-700 to-tertiary-700 bg-linear-to-br pt-32 pb-8 text-neutral-100"
   >
@@ -32,7 +32,7 @@
   <section
     class="from-primary-800 via-secondary-800 to-tertiary-800 bg-linear-to-br pb-8"
   >
-    <div class="c-4 mx-auto max-w-7xl p-4">
+    <div class="c-4 mx-auto max-w-6xl p-4">
       <h2 class="sponsor-tier-title">Gold</h2>
 
       <div class="r-4 flex-wrap justify-center">
