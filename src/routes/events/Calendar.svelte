@@ -72,7 +72,7 @@
     return `${formatDateTime(event.start)} - ${formatDateTime(event.end)}`;
   }
 
-  let currentTermIndex = $state(1);
+  let currentTermIndex = $state(2);
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
