@@ -42,7 +42,7 @@
     },
     {
       name: "Lent 2026",
-      start: new Date("2026-01-22"),
+      start: new Date("2026-01-20"),
       end: new Date("2026-03-20"),
     },
   ];
