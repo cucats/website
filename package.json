@@ -37,7 +37,7 @@
     "flexsearch": "^0.8.212",
     "ical.js": "^2.2.1",
     "katex": "^0.16.27",
-    "marked": "^17.0.1",
+    "marked": "^18.0.0",
     "shiki": "^4.0.2"
   },
   "prettier": {
