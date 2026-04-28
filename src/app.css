@@ -101,19 +101,11 @@
     }
 
     &.neutral {
-      @apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300;
-
-      @variant dark {
-        @apply bg-neutral-900/50 text-neutral-100 hover:bg-neutral-800/50;
-      }
+      @apply bg-neutral-900/50 text-neutral-100 hover:bg-neutral-800/50;
     }
 
     &.ghost {
-      @apply text-primary-600 hover:bg-primary-100 bg-transparent;
-
-      @variant dark {
-        @apply text-primary-400 hover:bg-primary-900/30;
-      }
+      @apply text-primary-400 hover:bg-primary-900/30;
     }
 
     &.gradient {
@@ -206,11 +198,7 @@
   }
 
   label {
-    @apply mb-1 block text-sm font-medium text-neutral-700;
-
-    @variant dark {
-      @apply text-neutral-300;
-    }
+    @apply mb-1 block text-sm font-medium text-neutral-300;
 
     input {
       @apply mt-1 block;
@@ -218,18 +206,10 @@
   }
 
   .helper-text {
-    @apply mt-1 text-sm text-neutral-600;
-
-    @variant dark {
-      @apply text-neutral-400;
-    }
+    @apply mt-1 text-sm text-neutral-400;
 
     &.error {
       @apply text-error-400;
-
-      @variant dark {
-        @apply text-error-400;
-      }
     }
   }
 }
@@ -249,11 +229,7 @@ body {
 
 /* Prose styles for markdown content */
 .prose {
-  @apply text-neutral-700;
-
-  @variant dark {
-    @apply text-neutral-100;
-  }
+  @apply text-neutral-100;
 
   h1,
   h2,
@@ -285,11 +261,7 @@ body {
   }
 
   a {
-    @apply text-primary-600 decoration-primary-300 hover:text-primary-700 hover:decoration-primary-500 underline underline-offset-2 transition-colors;
-
-    @variant dark {
-      @apply text-secondary-400 decoration-secondary-400 hover:text-secondary-200 hover:decoration-secondary-200;
-    }
+    @apply text-secondary-400 decoration-secondary-400 hover:text-secondary-200 hover:decoration-secondary-200 underline underline-offset-2 transition-colors;
   }
 
   ul,
@@ -310,17 +282,11 @@ body {
   }
 
   blockquote {
-    @apply my-4 border-l-4 border-neutral-300 pl-4 text-neutral-600 italic;
-    @variant dark {
-      @apply border-neutral-600 text-neutral-400;
-    }
+    @apply my-4 border-l-4 border-neutral-600 pl-4 text-neutral-400 italic;
   }
 
   blockquote.callout {
-    @apply rounded-r-lg border-l-4 bg-neutral-100 p-4 text-base not-italic;
-    @variant dark {
-      @apply bg-neutral-800;
-    }
+    @apply rounded-r-lg border-l-4 bg-neutral-800 p-4 text-base not-italic;
   }
 
   blockquote.callout p {
@@ -328,10 +294,7 @@ body {
   }
 
   blockquote.callout.note {
-    @apply border-primary-500 bg-primary-50;
-    @variant dark {
-      @apply bg-primary-900/20;
-    }
+    @apply border-primary-500 bg-primary-900/20;
   }
 
   blockquote.callout.warning {
@@ -339,10 +302,7 @@ body {
   }
 
   blockquote.callout.tip {
-    @apply border-secondary-500 bg-secondary-50;
-    @variant dark {
-      @apply bg-secondary-900/20;
-    }
+    @apply bg-secondary-900/20 bg-secondary-50;
   }
 
   img {
@@ -362,10 +322,7 @@ body {
   }
 
   code {
-    @apply rounded bg-neutral-100 px-1.5 py-0.5 text-sm;
-    @variant dark {
-      @apply bg-neutral-800;
-    }
+    @apply rounded bg-neutral-800 px-1.5 py-0.5 text-sm;
   }
 
   pre {
@@ -385,10 +342,7 @@ body {
   }
 
   hr {
-    @apply my-8 border-neutral-200;
-    @variant dark {
-      @apply border-neutral-700;
-    }
+    @apply my-8 border-neutral-700;
   }
 
   .table-wrapper {
@@ -401,17 +355,11 @@ body {
 
   th,
   td {
-    @apply border border-neutral-200 px-4 py-2;
-    @variant dark {
-      @apply border-neutral-700;
-    }
+    @apply border border-neutral-700 px-4 py-2;
   }
 
   th {
-    @apply bg-neutral-100 font-semibold;
-    @variant dark {
-      @apply bg-neutral-800;
-    }
+    @apply bg-neutral-800 font-semibold;
   }
 
   .anchor {
