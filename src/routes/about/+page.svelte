@@ -1,5 +1,4 @@
 <script lang="ts">
-  import DefaultProfile from "$lib/assets/default-profile.webp";
   import { onMount } from "svelte";
   let committee: any[] = [];
 
@@ -88,7 +87,7 @@
     </div>
   </section>
 
-  {#if committee.length}
+  {#if committee && committee.length}
     <section class="bg-primary-900 pt-8">
       <div class="c-4 mx-auto max-w-7xl p-4">
         <h2 class="h2 mx-auto mb-8 font-bold">Committee</h2>
@@ -107,7 +106,7 @@
               {:else}
                 <enhanced:img
                   class="size-full opacity-80"
-                  src={DefaultProfile}
+                  src="$lib/assets/default-profile.webp"
                   alt={`${member.name}'s portrait`}
                 />
               {/if}
