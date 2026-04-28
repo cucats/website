@@ -214,7 +214,7 @@
       <button
         onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
         disabled={currentTermIndex === 0}
-        class="btn hover:bg-neutral-60 sm bg-neutral-50/20"
+        class="btn sm bg-neutral-600/50 enabled:hover:bg-neutral-600"
       >
         &lt;-
       </button>
@@ -222,7 +222,7 @@
         onclick={() =>
           (currentTermIndex = Math.min(terms.length - 1, currentTermIndex + 1))}
         disabled={currentTermIndex === terms.length - 1}
-        class="btn hover:bg-neutral-60 sm bg-neutral-50/20"
+        class="btn sm bg-neutral-600/50 enabled:hover:bg-neutral-600"
       >
         -&gt;
       </button>
