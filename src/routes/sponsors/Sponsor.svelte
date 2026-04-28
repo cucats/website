@@ -58,7 +58,7 @@
 
   <!-- Modal body -->
   <div class="c-4 text-neutral-100">
-    <h3 class="h3 mb-4 font-bold">
+    <h3 class="h3 font-bold">
       {@render name()}
     </h3>
     <div class="c-4 p">
