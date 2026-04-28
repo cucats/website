@@ -197,7 +197,7 @@
 </script>
 
 <div
-  class="lg:c-4 from-tertiary-900 via-primary-900 to-tertiary-900 border border-neutral-700 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
+  class="lg:c-4 from-tertiary-900 via-primary-900 to-tertiary-900 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden p-2 pb-10">
     <h2 class="text-lg font-bold text-neutral-200 lg:text-3xl">

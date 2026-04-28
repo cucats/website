@@ -28,7 +28,7 @@
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="btn neutral border border-neutral-700 p-2 text-sm sm:text-base"
+          class="btn neutral p-2 text-sm sm:text-base"
         >
           Join mailing list
         </a>

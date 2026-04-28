@@ -34,7 +34,7 @@
     Instead, use a border with a smaller radius in child.
   -->
   <div
-    class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-neutral-950/90 opacity-0 transition duration-200 group-hover:opacity-100 group-hover:backdrop-blur-sm"
+    class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-neutral-950/90 opacity-0 transition duration-300 group-hover:opacity-100 group-hover:backdrop-blur-sm"
   >
     <div class="text-center font-bold uppercase">
       <span class="block text-xl text-neutral-100">{@render name()}</span>
