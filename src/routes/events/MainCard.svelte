@@ -17,37 +17,38 @@
 </script>
 
 <div
-  class="relative h-90 w-80 min-w-70 overflow-hidden rounded-lg bg-neutral-900 select-none {className}"
+  class="group relative h-80 w-76 min-w-76 overflow-hidden rounded-lg bg-neutral-900 select-none {className} duration-200"
 >
   <a href={website}>
     <div
-      class="absolute z-50 size-full bg-neutral-950/50 opacity-0 backdrop-blur-lg duration-200 hover:opacity-100"
+      class="absolute z-50 size-full bg-linear-to-b from-transparent to-black/80 opacity-100 duration-200 group-hover:backdrop-blur-lg"
     >
-      <p class="flex size-full items-center justify-center text-lg font-bold">
+      <div
+        class="absolute flex h-full w-full items-center justify-center font-bold opacity-0 duration-200 group-hover:opacity-100"
+      >
         Visit website -&gt;
-      </p>
+      </div>
+
+      <div class="absolute bottom-0 p-4">
+        <div class="text-2xl font-bold text-white">
+          {title}
+        </div>
+
+        <div class="">
+          {subtitle}
+        </div>
+      </div>
     </div>
   </a>
 
-  <div class="bg-primary-800 h-60">
+  <div class="bg-primary-800 h-full">
     {#if picture}
       <img
-        class="h-60 w-full object-cover"
+        class="h-full w-full object-cover duration-200"
         src={picture}
         alt={title}
         aria-hidden="true"
       />
-    {/if}
-  </div>
-
-  <div class="p-4">
-    <h3 class="text-xl font-bold text-neutral-200">
-      {title}
-    </h3>
-    {#if subtitle}
-      <p class="p">
-        {subtitle}
-      </p>
     {/if}
   </div>
 </div>

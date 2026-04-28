@@ -47,18 +47,21 @@
         <Card
           website="https://camhack.org"
           title="Cam Hack"
+          subtitle="Hackathon"
           picture="assets/events/camhack-people.jpg"
         ></Card>
 
         <Card
           website="https://camgamejam.com"
           title="Cambridge Game Jam"
+          subtitle="Game jam"
           picture="assets/events/jam.png"
         ></Card>
 
         <Card
           website="https://cc.cucats.org/about"
           title="CUCaTS Codevent"
+          subtitle="Daily puzzles"
           picture="assets/events/december-challenge.png"
         ></Card>
       </div>
@@ -77,14 +80,14 @@
         <Card
           website="https://cybersoc.soc.srcf.net"
           title="CyberSoc"
-          subtitle="Cybersecurity Society"
+          subtitle="Cybersecurity"
           picture="assets/events/cybersoc.png"
         ></Card>
 
         <Card
           website="https://uccps.soc.srcf.net"
           title="UCCPS"
-          subtitle="Uni of Cambridge Competitive Programming Society"
+          subtitle="Competitive programming"
           picture="assets/events/uccps-resized.png"
         ></Card>
       </div>
