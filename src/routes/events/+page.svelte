@@ -38,7 +38,7 @@
   <section class="bg-primary-700">
     <div class="py-16">
       <h2 class="h2 text-center font-bold">Flagship events</h2>
-      <div class="mt-8 flex justify-center-safe gap-4 overflow-x-auto p-2">
+      <div class="mt-8 flex justify-center-safe gap-4 overflow-x-auto p-4">
         <Card
           website="https://camhack.org"
           title="Cam Hack"
@@ -93,11 +93,13 @@
   </section>
 
   <section class="bg-primary-800 overflow-hidden py-10 text-neutral-100">
-    <div class="c-4 mx-auto max-w-5xl px-4 text-center">
-      <h2 class="h2 font-bold">Check out other societies</h2>
-      <p class="p">CUCaTS also partners with other societies to run events!</p>
+    <div class="c-4 mx-auto max-w-5xl text-center">
+      <h2 class="h2 px-4 font-bold">Check out other societies</h2>
+      <p class="p px-4">
+        CUCaTS also partners with other societies to run events!
+      </p>
 
-      <div class="flex gap-4 overflow-x-auto p-4 sm:justify-center">
+      <div class="flex justify-center-safe gap-4 overflow-x-auto p-4">
         <Card
           website="https://cybersoc.soc.srcf.net"
           title="CyberSoc"
