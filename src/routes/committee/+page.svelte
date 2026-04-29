@@ -17,78 +17,8 @@
 </svelte:head>
 
 <main class="text-neutral-100">
-  <section class="from-primary-800 to-primary-900 bg-linear-to-b py-40">
-    <div class="mx-auto max-w-7xl p-4">
-      <h1 class="h1 mb-8 font-bold text-neutral-50">About Us</h1>
-      <div class="max-w-2xl">
-        <p class="p mb-8">
-          Cambridge University Computing and Technology Society (<strong
-            >CUCaTS</strong
-          >) is the primary student-run computing society at Cambridge. We aim
-          to provide a platform for students to explore and engage with
-          technology, regardless of their degree or experience level.
-        </p>
-
-        <p class="p">
-          With hundreds of members, the society has a thriving community to run
-          both its own events and programmes, whilst providing resources and
-          funding to others with similar goals.
-        </p>
-      </div>
-
-      <h2 class="h2 mt-24 mb-8 font-bold">Aims</h2>
-
-      {#snippet aim(
-        image: string,
-        alt: string,
-        title: string,
-        description: string,
-      )}
-        <div
-          class="flex items-center gap-4 rounded-lg border-neutral-800 bg-neutral-950/50 px-4 py-8"
-        >
-          <img src={image} class="pixel m-4 size-16" {alt} />
-
-          <div class="">
-            <p class="mb-2 text-xl font-bold text-neutral-50 uppercase">
-              {title}
-            </p>
-            <p class="p">{description}</p>
-          </div>
-        </div>
-      {/snippet}
-
-      <div class="grid grid-cols-1 gap-8 text-neutral-100 md:grid-cols-2">
-        {@render aim(
-          "assets/icons/graph.svg",
-          "graph",
-          "Build connections",
-          "Provide members and potential employers with networking opportunities",
-        )}
-        {@render aim(
-          "assets/icons/loudspeaker.svg",
-          "loudspeaker",
-          "Promote interest",
-          "Spark curiosity in computing amongst members and the general public",
-        )}
-        {@render aim(
-          "assets/icons/steps.svg",
-          "steps",
-          "Support members",
-          "Help and fund members host events that align with our mission",
-        )}
-        {@render aim(
-          "assets/icons/text.svg",
-          "text",
-          "Encourage discussion",
-          "Provide a forum to discuss topics and issues concerning computing and IT",
-        )}
-      </div>
-    </div>
-  </section>
-
   {#if committee && committee.length}
-    <section class="bg-primary-900 pt-8">
+    <section class="bg-primary-900 pt-40">
       <div class="c-4 mx-auto max-w-7xl p-4">
         <h2 class="h2 mx-auto mb-8 font-bold">Committee</h2>
 
