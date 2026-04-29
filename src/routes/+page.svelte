@@ -23,7 +23,9 @@
           alt="CUCaTS logo"
           class="size-40 select-none"
         />
-        <h1 class="text-center text-8xl font-bold text-neutral-100">CUCaTS</h1>
+        <h1 class="text-center text-6xl font-bold text-neutral-100 sm:text-8xl">
+          CUCaTS
+        </h1>
       </div>
 
       <p
@@ -36,7 +38,7 @@
 
   <section class="bg-tertiary-950 overflow-clip px-4 py-40 text-neutral-200">
     <div class="c-4 z-10 mx-auto max-w-3xl">
-      <p class="mt-8 text-base sm:text-lg">
+      <p class="p mt-8">
         Cambridge University Computing and Technology Society (<strong
           >CUCaTS</strong
         >) is the primary student-run computing society at Cambridge. We aim to
@@ -44,7 +46,7 @@
         regardless of their degree or experience level.
       </p>
 
-      <p class="text-base sm:text-xl">
+      <p class="p">
         With hundreds of members, the society has a thriving community to run
         both its own events and programmes, whilst providing resources and
         funding to others with similar goals.
@@ -62,7 +64,7 @@
       description: string,
     )}
       <div class="gap-4 p-4 px-4 py-8 text-center">
-        <img src={image} class="pixel mx-auto size-24" {alt} />
+        <img src={image} class="pixel mx-auto size-16 sm:size-24" {alt} />
 
         <p class="mt-4 text-lg font-bold text-neutral-100 uppercase">
           {title}
@@ -122,14 +124,12 @@
           alt=""
         />
       </div>
-      <h1 class="h1 text-center font-bold text-neutral-100">
-        Join our events!
-      </h1>
+      <h1 class="h1 text-center font-bold text-neutral-100">Join our events</h1>
       <p class="p text-center">
         We run several major events every year, and help other students run
         their own!
       </p>
-      <a href="/events" class="btn primary p-3 text-xl">See events -&gt;</a>
+      <a href="/events" class="btn primary p-3 text-xl">See events</a>
     </div>
   </section>
 </main>
