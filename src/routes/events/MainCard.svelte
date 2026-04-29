@@ -21,7 +21,7 @@
 >
   <a href={website}>
     <div
-      class="absolute z-10 size-full bg-linear-to-b from-transparent to-black/80 opacity-100 duration-300 group-hover:bg-black/50 group-hover:backdrop-blur-lg"
+      class="absolute z-10 size-full bg-linear-to-b from-transparent to-black/80 text-left opacity-100 duration-300 group-hover:bg-black/50 group-hover:backdrop-blur-lg"
     >
       <div
         class="absolute flex h-full w-full items-center justify-center font-bold opacity-0 duration-300 group-hover:opacity-100"
@@ -41,7 +41,7 @@
     </div>
   </a>
 
-  <div class="bg-primary-800 h-full">
+  <div class="bg-primary-900 h-full">
     {#if picture}
       <img
         class="h-full w-full object-cover duration-200"

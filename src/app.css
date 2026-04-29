@@ -401,7 +401,7 @@ body {
 }
 
 .p {
-  @apply text-sm tracking-wide sm:text-base;
+  @apply text-sm sm:text-base;
 }
 
 .a {
