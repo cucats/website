@@ -93,7 +93,7 @@
     </div>
   </section>
 
-  <section class="bg-primary-800 overflow-hidden py-10 text-neutral-100">
+  <section class="bg-primary-800 overflow-hidden py-16 text-neutral-100">
     <div class="c-4 mx-auto max-w-5xl text-center">
       <h2 class="h2 px-4 font-bold">Check out other societies</h2>
       <p class="p px-4">
