@@ -76,7 +76,7 @@
   </section>
 
   <section class="bg-primary-900 overflow-hidden py-40 text-neutral-100">
-    <div class="mx-auto max-w-7xl p-16 text-center">
+    <div class="mx-auto my-16 max-w-7xl px-8 text-center">
       <h1 class="h1 font-bold">Launch your own event</h1>
       <p class="p mx-auto mt-8 max-w-3xl">
         Are you a student with an event idea? Whether it's a casual picnic or an
