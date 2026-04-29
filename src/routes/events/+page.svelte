@@ -68,8 +68,9 @@
     </div>
   </section>
 
-  <section class="bg-primary-950 text-neutral-300 lg:p-16">
-    <div class="mx-auto flex max-w-7xl flex-col gap-8">
+  <section class="bg-primary-800 pt-16 text-neutral-300 lg:px-16 lg:pb-16">
+    <h2 class="h2 text-center font-bold text-neutral-100">Calendar</h2>
+    <div class="mx-auto mt-16 flex max-w-7xl flex-col gap-8">
       <Calendar />
     </div>
   </section>
