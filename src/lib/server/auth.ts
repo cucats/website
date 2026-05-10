@@ -1,11 +1,37 @@
 import MicrosoftEntraID from "@auth/core/providers/microsoft-entra-id";
-import { SvelteKitAuth, type SvelteKitAuthConfig } from "@auth/sveltekit";
+import {
+  SvelteKitAuth,
+  customFetch,
+  type SvelteKitAuthConfig,
+} from "@auth/sveltekit";
 import { env } from "$env/dynamic/private";
 import { sql } from "$lib/server/db";
 
 const CAMBRIDGE_TENANT_ID = "49a50445-bdfa-4b79-ade3-547b4f3986e9";
-const CAMBRIDGE_ISSUER = `https://login.microsoftonline.com/${CAMBRIDGE_TENANT_ID}/v2.0/`;
+const CAMBRIDGE_ISSUER = `https://login.microsoftonline.com/${CAMBRIDGE_TENANT_ID}/v2.0`;
 const CAMBRIDGE_IDP = `https://sts.windows.net/${CAMBRIDGE_TENANT_ID}/`;
+
+const entraProvider = MicrosoftEntraID({
+  clientId: env.AUTH_MICROSOFT_ENTRA_ID_ID,
+  clientSecret: env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
+  issuer: CAMBRIDGE_ISSUER,
+});
+
+// Workaround: @auth/core's built-in customFetch extracts the tenant ID with
+// `/(\w+)/v2.0/`, which doesn't match GUID tenant IDs (because of hyphens).
+// Replace it with one that uses the configured tenant.
+entraProvider[customFetch] = async (...args: Parameters<typeof fetch>) => {
+  const url = new URL(args[0] instanceof Request ? args[0].url : args[0]);
+  if (url.pathname.endsWith(".well-known/openid-configuration")) {
+    const response = await fetch(...args);
+    const json = await response.clone().json();
+    return Response.json({
+      ...json,
+      issuer: String(json.issuer).replace("{tenantid}", CAMBRIDGE_TENANT_ID),
+    });
+  }
+  return fetch(...args);
+};
 
 type CambridgeProfile = {
   tid?: string;
@@ -18,13 +44,7 @@ type CambridgeProfile = {
 };
 
 const config: SvelteKitAuthConfig = {
-  providers: [
-    MicrosoftEntraID({
-      clientId: env.AUTH_MICROSOFT_ENTRA_ID_ID,
-      clientSecret: env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
-      issuer: CAMBRIDGE_ISSUER,
-    }),
-  ],
+  providers: [entraProvider],
   secret: env.AUTH_SECRET,
   trustHost: true,
   session: { strategy: "jwt" },
