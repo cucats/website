@@ -30,7 +30,7 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
       description: string | null;
       image_url: string | null;
     }[]
-  >`select id, name, description, image_url from products where drop_id = ${drop.id} order by id`;
+  >`select id, name, description, image_url from products where drop_id = ${drop.id} order by display_order, id`;
 
   const productIds = products.map((p) => p.id);
   const variants = productIds.length

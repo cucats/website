@@ -25,7 +25,7 @@
 <section class="from-primary-700 via-primary-800 to-primary-900 bg-linear-to-br pt-32 pb-12">
   <div class="mx-auto max-w-5xl px-4">
     <a class="text-sm text-neutral-300 hover:text-neutral-100" href="/shop">← Shop</a>
-    <h1 class="h1 mt-2 text-neutral-100">{data.drop.name}</h1>
+    <h1 class="h1 mt-2 font-bold text-neutral-100">{data.drop.name}</h1>
     {#if data.drop.description}
       <p class="p mt-3 max-w-3xl text-neutral-200">{data.drop.description}</p>
     {/if}
@@ -41,7 +41,7 @@
   </div>
 </section>
 
-<section class="bg-neutral-950 py-12">
+<section class="bg-primary-900 py-12">
   <div class="mx-auto max-w-7xl px-4">
     {#if form?.error}
       <p class="helper-text error mb-4">{form.error}</p>
@@ -53,8 +53,13 @@
       <form method="POST" action="?/order" class="c-8">
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {#each data.products as product}
+            {@const productVariants = variantsByProduct[product.id] ?? []}
+            {@const prices = productVariants.map((v) => v.price)}
+            {@const minPrice = prices.length ? Math.min(...prices) : 0}
+            {@const maxPrice = prices.length ? Math.max(...prices) : 0}
+            {@const uniformPrice = minPrice === maxPrice}
             <article
-              class="flex flex-col overflow-hidden rounded-lg border border-neutral-800"
+              class="bg-primary-950/40 flex flex-col overflow-hidden rounded-lg border border-primary-800/60"
             >
               <div class="bg-primary-900 aspect-square">
                 {#if product.image_url}
@@ -66,33 +71,42 @@
                 {/if}
               </div>
               <div class="c-3 flex-1 p-4">
-                <h2 class="h4 text-neutral-100">{product.name}</h2>
+                <div class="r-2 items-baseline justify-between">
+                  <h2 class="h4 text-neutral-100">{product.name}</h2>
+                  <span class="text-sm font-semibold text-neutral-200">
+                    {#if uniformPrice}
+                      £{minPrice.toFixed(2)}
+                    {:else}
+                      £{minPrice.toFixed(2)} – £{maxPrice.toFixed(2)}
+                    {/if}
+                  </span>
+                </div>
                 {#if product.description}
                   <p class="text-sm text-neutral-400">{product.description}</p>
                 {/if}
-                <ul class="c-2 mt-auto">
-                  {#each variantsByProduct[product.id] ?? [] as v}
-                    <li>
-                      <label class="r-2 items-center justify-between text-sm">
-                        <span class="text-neutral-200">
-                          {variantLabel(v.options)} ・ £{v.price.toFixed(2)}
-                          {#if v.stock_count != null}
-                            ・ {v.stock_count} left
-                          {/if}
+                <div class="r-2 mt-auto flex-wrap">
+                  {#each productVariants as v}
+                    <label class="c-1 items-center text-center">
+                      <span class="text-xs font-medium text-neutral-400">
+                        {variantLabel(v.options)}
+                      </span>
+                      <input
+                        class="default w-14 text-center"
+                        type="number"
+                        name="qty_{v.id}"
+                        min="0"
+                        max={v.stock_count ?? undefined}
+                        value="0"
+                        disabled={!data.isOpen}
+                      />
+                      {#if !uniformPrice}
+                        <span class="text-xs text-neutral-500">
+                          £{v.price.toFixed(2)}
                         </span>
-                        <input
-                          class="default w-16"
-                          type="number"
-                          name="qty_{v.id}"
-                          min="0"
-                          max={v.stock_count ?? undefined}
-                          value="0"
-                          disabled={!data.isOpen}
-                        />
-                      </label>
-                    </li>
+                      {/if}
+                    </label>
                   {/each}
-                </ul>
+                </div>
               </div>
             </article>
           {/each}

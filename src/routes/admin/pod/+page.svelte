@@ -12,7 +12,7 @@
     <p class="p text-neutral-400">No POD products yet.</p>
   {:else}
     <ul class="c-2 divide-y divide-neutral-800">
-      {#each data.products as product}
+      {#each data.products as product, i}
         <li class="r-4 items-center justify-between py-3">
           <div class="r-4 items-center">
             {#if product.image_url}
@@ -26,7 +26,25 @@
               {product.name}
             </a>
           </div>
-          <a class="btn neutral sm" href="/admin/pod/{product.id}">Edit</a>
+          <div class="r-2">
+            <form method="POST" action="?/moveUp">
+              <input type="hidden" name="product_id" value={product.id} />
+              <button
+                class="btn neutral sm"
+                aria-label="Move up"
+                disabled={i === 0}>↑</button
+              >
+            </form>
+            <form method="POST" action="?/moveDown">
+              <input type="hidden" name="product_id" value={product.id} />
+              <button
+                class="btn neutral sm"
+                aria-label="Move down"
+                disabled={i === data.products.length - 1}>↓</button
+              >
+            </form>
+            <a class="btn neutral sm" href="/admin/pod/{product.id}">Edit</a>
+          </div>
         </li>
       {/each}
     </ul>
