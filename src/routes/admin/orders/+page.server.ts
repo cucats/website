@@ -1,18 +1,7 @@
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
-
-export const STATUSES = [
-  "pending",
-  "paid",
-  "ready",
-  "shipped",
-  "collected",
-  "delivered",
-  "cancelled",
-] as const;
-
-export type OrderStatus = (typeof STATUSES)[number];
+import { STATUSES, type OrderStatus } from "./statuses";
 
 export const load: PageServerLoad = async ({ url }) => {
   const status = url.searchParams.get("status");
