@@ -79,7 +79,6 @@
             <ProductCard
               name={p.name}
               href={`/shop/pod#product-${p.id}`}
-              description={p.description}
               image={p.image_url}
               priceLabel={priceLabel(p.min_price, p.max_price)}
             />
