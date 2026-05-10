@@ -69,6 +69,14 @@
       </button>
 
       {#if page.data.session?.user}
+        {#if page.data.session.user.isAdmin}
+          <a
+            class="my-auto ml-1 rounded-lg bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
+            href="/admin"
+          >
+            Admin
+          </a>
+        {/if}
         <span class="my-auto ml-1 px-2 text-sm font-normal text-neutral-300 normal-case">
           {page.data.session.user.email?.split("@")[0] ?? ""}
         </span>
@@ -170,6 +178,15 @@
       {/each}
 
       {#if page.data.session?.user}
+        {#if page.data.session.user.isAdmin}
+          <a
+            class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+            href="/admin"
+            onclick={() => (active = false)}
+          >
+            Admin
+          </a>
+        {/if}
         <span
           class="px-6 py-4 text-left text-sm font-medium text-neutral-400 normal-case"
         >
