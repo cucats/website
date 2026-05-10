@@ -26,10 +26,6 @@
 <section class="from-primary-700 via-secondary-800 to-tertiary-800 bg-linear-to-br pt-32 pb-16">
   <div class="mx-auto max-w-7xl px-4">
     <h1 class="h1 text-neutral-100">Shop</h1>
-    <p class="p mt-3 max-w-2xl text-neutral-200">
-      Society merch, ordered as drops or shipped on demand. Pay by bank transfer with
-      a unique reference – we'll mark your order as paid once we see your transfer.
-    </p>
   </div>
 </section>
 
