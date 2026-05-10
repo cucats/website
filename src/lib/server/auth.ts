@@ -8,8 +8,21 @@ type KeycloakProfile = {
   email?: string;
   preferred_username?: string;
   name?: string;
-  realm_access?: { roles?: string[] };
 };
+
+function rolesFromAccessToken(accessToken: string | undefined): string[] {
+  if (!accessToken) return [];
+  const parts = accessToken.split(".");
+  if (parts.length < 2) return [];
+  try {
+    const payload = JSON.parse(
+      Buffer.from(parts[1], "base64url").toString("utf8"),
+    ) as { realm_access?: { roles?: string[] } };
+    return payload.realm_access?.roles ?? [];
+  } catch {
+    return [];
+  }
+}
 
 const config: SvelteKitAuthConfig = {
   providers: [
@@ -43,11 +56,11 @@ const config: SvelteKitAuthConfig = {
       }
       return true;
     },
-    async jwt({ token, profile }) {
-      if (profile) {
+    async jwt({ token, profile, account }) {
+      if (profile && account) {
         const p = profile as KeycloakProfile;
         if (!p.sub) return null;
-        const roles = p.realm_access?.roles ?? [];
+        const roles = rolesFromAccessToken(account.access_token as string | undefined);
         const rows = await sql<{ id: string }[]>`
           select id from users where entra_oid = ${p.sub}
         `;
