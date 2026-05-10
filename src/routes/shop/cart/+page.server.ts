@@ -10,6 +10,7 @@ type VariantRow = {
   options: Record<string, string>;
   price: number;
   stock_count: number | null;
+  enabled: boolean;
   product_id: number;
   product_name: string;
   image_url: string | null;
@@ -29,7 +30,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
   const variants = await sql<VariantRow[]>`
     select
-      v.id, v.options, v.price, v.stock_count,
+      v.id, v.options, v.price, v.stock_count, v.enabled,
       p.id as product_id, p.name as product_name, p.image_url,
       p.type as product_type, p.drop_id,
       d.slug as drop_slug, d.name as drop_name, d.status as drop_status,
@@ -65,7 +66,7 @@ export const actions: Actions = {
     const variantIds = items.map((i) => i.variant_id);
     const rows = await sql<VariantRow[]>`
       select
-        v.id, v.options, v.price, v.stock_count,
+        v.id, v.options, v.price, v.stock_count, v.enabled,
         p.id as product_id, p.name as product_name, p.image_url,
         p.type as product_type, p.drop_id,
         d.slug as drop_slug, d.name as drop_name, d.status as drop_status,
@@ -81,6 +82,11 @@ export const actions: Actions = {
     for (const it of items) {
       const v = variantMap.get(it.variant_id);
       if (!v) return fail(400, { error: `variant ${it.variant_id} not found` });
+      if (!v.enabled) {
+        return fail(400, {
+          error: `${v.product_name} is no longer available — remove from basket`,
+        });
+      }
       if (v.product_type === "drop") {
         if (
           v.drop_status !== "open" ||

@@ -130,7 +130,7 @@
           </button>
           {#if userMenuOpen}
             <div
-              class="absolute right-0 mt-1 w-44 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-900 text-sm text-neutral-100 shadow-xl"
+              class="absolute right-0 mt-1 w-44 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-900 text-sm font-normal text-neutral-100 normal-case shadow-xl"
               role="menu"
               transition:fade={{ duration: 100 }}
             >

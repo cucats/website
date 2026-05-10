@@ -56,20 +56,89 @@
     <p class="p text-neutral-400">None yet.</p>
   {:else}
     <ul class="c-2 mb-4">
-      {#each data.variants as v}
-        <li class="r-4 items-center justify-between text-sm">
-          <span class="text-neutral-200">
+      {#each data.variants as v, vi}
+        <li class="r-2 items-center justify-between text-sm">
+          <span
+            class="text-neutral-200"
+            class:line-through={!v.enabled}
+            class:text-neutral-500={!v.enabled}
+          >
             {variantLabel(v.options)} ・ £{v.price.toFixed(2)} ・ stock:
             {v.stock_count ?? "∞"}
+            {#if !v.enabled}・ disabled{/if}
           </span>
-          <form method="POST" action="?/deleteVariant">
-            <input type="hidden" name="variant_id" value={v.id} />
-            <button class="btn neutral sm text-error-400">×</button>
-          </form>
+          <div class="r-2">
+            <form method="POST" action="?/moveVariantUp">
+              <input type="hidden" name="variant_id" value={v.id} />
+              <button
+                class="btn neutral sm"
+                aria-label="Move up"
+                disabled={vi === 0}>↑</button
+              >
+            </form>
+            <form method="POST" action="?/moveVariantDown">
+              <input type="hidden" name="variant_id" value={v.id} />
+              <button
+                class="btn neutral sm"
+                aria-label="Move down"
+                disabled={vi === data.variants.length - 1}>↓</button
+              >
+            </form>
+            <form method="POST" action="?/toggleVariantEnabled">
+              <input type="hidden" name="variant_id" value={v.id} />
+              <button class="btn neutral sm">
+                {v.enabled ? "Disable" : "Enable"}
+              </button>
+            </form>
+            <form method="POST" action="?/deleteVariant">
+              <input type="hidden" name="variant_id" value={v.id} />
+              <button class="btn neutral sm text-error-400">×</button>
+            </form>
+          </div>
         </li>
       {/each}
     </ul>
   {/if}
+
+  <details class="mb-3">
+    <summary class="cursor-pointer text-sm text-neutral-300">
+      Quick add — size run
+    </summary>
+    <form
+      method="POST"
+      action="?/addVariantRun"
+      class="r-4 mt-2 max-w-2xl items-end"
+    >
+      <input type="hidden" name="option_key" value="size" />
+      <label class="flex-1">
+        Sizes (comma-separated)
+        <input
+          class="default"
+          type="text"
+          name="values"
+          value="S, M, L, XL, 2XL"
+          required
+        />
+      </label>
+      <label>
+        Price (£)
+        <input
+          class="default"
+          type="number"
+          name="price"
+          min="0"
+          step="0.01"
+          required
+        />
+      </label>
+      <label>
+        Stock per size
+        <input class="default" type="number" name="stock_count" min="0" />
+      </label>
+      <button class="btn neutral sm">Add all</button>
+    </form>
+  </details>
+
   <form method="POST" action="?/addVariant" class="r-4 max-w-2xl items-end">
     <label class="flex-1">
       Options

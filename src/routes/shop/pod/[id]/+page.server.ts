@@ -29,8 +29,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   >`
     select id, options, price, stock_count
     from variants
-    where product_id = ${id}
-    order by id
+    where product_id = ${id} and enabled
+    order by display_order, id
   `;
   return { product, variants };
 };

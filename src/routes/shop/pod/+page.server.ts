@@ -17,13 +17,13 @@ export const load: PageServerLoad = async ({ locals }) => {
     }[]
   >`
     select p.id, p.name, p.description, p.image_url,
-           min(v.price) as min_price,
-           max(v.price) as max_price
+           min(v.price) filter (where v.enabled) as min_price,
+           max(v.price) filter (where v.enabled) as max_price
     from products p
     left join variants v on v.product_id = p.id
     where p.type = 'pod'
     group by p.id
-    order by p.id desc
+    order by p.display_order, p.id
   `;
   return { products };
 };
