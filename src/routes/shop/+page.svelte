@@ -30,18 +30,10 @@
 </section>
 
 {#if !session?.user}
-  <section class="bg-neutral-950 py-16">
-    <div class="mx-auto max-w-3xl px-4 text-center">
-      <h2 class="h3 mb-4 text-neutral-100">Sign in to shop</h2>
-      <p class="p mb-6 text-neutral-400">
-        Access is limited to current Cambridge students. Sign in with your <code
-          >@cam.ac.uk</code
-        > account to browse and order.
-      </p>
-      <button class="btn primary md" onclick={() => signIn("microsoft-entra-id")}>
-        Sign in with Cambridge
-      </button>
-    </div>
+  <section class="flex flex-1 items-center justify-center bg-neutral-950 py-16">
+    <button class="btn primary md" onclick={() => signIn("microsoft-entra-id")}>
+      Sign in
+    </button>
   </section>
 {:else}
   <section class="bg-primary-900 py-16">

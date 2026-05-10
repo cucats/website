@@ -10,9 +10,11 @@
 <div class="flex min-h-screen flex-col">
   <Header />
 
-  {#key data.pathname}
-    {@render children()}
-  {/key}
+  <main class="flex flex-1 flex-col">
+    {#key data.pathname}
+      {@render children()}
+    {/key}
+  </main>
 
   <Footer />
 </div>
