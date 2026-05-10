@@ -40,10 +40,7 @@ export function extract_frontmatter(markdown: string): {
 export function slugify(str: string): string {
   return str
     .toLowerCase()
-    .replace(/[`*_{}[\]()#+\-.!]/g, "") // Remove markdown characters
-    .replace(/&.+?;/g, "") // Remove HTML entities
-    .replace(/<\/?.+?>/g, "") // Remove HTML tags
-    .replace(/[^a-z0-9-]/g, "-") // Replace non-alphanumeric with hyphens
+    .replace(/[^a-z0-9]/g, "-") // Replace any non-alphanumeric character with hyphens
     .replace(/-{2,}/g, "-") // Collapse multiple hyphens
     .replace(/^-/, "") // Remove leading hyphen
     .replace(/-$/, ""); // Remove trailing hyphen
