@@ -5,4 +5,39 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - ORIGIN=${ORIGIN:-http://localhost:3000}
+      - DATABASE_URL=postgres://${POSTGRES_USER:-cucats}:${POSTGRES_PASSWORD:-cucats}@postgres:5432/${POSTGRES_DB:-cucats}
+      - AUTH_SECRET=${AUTH_SECRET}
+      - AUTH_TRUST_HOST=true
+      - AUTH_MICROSOFT_ENTRA_ID_ID=${AUTH_MICROSOFT_ENTRA_ID_ID}
+      - AUTH_MICROSOFT_ENTRA_ID_SECRET=${AUTH_MICROSOFT_ENTRA_ID_SECRET}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - EMAIL_FROM=${EMAIL_FROM}
+      - BANK_SORT_CODE=${BANK_SORT_CODE}
+      - BANK_ACCOUNT_NUMBER=${BANK_ACCOUNT_NUMBER}
+      - BANK_ACCOUNT_NAME=${BANK_ACCOUNT_NAME}
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-cucats}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-cucats}
+      - POSTGRES_DB=${POSTGRES_DB:-cucats}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cucats}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  uploads:

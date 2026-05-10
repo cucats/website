@@ -26,6 +26,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "format": "prettier --write .",
+    "migrate": "bun run scripts/migrate.ts",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
@@ -33,11 +34,15 @@
   },
   "type": "module",
   "dependencies": {
+    "@auth/core": "^0.34.3",
+    "@auth/sveltekit": "^1.11.2",
     "dompurify": "^3.4.1",
     "flexsearch": "^0.8.212",
     "ical.js": "^2.2.1",
     "katex": "^0.16.45",
     "marked": "^18.0.2",
+    "postgres": "^3.4.5",
+    "resend": "^6.12.3",
     "shiki": "^4.0.2"
   },
   "prettier": {

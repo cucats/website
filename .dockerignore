@@ -1,5 +1,11 @@
 node_modules
 .git
+.github
 .svelte-kit
+.vscode
+.claude
 build
+/uploads
+.env
+.env.*
 *.log

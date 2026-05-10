@@ -1,5 +1,7 @@
 <script lang="ts">
   import { fly, fade } from "svelte/transition";
+  import { page } from "$app/state";
+  import { signIn, signOut } from "@auth/sveltekit/client";
   import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
   import { searchState } from "$lib/search-state.svelte";
 
@@ -11,6 +13,7 @@
     { href: "/wiki", label: "Wiki" },
     { href: "/sponsors", label: "Sponsors" },
     { href: "/committee", label: "Committee" },
+    { href: "/shop", label: "Shop" },
   ];
 </script>
 
@@ -64,6 +67,22 @@
           >Ctrl K</kbd
         >
       </button>
+
+      {#if page.data.session?.user}
+        <button
+          class="my-auto ml-1 rounded-lg bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
+          onclick={() => signOut()}
+        >
+          Sign out
+        </button>
+      {:else}
+        <button
+          class="my-auto ml-1 rounded-lg bg-primary-600 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-primary-500"
+          onclick={() => signIn("microsoft-entra-id")}
+        >
+          Sign in
+        </button>
+      {/if}
     </nav>
 
     <!-- Hamburger -->
@@ -146,6 +165,28 @@
           {link.label}
         </a>
       {/each}
+
+      {#if page.data.session?.user}
+        <button
+          class="px-6 py-4 text-left text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+          onclick={() => {
+            active = false;
+            signOut();
+          }}
+        >
+          Sign out
+        </button>
+      {:else}
+        <button
+          class="px-6 py-4 text-left text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+          onclick={() => {
+            active = false;
+            signIn("microsoft-entra-id");
+          }}
+        >
+          Sign in
+        </button>
+      {/if}
     </nav>
   </div>
 {/if}

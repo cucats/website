@@ -1,0 +1,55 @@
+services:
+  web:
+    container_name: website-staging
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - proxy
+      - default
+    environment:
+      NODE_ENV: production
+      ORIGIN: https://staging.cucats.org
+      DATA_PATH: /app/data/data
+      DATABASE_URL: postgres://cucats:${POSTGRES_PASSWORD:-cucats}@postgres:5432/cucats
+      AUTH_SECRET: ${AUTH_SECRET}
+      AUTH_TRUST_HOST: "true"
+      AUTH_MICROSOFT_ENTRA_ID_ID: ${AUTH_MICROSOFT_ENTRA_ID_ID}
+      AUTH_MICROSOFT_ENTRA_ID_SECRET: ${AUTH_MICROSOFT_ENTRA_ID_SECRET}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+      BANK_SORT_CODE: ${BANK_SORT_CODE:-}
+      BANK_ACCOUNT_NUMBER: ${BANK_ACCOUNT_NUMBER:-}
+      BANK_ACCOUNT_NAME: ${BANK_ACCOUNT_NAME:-}
+    volumes:
+      - uploads:/app/uploads
+      - website-data:/app/data:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cucats
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cucats}
+      POSTGRES_DB: cucats
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cucats"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  postgres_data:
+  uploads:
+  website-data:
+    external: true
