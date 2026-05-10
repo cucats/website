@@ -38,11 +38,11 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
           id: number;
           product_id: number;
           label: string;
-          price_pence: number;
+          price: number;
           stock_count: number | null;
         }[]
       >`
-        select id, product_id, label, price_pence, stock_count
+        select id, product_id, label, price, stock_count
         from variants
         where product_id in ${sql(productIds)}
         order by id
@@ -77,12 +77,12 @@ export const actions: Actions = {
         id: number;
         product_id: number;
         label: string;
-        price_pence: number;
+        price: number;
         stock_count: number | null;
         product_name: string;
       }[]
     >`
-      select v.id, v.product_id, v.label, v.price_pence, v.stock_count,
+      select v.id, v.product_id, v.label, v.price, v.stock_count,
              p.name as product_name
       from variants v
       join products p on p.id = v.product_id
@@ -92,7 +92,7 @@ export const actions: Actions = {
     const items: {
       variant_id: number;
       qty: number;
-      price_pence: number;
+      price: number;
       name: string;
       label: string;
     }[] = [];
@@ -108,7 +108,7 @@ export const actions: Actions = {
       items.push({
         variant_id: v.id,
         qty,
-        price_pence: v.price_pence,
+        price: v.price,
         name: v.product_name,
         label: v.label,
       });
@@ -123,7 +123,7 @@ export const actions: Actions = {
       items: items.map((i) => ({
         variant_id: i.variant_id,
         qty: i.qty,
-        price_pence: i.price_pence,
+        price: i.price,
       })),
     });
 
@@ -134,7 +134,7 @@ export const actions: Actions = {
           reference: order.reference,
           type: "drop",
           items,
-          total_pence: order.total_pence,
+          total: order.total,
           collection_event: drop.collection_event,
           status_url: `${new URL(request.url).origin}/shop/orders/${order.reference}`,
         });

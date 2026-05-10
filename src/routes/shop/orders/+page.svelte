@@ -23,7 +23,7 @@
                 {o.reference}
               </a>
               <p class="text-sm text-neutral-400">
-                {o.type.toUpperCase()} ・ £{(o.total_pence / 100).toFixed(2)} ・
+                {o.type.toUpperCase()} ・ £{o.total.toFixed(2)} ・
                 {new Date(o.created_at).toLocaleString("en-GB")}
               </p>
             </div>

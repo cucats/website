@@ -12,11 +12,11 @@ export const load: PageServerLoad = async ({ locals }) => {
       reference: string;
       type: string;
       status: string;
-      total_pence: number;
+      total: number;
       created_at: Date;
     }[]
   >`
-    select id, reference, type, status, total_pence, created_at
+    select id, reference, type, status, total, created_at
     from orders
     where user_id = ${session.user.id}
     order by created_at desc

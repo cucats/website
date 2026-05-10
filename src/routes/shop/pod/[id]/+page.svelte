@@ -40,7 +40,7 @@
               {#each data.variants as v}
                 <label class="r-4 items-center justify-between text-sm">
                   <span class="text-neutral-200">
-                    {v.label} ・ £{(v.price_pence / 100).toFixed(2)}
+                    {v.label} ・ £{v.price.toFixed(2)}
                     {#if v.stock_count != null}
                       ・ {v.stock_count} left
                     {/if}

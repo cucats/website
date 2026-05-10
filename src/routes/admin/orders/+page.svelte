@@ -62,7 +62,7 @@
           <td class="py-2 pr-3 text-neutral-300">{o.type}</td>
           <td class="py-2 pr-3 text-neutral-200">{o.status}</td>
           <td class="py-2 pr-3 text-neutral-300">
-            £{(o.total_pence / 100).toFixed(2)}
+            £{o.total.toFixed(2)}
           </td>
           <td class="py-2 pr-3 text-neutral-400">
             {new Date(o.created_at).toLocaleDateString("en-GB")}

@@ -67,14 +67,14 @@
               {it.product_name} ({it.label}) × {it.qty}
             </span>
             <span class="text-neutral-300">
-              £{((it.qty * it.price_pence_at_order) / 100).toFixed(2)}
+              £{(it.qty * it.price_at_order).toFixed(2)}
             </span>
           </li>
         {/each}
         <li class="r-4 mt-2 items-center justify-between border-t border-neutral-800 pt-3 text-sm font-bold">
           <span class="text-neutral-100">Total</span>
           <span class="text-neutral-100">
-            £{(data.order.total_pence / 100).toFixed(2)}
+            £{data.order.total.toFixed(2)}
           </span>
         </li>
       </ul>

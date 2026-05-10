@@ -147,7 +147,7 @@
                 {#each variantsByProduct[product.id] ?? [] as v}
                   <li class="r-4 items-center justify-between text-sm">
                     <span class="text-neutral-200">
-                      {v.label} ・ £{(v.price_pence / 100).toFixed(2)} ・ stock:
+                      {v.label} ・ £{v.price.toFixed(2)} ・ stock:
                       {v.stock_count ?? "∞"}
                     </span>
                     <form method="POST" action="?/deleteVariant">
@@ -165,12 +165,13 @@
                 <input class="default" type="text" name="label" required />
               </label>
               <label>
-                Price (pence)
+                Price (£)
                 <input
                   class="default"
                   type="number"
-                  name="price_pence"
+                  name="price"
                   min="0"
+                  step="0.01"
                   required
                 />
               </label>

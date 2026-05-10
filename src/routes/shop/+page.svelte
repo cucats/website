@@ -10,8 +10,8 @@
 
   function priceLabel(min: number | null, max: number | null): string | undefined {
     if (min == null) return undefined;
-    if (max == null || min === max) return `£${(min / 100).toFixed(2)}`;
-    return `£${(min / 100).toFixed(2)} – £${(max / 100).toFixed(2)}`;
+    if (max == null || min === max) return `£${min.toFixed(2)}`;
+    return `£${min.toFixed(2)} – £${max.toFixed(2)}`;
   }
 
   function dateRange(opens: Date | string, closes: Date | string): string {
@@ -81,7 +81,7 @@
               href={`/shop/pod#product-${p.id}`}
               description={p.description}
               image={p.image_url}
-              priceLabel={priceLabel(p.min_price_pence, p.max_price_pence)}
+              priceLabel={priceLabel(p.min_price, p.max_price)}
             />
           {/each}
         </div>

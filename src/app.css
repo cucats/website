@@ -133,7 +133,9 @@
   input[type="date"],
   input[type="time"],
   input[type="datetime-local"],
-  input {
+  input,
+  textarea,
+  select {
     @apply w-full text-neutral-900 transition-all duration-200 disabled:cursor-default disabled:opacity-50;
 
     @variant focus {
@@ -200,7 +202,9 @@
   label {
     @apply mb-1 block text-sm font-medium text-neutral-300;
 
-    input {
+    input,
+    textarea,
+    select {
       @apply mt-1 block;
     }
   }

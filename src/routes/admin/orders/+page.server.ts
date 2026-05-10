@@ -21,13 +21,13 @@ export const load: PageServerLoad = async ({ url }) => {
       reference: string;
       type: string;
       status: string;
-      total_pence: number;
+      total: number;
       created_at: Date;
       bank_reference: string | null;
       user_email: string;
     }[]
   >`
-    select o.id, o.reference, o.type, o.status, o.total_pence, o.created_at,
+    select o.id, o.reference, o.type, o.status, o.total, o.created_at,
            o.bank_reference, u.email as user_email
     from orders o
     join users u on u.id = o.user_id

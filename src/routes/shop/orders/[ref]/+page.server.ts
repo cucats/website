@@ -23,7 +23,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       user_id: string;
       type: "drop" | "pod";
       status: string;
-      total_pence: number;
+      total: number;
       shipping_address: ShippingAddress | null;
       created_at: Date;
       paid_at: Date | null;
@@ -43,12 +43,12 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   const items = await sql<
     {
       qty: number;
-      price_pence_at_order: number;
+      price_at_order: number;
       label: string;
       product_name: string;
     }[]
   >`
-    select oi.qty, oi.price_pence_at_order, v.label, p.name as product_name
+    select oi.qty, oi.price_at_order, v.label, p.name as product_name
     from order_items oi
     join variants v on v.id = oi.variant_id
     join products p on p.id = v.product_id

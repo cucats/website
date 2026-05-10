@@ -13,8 +13,8 @@ export type OrderConfirmationInput = {
   to: string;
   reference: string;
   type: "drop" | "pod";
-  items: { name: string; label: string; qty: number; price_pence: number }[];
-  total_pence: number;
+  items: { name: string; label: string; qty: number; price: number }[];
+  total: number;
   collection_event?: string | null;
   status_url: string;
 };
@@ -25,8 +25,8 @@ const bank = {
   accountName: env.BANK_ACCOUNT_NAME ?? "",
 };
 
-function pence(n: number): string {
-  return `£${(n / 100).toFixed(2)}`;
+function money(n: number): string {
+  return `£${n.toFixed(2)}`;
 }
 
 function renderText(input: OrderConfirmationInput): string {
@@ -37,10 +37,10 @@ function renderText(input: OrderConfirmationInput): string {
     ``,
     `Items:`,
     ...input.items.map(
-      (i) => `  - ${i.name} (${i.label}) × ${i.qty} — ${pence(i.qty * i.price_pence)}`,
+      (i) => `  - ${i.name} (${i.label}) × ${i.qty} — ${money(i.qty * i.price)}`,
     ),
     ``,
-    `Total: ${pence(input.total_pence)}`,
+    `Total: ${money(input.total)}`,
     ``,
     `Pay by bank transfer using these details:`,
     `  Account name:   ${bank.accountName}`,

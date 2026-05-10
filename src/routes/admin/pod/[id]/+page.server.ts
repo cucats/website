@@ -19,11 +19,11 @@ export const load: PageServerLoad = async ({ params }) => {
     {
       id: number;
       label: string;
-      price_pence: number;
+      price: number;
       stock_count: number | null;
     }[]
   >`
-    select id, label, price_pence, stock_count
+    select id, label, price, stock_count
     from variants
     where product_id = ${id}
     order by id
@@ -55,15 +55,15 @@ export const actions: Actions = {
     const id = Number(params.id);
     const data = await request.formData();
     const label = String(data.get("label") ?? "").trim();
-    const price_pence = Number(data.get("price_pence"));
+    const price = Number(data.get("price"));
     const stock_raw = String(data.get("stock_count") ?? "").trim();
     const stock_count = stock_raw === "" ? null : Number(stock_raw);
-    if (!label || !Number.isFinite(price_pence) || price_pence < 0) {
+    if (!label || !Number.isFinite(price) || price < 0) {
       return fail(400, { error: "bad variant fields" });
     }
     await sql`
-      insert into variants (product_id, label, price_pence, stock_count)
-      values (${id}, ${label}, ${price_pence}, ${stock_count})
+      insert into variants (product_id, label, price, stock_count)
+      values (${id}, ${label}, ${price}, ${stock_count})
     `;
     return { ok: true };
   },
