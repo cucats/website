@@ -4,6 +4,7 @@ import { env } from "$env/dynamic/private";
 import { sql } from "$lib/server/db";
 
 const CAMBRIDGE_TENANT_ID = "49a50445-bdfa-4b79-ade3-547b4f3986e9";
+const CAMBRIDGE_ISSUER = `https://login.microsoftonline.com/${CAMBRIDGE_TENANT_ID}/v2.0/`;
 const CAMBRIDGE_IDP = `https://sts.windows.net/${CAMBRIDGE_TENANT_ID}/`;
 
 type CambridgeProfile = {
@@ -21,7 +22,7 @@ const config: SvelteKitAuthConfig = {
     MicrosoftEntraID({
       clientId: env.AUTH_MICROSOFT_ENTRA_ID_ID,
       clientSecret: env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
-      tenantId: CAMBRIDGE_TENANT_ID,
+      issuer: CAMBRIDGE_ISSUER,
     }),
   ],
   secret: env.AUTH_SECRET,
