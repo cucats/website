@@ -2,14 +2,17 @@ import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 
-const TRANSITIONS: Record<string, { col: string; status: string }> = {
-  markPaid: { col: "paid_at", status: "paid" },
-  markReady: { col: "ready_at", status: "ready" },
-  markShipped: { col: "shipped_at", status: "shipped" },
-  markCollected: { col: "collected_at", status: "collected" },
-  markDelivered: { col: "delivered_at", status: "delivered" },
-  cancel: { col: "cancelled_at", status: "cancelled" },
-};
+export const STATUSES = [
+  "pending",
+  "paid",
+  "ready",
+  "shipped",
+  "collected",
+  "delivered",
+  "cancelled",
+] as const;
+
+export type OrderStatus = (typeof STATUSES)[number];
 
 export const load: PageServerLoad = async ({ url }) => {
   const status = url.searchParams.get("status");
@@ -20,7 +23,7 @@ export const load: PageServerLoad = async ({ url }) => {
       id: number;
       reference: string;
       type: string;
-      status: string;
+      status: OrderStatus;
       total: number;
       created_at: Date;
       user_email: string;
@@ -39,46 +42,26 @@ export const load: PageServerLoad = async ({ url }) => {
   return { orders, filters: { status, type } };
 };
 
-async function transition(id: number, action: keyof typeof TRANSITIONS) {
-  const t = TRANSITIONS[action];
-  await sql.unsafe(
-    `update orders set ${t.col} = now(), status = $1 where id = $2`,
-    [t.status, id],
-  );
-}
-
-async function restore(id: number) {
-  await sql`
-    update orders
-    set status = 'pending',
-        cancelled_at = null,
-        paid_at = null,
-        ready_at = null,
-        shipped_at = null,
-        collected_at = null,
-        delivered_at = null
-    where id = ${id} and status = 'cancelled'
-  `;
-}
-
 export const actions: Actions = {
-  ...Object.fromEntries(
-    Object.keys(TRANSITIONS).map((action) => [
-      action,
-      async ({ request }: { request: Request }) => {
-        const data = await request.formData();
-        const id = Number(data.get("order_id"));
-        if (!Number.isFinite(id)) return fail(400, { error: "bad order id" });
-        await transition(id, action as keyof typeof TRANSITIONS);
-        return { ok: true };
-      },
-    ]),
-  ),
-  restore: async ({ request }) => {
+  setStatus: async ({ request }) => {
     const data = await request.formData();
     const id = Number(data.get("order_id"));
+    const status = String(data.get("status") ?? "");
     if (!Number.isFinite(id)) return fail(400, { error: "bad order id" });
-    await restore(id);
+    if (!STATUSES.includes(status as OrderStatus)) {
+      return fail(400, { error: "bad status" });
+    }
+    await sql`
+      update orders set
+        status = ${status},
+        paid_at      = case when ${status} = 'paid'      and paid_at      is null then now() else paid_at      end,
+        ready_at     = case when ${status} = 'ready'     and ready_at     is null then now() else ready_at     end,
+        shipped_at   = case when ${status} = 'shipped'   and shipped_at   is null then now() else shipped_at   end,
+        collected_at = case when ${status} = 'collected' and collected_at is null then now() else collected_at end,
+        delivered_at = case when ${status} = 'delivered' and delivered_at is null then now() else delivered_at end,
+        cancelled_at = case when ${status} = 'cancelled' and cancelled_at is null then now() else cancelled_at end
+      where id = ${id}
+    `;
     return { ok: true };
   },
 };
