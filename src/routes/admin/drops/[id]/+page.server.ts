@@ -2,6 +2,7 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 import { saveUpload } from "$lib/server/uploads";
+import { swapDisplayOrder } from "$lib/server/products";
 import { parseOptions } from "$lib/utils";
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -29,7 +30,7 @@ export const load: PageServerLoad = async ({ params }) => {
       description: string | null;
       image_url: string | null;
     }[]
-  >`select id, name, description, image_url from products where drop_id = ${id} order by id`;
+  >`select id, name, description, image_url from products where drop_id = ${id} order by display_order, id`;
 
   const productIds = products.map((p) => p.id);
   const variants = productIds.length
@@ -98,9 +99,24 @@ export const actions: Actions = {
       }
     }
     await sql`
-      insert into products (drop_id, type, name, description, image_url)
-      values (${id}, 'drop', ${name}, ${description || null}, ${image_url})
+      insert into products (drop_id, type, name, description, image_url, display_order)
+      values (
+        ${id}, 'drop', ${name}, ${description || null}, ${image_url},
+        coalesce((select max(display_order) + 1 from products where drop_id = ${id}), 0)
+      )
     `;
+    return { ok: true };
+  },
+  moveProductUp: async ({ request }) => {
+    const data = await request.formData();
+    const pid = Number(data.get("product_id"));
+    if (Number.isFinite(pid)) await swapDisplayOrder(pid, "up");
+    return { ok: true };
+  },
+  moveProductDown: async ({ request }) => {
+    const data = await request.formData();
+    const pid = Number(data.get("product_id"));
+    if (Number.isFinite(pid)) await swapDisplayOrder(pid, "down");
     return { ok: true };
   },
   deleteProduct: async ({ request }) => {

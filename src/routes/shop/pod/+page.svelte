@@ -14,9 +14,10 @@
 <section class="from-secondary-700 to-tertiary-700 bg-linear-to-br pt-32 pb-12">
   <div class="mx-auto max-w-7xl px-4">
     <a class="text-sm text-neutral-300 hover:text-neutral-100" href="/shop">← Shop</a>
-    <h1 class="h1 mt-2 text-neutral-100">Print on demand</h1>
+    <h1 class="h1 mt-2 font-bold text-neutral-100">Order anytime</h1>
     <p class="p mt-3 max-w-2xl text-neutral-200">
-      Always-available items, posted direct to you. Allow 1–2 weeks for dispatch.
+      Always-available items shipped direct to you. Drops are cheaper because we
+      bulk-order; order anytime if you'd rather not wait.
     </p>
   </div>
 </section>

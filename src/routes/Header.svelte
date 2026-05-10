@@ -4,6 +4,7 @@
   import { signIn, signOut } from "@auth/sveltekit/client";
   import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
   import { searchState } from "$lib/search-state.svelte";
+  import { cart } from "$lib/cart.svelte";
 
   let active = $state(false);
 
@@ -69,6 +70,12 @@
       </button>
 
       {#if page.data.session?.user}
+        <a
+          class="my-auto ml-1 rounded-lg bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
+          href="/shop/cart"
+        >
+          Basket{#if cart.count > 0}&nbsp;({cart.count}){/if}
+        </a>
         {#if page.data.session.user.isAdmin}
           <a
             class="my-auto ml-1 rounded-lg bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
@@ -178,6 +185,13 @@
       {/each}
 
       {#if page.data.session?.user}
+        <a
+          class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+          href="/shop/cart"
+          onclick={() => (active = false)}
+        >
+          Basket{#if cart.count > 0}&nbsp;({cart.count}){/if}
+        </a>
         {#if page.data.session.user.isAdmin}
           <a
             class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"

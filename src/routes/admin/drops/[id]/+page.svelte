@@ -108,7 +108,7 @@
     <p class="p text-neutral-400">No products yet.</p>
   {:else}
     <ul class="c-4">
-      {#each data.products as product}
+      {#each data.products as product, i}
         <li class="rounded-lg border border-neutral-800 p-4">
           <div class="r-4 mb-3 items-start justify-between">
             <div class="r-4 items-start">
@@ -126,17 +126,35 @@
                 {/if}
               </div>
             </div>
-            <form method="POST" action="?/deleteProduct">
-              <input type="hidden" name="product_id" value={product.id} />
-              <button
-                class="btn neutral sm text-error-400"
-                onclick={(e) => {
-                  if (!confirm("Delete this product?")) e.preventDefault();
-                }}
-              >
-                Delete
-              </button>
-            </form>
+            <div class="r-2">
+              <form method="POST" action="?/moveProductUp">
+                <input type="hidden" name="product_id" value={product.id} />
+                <button
+                  class="btn neutral sm"
+                  aria-label="Move up"
+                  disabled={i === 0}>↑</button
+                >
+              </form>
+              <form method="POST" action="?/moveProductDown">
+                <input type="hidden" name="product_id" value={product.id} />
+                <button
+                  class="btn neutral sm"
+                  aria-label="Move down"
+                  disabled={i === data.products.length - 1}>↓</button
+                >
+              </form>
+              <form method="POST" action="?/deleteProduct">
+                <input type="hidden" name="product_id" value={product.id} />
+                <button
+                  class="btn neutral sm text-error-400"
+                  onclick={(e) => {
+                    if (!confirm("Delete this product?")) e.preventDefault();
+                  }}
+                >
+                  Delete
+                </button>
+              </form>
+            </div>
           </div>
 
           <div class="ml-4 border-l-2 border-neutral-800 pl-4">

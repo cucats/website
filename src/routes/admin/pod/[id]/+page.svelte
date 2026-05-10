@@ -6,7 +6,7 @@
 </script>
 
 <a class="text-sm text-neutral-400 hover:text-neutral-100" href="/admin/pod">
-  ← POD
+  ← Order anytime
 </a>
 <h1 class="h2 mt-2 mb-6 text-neutral-100">{data.product.name}</h1>
 

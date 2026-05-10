@@ -4,7 +4,7 @@
   let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
-<h1 class="h2 mb-6 text-neutral-100">Print-on-demand products</h1>
+<h1 class="h2 mb-6 text-neutral-100">Order-anytime products</h1>
 
 <section class="mb-10">
   <h2 class="h4 mb-3 text-neutral-100">Existing</h2>

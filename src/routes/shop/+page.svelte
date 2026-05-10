@@ -66,7 +66,7 @@
   <section class="bg-primary-800 py-16">
     <div class="mx-auto max-w-7xl px-4">
       <div class="r-4 mb-6 items-end justify-between">
-        <h2 class="h2 text-neutral-100">Print on demand</h2>
+        <h2 class="h2 text-neutral-100">Order anytime</h2>
         <a class="text-sm text-neutral-300 hover:text-neutral-100" href="/shop/pod">
           See all →
         </a>
