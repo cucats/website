@@ -32,15 +32,16 @@ The shop / auth integration adds the following:
 | --- | --- |
 | `DATABASE_URL` | Postgres connection string (set automatically by `docker-compose`) |
 | `AUTH_SECRET` | 32-byte random string (`openssl rand -hex 32`) |
-| `AUTH_MICROSOFT_ENTRA_ID_ID` | Application (client) ID of the Entra app registration |
-| `AUTH_MICROSOFT_ENTRA_ID_SECRET` | Client secret of the Entra app registration |
+| `AUTH_KEYCLOAK_ID` | Client ID of the Keycloak confidential client |
+| `AUTH_KEYCLOAK_SECRET` | Client secret of the Keycloak confidential client |
+| `AUTH_KEYCLOAK_ISSUER` | Keycloak realm issuer URL (defaults to `https://kc.cucats.org/realms/master`) |
 | `AUTH_TRUST_HOST` | `true` outside Vercel (`docker-compose` sets this) |
 | `RESEND_API_KEY` | API key for transactional email |
 | `EMAIL_FROM` | `From:` header used for order emails |
 | `BANK_SORT_CODE`, `BANK_ACCOUNT_NUMBER`, `BANK_ACCOUNT_NAME` | Society bank details displayed on order confirmation pages |
 | `ORIGIN` | Public origin URL (used by SvelteKit and Auth.js callbacks) |
 
-The Entra app registration must be configured with redirect URI `${ORIGIN}/auth/callback/microsoft-entra-id` and use the Cambridge tenant `49a50445-bdfa-4b79-ade3-547b4f3986e9` as its authority. Sign-ins are restricted to `@cam.ac.uk` accounts in code.
+The Keycloak client must be configured with redirect URI `${ORIGIN}/auth/callback/keycloak`. Cambridge-only sign-up is enforced by the realm's Microsoft IdP federation (Cambridge tenant); admin access is gated by the `admin` or `committee` realm role being present in the user's `realm_access.roles` claim.
 
 ## Migrations
 

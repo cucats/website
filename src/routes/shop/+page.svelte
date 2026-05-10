@@ -31,7 +31,7 @@
 
 {#if !session?.user}
   <section class="flex flex-1 items-center justify-center bg-neutral-950 py-16">
-    <button class="btn primary md" onclick={() => signIn("microsoft-entra-id")}>
+    <button class="btn primary md" onclick={() => signIn("keycloak")}>
       Sign in
     </button>
   </section>

@@ -1,66 +1,38 @@
-import MicrosoftEntraID from "@auth/core/providers/microsoft-entra-id";
-import {
-  SvelteKitAuth,
-  customFetch,
-  type SvelteKitAuthConfig,
-} from "@auth/sveltekit";
+import Keycloak from "@auth/core/providers/keycloak";
+import { SvelteKitAuth, type SvelteKitAuthConfig } from "@auth/sveltekit";
 import { env } from "$env/dynamic/private";
 import { sql } from "$lib/server/db";
 
-const CAMBRIDGE_TENANT_ID = "49a50445-bdfa-4b79-ade3-547b4f3986e9";
-const CAMBRIDGE_ISSUER = `https://login.microsoftonline.com/${CAMBRIDGE_TENANT_ID}/v2.0`;
-const CAMBRIDGE_IDP = `https://sts.windows.net/${CAMBRIDGE_TENANT_ID}/`;
-
-const entraProvider = MicrosoftEntraID({
-  clientId: env.AUTH_MICROSOFT_ENTRA_ID_ID,
-  clientSecret: env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
-  issuer: CAMBRIDGE_ISSUER,
-});
-
-// Workaround: @auth/core's built-in customFetch extracts the tenant ID with
-// `/(\w+)/v2.0/`, which doesn't match GUID tenant IDs (because of hyphens).
-// Replace it with one that uses the configured tenant.
-entraProvider[customFetch] = async (...args: Parameters<typeof fetch>) => {
-  const url = new URL(args[0] instanceof Request ? args[0].url : args[0]);
-  if (url.pathname.endsWith(".well-known/openid-configuration")) {
-    const response = await fetch(...args);
-    const json = await response.clone().json();
-    return Response.json({
-      ...json,
-      issuer: String(json.issuer).replace("{tenantid}", CAMBRIDGE_TENANT_ID),
-    });
-  }
-  return fetch(...args);
-};
-
-type CambridgeProfile = {
-  tid?: string;
-  oid?: string;
+type KeycloakProfile = {
   sub?: string;
   email?: string;
   preferred_username?: string;
   name?: string;
-  idp?: string;
+  realm_access?: { roles?: string[] };
 };
 
 const config: SvelteKitAuthConfig = {
-  providers: [entraProvider],
+  providers: [
+    Keycloak({
+      clientId: env.AUTH_KEYCLOAK_ID,
+      clientSecret: env.AUTH_KEYCLOAK_SECRET,
+      issuer: env.AUTH_KEYCLOAK_ISSUER,
+    }),
+  ],
   secret: env.AUTH_SECRET,
   trustHost: true,
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ profile }) {
-      const p = profile as CambridgeProfile | undefined;
-      if (!p?.oid) return false;
-      if (p.tid !== CAMBRIDGE_TENANT_ID) return false;
-      if (p.idp && p.idp !== CAMBRIDGE_IDP) return false;
-      const upn = (p.preferred_username ?? p.email ?? "").toLowerCase();
-      if (!upn.endsWith("@cam.ac.uk")) return false;
+      const p = profile as KeycloakProfile | undefined;
+      if (!p?.sub) return false;
+      const email = (p.email ?? p.preferred_username ?? "").toLowerCase();
+      if (!email) return false;
 
       try {
         await sql`
           insert into users (entra_oid, email, name)
-          values (${p.oid}, ${upn}, ${p.name ?? null})
+          values (${p.sub}, ${email}, ${p.name ?? null})
           on conflict (entra_oid) do update
           set email = excluded.email,
               name  = excluded.name
@@ -73,20 +45,15 @@ const config: SvelteKitAuthConfig = {
     },
     async jwt({ token, profile }) {
       if (profile) {
-        const oid = (profile as CambridgeProfile).oid;
-        if (!oid) return null;
-        const rows = await sql<{ id: string; is_admin: boolean }[]>`
-          select id, is_admin from users where entra_oid = ${oid}
+        const p = profile as KeycloakProfile;
+        if (!p.sub) return null;
+        const roles = p.realm_access?.roles ?? [];
+        const rows = await sql<{ id: string }[]>`
+          select id from users where entra_oid = ${p.sub}
         `;
         if (rows.length === 0) return null;
         token.userId = rows[0].id;
-        token.isAdmin = rows[0].is_admin;
-      } else if (token.userId) {
-        const rows = await sql<{ is_admin: boolean }[]>`
-          select is_admin from users where id = ${token.userId as string}
-        `;
-        if (rows.length === 0) return null;
-        token.isAdmin = rows[0].is_admin;
+        token.isAdmin = roles.includes("admin") || roles.includes("committee");
       }
       return token;
     },

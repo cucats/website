@@ -81,7 +81,7 @@
       {:else}
         <button
           class="bg-primary-600 hover:bg-primary-500 my-auto ml-1 cursor-pointer rounded-lg px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors"
-          onclick={() => signIn("microsoft-entra-id")}
+          onclick={() => signIn("keycloak")}
         >
           Sign in
         </button>
@@ -189,7 +189,7 @@
           class="cursor-pointer px-6 py-4 text-left text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
           onclick={() => {
             active = false;
-            signIn("microsoft-entra-id");
+            signIn("keycloak");
           }}
         >
           Sign in
