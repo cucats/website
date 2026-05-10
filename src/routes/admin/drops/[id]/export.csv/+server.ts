@@ -1,6 +1,7 @@
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { sql } from "$lib/server/db";
+import { variantLabel } from "$lib/utils";
 
 function csvCell(v: string | number | null | undefined): string {
   const s = v == null ? "" : String(v);
@@ -20,7 +21,7 @@ export const GET: RequestHandler = async ({ params }) => {
   const rows = await sql<
     {
       product_name: string;
-      label: string;
+      options: Record<string, string>;
       paid_qty: number;
       pending_qty: number;
       total_qty: number;
@@ -28,7 +29,7 @@ export const GET: RequestHandler = async ({ params }) => {
   >`
     select
       p.name as product_name,
-      v.label,
+      v.options,
       coalesce(sum(case when o.status in ('paid','ready','collected') then oi.qty end), 0)::int as paid_qty,
       coalesce(sum(case when o.status = 'pending' then oi.qty end), 0)::int as pending_qty,
       coalesce(sum(case when o.status not in ('cancelled') then oi.qty end), 0)::int as total_qty
@@ -37,13 +38,13 @@ export const GET: RequestHandler = async ({ params }) => {
     left join order_items oi on oi.variant_id = v.id
     left join orders o on o.id = oi.order_id
     where p.drop_id = ${id}
-    group by p.id, p.name, v.id, v.label
-    order by p.name, v.label
+    group by p.id, p.name, v.id, v.options
+    order by p.name, v.id
   `;
 
   const header = ["product", "variant", "paid_qty", "pending_qty", "total_qty"];
   const body = rows.map((r) =>
-    [r.product_name, r.label, r.paid_qty, r.pending_qty, r.total_qty]
+    [r.product_name, variantLabel(r.options), r.paid_qty, r.pending_qty, r.total_qty]
       .map(csvCell)
       .join(","),
   );

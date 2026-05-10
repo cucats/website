@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types";
+  import { variantLabel } from "$lib/utils";
 
   let { data }: { data: PageData } = $props();
 
@@ -64,7 +65,7 @@
         {#each data.items as it}
           <li class="r-4 items-center justify-between text-sm">
             <span class="text-neutral-200">
-              {it.product_name} ({it.label}) × {it.qty}
+              {it.product_name} ({variantLabel(it.options)}) × {it.qty}
             </span>
             <span class="text-neutral-300">
               £{(it.qty * it.price_at_order).toFixed(2)}

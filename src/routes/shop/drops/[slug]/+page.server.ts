@@ -3,6 +3,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 import { createOrder } from "$lib/server/orders";
 import { sendOrderConfirmation } from "$lib/server/email";
+import { variantLabel } from "$lib/utils";
 
 export const load: PageServerLoad = async ({ params, locals, url }) => {
   const session = await locals.auth();
@@ -37,12 +38,12 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
         {
           id: number;
           product_id: number;
-          label: string;
+          options: Record<string, string>;
           price: number;
           stock_count: number | null;
         }[]
       >`
-        select id, product_id, label, price, stock_count
+        select id, product_id, options, price, stock_count
         from variants
         where product_id in ${sql(productIds)}
         order by id
@@ -76,13 +77,13 @@ export const actions: Actions = {
       {
         id: number;
         product_id: number;
-        label: string;
+        options: Record<string, string>;
         price: number;
         stock_count: number | null;
         product_name: string;
       }[]
     >`
-      select v.id, v.product_id, v.label, v.price, v.stock_count,
+      select v.id, v.product_id, v.options, v.price, v.stock_count,
              p.name as product_name
       from variants v
       join products p on p.id = v.product_id
@@ -102,15 +103,16 @@ export const actions: Actions = {
       const qty = Number(raw);
       if (!Number.isFinite(qty) || qty <= 0) continue;
       if (!Number.isInteger(qty)) return fail(400, { error: "quantities must be whole numbers" });
+      const label = variantLabel(v.options);
       if (v.stock_count != null && qty > v.stock_count) {
-        return fail(400, { error: `only ${v.stock_count} of ${v.product_name} (${v.label}) left` });
+        return fail(400, { error: `only ${v.stock_count} of ${v.product_name} (${label}) left` });
       }
       items.push({
         variant_id: v.id,
         qty,
         price: v.price,
         name: v.product_name,
-        label: v.label,
+        label,
       });
     }
     if (items.length === 0) {

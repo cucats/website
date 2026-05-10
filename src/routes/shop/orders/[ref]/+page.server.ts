@@ -44,11 +44,11 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     {
       qty: number;
       price_at_order: number;
-      label: string;
+      options: Record<string, string>;
       product_name: string;
     }[]
   >`
-    select oi.qty, oi.price_at_order, v.label, p.name as product_name
+    select oi.qty, oi.price_at_order, v.options, p.name as product_name
     from order_items oi
     join variants v on v.id = oi.variant_id
     join products p on p.id = v.product_id

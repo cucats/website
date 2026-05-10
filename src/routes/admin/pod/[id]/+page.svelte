@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PageData, ActionData } from "./$types";
+  import { variantLabel } from "$lib/utils";
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
@@ -58,7 +59,7 @@
       {#each data.variants as v}
         <li class="r-4 items-center justify-between text-sm">
           <span class="text-neutral-200">
-            {v.label} ・ £{v.price.toFixed(2)} ・ stock:
+            {variantLabel(v.options)} ・ £{v.price.toFixed(2)} ・ stock:
             {v.stock_count ?? "∞"}
           </span>
           <form method="POST" action="?/deleteVariant">
@@ -71,8 +72,8 @@
   {/if}
   <form method="POST" action="?/addVariant" class="r-4 max-w-2xl items-end">
     <label class="flex-1">
-      Label
-      <input class="default" type="text" name="label" required />
+      Options
+      <input class="default" type="text" name="options" placeholder="size=M, colour=Black" />
     </label>
     <label>
       Price (£)

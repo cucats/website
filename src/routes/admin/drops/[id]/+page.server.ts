@@ -2,6 +2,7 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 import { saveUpload } from "$lib/server/uploads";
+import { parseOptions } from "$lib/utils";
 
 export const load: PageServerLoad = async ({ params }) => {
   const id = Number(params.id);
@@ -36,12 +37,12 @@ export const load: PageServerLoad = async ({ params }) => {
         {
           id: number;
           product_id: number;
-          label: string;
+          options: Record<string, string>;
           price: number;
           stock_count: number | null;
         }[]
       >`
-        select id, product_id, label, price, stock_count
+        select id, product_id, options, price, stock_count
         from variants
         where product_id in ${sql(productIds)}
         order by id
@@ -112,21 +113,21 @@ export const actions: Actions = {
   addVariant: async ({ request }) => {
     const data = await request.formData();
     const product_id = Number(data.get("product_id"));
-    const label = String(data.get("label") ?? "").trim();
+    const optionsStr = String(data.get("options") ?? "").trim();
+    const options = parseOptions(optionsStr);
     const price = Number(data.get("price"));
     const stock_raw = String(data.get("stock_count") ?? "").trim();
     const stock_count = stock_raw === "" ? null : Number(stock_raw);
     if (
       !Number.isFinite(product_id) ||
-      !label ||
       !Number.isFinite(price) ||
       price < 0
     ) {
       return fail(400, { error: "bad variant fields" });
     }
     await sql`
-      insert into variants (product_id, label, price, stock_count)
-      values (${product_id}, ${label}, ${price}, ${stock_count})
+      insert into variants (product_id, options, price, stock_count)
+      values (${product_id}, ${JSON.stringify(options)}::jsonb, ${price}, ${stock_count})
     `;
     return { ok: true };
   },
