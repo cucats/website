@@ -4,8 +4,8 @@
 
   const tabs = [
     { href: "/admin", label: "Overview" },
-    { href: "/admin/drops", label: "Drops" },
-    { href: "/admin/pod", label: "Order anytime" },
+    { href: "/admin/products", label: "Products" },
+    { href: "/admin/showcases", label: "Showcases" },
     { href: "/admin/orders", label: "Orders" },
   ];
 </script>

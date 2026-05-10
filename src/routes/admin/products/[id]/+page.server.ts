@@ -1,12 +1,14 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
+import { saveUpload } from "$lib/server/uploads";
 import { swapVariantDisplayOrder } from "$lib/server/variants";
 import { parseOptions } from "$lib/utils";
 
 export const load: PageServerLoad = async ({ params }) => {
   const id = Number(params.id);
   if (!Number.isFinite(id)) throw error(404, "not found");
+
   const [product] = await sql<
     {
       id: number;
@@ -14,7 +16,7 @@ export const load: PageServerLoad = async ({ params }) => {
       description: string | null;
       image_url: string | null;
     }[]
-  >`select id, name, description, image_url from products where id = ${id} and type = 'pod'`;
+  >`select id, name, description, image_url from products where id = ${id}`;
   if (!product) throw error(404, "not found");
 
   const variants = await sql<
@@ -31,7 +33,18 @@ export const load: PageServerLoad = async ({ params }) => {
     where product_id = ${id}
     order by display_order, id
   `;
-  return { product, variants };
+
+  const showcases = await sql<
+    { id: number; slug: string; name: string; kind: string }[]
+  >`
+    select s.id, s.slug, s.name, s.kind
+    from showcases s
+    join showcase_products sp on sp.showcase_id = s.id
+    where sp.product_id = ${id}
+    order by s.display_order, s.id
+  `;
+
+  return { product, variants, showcases };
 };
 
 export const actions: Actions = {
@@ -41,18 +54,35 @@ export const actions: Actions = {
     const name = String(data.get("name") ?? "").trim();
     const description = String(data.get("description") ?? "").trim();
     if (!name) return fail(400, { error: "name required" });
-    await sql`
-      update products set
-        name = ${name},
-        description = ${description || null}
-      where id = ${id}
-    `;
+    const file = data.get("image");
+    let imageClause: { url?: string | null } = {};
+    if (file instanceof File && file.size > 0) {
+      try {
+        imageClause = { url: await saveUpload(file) };
+      } catch (err) {
+        return fail(400, { error: `image: ${(err as Error).message}` });
+      }
+    }
+    if (imageClause.url !== undefined) {
+      await sql`
+        update products set name = ${name},
+          description = ${description || null},
+          image_url = ${imageClause.url}
+        where id = ${id}
+      `;
+    } else {
+      await sql`
+        update products set name = ${name},
+          description = ${description || null}
+        where id = ${id}
+      `;
+    }
     return { ok: true };
   },
   destroy: async ({ params }) => {
     const id = Number(params.id);
     await sql`delete from products where id = ${id}`;
-    throw redirect(303, "/admin/pod");
+    throw redirect(303, "/admin/products");
   },
   addVariant: async ({ request, params }) => {
     const id = Number(params.id);

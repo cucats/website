@@ -6,19 +6,20 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   const session = await locals.auth();
   if (!session?.user) throw redirect(303, "/shop");
 
-  const [drop] = await sql<
+  const [showcase] = await sql<
     {
       id: number;
       slug: string;
       name: string;
       description: string | null;
-      opens_at: Date;
-      closes_at: Date;
+      kind: "drop" | "always_on";
+      opens_at: Date | null;
+      closes_at: Date | null;
       collection_event: string | null;
       status: string;
     }[]
-  >`select * from drops where slug = ${params.slug}`;
-  if (!drop) throw error(404, "drop not found");
+  >`select * from showcases where slug = ${params.slug}`;
+  if (!showcase) throw error(404, "showcase not found");
 
   const products = await sql<
     {
@@ -27,7 +28,13 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       description: string | null;
       image_url: string | null;
     }[]
-  >`select id, name, description, image_url from products where drop_id = ${drop.id} order by display_order, id`;
+  >`
+    select p.id, p.name, p.description, p.image_url
+    from products p
+    join showcase_products sp on sp.product_id = p.id
+    where sp.showcase_id = ${showcase.id}
+    order by sp.display_order, p.id
+  `;
 
   const productIds = products.map((p) => p.id);
   const variants = productIds.length
@@ -49,7 +56,9 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
   const now = new Date();
   const isOpen =
-    drop.status === "open" && drop.opens_at <= now && drop.closes_at > now;
+    showcase.status === "open" &&
+    (showcase.opens_at == null || showcase.opens_at <= now) &&
+    (showcase.closes_at == null || showcase.closes_at > now);
 
-  return { drop, products, variants, isOpen };
+  return { showcase, products, variants, isOpen };
 };

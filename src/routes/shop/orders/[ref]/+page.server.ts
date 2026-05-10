@@ -22,6 +22,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       reference: string;
       user_id: string;
       type: "drop" | "pod";
+      showcase_id: number;
       status: string;
       total: number;
       shipping_address: ShippingAddress | null;
@@ -56,22 +57,20 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     order by oi.id
   `;
 
-  const [drop] = order.type === "drop"
-    ? await sql<{ collection_event: string | null; closes_at: Date }[]>`
-        select d.collection_event, d.closes_at
-        from drops d
-        join products p on p.drop_id = d.id
-        join variants v on v.product_id = p.id
-        join order_items oi on oi.variant_id = v.id
-        where oi.order_id = ${order.id}
-        limit 1
-      `
-    : [];
+  const [showcase] = await sql<
+    {
+      slug: string;
+      name: string;
+      collection_event: string | null;
+      closes_at: Date | null;
+      kind: "drop" | "always_on";
+    }[]
+  >`select slug, name, collection_event, closes_at, kind from showcases where id = ${order.showcase_id}`;
 
   return {
     order,
     items,
-    drop,
+    showcase,
     bank: {
       sortCode: env.BANK_SORT_CODE ?? "",
       accountNumber: env.BANK_ACCOUNT_NUMBER ?? "",

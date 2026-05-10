@@ -4,15 +4,14 @@
   let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
-<h1 class="h2 mb-6 text-neutral-100">Order-anytime products</h1>
+<h1 class="h2 mb-6 text-neutral-100">Products</h1>
 
 <section class="mb-10">
-  <h2 class="h4 mb-3 text-neutral-100">Existing</h2>
   {#if data.products.length === 0}
-    <p class="p text-neutral-400">No POD products yet.</p>
+    <p class="p text-neutral-400">No products yet.</p>
   {:else}
     <ul class="c-2 divide-y divide-neutral-800">
-      {#each data.products as product, i}
+      {#each data.products as product}
         <li class="r-4 items-center justify-between py-3">
           <div class="r-4 items-center">
             {#if product.image_url}
@@ -21,30 +20,25 @@
                 alt={product.name}
                 class="size-12 rounded object-cover"
               />
+            {:else}
+              <div class="size-12 rounded bg-neutral-800"></div>
             {/if}
-            <a class="font-medium text-neutral-100" href="/admin/pod/{product.id}">
-              {product.name}
-            </a>
-          </div>
-          <div class="r-2">
-            <form method="POST" action="?/moveUp">
-              <input type="hidden" name="product_id" value={product.id} />
-              <button
-                class="btn neutral sm"
-                aria-label="Move up"
-                disabled={i === 0}>↑</button
+            <div>
+              <a
+                class="font-medium text-neutral-100"
+                href="/admin/products/{product.id}"
               >
-            </form>
-            <form method="POST" action="?/moveDown">
-              <input type="hidden" name="product_id" value={product.id} />
-              <button
-                class="btn neutral sm"
-                aria-label="Move down"
-                disabled={i === data.products.length - 1}>↓</button
-              >
-            </form>
-            <a class="btn neutral sm" href="/admin/pod/{product.id}">Edit</a>
+                {product.name}
+              </a>
+              <p class="text-xs text-neutral-400">
+                {product.variant_count} variant{product.variant_count === 1 ? "" : "s"}
+                ・ in {product.showcase_count} showcase{product.showcase_count === 1
+                  ? ""
+                  : "s"}
+              </p>
+            </div>
           </div>
+          <a class="btn neutral sm" href="/admin/products/{product.id}">Edit</a>
         </li>
       {/each}
     </ul>
@@ -52,7 +46,7 @@
 </section>
 
 <section>
-  <h2 class="h4 mb-3 text-neutral-100">Create new</h2>
+  <h2 class="h4 mb-3 text-neutral-100">Create new product</h2>
   {#if form?.error}
     <p class="helper-text error mb-3">{form.error}</p>
   {/if}

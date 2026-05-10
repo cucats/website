@@ -3,21 +3,27 @@ import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 
 export const load: PageServerLoad = async () => {
-  const drops = await sql<
+  const showcases = await sql<
     {
       id: number;
       slug: string;
       name: string;
-      opens_at: Date;
-      closes_at: Date;
+      kind: string;
+      opens_at: Date | null;
+      closes_at: Date | null;
       status: string;
+      product_count: number;
     }[]
   >`
-    select id, slug, name, opens_at, closes_at, status
-    from drops
-    order by opens_at desc
+    select s.id, s.slug, s.name, s.kind, s.opens_at, s.closes_at, s.status,
+           (select count(*)::int from showcase_products sp where sp.showcase_id = s.id) as product_count
+    from showcases s
+    order by
+      case s.kind when 'always_on' then 0 else 1 end,
+      s.opens_at desc nulls last,
+      s.id desc
   `;
-  return { drops };
+  return { showcases };
 };
 
 export const actions: Actions = {
@@ -34,13 +40,13 @@ export const actions: Actions = {
     let row;
     try {
       [row] = await sql<{ id: number }[]>`
-        insert into drops (slug, name, opens_at, closes_at, collection_event)
-        values (${slug}, ${name}, ${opens_at}, ${closes_at}, ${collection_event || null})
+        insert into showcases (slug, name, kind, opens_at, closes_at, collection_event)
+        values (${slug}, ${name}, 'drop', ${opens_at}, ${closes_at}, ${collection_event || null})
         returning id
       `;
     } catch (err) {
       return fail(400, { error: (err as Error).message });
     }
-    throw redirect(303, `/admin/drops/${row.id}`);
+    throw redirect(303, `/admin/showcases/${row.id}`);
   },
 };

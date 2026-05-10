@@ -14,30 +14,35 @@ type VariantRow = {
   product_id: number;
   product_name: string;
   image_url: string | null;
-  product_type: "drop" | "pod";
-  drop_id: number | null;
-  drop_slug: string | null;
-  drop_name: string | null;
-  drop_status: string | null;
+  showcase_id: number;
+  showcase_slug: string;
+  showcase_name: string;
+  showcase_kind: "drop" | "always_on";
+  showcase_status: string;
+  showcase_opens_at: Date | null;
+  showcase_closes_at: Date | null;
   collection_event: string | null;
-  opens_at: Date | null;
-  closes_at: Date | null;
 };
+
+const variantSelect = `
+  v.id, v.options, v.price, v.stock_count, v.enabled,
+  p.id as product_id, p.name as product_name, p.image_url,
+  s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
+  s.kind as showcase_kind, s.status as showcase_status,
+  s.opens_at as showcase_opens_at, s.closes_at as showcase_closes_at,
+  s.collection_event
+`;
 
 export const load: PageServerLoad = async ({ locals }) => {
   const session = await locals.auth();
   if (!session?.user) throw redirect(303, "/shop");
 
   const variants = await sql<VariantRow[]>`
-    select
-      v.id, v.options, v.price, v.stock_count, v.enabled,
-      p.id as product_id, p.name as product_name, p.image_url,
-      p.type as product_type, p.drop_id,
-      d.slug as drop_slug, d.name as drop_name, d.status as drop_status,
-      d.collection_event, d.opens_at, d.closes_at
+    select ${sql.unsafe(variantSelect)}
     from variants v
     join products p on p.id = v.product_id
-    left join drops d on d.id = p.drop_id
+    join showcase_products sp on sp.product_id = p.id
+    join showcases s on s.id = sp.showcase_id
   `;
 
   return { variants };
@@ -65,18 +70,17 @@ export const actions: Actions = {
 
     const variantIds = items.map((i) => i.variant_id);
     const rows = await sql<VariantRow[]>`
-      select
-        v.id, v.options, v.price, v.stock_count, v.enabled,
-        p.id as product_id, p.name as product_name, p.image_url,
-        p.type as product_type, p.drop_id,
-        d.slug as drop_slug, d.name as drop_name, d.status as drop_status,
-        d.collection_event, d.opens_at, d.closes_at
+      select ${sql.unsafe(variantSelect)}
       from variants v
       join products p on p.id = v.product_id
-      left join drops d on d.id = p.drop_id
+      join showcase_products sp on sp.product_id = p.id
+      join showcases s on s.id = sp.showcase_id
       where v.id in ${sql(variantIds)}
     `;
-    const variantMap = new Map(rows.map((v) => [v.id, v]));
+    const variantMap = new Map<number, VariantRow>();
+    for (const r of rows) {
+      if (!variantMap.has(r.id)) variantMap.set(r.id, r);
+    }
 
     const now = new Date();
     for (const it of items) {
@@ -87,16 +91,16 @@ export const actions: Actions = {
           error: `${v.product_name} is no longer available — remove from basket`,
         });
       }
-      if (v.product_type === "drop") {
-        if (
-          v.drop_status !== "open" ||
-          (v.opens_at && v.opens_at > now) ||
-          (v.closes_at && v.closes_at <= now)
-        ) {
-          return fail(400, {
-            error: `${v.product_name} is not currently available`,
-          });
-        }
+      if (v.showcase_status !== "open") {
+        return fail(400, {
+          error: `${v.product_name} is not currently available`,
+        });
+      }
+      if (v.showcase_opens_at && v.showcase_opens_at > now) {
+        return fail(400, { error: `${v.product_name} isn't open yet` });
+      }
+      if (v.showcase_closes_at && v.showcase_closes_at <= now) {
+        return fail(400, { error: `${v.product_name} is closed` });
       }
       if (v.stock_count != null && it.qty > v.stock_count) {
         return fail(400, {
@@ -105,11 +109,11 @@ export const actions: Actions = {
       }
     }
 
-    const hasPOD = items.some(
-      (it) => variantMap.get(it.variant_id)!.product_type === "pod",
+    const hasShippedItem = items.some(
+      (it) => variantMap.get(it.variant_id)!.showcase_kind === "always_on",
     );
     let shippingAddress: ShippingAddress | null = null;
-    if (hasPOD) {
+    if (hasShippedItem) {
       const recipient = String(data.get("recipient") ?? "").trim();
       const line1 = String(data.get("line1") ?? "").trim();
       const line2 = String(data.get("line2") ?? "").trim();
@@ -118,7 +122,7 @@ export const actions: Actions = {
       const country = String(data.get("country") ?? "United Kingdom").trim();
       if (!recipient || !line1 || !city || !postcode) {
         return fail(400, {
-          error: "shipping address is required for direct-order items",
+          error: "shipping address is required for direct-ship items",
         });
       }
       shippingAddress = {
@@ -131,18 +135,19 @@ export const actions: Actions = {
       };
     }
 
-    const groups = new Map<number | "pod", typeof items>();
+    const groups = new Map<number, typeof items>();
     for (const it of items) {
       const v = variantMap.get(it.variant_id)!;
-      const key = v.product_type === "pod" ? ("pod" as const) : v.drop_id!;
-      const g = groups.get(key) ?? [];
+      const g = groups.get(v.showcase_id) ?? [];
       g.push(it);
-      groups.set(key, g);
+      groups.set(v.showcase_id, g);
     }
 
     const refs: string[] = [];
-    for (const [groupKey, groupItems] of groups) {
-      const type: "drop" | "pod" = groupKey === "pod" ? "pod" : "drop";
+    for (const [showcaseId, groupItems] of groups) {
+      const first = variantMap.get(groupItems[0].variant_id)!;
+      const type: "drop" | "pod" =
+        first.showcase_kind === "drop" ? "drop" : "pod";
       const orderItems = groupItems.map((it) => {
         const v = variantMap.get(it.variant_id)!;
         return {
@@ -154,13 +159,13 @@ export const actions: Actions = {
       const order = await createOrder({
         userId: session.user.id,
         type,
+        showcaseId,
         items: orderItems,
         shippingAddress: type === "pod" ? shippingAddress : null,
       });
       refs.push(order.reference);
 
       if (session.user.email) {
-        const first = variantMap.get(groupItems[0].variant_id)!;
         try {
           await sendOrderConfirmation({
             to: session.user.email,
@@ -176,7 +181,8 @@ export const actions: Actions = {
               };
             }),
             total: order.total,
-            collection_event: type === "drop" ? first.collection_event : null,
+            collection_event:
+              type === "drop" ? first.collection_event : null,
             status_url: `${new URL(request.url).origin}/shop/orders/${order.reference}`,
           });
         } catch (err) {

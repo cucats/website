@@ -1,20 +1,14 @@
 <script lang="ts">
   import { page } from "$app/state";
   import { signIn } from "@auth/sveltekit/client";
-  import ProductCard from "$lib/components/ProductCard.svelte";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
 
   const session = $derived(page.data.session);
 
-  function priceLabel(min: number | null, max: number | null): string | undefined {
-    if (min == null) return undefined;
-    if (max == null || min === max) return `£${min.toFixed(2)}`;
-    return `£${min.toFixed(2)} – £${max.toFixed(2)}`;
-  }
-
-  function dateRange(opens: Date | string, closes: Date | string): string {
+  function dateRange(opens: Date | string | null, closes: Date | string | null): string {
+    if (!opens || !closes) return "";
     const o = new Date(opens);
     const c = new Date(closes);
     const fmt = (d: Date) =>
@@ -38,58 +32,41 @@
 {:else}
   <section class="bg-primary-900 py-16">
     <div class="mx-auto max-w-7xl px-4">
-      <h2 class="h2 mb-6 text-neutral-100">Current drop</h2>
-      {#if data.openDrop}
-        {@const d = data.openDrop}
-        <div class="r-8 items-start">
-          <div>
-            <h3 class="h3 mb-2 text-neutral-100">{d.name}</h3>
-            <p class="p mb-3 max-w-2xl text-neutral-300">{d.description ?? ""}</p>
-            <p class="text-sm text-neutral-400">
-              Open {dateRange(d.opens_at, d.closes_at)}
-              {#if d.collection_event}
-                ・ Collection: {d.collection_event}
-              {/if}
-            </p>
-            <a class="btn primary md mt-4" href="/shop/drops/{d.slug}">View items</a>
-          </div>
-        </div>
+      <h2 class="h2 mb-6 text-neutral-100">Open now</h2>
+      {#if data.openShowcases.length === 0}
+        <p class="p text-neutral-400">Nothing is open for orders right now.</p>
       {:else}
-        <p class="p text-neutral-400">
-          No drop is open right now. Check back soon, or browse the print-on-demand
-          catalogue below.
-        </p>
-      {/if}
-    </div>
-  </section>
-
-  <section class="bg-primary-800 py-16">
-    <div class="mx-auto max-w-7xl px-4">
-      <div class="r-4 mb-6 items-end justify-between">
-        <h2 class="h2 text-neutral-100">Order anytime</h2>
-        <a class="text-sm text-neutral-300 hover:text-neutral-100" href="/shop/pod">
-          See all →
-        </a>
-      </div>
-      {#if data.podProducts.length === 0}
-        <p class="p text-neutral-400">Nothing here yet.</p>
-      {:else}
-        <div class="r-4 flex-wrap">
-          {#each data.podProducts.slice(0, 4) as p}
-            <ProductCard
-              name={p.name}
-              href={`/shop/pod#product-${p.id}`}
-              image={p.image_url}
-              priceLabel={priceLabel(p.min_price, p.max_price)}
-            />
+        <ul class="c-4">
+          {#each data.openShowcases as s}
+            <li class="bg-primary-950/40 border-primary-800/60 r-4 items-center justify-between rounded-lg border p-5">
+              <div>
+                <h3 class="h4 text-neutral-100">{s.name}</h3>
+                {#if s.description}
+                  <p class="p mt-2 max-w-2xl text-neutral-400">{s.description}</p>
+                {/if}
+                <p class="mt-2 text-sm text-neutral-400">
+                  {#if s.kind === "drop"}
+                    {dateRange(s.opens_at, s.closes_at)}
+                    {#if s.collection_event}
+                      ・ Collection: {s.collection_event}
+                    {/if}
+                  {:else}
+                    Ships direct to you
+                  {/if}
+                </p>
+              </div>
+              <a class="btn primary md" href="/shop/showcases/{s.slug}">
+                {s.kind === "drop" ? "Shop drop" : "Browse"}
+              </a>
+            </li>
           {/each}
-        </div>
+        </ul>
       {/if}
     </div>
   </section>
 
   {#if data.pastDrops.length > 0}
-    <section class="bg-primary-900 py-16">
+    <section class="bg-primary-800 py-16">
       <div class="mx-auto max-w-7xl px-4">
         <h2 class="h2 mb-6 text-neutral-100">Past drops</h2>
         <ul class="c-2 divide-y divide-neutral-800">
@@ -101,7 +78,7 @@
                   {dateRange(d.opens_at, d.closes_at)} ・ {d.status}
                 </p>
               </div>
-              <a class="btn neutral sm" href="/shop/drops/{d.slug}">View</a>
+              <a class="btn neutral sm" href="/shop/showcases/{d.slug}">View</a>
             </li>
           {/each}
         </ul>

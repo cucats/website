@@ -118,10 +118,10 @@
       </section>
     {/if}
 
-    {#if data.order.type === "drop" && data.drop?.collection_event}
+    {#if data.order.type === "drop" && data.showcase?.collection_event}
       <section class="mb-8 rounded-lg border border-neutral-800 p-6">
         <h2 class="h4 mb-2 text-neutral-100">Collection</h2>
-        <p class="p text-neutral-300">{data.drop.collection_event}</p>
+        <p class="p text-neutral-300">{data.showcase.collection_event}</p>
       </section>
     {/if}
 

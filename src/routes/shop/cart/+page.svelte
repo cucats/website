@@ -18,8 +18,8 @@
     items.reduce((s, i) => s + i.qty * i.variant!.price, 0),
   );
 
-  const hasPOD = $derived(
-    items.some((i) => i.variant!.product_type === "pod"),
+  const hasShipped = $derived(
+    items.some((i) => i.variant!.showcase_kind === "always_on"),
   );
 </script>
 
@@ -74,9 +74,9 @@
                 <p class="font-medium text-neutral-100">{v.product_name}</p>
                 <p class="text-sm text-neutral-400">
                   {variantLabel(v.options)} ・ £{v.price.toFixed(2)}
-                  {#if v.product_type === "drop" && v.drop_name}
-                    ・ {v.drop_name}
-                  {:else if v.product_type === "pod"}
+                  {#if v.showcase_kind === "drop"}
+                    ・ {v.showcase_name}
+                  {:else}
                     ・ ships direct
                   {/if}
                 </p>
@@ -110,7 +110,7 @@
           Total: £{subtotal.toFixed(2)}
         </div>
 
-        {#if hasPOD}
+        {#if hasShipped}
           <fieldset class="c-4 bg-primary-950/40 border-primary-800/60 rounded-lg border p-6">
             <legend class="px-2 text-sm text-neutral-300">
               Shipping address (for direct-ship items)

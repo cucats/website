@@ -28,6 +28,7 @@ export type ShippingAddress = {
 export type CreateOrderInput = {
   userId: string;
   type: "drop" | "pod";
+  showcaseId: number;
   items: OrderItem[];
   shippingAddress?: ShippingAddress | null;
 };
@@ -48,10 +49,10 @@ export async function createOrder(
       const result = await sql.begin(async (tx) => {
         const [order] = await tx<{ id: number; reference: string }[]>`
           insert into orders
-            (reference, user_id, type, total, shipping_address)
+            (reference, user_id, type, showcase_id, total, shipping_address)
           values
-            (${reference}, ${input.userId}, ${input.type}, ${total},
-             ${shipping}::jsonb)
+            (${reference}, ${input.userId}, ${input.type}, ${input.showcaseId},
+             ${total}, ${shipping}::jsonb)
           returning id, reference
         `;
         for (const it of input.items) {

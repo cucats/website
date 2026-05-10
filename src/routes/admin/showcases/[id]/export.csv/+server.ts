@@ -13,10 +13,10 @@ export const GET: RequestHandler = async ({ params }) => {
   const id = Number(params.id);
   if (!Number.isFinite(id)) throw error(404, "not found");
 
-  const [drop] = await sql<{ id: number; slug: string }[]>`
-    select id, slug from drops where id = ${id}
+  const [showcase] = await sql<{ id: number; slug: string }[]>`
+    select id, slug from showcases where id = ${id}
   `;
-  if (!drop) throw error(404, "drop not found");
+  if (!showcase) throw error(404, "showcase not found");
 
   const rows = await sql<
     {
@@ -33,13 +33,14 @@ export const GET: RequestHandler = async ({ params }) => {
       coalesce(sum(case when o.status in ('paid','ready','collected') then oi.qty end), 0)::int as paid_qty,
       coalesce(sum(case when o.status = 'pending' then oi.qty end), 0)::int as pending_qty,
       coalesce(sum(case when o.status not in ('cancelled') then oi.qty end), 0)::int as total_qty
-    from products p
+    from showcase_products sp
+    join products p on p.id = sp.product_id
     join variants v on v.product_id = p.id
     left join order_items oi on oi.variant_id = v.id
-    left join orders o on o.id = oi.order_id
-    where p.drop_id = ${id}
-    group by p.id, p.name, v.id, v.options
-    order by p.name, v.id
+    left join orders o on o.id = oi.order_id and o.showcase_id = ${id}
+    where sp.showcase_id = ${id}
+    group by p.id, p.name, v.id, v.options, sp.display_order
+    order by sp.display_order, p.name, v.id
   `;
 
   const header = ["product", "variant", "paid_qty", "pending_qty", "total_qty"];
@@ -53,7 +54,7 @@ export const GET: RequestHandler = async ({ params }) => {
   return new Response(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="drop-${drop.slug}-quantities.csv"`,
+      "Content-Disposition": `attachment; filename="showcase-${showcase.slug}-quantities.csv"`,
     },
   });
 };

@@ -2,16 +2,23 @@ import { fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 import { saveUpload } from "$lib/server/uploads";
-import { swapDisplayOrder } from "$lib/server/products";
 
 export const load: PageServerLoad = async () => {
   const products = await sql<
-    { id: number; name: string; image_url: string | null; display_order: number }[]
+    {
+      id: number;
+      name: string;
+      description: string | null;
+      image_url: string | null;
+      variant_count: number;
+      showcase_count: number;
+    }[]
   >`
-    select id, name, image_url, display_order
-    from products
-    where type = 'pod'
-    order by display_order, id
+    select p.id, p.name, p.description, p.image_url,
+           (select count(*)::int from variants v where v.product_id = p.id) as variant_count,
+           (select count(*)::int from showcase_products sp where sp.product_id = p.id) as showcase_count
+    from products p
+    order by p.display_order, p.id
   `;
   return { products };
 };
@@ -32,25 +39,13 @@ export const actions: Actions = {
       }
     }
     const [row] = await sql<{ id: number }[]>`
-      insert into products (drop_id, type, name, description, image_url, display_order)
+      insert into products (name, description, image_url, display_order)
       values (
-        null, 'pod', ${name}, ${description || null}, ${image_url},
-        coalesce((select max(display_order) + 1 from products where type = 'pod'), 0)
+        ${name}, ${description || null}, ${image_url},
+        coalesce((select max(display_order) + 1 from products), 0)
       )
       returning id
     `;
-    throw redirect(303, `/admin/pod/${row.id}`);
-  },
-  moveUp: async ({ request }) => {
-    const data = await request.formData();
-    const id = Number(data.get("product_id"));
-    if (Number.isFinite(id)) await swapDisplayOrder(id, "up");
-    return { ok: true };
-  },
-  moveDown: async ({ request }) => {
-    const data = await request.formData();
-    const id = Number(data.get("product_id"));
-    if (Number.isFinite(id)) await swapDisplayOrder(id, "down");
-    return { ok: true };
+    throw redirect(303, `/admin/products/${row.id}`);
   },
 };

@@ -1,56 +1,40 @@
 import type { PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 
-type DropSummary = {
+type ShowcaseSummary = {
   id: number;
   slug: string;
   name: string;
   description: string | null;
-  opens_at: Date;
-  closes_at: Date;
+  kind: "drop" | "always_on";
+  opens_at: Date | null;
+  closes_at: Date | null;
   collection_event: string | null;
   status: string;
-};
-
-type ProductSummary = {
-  id: number;
-  drop_id: number | null;
-  name: string;
-  description: string | null;
-  image_url: string | null;
-  min_price: number | null;
-  max_price: number | null;
 };
 
 export const load: PageServerLoad = async () => {
   const now = new Date();
 
-  const [openDrop] = await sql<DropSummary[]>`
-    select id, slug, name, description, opens_at, closes_at, collection_event, status
-    from drops
-    where status = 'open' and opens_at <= ${now} and closes_at > ${now}
-    order by closes_at asc
-    limit 1
+  const openShowcases = await sql<ShowcaseSummary[]>`
+    select id, slug, name, description, kind, opens_at, closes_at, collection_event, status
+    from showcases
+    where status = 'open'
+      and (opens_at is null or opens_at <= ${now})
+      and (closes_at is null or closes_at > ${now})
+    order by
+      case kind when 'drop' then 0 else 1 end,
+      closes_at asc nulls last,
+      display_order, id
   `;
 
-  const pastDrops = await sql<DropSummary[]>`
-    select id, slug, name, description, opens_at, closes_at, collection_event, status
-    from drops
-    where status in ('closed','fulfilled')
-    order by closes_at desc
+  const pastDrops = await sql<ShowcaseSummary[]>`
+    select id, slug, name, description, kind, opens_at, closes_at, collection_event, status
+    from showcases
+    where kind = 'drop' and status in ('closed','fulfilled')
+    order by closes_at desc nulls last
     limit 6
   `;
 
-  const podProducts = await sql<ProductSummary[]>`
-    select p.id, p.drop_id, p.name, p.description, p.image_url,
-           min(v.price) filter (where v.enabled) as min_price,
-           max(v.price) filter (where v.enabled) as max_price
-    from products p
-    left join variants v on v.product_id = p.id
-    where p.type = 'pod'
-    group by p.id
-    order by p.display_order, p.id
-  `;
-
-  return { openDrop, pastDrops, podProducts };
+  return { openShowcases, pastDrops };
 };
