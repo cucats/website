@@ -23,12 +23,11 @@ export const load: PageServerLoad = async ({ url }) => {
       status: string;
       total: number;
       created_at: Date;
-      bank_reference: string | null;
       user_email: string;
     }[]
   >`
     select o.id, o.reference, o.type, o.status, o.total, o.created_at,
-           o.bank_reference, u.email as user_email
+           u.email as user_email
     from orders o
     join users u on u.id = o.user_id
     where (${status}::text is null or o.status = ${status})
@@ -40,26 +39,26 @@ export const load: PageServerLoad = async ({ url }) => {
   return { orders, filters: { status, type } };
 };
 
-async function transition(
-  id: number,
-  action: keyof typeof TRANSITIONS,
-  bankReference: string | null,
-) {
+async function transition(id: number, action: keyof typeof TRANSITIONS) {
   const t = TRANSITIONS[action];
-  if (action === "markPaid") {
-    await sql`
-      update orders set
-        paid_at = now(),
-        status = 'paid',
-        bank_reference = coalesce(${bankReference}, bank_reference)
-      where id = ${id}
-    `;
-    return;
-  }
   await sql.unsafe(
     `update orders set ${t.col} = now(), status = $1 where id = $2`,
     [t.status, id],
   );
+}
+
+async function restore(id: number) {
+  await sql`
+    update orders
+    set status = 'pending',
+        cancelled_at = null,
+        paid_at = null,
+        ready_at = null,
+        shipped_at = null,
+        collected_at = null,
+        delivered_at = null
+    where id = ${id} and status = 'cancelled'
+  `;
 }
 
 export const actions: Actions = {
@@ -70,13 +69,16 @@ export const actions: Actions = {
         const data = await request.formData();
         const id = Number(data.get("order_id"));
         if (!Number.isFinite(id)) return fail(400, { error: "bad order id" });
-        const bankRef =
-          action === "markPaid"
-            ? String(data.get("bank_reference") ?? "").trim() || null
-            : null;
-        await transition(id, action as keyof typeof TRANSITIONS, bankRef);
+        await transition(id, action as keyof typeof TRANSITIONS);
         return { ok: true };
       },
     ]),
   ),
+  restore: async ({ request }) => {
+    const data = await request.formData();
+    const id = Number(data.get("order_id"));
+    if (!Number.isFinite(id)) return fail(400, { error: "bad order id" });
+    await restore(id);
+    return { ok: true };
+  },
 };

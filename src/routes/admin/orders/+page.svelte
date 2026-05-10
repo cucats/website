@@ -67,14 +67,8 @@
         <td class="py-2 pr-3">
           <div class="r-2 flex-wrap">
             {#if o.status === "pending"}
-              <form method="POST" action="?/markPaid" class="r-2">
+              <form method="POST" action="?/markPaid">
                 <input type="hidden" name="order_id" value={o.id} />
-                <input
-                  class="default w-32"
-                  type="text"
-                  name="bank_reference"
-                  placeholder="bank ref"
-                />
                 <button class="btn neutral sm">Paid</button>
               </form>
             {/if}
@@ -105,7 +99,18 @@
             {#if o.status !== "cancelled" && o.status !== "collected" && o.status !== "delivered"}
               <form method="POST" action="?/cancel">
                 <input type="hidden" name="order_id" value={o.id} />
-                <button class="btn neutral sm text-error-400">Cancel</button>
+                <button
+                  class="btn neutral sm text-error-400"
+                  onclick={(e) => {
+                    if (!confirm(`Cancel order ${o.reference}?`)) e.preventDefault();
+                  }}>Cancel</button
+                >
+              </form>
+            {/if}
+            {#if o.status === "cancelled"}
+              <form method="POST" action="?/restore">
+                <input type="hidden" name="order_id" value={o.id} />
+                <button class="btn neutral sm">Restore</button>
               </form>
             {/if}
           </div>
