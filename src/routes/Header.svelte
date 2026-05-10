@@ -45,7 +45,7 @@
       <!-- Search button -->
       <button
         onclick={() => searchState.open()}
-        class="my-auto ml-2 flex items-center gap-2 rounded-lg border border-neutral-700/0 bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
+        class="my-auto ml-2 flex cursor-pointer items-center gap-2 rounded-lg border border-neutral-700/0 bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
         aria-label="Search"
       >
         <svg
@@ -73,14 +73,14 @@
           {page.data.session.user.email?.split("@")[0] ?? ""}
         </span>
         <button
-          class="my-auto rounded-lg bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
+          class="my-auto cursor-pointer rounded-lg bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
           onclick={() => signOut()}
         >
           Sign out
         </button>
       {:else}
         <button
-          class="my-auto ml-1 rounded-lg bg-primary-600 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-primary-500"
+          class="bg-primary-600 hover:bg-primary-500 my-auto ml-1 cursor-pointer rounded-lg px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors"
           onclick={() => signIn("microsoft-entra-id")}
         >
           Sign in
@@ -139,7 +139,7 @@
         active = false;
         searchState.open();
       }}
-      class="mx-6 mt-4 flex items-center gap-3 rounded-lg bg-neutral-800 px-4 py-3 text-neutral-400 transition-colors hover:bg-neutral-700"
+      class="mx-6 mt-4 flex cursor-pointer items-center gap-3 rounded-lg bg-neutral-800 px-4 py-3 text-neutral-400 transition-colors hover:bg-neutral-700"
     >
       <svg
         class="h-5 w-5"
@@ -176,7 +176,7 @@
           {page.data.session.user.email?.split("@")[0] ?? ""}
         </span>
         <button
-          class="px-6 py-4 text-left text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+          class="cursor-pointer px-6 py-4 text-left text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
           onclick={() => {
             active = false;
             signOut();
@@ -186,7 +186,7 @@
         </button>
       {:else}
         <button
-          class="px-6 py-4 text-left text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+          class="cursor-pointer px-6 py-4 text-left text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
           onclick={() => {
             active = false;
             signIn("microsoft-entra-id");
