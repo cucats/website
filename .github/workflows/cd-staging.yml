@@ -1,0 +1,19 @@
+name: CD staging
+
+on:
+  push:
+    branches: [shop]
+  workflow_dispatch:
+
+concurrency:
+  group: cd-staging-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Portainer Git stack redeploy
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL_STAGING }}
+        run: curl --fail --silent --show-error -X POST "$WEBHOOK_URL"
