@@ -10,7 +10,7 @@
   ];
 </script>
 
-<div class="mx-auto w-full max-w-screen-2xl flex-1 px-6 pt-32 pb-16">
+<div class="mx-auto w-full max-w-7xl flex-1 px-4 pt-32 pb-16">
   <nav class="r-4 mb-8 border-b border-neutral-800 pb-3 text-sm">
     {#each tabs as tab}
       <a
