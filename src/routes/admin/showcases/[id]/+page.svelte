@@ -48,30 +48,58 @@
 
   let dragId = $state<number | null>(null);
   let dragOverId = $state<number | null>(null);
+  let dropAtEnd = $state(false);
+  let clickOffsetX = 0;
+  let clickOffsetY = 0;
+  let dragWidth = 0;
+  let dragHeight = 0;
 
   function onDragStart(e: DragEvent, id: number) {
     dragId = id;
+    const el = e.currentTarget as HTMLElement;
+    const r = el.getBoundingClientRect();
+    clickOffsetX = e.clientX - r.left;
+    clickOffsetY = e.clientY - r.top;
+    dragWidth = r.width;
+    dragHeight = r.height;
     e.dataTransfer?.setData("text/plain", String(id));
     if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
-  }
-  function onDragOver(e: DragEvent, id: number) {
-    if (dragId == null || dragId === id) return;
-    e.preventDefault();
-    dragOverId = id;
-    dropAtEnd = false;
   }
   function onDragEnd() {
     dragId = null;
     dragOverId = null;
+    dropAtEnd = false;
   }
-  let dropAtEnd = $state(false);
 
   function onContainerOver(e: DragEvent) {
     if (dragId == null) return;
-    if (e.target !== e.currentTarget) return;
     e.preventDefault();
-    dragOverId = null;
-    dropAtEnd = true;
+    const centerX = e.clientX - clickOffsetX + dragWidth / 2;
+    const centerY = e.clientY - clickOffsetY + dragHeight / 2;
+    const container = e.currentTarget as HTMLElement;
+    const tiles = container.querySelectorAll<HTMLElement>("[data-tile-id]");
+    let found: number | null = null;
+    for (const t of tiles) {
+      const tid = Number(t.dataset.tileId);
+      if (tid === dragId) continue;
+      const r = t.getBoundingClientRect();
+      if (
+        centerX >= r.left &&
+        centerX <= r.right &&
+        centerY >= r.top &&
+        centerY <= r.bottom
+      ) {
+        found = tid;
+        break;
+      }
+    }
+    if (found !== null) {
+      dragOverId = found;
+      dropAtEnd = false;
+    } else {
+      dragOverId = null;
+      dropAtEnd = true;
+    }
   }
 
   function onDrop(e: DragEvent) {
@@ -245,17 +273,14 @@
         <div
           role="presentation"
           class="bg-primary-500/10 border-primary-400 aspect-square rounded-lg border-2 border-dashed"
-          ondragover={(e) => e.preventDefault()}
-          ondrop={onDrop}
         ></div>
       {/if}
       <article
+        data-tile-id={p.id}
         class="group bg-primary-950/40 border-primary-800/60 relative cursor-grab overflow-hidden rounded-lg border select-none"
-        class:!opacity-30={dragId === p.id}
+        class:hidden={dragId === p.id}
         draggable="true"
         ondragstart={(e) => onDragStart(e, p.id)}
-        ondragover={(e) => onDragOver(e, p.id)}
-        ondrop={onDrop}
         ondragend={onDragEnd}
       >
         <div class="bg-primary-900 aspect-square">
@@ -303,8 +328,6 @@
       <div
         role="presentation"
         class="bg-primary-500/10 border-primary-400 aspect-square rounded-lg border-2 border-dashed"
-        ondragover={(e) => e.preventDefault()}
-        ondrop={onDrop}
       ></div>
     {/if}
 
