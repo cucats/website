@@ -175,13 +175,6 @@
 
 <section class="mb-10">
   <h2 class="h4 mb-3 text-neutral-100">Products in this showcase</h2>
-  {#if data.products.length === 0}
-    <p class="p mb-4 text-neutral-400">
-      No products yet — click the + tile below to add some.
-    </p>
-  {:else}
-    <p class="helper-text mb-3">Drag tiles to reorder.</p>
-  {/if}
 
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
     {#each ordered as p (p.id)}
@@ -289,7 +282,6 @@
           >.
         </p>
       {:else}
-        <p class="helper-text mb-4">Click a tile to add it.</p>
         <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {#each data.available as p}
             <form

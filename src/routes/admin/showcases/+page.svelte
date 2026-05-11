@@ -5,7 +5,58 @@
 
   const alwaysOn = $derived(data.showcases.filter((s) => s.kind === "always_on"));
   const drops = $derived(data.showcases.filter((s) => s.kind === "drop"));
+
+  function preview(images: (string | null)[]): string[] {
+    return images.filter((u): u is string => !!u).slice(0, 5);
+  }
 </script>
+
+{#snippet row(s: (typeof data.showcases)[number])}
+  {@const previews = preview(s.image_urls)}
+  {@const extra = s.product_count - previews.length}
+  <li class="r-4 items-center justify-between py-3">
+    <div class="r-4 min-w-0 items-center">
+      <div class="r-0 items-center">
+        {#each previews as url, i}
+          <img
+            src={url}
+            alt=""
+            class="bg-primary-900 size-10 rounded-lg border-2 border-neutral-950 object-cover"
+            class:-ml-3={i > 0}
+            style="z-index: {previews.length - i}"
+          />
+        {/each}
+        {#if extra > 0}
+          <span
+            class="bg-primary-900 -ml-3 grid size-10 place-items-center rounded-lg border-2 border-neutral-950 text-xs font-semibold text-neutral-300"
+          >
+            +{extra}
+          </span>
+        {/if}
+        {#if previews.length === 0}
+          <span class="text-xs text-neutral-500">No products</span>
+        {/if}
+      </div>
+      <div class="min-w-0">
+        <a class="font-medium text-neutral-100" href="/admin/showcases/{s.id}">
+          {s.name}
+        </a>
+        <p class="text-xs text-neutral-400">
+          {#if s.kind === "drop"}
+            {s.status}
+            {#if s.closes_at}
+              ・ closes {new Date(s.closes_at).toLocaleString("en-GB")}
+            {/if}
+          {:else}
+            always on
+          {/if}
+          ・ {s.product_count} product{s.product_count === 1 ? "" : "s"}
+        </p>
+      </div>
+    </div>
+    <a class="btn neutral sm" href="/admin/showcases/{s.id}">Edit</a>
+  </li>
+{/snippet}
 
 <h1 class="h2 mb-6 text-neutral-100">Showcases</h1>
 
@@ -13,18 +64,8 @@
   <section class="mb-10">
     <h2 class="h4 mb-3 text-neutral-100">Always on</h2>
     <ul class="c-2 divide-y divide-neutral-800">
-      {#each alwaysOn as s}
-        <li class="r-4 items-center justify-between py-3">
-          <div>
-            <a class="font-medium text-neutral-100" href="/admin/showcases/{s.id}">
-              {s.name}
-            </a>
-            <p class="text-xs text-neutral-400">
-              {s.slug} ・ {s.product_count} product{s.product_count === 1 ? "" : "s"}
-            </p>
-          </div>
-          <a class="btn neutral sm" href="/admin/showcases/{s.id}">Edit</a>
-        </li>
+      {#each alwaysOn as s (s.id)}
+        {@render row(s)}
       {/each}
     </ul>
   </section>
@@ -36,23 +77,8 @@
     <p class="p text-neutral-400">No drops yet.</p>
   {:else}
     <ul class="c-2 divide-y divide-neutral-800">
-      {#each drops as s}
-        <li class="r-4 items-center justify-between py-3">
-          <div>
-            <a class="font-medium text-neutral-100" href="/admin/showcases/{s.id}">
-              {s.name}
-            </a>
-            <p class="text-xs text-neutral-400">
-              {s.slug} ・ {s.status} ・ {s.product_count} product{s.product_count === 1
-                ? ""
-                : "s"}
-              {#if s.closes_at}
-                ・ closes {new Date(s.closes_at).toLocaleString("en-GB")}
-              {/if}
-            </p>
-          </div>
-          <a class="btn neutral sm" href="/admin/showcases/{s.id}">Edit</a>
-        </li>
+      {#each drops as s (s.id)}
+        {@render row(s)}
       {/each}
     </ul>
   {/if}

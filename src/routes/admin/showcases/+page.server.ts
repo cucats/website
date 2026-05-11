@@ -13,10 +13,20 @@ export const load: PageServerLoad = async () => {
       closes_at: Date | null;
       status: string;
       product_count: number;
+      image_urls: (string | null)[];
     }[]
   >`
     select s.id, s.slug, s.name, s.kind, s.opens_at, s.closes_at, s.status,
-           (select count(*)::int from showcase_products sp where sp.showcase_id = s.id) as product_count
+           (select count(*)::int from showcase_products sp where sp.showcase_id = s.id) as product_count,
+           coalesce(
+             (
+               select array_agg(p.image_url order by sp.display_order, p.id)
+               from showcase_products sp
+               join products p on p.id = sp.product_id
+               where sp.showcase_id = s.id
+             ),
+             '{}'
+           ) as image_urls
     from showcases s
     order by
       case s.kind when 'always_on' then 0 else 1 end,

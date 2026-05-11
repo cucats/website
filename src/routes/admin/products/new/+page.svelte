@@ -7,11 +7,7 @@
 <a class="text-sm text-neutral-400 hover:text-neutral-100" href="/admin/products">
   ← Products
 </a>
-<h1 class="h2 mt-2 mb-2 text-neutral-100">New product</h1>
-<p class="p mb-6 text-neutral-400">
-  Create the product first — you can add variants and put it in showcases on the
-  next step.
-</p>
+<h1 class="h2 mt-2 mb-6 text-neutral-100">New product</h1>
 
 {#if form?.error}
   <p class="helper-text error mb-4">{form.error}</p>

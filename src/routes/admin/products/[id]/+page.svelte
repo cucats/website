@@ -79,12 +79,6 @@
   <p class="helper-text error mb-4">{form.error}</p>
 {/if}
 
-{#if !hasVariants}
-  <p class="helper-text mb-6">
-    This product has no variants yet — members can't order it until you add at
-    least one.
-  </p>
-{/if}
 
 <section class="mb-10">
   <h2 class="h4 mb-3 text-neutral-100">Details</h2>
@@ -228,7 +222,6 @@
   {#if !hasVariants}
     <p class="p mb-3 text-neutral-400">No variants yet — add some below.</p>
   {:else}
-    <p class="helper-text mb-3">Drag chips to reorder.</p>
     <ul class="mb-6 flex flex-wrap gap-2">
       {#each orderedVariants as v (v.id)}
         {#if dragOverId === v.id && dragId !== null && dragId !== v.id}
