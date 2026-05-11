@@ -44,16 +44,26 @@ export const load: PageServerLoad = async ({ params }) => {
     order by s.display_order, s.id
   `;
 
-  return { product, variants, showcases };
+  const availableShowcases = await sql<
+    { id: number; name: string; kind: string }[]
+  >`
+    select id, name, kind from showcases
+    where id not in (
+      select showcase_id from showcase_products where product_id = ${id}
+    )
+    order by case kind when 'always_on' then 0 else 1 end, name
+  `;
+
+  return { product, variants, showcases, availableShowcases };
 };
 
 export const actions: Actions = {
   update: async ({ request, params }) => {
     const id = Number(params.id);
     const data = await request.formData();
-    const name = String(data.get("name") ?? "").trim();
+    const name = String(data.get("title") ?? data.get("name") ?? "").trim();
     const description = String(data.get("description") ?? "").trim();
-    if (!name) return fail(400, { error: "name required" });
+    if (!name) return fail(400, { error: "title required" });
     const file = data.get("image");
     let imageClause: { url?: string | null } = {};
     if (file instanceof File && file.size > 0) {
@@ -161,6 +171,32 @@ export const actions: Actions = {
     const vid = Number(data.get("variant_id"));
     if (!Number.isFinite(vid)) return fail(400, { error: "bad variant id" });
     await sql`delete from variants where id = ${vid}`;
+    return { ok: true };
+  },
+  addToShowcase: async ({ request, params }) => {
+    const id = Number(params.id);
+    const data = await request.formData();
+    const sid = Number(data.get("showcase_id"));
+    if (!Number.isFinite(sid)) return fail(400, { error: "bad showcase id" });
+    await sql`
+      insert into showcase_products (showcase_id, product_id, display_order)
+      values (
+        ${sid}, ${id},
+        coalesce((select max(display_order) + 1 from showcase_products where showcase_id = ${sid}), 0)
+      )
+      on conflict do nothing
+    `;
+    return { ok: true };
+  },
+  removeFromShowcase: async ({ request, params }) => {
+    const id = Number(params.id);
+    const data = await request.formData();
+    const sid = Number(data.get("showcase_id"));
+    if (!Number.isFinite(sid)) return fail(400, { error: "bad showcase id" });
+    await sql`
+      delete from showcase_products
+      where showcase_id = ${sid} and product_id = ${id}
+    `;
     return { ok: true };
   },
 };
