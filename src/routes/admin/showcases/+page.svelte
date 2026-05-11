@@ -16,19 +16,19 @@
   {@const extra = s.product_count - previews.length}
   <li class="r-4 items-center justify-between py-3">
     <div class="r-4 min-w-0 items-center">
-      <div class="r-0 items-center">
+      <div class="flex items-center">
         {#each previews as url, i}
           <img
             src={url}
             alt=""
-            class="bg-primary-900 size-10 rounded-lg border-2 border-neutral-950 object-cover"
+            class="bg-primary-900 size-10 shrink-0 rounded-lg border-2 border-neutral-950 object-cover"
             class:-ml-3={i > 0}
             style="z-index: {previews.length - i}"
           />
         {/each}
         {#if extra > 0}
           <span
-            class="bg-primary-900 -ml-3 grid size-10 place-items-center rounded-lg border-2 border-neutral-950 text-xs font-semibold text-neutral-300"
+            class="bg-primary-900 -ml-3 grid size-10 shrink-0 place-items-center rounded-lg border-2 border-neutral-950 text-xs font-semibold text-neutral-300"
           >
             +{extra}
           </span>
