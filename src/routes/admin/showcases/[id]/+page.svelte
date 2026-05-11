@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import type { PageData, ActionData } from "./$types";
+  import { toastSubmit } from "$lib/enhanceWithToast";
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 
@@ -24,7 +26,7 @@
   <h2 class="h4 mb-3 text-neutral-100">
     {data.showcase.kind === "drop" ? "Drop" : "Always-on"} details
   </h2>
-  <form method="POST" action="?/update" class="c-4 max-w-lg">
+  <form method="POST" action="?/update" class="c-4 max-w-lg" use:enhance={toastSubmit({ success: "Showcase saved" })}>
     <label>
       Slug
       <input class="default" type="text" value={data.showcase.slug} disabled />
@@ -87,7 +89,7 @@
       <a class="btn neutral sm" href="/admin/showcases/{data.showcase.id}/export.csv">
         Download supplier CSV
       </a>
-      <form method="POST" action="?/destroy">
+      <form method="POST" action="?/destroy" use:enhance={toastSubmit({ success: "Deleted" })}>
         <button
           class="btn neutral sm text-error-400"
           onclick={(e) => {
@@ -121,7 +123,7 @@
             {p.name}
           </a>
           <div class="r-2">
-            <form method="POST" action="?/moveProductUp">
+            <form method="POST" action="?/moveProductUp" use:enhance={toastSubmit({ success: "Moved up" })}>
               <input type="hidden" name="product_id" value={p.id} />
               <button
                 class="btn neutral sm"
@@ -129,7 +131,7 @@
                 disabled={i === 0}>↑</button
               >
             </form>
-            <form method="POST" action="?/moveProductDown">
+            <form method="POST" action="?/moveProductDown" use:enhance={toastSubmit({ success: "Moved down" })}>
               <input type="hidden" name="product_id" value={p.id} />
               <button
                 class="btn neutral sm"
@@ -137,7 +139,7 @@
                 disabled={i === data.products.length - 1}>↓</button
               >
             </form>
-            <form method="POST" action="?/removeProduct">
+            <form method="POST" action="?/removeProduct" use:enhance={toastSubmit({ success: "Removed" })}>
               <input type="hidden" name="product_id" value={p.id} />
               <button class="btn neutral sm text-error-400">Remove</button>
             </form>
@@ -150,7 +152,7 @@
   {#if data.available.length === 0}
     <p class="helper-text">All products are already in this showcase.</p>
   {:else}
-    <form method="POST" action="?/addProduct" class="r-2 max-w-lg items-end">
+    <form method="POST" action="?/addProduct" class="r-2 max-w-lg items-end" use:enhance={toastSubmit({ success: "Added to showcase" })}>
       <label class="flex-1">
         Add product from catalogue
         <select class="default" name="product_id" required>

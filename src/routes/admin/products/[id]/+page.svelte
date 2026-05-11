@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import type { PageData, ActionData } from "./$types";
+  import { toastSubmit } from "$lib/enhanceWithToast";
   import { variantLabel } from "$lib/utils";
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -31,7 +33,7 @@
     enctype="multipart/form-data"
     autocomplete="off"
     class="c-4 max-w-xl"
-  >
+   use:enhance={toastSubmit({ success: "Product saved" })}>
     <label for="product-title">
       Title
       <input
@@ -77,7 +79,7 @@
     </div>
     <button class="btn primary md self-start">Save</button>
   </form>
-  <form method="POST" action="?/destroy" class="mt-4">
+  <form method="POST" action="?/destroy" class="mt-4" use:enhance={toastSubmit({ success: "Deleted" })}>
     <button
       class="btn neutral sm text-error-400"
       onclick={(e) => {
@@ -107,7 +109,7 @@
               >({s.kind === "drop" ? "drop" : "always on"})</span
             >
           </a>
-          <form method="POST" action="?/removeFromShowcase">
+          <form method="POST" action="?/removeFromShowcase" use:enhance={toastSubmit({ success: "Removed" })}>
             <input type="hidden" name="showcase_id" value={s.id} />
             <button class="btn neutral sm text-error-400">Remove</button>
           </form>
@@ -120,7 +122,7 @@
       method="POST"
       action="?/addToShowcase"
       class="r-2 max-w-md items-end"
-    >
+     use:enhance={toastSubmit({ success: "Added to showcase" })}>
       <label class="flex-1">
         Add to showcase
         <select class="default" name="showcase_id" required>
@@ -154,13 +156,13 @@
             {#if !v.enabled}・ disabled{/if}
           </span>
           <div class="r-2">
-            <form method="POST" action="?/moveVariantUp">
+            <form method="POST" action="?/moveVariantUp" use:enhance={toastSubmit({ success: "Moved up" })}>
               <input type="hidden" name="variant_id" value={v.id} />
               <button class="btn neutral sm" aria-label="Move up" disabled={vi === 0}
                 >↑</button
               >
             </form>
-            <form method="POST" action="?/moveVariantDown">
+            <form method="POST" action="?/moveVariantDown" use:enhance={toastSubmit({ success: "Moved down" })}>
               <input type="hidden" name="variant_id" value={v.id} />
               <button
                 class="btn neutral sm"
@@ -168,13 +170,13 @@
                 disabled={vi === data.variants.length - 1}>↓</button
               >
             </form>
-            <form method="POST" action="?/toggleVariantEnabled">
+            <form method="POST" action="?/toggleVariantEnabled" use:enhance={toastSubmit({ success: "Updated" })}>
               <input type="hidden" name="variant_id" value={v.id} />
               <button class="btn neutral sm">
                 {v.enabled ? "Disable" : "Enable"}
               </button>
             </form>
-            <form method="POST" action="?/deleteVariant">
+            <form method="POST" action="?/deleteVariant" use:enhance={toastSubmit({ success: "Variant deleted" })}>
               <input type="hidden" name="variant_id" value={v.id} />
               <button class="btn neutral sm text-error-400">×</button>
             </form>
@@ -193,7 +195,7 @@
       action="?/addVariantRun"
       autocomplete="off"
       class="r-4 mt-2 max-w-2xl items-end"
-    >
+     use:enhance={toastSubmit({ success: "Variants added" })}>
       <input type="hidden" name="option_key" value="size" />
       <label class="flex-1">
         Sizes (comma-separated)
@@ -235,7 +237,7 @@
       action="?/addVariant"
       autocomplete="off"
       class="r-4 mt-2 max-w-2xl items-end"
-    >
+     use:enhance={toastSubmit({ success: "Variant added" })}>
       <label class="flex-1">
         Options
         <input

@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import type { PageData } from "./$types";
   import { STATUSES } from "./statuses";
   import { variantLabel } from "$lib/utils";
+  import { toastSubmit } from "$lib/enhanceWithToast";
 
   let { data }: { data: PageData } = $props();
 
@@ -37,7 +39,8 @@
   <button class="btn neutral sm">Filter</button>
 </form>
 
-<table class="w-full text-left text-sm">
+<div class="overflow-x-auto">
+<table class="w-full min-w-[800px] text-left text-sm">
   <thead class="border-b border-neutral-800 text-neutral-400">
     <tr>
       <th class="py-2 pr-3">Reference</th>
@@ -84,7 +87,11 @@
           {new Date(o.created_at).toLocaleDateString("en-GB")}
         </td>
         <td class="py-2 pr-3 align-top">
-          <form method="POST" action="?/setStatus">
+          <form
+            method="POST"
+            action="?/setStatus"
+            use:enhance={toastSubmit({ success: `${o.reference} updated` })}
+          >
             <input type="hidden" name="order_id" value={o.id} />
             <select
               class="default"
@@ -109,3 +116,4 @@
     {/each}
   </tbody>
 </table>
+</div>

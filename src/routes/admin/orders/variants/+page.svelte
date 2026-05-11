@@ -34,7 +34,8 @@
   <button class="btn neutral sm">Filter</button>
 </form>
 
-<table class="w-full text-left text-sm">
+<div class="overflow-x-auto">
+<table class="w-full min-w-[800px] text-left text-sm">
   <thead class="border-b border-neutral-800 text-neutral-400">
     <tr>
       <th class="py-2 pr-3">Product</th>
@@ -81,3 +82,4 @@
     {/each}
   </tbody>
 </table>
+</div>

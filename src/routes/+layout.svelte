@@ -2,6 +2,7 @@
   import Header from "./Header.svelte";
   import Footer from "./Footer.svelte";
   import SearchModal from "$lib/components/SearchModal.svelte";
+  import Toasts from "$lib/components/Toasts.svelte";
   import "../app.css";
 
   let { data, children } = $props();
@@ -20,3 +21,4 @@
 </div>
 
 <SearchModal />
+<Toasts />
