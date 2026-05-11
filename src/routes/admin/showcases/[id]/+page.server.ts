@@ -17,7 +17,10 @@ export const load: PageServerLoad = async ({ params }) => {
       closes_at: Date | null;
       status: string;
     }[]
-  >`select * from showcases where id = ${id}`;
+  >`
+    select id, slug, name, description, kind, opens_at, closes_at, status
+    from showcases where id = ${id}
+  `;
   if (!showcase) throw error(404, "not found");
 
   const products = await sql<
