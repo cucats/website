@@ -48,7 +48,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       >`
         select id, product_id, options
         from variants
-        where product_id in ${sql(productIds)} and enabled
+        where product_id in ${sql(productIds)}
         order by product_id, display_order, id
       `
     : [];

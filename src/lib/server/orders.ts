@@ -39,9 +39,7 @@ export async function createOrder(
   if (input.items.length === 0) throw new Error("no items");
   const total = input.items.reduce((s, it) => s + it.qty * it.price, 0);
 
-  const shipping = input.shippingAddress
-    ? JSON.stringify(input.shippingAddress)
-    : null;
+  const shipping = input.shippingAddress ? sql.json(input.shippingAddress) : null;
 
   for (let attempt = 0; attempt < 5; attempt++) {
     const reference = generateReference();
@@ -52,7 +50,7 @@ export async function createOrder(
             (reference, user_id, type, showcase_id, total, shipping_address)
           values
             (${reference}, ${input.userId}, ${input.type}, ${input.showcaseId},
-             ${total}, ${shipping}::jsonb)
+             ${total}, ${shipping})
           returning id, reference
         `;
         for (const it of input.items) {

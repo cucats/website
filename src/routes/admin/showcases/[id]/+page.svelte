@@ -47,21 +47,35 @@
     dragId = null;
     dragOverId = null;
   }
+  let dropAtEnd = $state(false);
+
+  function onContainerOver(e: DragEvent) {
+    if (dragId == null) return;
+    if (e.target !== e.currentTarget) return;
+    e.preventDefault();
+    dragOverId = null;
+    dropAtEnd = true;
+  }
+
   async function onDrop(e: DragEvent) {
     e.preventDefault();
-    if (dragId == null || dragOverId == null || dragId === dragOverId) {
-      dragId = null;
-      dragOverId = null;
-      return;
-    }
+    if (dragId == null) return;
     const moving = dragId;
     const overId = dragOverId;
+    const atEnd = dropAtEnd;
     dragId = null;
     dragOverId = null;
+    dropAtEnd = false;
     const next = order.filter((x) => x !== moving);
-    const overIdx = next.indexOf(overId);
-    if (overIdx < 0) return;
-    next.splice(overIdx, 0, moving);
+    if (atEnd || overId == null) {
+      next.push(moving);
+    } else if (overId === moving) {
+      return;
+    } else {
+      const overIdx = next.indexOf(overId);
+      if (overIdx < 0) return;
+      next.splice(overIdx, 0, moving);
+    }
     order = next;
     const body = new FormData();
     body.set("ids", order.join(","));
@@ -176,7 +190,12 @@
 <section class="mb-10">
   <h2 class="h4 mb-3 text-neutral-100">Products in this showcase</h2>
 
-  <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+  <div
+    class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+    role="presentation"
+    ondragover={onContainerOver}
+    ondrop={onDrop}
+  >
     {#each ordered as p (p.id)}
       {#if dragOverId === p.id && dragId !== null && dragId !== p.id}
         <div
@@ -235,6 +254,15 @@
         </form>
       </article>
     {/each}
+
+    {#if dropAtEnd && dragId !== null}
+      <div
+        role="presentation"
+        class="bg-primary-500/10 border-primary-400 aspect-square rounded-lg border-2 border-dashed"
+        ondragover={(e) => e.preventDefault()}
+        ondrop={onDrop}
+      ></div>
+    {/if}
 
     <button
       type="button"

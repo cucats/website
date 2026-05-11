@@ -40,21 +40,35 @@
     dragOverId = id;
   }
 
+  let dropAtEnd = $state(false);
+
+  function onContainerOver(e: DragEvent) {
+    if (dragId == null) return;
+    if (e.target !== e.currentTarget) return;
+    e.preventDefault();
+    dragOverId = null;
+    dropAtEnd = true;
+  }
+
   async function onDrop(e: DragEvent) {
     e.preventDefault();
-    if (dragId == null || dragOverId == null || dragId === dragOverId) {
-      dragId = null;
-      dragOverId = null;
-      return;
-    }
+    if (dragId == null) return;
     const moving = dragId;
     const overId = dragOverId;
+    const atEnd = dropAtEnd;
     dragId = null;
     dragOverId = null;
+    dropAtEnd = false;
     const next = order.filter((x) => x !== moving);
-    const overIdx = next.indexOf(overId);
-    if (overIdx < 0) return;
-    next.splice(overIdx, 0, moving);
+    if (atEnd || overId == null) {
+      next.push(moving);
+    } else if (overId === moving) {
+      return;
+    } else {
+      const overIdx = next.indexOf(overId);
+      if (overIdx < 0) return;
+      next.splice(overIdx, 0, moving);
+    }
     order = next;
     const body = new FormData();
     body.set("ids", order.join(","));
@@ -67,6 +81,7 @@
   function onDragEnd() {
     dragId = null;
     dragOverId = null;
+    dropAtEnd = false;
   }
 </script>
 
@@ -222,119 +237,104 @@
   {#if !hasVariants}
     <p class="p mb-3 text-neutral-400">No variants yet — add some below.</p>
   {:else}
-    <ul class="mb-6 flex flex-wrap gap-2">
+    <ul
+      class="mb-6 flex flex-wrap gap-2"
+      role="presentation"
+      ondragover={onContainerOver}
+      ondrop={onDrop}
+    >
       {#each orderedVariants as v (v.id)}
         {#if dragOverId === v.id && dragId !== null && dragId !== v.id}
           <li
-            class="bg-primary-500/10 border-primary-400 h-[40px] w-20 rounded-lg border-2 border-dashed"
+            class="bg-primary-500/10 border-primary-400 size-20 rounded-lg border-2 border-dashed"
             ondragover={(e) => e.preventDefault()}
             ondrop={onDrop}
           ></li>
         {/if}
         <li
-          class="r-3 bg-primary-950/40 border-primary-800/60 group cursor-grab items-center rounded-lg border px-3 py-2 select-none"
+          class="bg-primary-950/40 border-primary-800/60 group relative grid size-20 cursor-grab place-items-center rounded-lg border select-none"
           class:!opacity-30={dragId === v.id}
-          class:opacity-60={!v.enabled}
           draggable="true"
           ondragstart={(e) => onDragStart(e, v.id)}
           ondragover={(e) => onDragOver(e, v.id)}
           ondrop={onDrop}
           ondragend={onDragEnd}
         >
-          <span
-            class="text-sm font-semibold text-neutral-100"
-            class:line-through={!v.enabled}
-          >
+          <span class="text-base font-semibold text-neutral-100">
             {variantLabel(v.options)}
           </span>
-          <div class="r-1 ml-1 opacity-60 transition-opacity group-hover:opacity-100">
-            <form
-              method="POST"
-              action="?/toggleVariantEnabled"
-              use:enhance={toastSubmit({ success: "Updated" })}
+          <form
+            method="POST"
+            action="?/deleteVariant"
+            class="absolute top-1 right-1 opacity-0 transition-opacity group-hover:opacity-100"
+            use:enhance={toastSubmit({ success: "Removed" })}
+          >
+            <input type="hidden" name="variant_id" value={v.id} />
+            <button
+              type="submit"
+              class="bg-error-600 hover:bg-error-400 flex size-5 cursor-pointer items-center justify-center rounded-full text-sm font-bold text-neutral-100 shadow-md"
+              aria-label="Remove {variantLabel(v.options)}"
+              draggable="false"
+              onmousedown={(e) => e.stopPropagation()}
+              ondragstart={(e) => e.preventDefault()}
             >
-              <input type="hidden" name="variant_id" value={v.id} />
-              <button
-                class="text-xs text-neutral-400 hover:text-neutral-100"
-                title={v.enabled ? "Disable" : "Enable"}
-              >
-                {v.enabled ? "⊘" : "✓"}
-              </button>
-            </form>
-            <form
-              method="POST"
-              action="?/deleteVariant"
-              use:enhance={toastSubmit({ success: "Deleted" })}
-            >
-              <input type="hidden" name="variant_id" value={v.id} />
-              <button
-                class="text-xs text-error-400 hover:text-error-600"
-                title="Delete"
-                onclick={(e) => {
-                  if (!confirm(`Delete ${variantLabel(v.options)}?`))
-                    e.preventDefault();
-                }}
-              >
-                ×
-              </button>
-            </form>
-          </div>
+              ×
+            </button>
+          </form>
         </li>
       {/each}
+      {#if dropAtEnd && dragId !== null}
+        <li
+          class="bg-primary-500/10 border-primary-400 size-20 rounded-lg border-2 border-dashed"
+          ondragover={(e) => e.preventDefault()}
+          ondrop={onDrop}
+        ></li>
+      {/if}
     </ul>
   {/if}
 
-  <details class="mb-3" open={!hasVariants}>
-    <summary class="cursor-pointer text-sm text-neutral-300">
-      Quick add — size run
-    </summary>
-    <form
-      method="POST"
-      action="?/addVariantRun"
-      autocomplete="off"
-      class="r-4 mt-2 max-w-2xl items-end"
-      use:enhance={toastSubmit({ success: "Variants added" })}
-    >
-      <input type="hidden" name="option_key" value="size" />
-      <label class="flex-1">
-        Sizes (comma-separated)
-        <input
-          class="default"
-          type="text"
-          name="values"
-          value="S, M, L, XL, 2XL"
-          autocomplete="off"
-          data-lpignore="true"
-          required
-        />
-      </label>
-      <button class="btn neutral sm">Add all</button>
-    </form>
-  </details>
+  <form
+    method="POST"
+    action="?/addVariantRun"
+    autocomplete="off"
+    class="r-4 mb-3 max-w-2xl items-end"
+    use:enhance={toastSubmit({ success: "Variants added" })}
+  >
+    <input type="hidden" name="option_key" value="size" />
+    <label class="flex-1">
+      Sizes (comma-separated)
+      <input
+        class="default"
+        type="text"
+        name="values"
+        value="S, M, L, XL, 2XL"
+        autocomplete="off"
+        data-lpignore="true"
+        required
+      />
+    </label>
+    <button class="btn neutral sm">Add sizes</button>
+  </form>
 
-  <details>
-    <summary class="cursor-pointer text-sm text-neutral-300">
-      Add single variant
-    </summary>
-    <form
-      method="POST"
-      action="?/addVariant"
-      autocomplete="off"
-      class="r-4 mt-2 max-w-2xl items-end"
-      use:enhance={toastSubmit({ success: "Variant added" })}
-    >
-      <label class="flex-1">
-        Options
-        <input
-          class="default"
-          type="text"
-          name="options"
-          placeholder="size=M, colour=Black"
-          autocomplete="off"
-          data-lpignore="true"
-        />
-      </label>
-      <button class="btn neutral sm">Add</button>
-    </form>
-  </details>
+  <form
+    method="POST"
+    action="?/addVariant"
+    autocomplete="off"
+    class="r-4 max-w-2xl items-end"
+    use:enhance={toastSubmit({ success: "Variant added" })}
+  >
+    <label class="flex-1">
+      Other (key=value)
+      <input
+        class="default"
+        type="text"
+        name="options"
+        placeholder="colour=Black"
+        autocomplete="off"
+        data-lpignore="true"
+        required
+      />
+    </label>
+    <button class="btn neutral sm">Add</button>
+  </form>
 </section>

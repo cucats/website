@@ -9,7 +9,6 @@ type VariantRow = {
   id: number;
   options: Record<string, string>;
   price: number;
-  enabled: boolean;
   product_id: number;
   product_name: string;
   image_url: string | null;
@@ -24,7 +23,7 @@ type VariantRow = {
 };
 
 const variantSelect = `
-  v.id, v.options, v.enabled,
+  v.id, v.options,
   p.id as product_id, p.name as product_name, p.image_url, p.price,
   s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
   s.kind as showcase_kind, s.status as showcase_status,
@@ -85,11 +84,6 @@ export const actions: Actions = {
     for (const it of items) {
       const v = variantMap.get(it.variant_id);
       if (!v) return fail(400, { error: `variant ${it.variant_id} not found` });
-      if (!v.enabled) {
-        return fail(400, {
-          error: `${v.product_name} is no longer available — remove from basket`,
-        });
-      }
       if (v.showcase_status !== "open") {
         return fail(400, {
           error: `${v.product_name} is not currently available`,

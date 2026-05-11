@@ -23,10 +23,9 @@ export const load: PageServerLoad = async ({ params }) => {
     {
       id: number;
       options: Record<string, string>;
-      enabled: boolean;
     }[]
   >`
-    select id, options, enabled
+    select id, options
     from variants
     where product_id = ${id}
     order by display_order, id
@@ -106,10 +105,13 @@ export const actions: Actions = {
     const data = await request.formData();
     const optionsStr = String(data.get("options") ?? "").trim();
     const options = parseOptions(optionsStr);
+    if (Object.keys(options).length === 0) {
+      return fail(400, { error: "Use key=value, e.g. size=M" });
+    }
     await sql`
       insert into variants (product_id, options, display_order)
       values (
-        ${id}, ${JSON.stringify(options)}::jsonb,
+        ${id}, ${sql.json(options)},
         coalesce((select max(display_order) + 1 from variants where product_id = ${id}), 0)
       )
     `;
@@ -136,7 +138,7 @@ export const actions: Actions = {
         const opts = { [key]: value };
         await tx`
           insert into variants (product_id, options, display_order)
-          values (${id}, ${JSON.stringify(opts)}::jsonb, ${next})
+          values (${id}, ${sql.json(opts)}, ${next})
         `;
         next++;
       }
@@ -160,13 +162,6 @@ export const actions: Actions = {
         `;
       }
     });
-    return { ok: true };
-  },
-  toggleVariantEnabled: async ({ request }) => {
-    const data = await request.formData();
-    const vid = Number(data.get("variant_id"));
-    if (!Number.isFinite(vid)) return fail(400, { error: "bad variant id" });
-    await sql`update variants set enabled = not enabled where id = ${vid}`;
     return { ok: true };
   },
   deleteVariant: async ({ request }) => {
