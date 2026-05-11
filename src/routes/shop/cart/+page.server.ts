@@ -21,20 +21,17 @@ type VariantRow = {
   showcase_closes_at: Date | null;
 };
 
-const variantSelect = `
-  v.id, v.options,
-  p.id as product_id, p.name as product_name, p.image_url, p.price,
-  s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
-  s.kind as showcase_kind, s.status as showcase_status,
-  s.opens_at as showcase_opens_at, s.closes_at as showcase_closes_at
-`;
-
 export const load: PageServerLoad = async ({ locals }) => {
   const session = await locals.auth();
   if (!session?.user) throw redirect(303, "/shop");
 
   const variants = await sql<VariantRow[]>`
-    select ${sql.unsafe(variantSelect)}
+    select
+      v.id, v.options,
+      p.id as product_id, p.name as product_name, p.image_url, p.price,
+      s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
+      s.kind as showcase_kind, s.status as showcase_status,
+      s.opens_at as showcase_opens_at, s.closes_at as showcase_closes_at
     from variants v
     join products p on p.id = v.product_id
     join showcase_products sp on sp.product_id = p.id
@@ -66,7 +63,12 @@ export const actions: Actions = {
 
     const variantIds = items.map((i) => i.variant_id);
     const rows = await sql<VariantRow[]>`
-      select ${sql.unsafe(variantSelect)}
+      select
+        v.id, v.options,
+        p.id as product_id, p.name as product_name, p.image_url, p.price,
+        s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
+        s.kind as showcase_kind, s.status as showcase_status,
+        s.opens_at as showcase_opens_at, s.closes_at as showcase_closes_at
       from variants v
       join products p on p.id = v.product_id
       join showcase_products sp on sp.product_id = p.id
