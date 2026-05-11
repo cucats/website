@@ -27,9 +27,10 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       name: string;
       description: string | null;
       image_url: string | null;
+      price: number;
     }[]
   >`
-    select p.id, p.name, p.description, p.image_url
+    select p.id, p.name, p.description, p.image_url, p.price
     from products p
     join showcase_products sp on sp.product_id = p.id
     where sp.showcase_id = ${showcase.id}
@@ -43,11 +44,10 @@ export const load: PageServerLoad = async ({ params, locals }) => {
           id: number;
           product_id: number;
           options: Record<string, string>;
-          price: number;
           stock_count: number | null;
         }[]
       >`
-        select id, product_id, options, price, stock_count
+        select id, product_id, options, stock_count
         from variants
         where product_id in ${sql(productIds)} and enabled
         order by product_id, display_order, id

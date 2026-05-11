@@ -6,7 +6,6 @@
   interface Variant {
     id: number;
     options: Record<string, string>;
-    price: number;
     stock_count: number | null;
   }
 
@@ -14,21 +13,25 @@
     name: string;
     image_url: string | null;
     description: string | null;
+    price: number;
     variants: Variant[];
     isOpen: boolean;
   }
 
-  let { name, image_url, description, variants, isOpen }: Props = $props();
+  let {
+    name,
+    image_url,
+    description,
+    price,
+    variants,
+    isOpen,
+  }: Props = $props();
 
   let selectedId = $state<number | null>(untrack(() => variants[0]?.id ?? null));
   let qty = $state(1);
   let added = $state(false);
 
   const selected = $derived(variants.find((v) => v.id === selectedId));
-  const prices = $derived(variants.map((v) => v.price));
-  const min = $derived(prices.length ? Math.min(...prices) : 0);
-  const max = $derived(prices.length ? Math.max(...prices) : 0);
-  const uniform = $derived(min === max);
 
   function addToCart() {
     if (selectedId == null) return;
@@ -49,13 +52,7 @@
   <div class="c-3 flex-1 p-4">
     <div class="r-2 items-baseline justify-between">
       <h2 class="h4 text-neutral-100">{name}</h2>
-      <span class="text-sm font-semibold text-neutral-200">
-        {#if uniform}
-          £{min.toFixed(2)}
-        {:else}
-          £{min.toFixed(2)} – £{max.toFixed(2)}
-        {/if}
-      </span>
+      <span class="text-sm font-semibold text-neutral-200">£{price.toFixed(2)}</span>
     </div>
     {#if description}
       <p class="text-sm text-neutral-400">{description}</p>
@@ -65,9 +62,6 @@
         {#each variants as v}
           <option value={v.id} disabled={v.stock_count === 0}>
             {variantLabel(v.options)}
-            {#if !uniform}
-              ・ £{v.price.toFixed(2)}
-            {/if}
             {#if v.stock_count != null}
               ・ {v.stock_count} left
             {/if}

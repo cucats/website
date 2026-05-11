@@ -57,6 +57,7 @@
             name={product.name}
             image_url={product.image_url}
             description={product.description}
+            price={product.price}
             variants={variantsByProduct[product.id] ?? []}
             isOpen={data.isOpen}
           />

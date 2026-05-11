@@ -2,7 +2,6 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 import { saveUpload } from "$lib/server/uploads";
-import { swapVariantDisplayOrder } from "$lib/server/variants";
 import { parseOptions } from "$lib/utils";
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -15,20 +14,20 @@ export const load: PageServerLoad = async ({ params }) => {
       name: string;
       description: string | null;
       image_url: string | null;
+      price: number;
     }[]
-  >`select id, name, description, image_url from products where id = ${id}`;
+  >`select id, name, description, image_url, price from products where id = ${id}`;
   if (!product) throw error(404, "not found");
 
   const variants = await sql<
     {
       id: number;
       options: Record<string, string>;
-      price: number;
       stock_count: number | null;
       enabled: boolean;
     }[]
   >`
-    select id, options, price, stock_count, enabled
+    select id, options, stock_count, enabled
     from variants
     where product_id = ${id}
     order by display_order, id
@@ -63,27 +62,36 @@ export const actions: Actions = {
     const data = await request.formData();
     const name = String(data.get("title") ?? data.get("name") ?? "").trim();
     const description = String(data.get("description") ?? "").trim();
+    const priceRaw = data.get("price");
+    const price = priceRaw === null ? null : Number(priceRaw);
     if (!name) return fail(400, { error: "title required" });
+    if (price === null || !Number.isFinite(price) || price < 0) {
+      return fail(400, { error: "price must be a non-negative number" });
+    }
     const file = data.get("image");
-    let imageClause: { url?: string | null } = {};
+    let newImage: string | null | undefined = undefined;
     if (file instanceof File && file.size > 0) {
       try {
-        imageClause = { url: await saveUpload(file) };
+        newImage = await saveUpload(file);
       } catch (err) {
         return fail(400, { error: `image: ${(err as Error).message}` });
       }
     }
-    if (imageClause.url !== undefined) {
+    if (newImage !== undefined) {
       await sql`
-        update products set name = ${name},
+        update products set
+          name = ${name},
           description = ${description || null},
-          image_url = ${imageClause.url}
+          price = ${price},
+          image_url = ${newImage}
         where id = ${id}
       `;
     } else {
       await sql`
-        update products set name = ${name},
-          description = ${description || null}
+        update products set
+          name = ${name},
+          description = ${description || null},
+          price = ${price}
         where id = ${id}
       `;
     }
@@ -99,16 +107,12 @@ export const actions: Actions = {
     const data = await request.formData();
     const optionsStr = String(data.get("options") ?? "").trim();
     const options = parseOptions(optionsStr);
-    const price = Number(data.get("price"));
     const stock_raw = String(data.get("stock_count") ?? "").trim();
     const stock_count = stock_raw === "" ? null : Number(stock_raw);
-    if (!Number.isFinite(price) || price < 0) {
-      return fail(400, { error: "bad variant fields" });
-    }
     await sql`
-      insert into variants (product_id, options, price, stock_count, display_order)
+      insert into variants (product_id, options, stock_count, display_order)
       values (
-        ${id}, ${JSON.stringify(options)}::jsonb, ${price}, ${stock_count},
+        ${id}, ${JSON.stringify(options)}::jsonb, ${stock_count},
         coalesce((select max(display_order) + 1 from variants where product_id = ${id}), 0)
       )
     `;
@@ -119,12 +123,9 @@ export const actions: Actions = {
     const data = await request.formData();
     const key = String(data.get("option_key") ?? "").trim();
     const valuesRaw = String(data.get("values") ?? "").trim();
-    const price = Number(data.get("price"));
     const stock_raw = String(data.get("stock_count") ?? "").trim();
     const stock_count = stock_raw === "" ? null : Number(stock_raw);
-    if (!key || !valuesRaw || !Number.isFinite(price) || price < 0) {
-      return fail(400, { error: "bad bulk-variant fields" });
-    }
+    if (!key || !valuesRaw) return fail(400, { error: "bad bulk-variant fields" });
     const values = valuesRaw
       .split(",")
       .map((v) => v.trim())
@@ -139,24 +140,31 @@ export const actions: Actions = {
       for (const value of values) {
         const opts = { [key]: value };
         await tx`
-          insert into variants (product_id, options, price, stock_count, display_order)
-          values (${id}, ${JSON.stringify(opts)}::jsonb, ${price}, ${stock_count}, ${next})
+          insert into variants (product_id, options, stock_count, display_order)
+          values (${id}, ${JSON.stringify(opts)}::jsonb, ${stock_count}, ${next})
         `;
         next++;
       }
     });
     return { ok: true };
   },
-  moveVariantUp: async ({ request }) => {
+  reorderVariants: async ({ request, params }) => {
+    const id = Number(params.id);
     const data = await request.formData();
-    const vid = Number(data.get("variant_id"));
-    if (Number.isFinite(vid)) await swapVariantDisplayOrder(vid, "up");
-    return { ok: true };
-  },
-  moveVariantDown: async ({ request }) => {
-    const data = await request.formData();
-    const vid = Number(data.get("variant_id"));
-    if (Number.isFinite(vid)) await swapVariantDisplayOrder(vid, "down");
+    const idsRaw = String(data.get("ids") ?? "");
+    const ids = idsRaw
+      .split(",")
+      .map((s) => Number(s.trim()))
+      .filter((n) => Number.isFinite(n));
+    if (ids.length === 0) return fail(400, { error: "no ids" });
+    await sql.begin(async (tx) => {
+      for (let i = 0; i < ids.length; i++) {
+        await tx`
+          update variants set display_order = ${i}
+          where id = ${ids[i]} and product_id = ${id}
+        `;
+      }
+    });
     return { ok: true };
   },
   toggleVariantEnabled: async ({ request }) => {
@@ -164,6 +172,18 @@ export const actions: Actions = {
     const vid = Number(data.get("variant_id"));
     if (!Number.isFinite(vid)) return fail(400, { error: "bad variant id" });
     await sql`update variants set enabled = not enabled where id = ${vid}`;
+    return { ok: true };
+  },
+  updateVariantStock: async ({ request }) => {
+    const data = await request.formData();
+    const vid = Number(data.get("variant_id"));
+    if (!Number.isFinite(vid)) return fail(400, { error: "bad variant id" });
+    const stockRaw = String(data.get("stock_count") ?? "").trim();
+    const stock = stockRaw === "" ? null : Number(stockRaw);
+    if (stock !== null && (!Number.isFinite(stock) || stock < 0)) {
+      return fail(400, { error: "bad stock" });
+    }
+    await sql`update variants set stock_count = ${stock} where id = ${vid}`;
     return { ok: true };
   },
   deleteVariant: async ({ request }) => {

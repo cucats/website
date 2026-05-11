@@ -25,8 +25,8 @@ type VariantRow = {
 };
 
 const variantSelect = `
-  v.id, v.options, v.price, v.stock_count, v.enabled,
-  p.id as product_id, p.name as product_name, p.image_url,
+  v.id, v.options, v.stock_count, v.enabled,
+  p.id as product_id, p.name as product_name, p.image_url, p.price,
   s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
   s.kind as showcase_kind, s.status as showcase_status,
   s.opens_at as showcase_opens_at, s.closes_at as showcase_closes_at,

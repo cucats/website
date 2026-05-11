@@ -1,12 +1,76 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { enhance } from "$app/forms";
+  import { invalidateAll } from "$app/navigation";
   import type { PageData, ActionData } from "./$types";
-  import { toastSubmit } from "$lib/enhanceWithToast";
   import { variantLabel } from "$lib/utils";
+  import { toastSubmit } from "$lib/enhanceWithToast";
+  import { toasts } from "$lib/toasts.svelte";
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 
   const hasVariants = $derived(data.variants.length > 0);
+
+  let order = $state<number[]>(untrack(() => data.variants.map((v) => v.id)));
+  $effect(() => {
+    order = data.variants.map((v) => v.id);
+  });
+  const variantById = $derived(
+    new Map(data.variants.map((v) => [v.id, v] as const)),
+  );
+  const orderedVariants = $derived(
+    order
+      .map((id) => variantById.get(id))
+      .filter((v): v is (typeof data.variants)[number] => v != null),
+  );
+
+  let dragId = $state<number | null>(null);
+  let dragOverId = $state<number | null>(null);
+
+  function onDragStart(e: DragEvent, id: number) {
+    dragId = id;
+    e.dataTransfer?.setData("text/plain", String(id));
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+  }
+
+  function onDragOver(e: DragEvent, id: number) {
+    if (dragId == null || dragId === id) return;
+    e.preventDefault();
+    dragOverId = id;
+  }
+
+  function onDragEnd() {
+    dragId = null;
+    dragOverId = null;
+  }
+
+  async function onDrop(e: DragEvent, dropOnId: number) {
+    e.preventDefault();
+    if (dragId == null || dragId === dropOnId) {
+      onDragEnd();
+      return;
+    }
+    const from = order.indexOf(dragId);
+    const to = order.indexOf(dropOnId);
+    if (from < 0 || to < 0) {
+      onDragEnd();
+      return;
+    }
+    const moving = dragId;
+    order.splice(from, 1);
+    order.splice(to, 0, moving);
+    onDragEnd();
+    const body = new FormData();
+    body.set("ids", order.join(","));
+    const res = await fetch("?/reorderVariants", { method: "POST", body });
+    if (res.ok) {
+      toasts.show("Order saved");
+      await invalidateAll();
+    } else {
+      toasts.show("Could not save order", "error");
+      await invalidateAll();
+    }
+  }
 </script>
 
 <a class="text-sm text-neutral-400 hover:text-neutral-100" href="/admin/products">
@@ -33,7 +97,8 @@
     enctype="multipart/form-data"
     autocomplete="off"
     class="c-4 max-w-xl"
-   use:enhance={toastSubmit({ success: "Product saved" })}>
+    use:enhance={toastSubmit({ success: "Product saved" })}
+  >
     <label for="product-title">
       Title
       <input
@@ -45,6 +110,19 @@
         data-form-type="other"
         data-lpignore="true"
         value={data.product.name}
+        required
+      />
+    </label>
+    <label for="product-price">
+      Price (£) — same across all variants
+      <input
+        id="product-price"
+        class="default max-w-xs"
+        type="number"
+        name="price"
+        min="0"
+        step="0.01"
+        value={data.product.price}
         required
       />
     </label>
@@ -79,7 +157,12 @@
     </div>
     <button class="btn primary md self-start">Save</button>
   </form>
-  <form method="POST" action="?/destroy" class="mt-4" use:enhance={toastSubmit({ success: "Deleted" })}>
+  <form
+    method="POST"
+    action="?/destroy"
+    class="mt-4"
+    use:enhance={toastSubmit({ success: "Deleted" })}
+  >
     <button
       class="btn neutral sm text-error-400"
       onclick={(e) => {
@@ -109,7 +192,11 @@
               >({s.kind === "drop" ? "drop" : "always on"})</span
             >
           </a>
-          <form method="POST" action="?/removeFromShowcase" use:enhance={toastSubmit({ success: "Removed" })}>
+          <form
+            method="POST"
+            action="?/removeFromShowcase"
+            use:enhance={toastSubmit({ success: "Removed" })}
+          >
             <input type="hidden" name="showcase_id" value={s.id} />
             <button class="btn neutral sm text-error-400">Remove</button>
           </form>
@@ -122,7 +209,8 @@
       method="POST"
       action="?/addToShowcase"
       class="r-2 max-w-md items-end"
-     use:enhance={toastSubmit({ success: "Added to showcase" })}>
+      use:enhance={toastSubmit({ success: "Added to showcase" })}
+    >
       <label class="flex-1">
         Add to showcase
         <select class="default" name="showcase_id" required>
@@ -140,45 +228,84 @@
 
 <section>
   <h2 class="h4 mb-3 text-neutral-100">Variants</h2>
-  {#if data.variants.length === 0}
-    <p class="p mb-3 text-neutral-400">No variants yet — add one below.</p>
+  {#if !hasVariants}
+    <p class="p mb-3 text-neutral-400">No variants yet — add some below.</p>
   {:else}
-    <ul class="c-2 mb-4">
-      {#each data.variants as v, vi}
-        <li class="r-2 items-center justify-between text-sm">
-          <span
-            class="text-neutral-200"
-            class:line-through={!v.enabled}
-            class:text-neutral-500={!v.enabled}
-          >
-            {variantLabel(v.options)} ・ £{v.price.toFixed(2)} ・ stock:
-            {v.stock_count ?? "∞"}
-            {#if !v.enabled}・ disabled{/if}
+    <p class="helper-text mb-3">Drag chips to reorder. Stock blank = unlimited.</p>
+    <ul class="mb-6 flex flex-wrap gap-2">
+      {#each orderedVariants as v (v.id)}
+        <li
+          class="r-3 bg-primary-950/40 border-primary-800/60 group cursor-grab items-center rounded-lg border px-3 py-2 transition-all"
+          class:opacity-50={dragId === v.id}
+          class:!border-primary-400={dragOverId === v.id}
+          class:opacity-60={!v.enabled}
+          draggable="true"
+          ondragstart={(e) => onDragStart(e, v.id)}
+          ondragover={(e) => onDragOver(e, v.id)}
+          ondrop={(e) => onDrop(e, v.id)}
+          ondragend={onDragEnd}
+        >
+          <span class="text-neutral-500" aria-hidden="true" title="Drag to reorder">
+            ⋮⋮
           </span>
-          <div class="r-2">
-            <form method="POST" action="?/moveVariantUp" use:enhance={toastSubmit({ success: "Moved up" })}>
+          <div class="c-1">
+            <span
+              class="text-sm font-semibold text-neutral-100"
+              class:line-through={!v.enabled}
+            >
+              {variantLabel(v.options)}
+            </span>
+            <form
+              method="POST"
+              action="?/updateVariantStock"
+              class="r-1 items-center text-xs"
+              use:enhance={toastSubmit({ success: "Stock updated" })}
+            >
               <input type="hidden" name="variant_id" value={v.id} />
-              <button class="btn neutral sm" aria-label="Move up" disabled={vi === 0}
-                >↑</button
-              >
+              <input
+                class="default w-16 px-2 py-0.5 text-xs"
+                type="number"
+                name="stock_count"
+                min="0"
+                value={v.stock_count ?? ""}
+                placeholder="∞"
+                aria-label="Stock for {variantLabel(v.options)}"
+                onblur={(e) =>
+                  (e.currentTarget as HTMLInputElement).form?.requestSubmit()}
+              />
+              <span class="text-neutral-500">stock</span>
             </form>
-            <form method="POST" action="?/moveVariantDown" use:enhance={toastSubmit({ success: "Moved down" })}>
+          </div>
+          <div class="c-1 ml-2 opacity-60 transition-opacity group-hover:opacity-100">
+            <form
+              method="POST"
+              action="?/toggleVariantEnabled"
+              use:enhance={toastSubmit({ success: "Updated" })}
+            >
               <input type="hidden" name="variant_id" value={v.id} />
               <button
-                class="btn neutral sm"
-                aria-label="Move down"
-                disabled={vi === data.variants.length - 1}>↓</button
+                class="text-xs text-neutral-400 hover:text-neutral-100"
+                title={v.enabled ? "Disable" : "Enable"}
               >
-            </form>
-            <form method="POST" action="?/toggleVariantEnabled" use:enhance={toastSubmit({ success: "Updated" })}>
-              <input type="hidden" name="variant_id" value={v.id} />
-              <button class="btn neutral sm">
-                {v.enabled ? "Disable" : "Enable"}
+                {v.enabled ? "⊘" : "✓"}
               </button>
             </form>
-            <form method="POST" action="?/deleteVariant" use:enhance={toastSubmit({ success: "Variant deleted" })}>
+            <form
+              method="POST"
+              action="?/deleteVariant"
+              use:enhance={toastSubmit({ success: "Deleted" })}
+            >
               <input type="hidden" name="variant_id" value={v.id} />
-              <button class="btn neutral sm text-error-400">×</button>
+              <button
+                class="text-xs text-error-400 hover:text-error-600"
+                title="Delete"
+                onclick={(e) => {
+                  if (!confirm(`Delete ${variantLabel(v.options)}?`))
+                    e.preventDefault();
+                }}
+              >
+                ×
+              </button>
             </form>
           </div>
         </li>
@@ -195,7 +322,8 @@
       action="?/addVariantRun"
       autocomplete="off"
       class="r-4 mt-2 max-w-2xl items-end"
-     use:enhance={toastSubmit({ success: "Variants added" })}>
+      use:enhance={toastSubmit({ success: "Variants added" })}
+    >
       <input type="hidden" name="option_key" value="size" />
       <label class="flex-1">
         Sizes (comma-separated)
@@ -206,17 +334,6 @@
           value="S, M, L, XL, 2XL"
           autocomplete="off"
           data-lpignore="true"
-          required
-        />
-      </label>
-      <label>
-        Price (£)
-        <input
-          class="default"
-          type="number"
-          name="price"
-          min="0"
-          step="0.01"
           required
         />
       </label>
@@ -237,7 +354,8 @@
       action="?/addVariant"
       autocomplete="off"
       class="r-4 mt-2 max-w-2xl items-end"
-     use:enhance={toastSubmit({ success: "Variant added" })}>
+      use:enhance={toastSubmit({ success: "Variant added" })}
+    >
       <label class="flex-1">
         Options
         <input
@@ -248,10 +366,6 @@
           autocomplete="off"
           data-lpignore="true"
         />
-      </label>
-      <label>
-        Price (£)
-        <input class="default" type="number" name="price" min="0" step="0.01" required />
       </label>
       <label>
         Stock (blank=∞)

@@ -2,46 +2,6 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 
-async function swapShowcaseProductOrder(
-  showcase_id: number,
-  product_id: number,
-  direction: "up" | "down",
-) {
-  await sql.begin(async (tx) => {
-    const [current] = await tx<{ display_order: number }[]>`
-      select display_order from showcase_products
-      where showcase_id = ${showcase_id} and product_id = ${product_id}
-    `;
-    if (!current) return;
-    const neighbour =
-      direction === "up"
-        ? await tx<{ product_id: number; display_order: number }[]>`
-            select product_id, display_order from showcase_products
-            where showcase_id = ${showcase_id}
-              and (display_order, product_id) < (${current.display_order}, ${product_id})
-            order by display_order desc, product_id desc
-            limit 1
-          `
-        : await tx<{ product_id: number; display_order: number }[]>`
-            select product_id, display_order from showcase_products
-            where showcase_id = ${showcase_id}
-              and (display_order, product_id) > (${current.display_order}, ${product_id})
-            order by display_order asc, product_id asc
-            limit 1
-          `;
-    if (neighbour.length === 0) return;
-    const other = neighbour[0];
-    await tx`
-      update showcase_products set display_order = ${other.display_order}
-      where showcase_id = ${showcase_id} and product_id = ${product_id}
-    `;
-    await tx`
-      update showcase_products set display_order = ${current.display_order}
-      where showcase_id = ${showcase_id} and product_id = ${other.product_id}
-    `;
-  });
-}
-
 export const load: PageServerLoad = async ({ params }) => {
   const id = Number(params.id);
   if (!Number.isFinite(id)) throw error(404, "not found");
@@ -66,10 +26,11 @@ export const load: PageServerLoad = async ({ params }) => {
       id: number;
       name: string;
       image_url: string | null;
+      price: number;
       display_order: number;
     }[]
   >`
-    select p.id, p.name, p.image_url, sp.display_order
+    select p.id, p.name, p.image_url, p.price, sp.display_order
     from products p
     join showcase_products sp on sp.product_id = p.id
     where sp.showcase_id = ${id}
@@ -77,13 +38,13 @@ export const load: PageServerLoad = async ({ params }) => {
   `;
 
   const available = await sql<
-    { id: number; name: string }[]
+    { id: number; name: string; image_url: string | null; price: number }[]
   >`
-    select p.id, p.name from products p
+    select p.id, p.name, p.image_url, p.price from products p
     where p.id not in (
       select product_id from showcase_products where showcase_id = ${id}
     )
-    order by p.name
+    order by p.display_order, p.id
   `;
 
   return { showcase, products, available };
@@ -168,22 +129,23 @@ export const actions: Actions = {
     `;
     return { ok: true };
   },
-  moveProductUp: async ({ request, params }) => {
+  reorderProducts: async ({ request, params }) => {
     const id = Number(params.id);
     const data = await request.formData();
-    const product_id = Number(data.get("product_id"));
-    if (Number.isFinite(product_id)) {
-      await swapShowcaseProductOrder(id, product_id, "up");
-    }
-    return { ok: true };
-  },
-  moveProductDown: async ({ request, params }) => {
-    const id = Number(params.id);
-    const data = await request.formData();
-    const product_id = Number(data.get("product_id"));
-    if (Number.isFinite(product_id)) {
-      await swapShowcaseProductOrder(id, product_id, "down");
-    }
+    const idsRaw = String(data.get("ids") ?? "");
+    const ids = idsRaw
+      .split(",")
+      .map((s) => Number(s.trim()))
+      .filter((n) => Number.isFinite(n));
+    if (ids.length === 0) return fail(400, { error: "no ids" });
+    await sql.begin(async (tx) => {
+      for (let i = 0; i < ids.length; i++) {
+        await tx`
+          update showcase_products set display_order = ${i}
+          where showcase_id = ${id} and product_id = ${ids[i]}
+        `;
+      }
+    });
     return { ok: true };
   },
 };
