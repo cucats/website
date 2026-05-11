@@ -1,6 +1,5 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { flip } from "svelte/animate";
   import { enhance } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
   import { fade } from "svelte/transition";
@@ -32,6 +31,7 @@
   );
 
   let dragId = $state<number | null>(null);
+  let dragOverId = $state<number | null>(null);
 
   function onDragStart(e: DragEvent, id: number) {
     dragId = id;
@@ -41,19 +41,28 @@
   function onDragOver(e: DragEvent, id: number) {
     if (dragId == null || dragId === id) return;
     e.preventDefault();
-    const from = order.indexOf(dragId);
-    const to = order.indexOf(id);
-    if (from < 0 || to < 0 || from === to) return;
-    order.splice(from, 1);
-    order.splice(to, 0, dragId);
+    dragOverId = id;
   }
   function onDragEnd() {
     dragId = null;
+    dragOverId = null;
   }
   async function onDrop(e: DragEvent) {
     e.preventDefault();
-    if (dragId == null) return;
+    if (dragId == null || dragOverId == null || dragId === dragOverId) {
+      dragId = null;
+      dragOverId = null;
+      return;
+    }
+    const moving = dragId;
+    const overId = dragOverId;
     dragId = null;
+    dragOverId = null;
+    const next = order.filter((x) => x !== moving);
+    const overIdx = next.indexOf(overId);
+    if (overIdx < 0) return;
+    next.splice(overIdx, 0, moving);
+    order = next;
     const body = new FormData();
     body.set("ids", order.join(","));
     const res = await fetch("?/reorderProducts", { method: "POST", body });
@@ -176,12 +185,17 @@
 
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
     {#each ordered as p (p.id)}
+      {#if dragOverId === p.id && dragId !== null && dragId !== p.id}
+        <div
+          role="presentation"
+          class="bg-primary-500/10 border-primary-400 aspect-square rounded-lg border-2 border-dashed"
+          ondragover={(e) => e.preventDefault()}
+          ondrop={onDrop}
+        ></div>
+      {/if}
       <article
-        animate:flip={{ duration: 220 }}
         class="group bg-primary-950/40 border-primary-800/60 relative cursor-grab overflow-hidden rounded-lg border select-none"
         class:!opacity-30={dragId === p.id}
-        class:scale-95={dragId === p.id}
-        style="transition: opacity 0.15s, transform 0.15s;"
         draggable="true"
         ondragstart={(e) => onDragStart(e, p.id)}
         ondragover={(e) => onDragOver(e, p.id)}

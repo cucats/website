@@ -1,6 +1,5 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { flip } from "svelte/animate";
   import { enhance } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
   import type { PageData, ActionData } from "./$types";
@@ -27,6 +26,7 @@
   );
 
   let dragId = $state<number | null>(null);
+  let dragOverId = $state<number | null>(null);
 
   function onDragStart(e: DragEvent, id: number) {
     dragId = id;
@@ -37,17 +37,25 @@
   function onDragOver(e: DragEvent, id: number) {
     if (dragId == null || dragId === id) return;
     e.preventDefault();
-    const from = order.indexOf(dragId);
-    const to = order.indexOf(id);
-    if (from < 0 || to < 0 || from === to) return;
-    order.splice(from, 1);
-    order.splice(to, 0, dragId);
+    dragOverId = id;
   }
 
   async function onDrop(e: DragEvent) {
     e.preventDefault();
-    if (dragId == null) return;
+    if (dragId == null || dragOverId == null || dragId === dragOverId) {
+      dragId = null;
+      dragOverId = null;
+      return;
+    }
+    const moving = dragId;
+    const overId = dragOverId;
     dragId = null;
+    dragOverId = null;
+    const next = order.filter((x) => x !== moving);
+    const overIdx = next.indexOf(overId);
+    if (overIdx < 0) return;
+    next.splice(overIdx, 0, moving);
+    order = next;
     const body = new FormData();
     body.set("ids", order.join(","));
     const res = await fetch("?/reorderVariants", { method: "POST", body });
@@ -58,6 +66,7 @@
 
   function onDragEnd() {
     dragId = null;
+    dragOverId = null;
   }
 </script>
 
@@ -222,13 +231,17 @@
     <p class="helper-text mb-3">Drag chips to reorder.</p>
     <ul class="mb-6 flex flex-wrap gap-2">
       {#each orderedVariants as v (v.id)}
+        {#if dragOverId === v.id && dragId !== null && dragId !== v.id}
+          <li
+            class="bg-primary-500/10 border-primary-400 h-[40px] w-20 rounded-lg border-2 border-dashed"
+            ondragover={(e) => e.preventDefault()}
+            ondrop={onDrop}
+          ></li>
+        {/if}
         <li
-          animate:flip={{ duration: 180 }}
           class="r-3 bg-primary-950/40 border-primary-800/60 group cursor-grab items-center rounded-lg border px-3 py-2 select-none"
           class:!opacity-30={dragId === v.id}
-          class:scale-95={dragId === v.id}
           class:opacity-60={!v.enabled}
-          style="transition: opacity 0.15s, transform 0.15s;"
           draggable="true"
           ondragstart={(e) => onDragStart(e, v.id)}
           ondragover={(e) => onDragOver(e, v.id)}
