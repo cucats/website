@@ -326,15 +326,13 @@
       ondrop={onDrop}
     >
       {#each orderedVariants as v (v.id)}
-        {#if dragOverId === v.id && dragId !== null && dragId !== v.id}
-          <li
-            class="bg-primary-500/10 border-primary-400 size-20 rounded-lg border-2 border-dashed"
-          ></li>
-        {/if}
         <li
           data-tile-id={v.id}
           class="bg-primary-950/40 border-primary-800/60 group relative grid size-20 cursor-grab place-items-center rounded-lg border select-none"
           class:hidden={dragId === v.id}
+          class:ring-2={dragOverId === v.id && dragId !== null && dragId !== v.id}
+          class:ring-primary-400={dragOverId === v.id && dragId !== null && dragId !== v.id}
+          class:scale-105={dragOverId === v.id && dragId !== null && dragId !== v.id}
           draggable="true"
           ondragstart={(e) => onDragStart(e, v.id)}
           ondragend={onDragEnd}
@@ -362,11 +360,6 @@
           </form>
         </li>
       {/each}
-      {#if dropAtEnd && dragId !== null}
-        <li
-          class="bg-primary-500/10 border-primary-400 size-20 rounded-lg border-2 border-dashed"
-        ></li>
-      {/if}
     </ul>
   {/if}
 

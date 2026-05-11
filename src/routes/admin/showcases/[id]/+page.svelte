@@ -260,16 +260,12 @@
     ondrop={onDrop}
   >
     {#each ordered as p (p.id)}
-      {#if dragOverId === p.id && dragId !== null && dragId !== p.id}
-        <div
-          role="presentation"
-          class="bg-primary-500/10 border-primary-400 aspect-square rounded-lg border-2 border-dashed"
-        ></div>
-      {/if}
       <article
         data-tile-id={p.id}
         class="group bg-primary-950/40 border-primary-800/60 relative cursor-grab overflow-hidden rounded-lg border select-none"
         class:hidden={dragId === p.id}
+        class:ring-4={dragOverId === p.id && dragId !== null && dragId !== p.id}
+        class:ring-primary-400={dragOverId === p.id && dragId !== null && dragId !== p.id}
         draggable="true"
         ondragstart={(e) => onDragStart(e, p.id)}
         ondragend={onDragEnd}
@@ -314,13 +310,6 @@
         </form>
       </article>
     {/each}
-
-    {#if dropAtEnd && dragId !== null}
-      <div
-        role="presentation"
-        class="bg-primary-500/10 border-primary-400 aspect-square rounded-lg border-2 border-dashed"
-      ></div>
-    {/if}
 
     <button
       type="button"
