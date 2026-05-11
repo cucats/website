@@ -44,10 +44,9 @@ export const load: PageServerLoad = async ({ params, locals }) => {
           id: number;
           product_id: number;
           options: Record<string, string>;
-          stock_count: number | null;
         }[]
       >`
-        select id, product_id, options, stock_count
+        select id, product_id, options
         from variants
         where product_id in ${sql(productIds)} and enabled
         order by product_id, display_order, id

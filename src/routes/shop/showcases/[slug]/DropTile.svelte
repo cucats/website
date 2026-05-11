@@ -6,7 +6,6 @@
   interface Variant {
     id: number;
     options: Record<string, string>;
-    stock_count: number | null;
   }
 
   interface Props {
@@ -30,8 +29,6 @@
   let selectedId = $state<number | null>(untrack(() => variants[0]?.id ?? null));
   let qty = $state(1);
   let added = $state(false);
-
-  const selected = $derived(variants.find((v) => v.id === selectedId));
 
   function addToCart() {
     if (selectedId == null) return;
@@ -60,12 +57,7 @@
     <div class="c-2 mt-auto">
       <select class="default" bind:value={selectedId} disabled={!isOpen}>
         {#each variants as v}
-          <option value={v.id} disabled={v.stock_count === 0}>
-            {variantLabel(v.options)}
-            {#if v.stock_count != null}
-              ・ {v.stock_count} left
-            {/if}
-          </option>
+          <option value={v.id}>{variantLabel(v.options)}</option>
         {/each}
       </select>
       <div class="r-2">
@@ -73,7 +65,6 @@
           class="default w-16 text-center"
           type="number"
           min="1"
-          max={selected?.stock_count ?? undefined}
           bind:value={qty}
           disabled={!isOpen}
         />

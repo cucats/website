@@ -85,7 +85,6 @@
                 class="default w-16 text-center"
                 type="number"
                 min="1"
-                max={v.stock_count ?? undefined}
                 value={item.qty}
                 oninput={(e) =>
                   cart.setQty(

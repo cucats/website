@@ -231,7 +231,7 @@
   {#if !hasVariants}
     <p class="p mb-3 text-neutral-400">No variants yet — add some below.</p>
   {:else}
-    <p class="helper-text mb-3">Drag chips to reorder. Stock blank = unlimited.</p>
+    <p class="helper-text mb-3">Drag chips to reorder.</p>
     <ul class="mb-6 flex flex-wrap gap-2">
       {#each orderedVariants as v (v.id)}
         <li
@@ -248,35 +248,13 @@
           <span class="text-neutral-500" aria-hidden="true" title="Drag to reorder">
             ⋮⋮
           </span>
-          <div class="c-1">
-            <span
-              class="text-sm font-semibold text-neutral-100"
-              class:line-through={!v.enabled}
-            >
-              {variantLabel(v.options)}
-            </span>
-            <form
-              method="POST"
-              action="?/updateVariantStock"
-              class="r-1 items-center text-xs"
-              use:enhance={toastSubmit({ success: "Stock updated" })}
-            >
-              <input type="hidden" name="variant_id" value={v.id} />
-              <input
-                class="default w-16 px-2 py-0.5 text-xs"
-                type="number"
-                name="stock_count"
-                min="0"
-                value={v.stock_count ?? ""}
-                placeholder="∞"
-                aria-label="Stock for {variantLabel(v.options)}"
-                onblur={(e) =>
-                  (e.currentTarget as HTMLInputElement).form?.requestSubmit()}
-              />
-              <span class="text-neutral-500">stock</span>
-            </form>
-          </div>
-          <div class="c-1 ml-2 opacity-60 transition-opacity group-hover:opacity-100">
+          <span
+            class="text-sm font-semibold text-neutral-100"
+            class:line-through={!v.enabled}
+          >
+            {variantLabel(v.options)}
+          </span>
+          <div class="r-1 ml-1 opacity-60 transition-opacity group-hover:opacity-100">
             <form
               method="POST"
               action="?/toggleVariantEnabled"
@@ -337,10 +315,6 @@
           required
         />
       </label>
-      <label>
-        Stock per size
-        <input class="default" type="number" name="stock_count" min="0" />
-      </label>
       <button class="btn neutral sm">Add all</button>
     </form>
   </details>
@@ -366,10 +340,6 @@
           autocomplete="off"
           data-lpignore="true"
         />
-      </label>
-      <label>
-        Stock (blank=∞)
-        <input class="default" type="number" name="stock_count" min="0" />
       </label>
       <button class="btn neutral sm">Add</button>
     </form>

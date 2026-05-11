@@ -23,11 +23,10 @@ export const load: PageServerLoad = async ({ params }) => {
     {
       id: number;
       options: Record<string, string>;
-      stock_count: number | null;
       enabled: boolean;
     }[]
   >`
-    select id, options, stock_count, enabled
+    select id, options, enabled
     from variants
     where product_id = ${id}
     order by display_order, id
@@ -107,12 +106,10 @@ export const actions: Actions = {
     const data = await request.formData();
     const optionsStr = String(data.get("options") ?? "").trim();
     const options = parseOptions(optionsStr);
-    const stock_raw = String(data.get("stock_count") ?? "").trim();
-    const stock_count = stock_raw === "" ? null : Number(stock_raw);
     await sql`
-      insert into variants (product_id, options, stock_count, display_order)
+      insert into variants (product_id, options, display_order)
       values (
-        ${id}, ${JSON.stringify(options)}::jsonb, ${stock_count},
+        ${id}, ${JSON.stringify(options)}::jsonb,
         coalesce((select max(display_order) + 1 from variants where product_id = ${id}), 0)
       )
     `;
@@ -123,8 +120,6 @@ export const actions: Actions = {
     const data = await request.formData();
     const key = String(data.get("option_key") ?? "").trim();
     const valuesRaw = String(data.get("values") ?? "").trim();
-    const stock_raw = String(data.get("stock_count") ?? "").trim();
-    const stock_count = stock_raw === "" ? null : Number(stock_raw);
     if (!key || !valuesRaw) return fail(400, { error: "bad bulk-variant fields" });
     const values = valuesRaw
       .split(",")
@@ -140,8 +135,8 @@ export const actions: Actions = {
       for (const value of values) {
         const opts = { [key]: value };
         await tx`
-          insert into variants (product_id, options, stock_count, display_order)
-          values (${id}, ${JSON.stringify(opts)}::jsonb, ${stock_count}, ${next})
+          insert into variants (product_id, options, display_order)
+          values (${id}, ${JSON.stringify(opts)}::jsonb, ${next})
         `;
         next++;
       }
@@ -172,18 +167,6 @@ export const actions: Actions = {
     const vid = Number(data.get("variant_id"));
     if (!Number.isFinite(vid)) return fail(400, { error: "bad variant id" });
     await sql`update variants set enabled = not enabled where id = ${vid}`;
-    return { ok: true };
-  },
-  updateVariantStock: async ({ request }) => {
-    const data = await request.formData();
-    const vid = Number(data.get("variant_id"));
-    if (!Number.isFinite(vid)) return fail(400, { error: "bad variant id" });
-    const stockRaw = String(data.get("stock_count") ?? "").trim();
-    const stock = stockRaw === "" ? null : Number(stockRaw);
-    if (stock !== null && (!Number.isFinite(stock) || stock < 0)) {
-      return fail(400, { error: "bad stock" });
-    }
-    await sql`update variants set stock_count = ${stock} where id = ${vid}`;
     return { ok: true };
   },
   deleteVariant: async ({ request }) => {

@@ -9,7 +9,6 @@ type VariantRow = {
   id: number;
   options: Record<string, string>;
   price: number;
-  stock_count: number | null;
   enabled: boolean;
   product_id: number;
   product_name: string;
@@ -25,7 +24,7 @@ type VariantRow = {
 };
 
 const variantSelect = `
-  v.id, v.options, v.stock_count, v.enabled,
+  v.id, v.options, v.enabled,
   p.id as product_id, p.name as product_name, p.image_url, p.price,
   s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
   s.kind as showcase_kind, s.status as showcase_status,
@@ -101,11 +100,6 @@ export const actions: Actions = {
       }
       if (v.showcase_closes_at && v.showcase_closes_at <= now) {
         return fail(400, { error: `${v.product_name} is closed` });
-      }
-      if (v.stock_count != null && it.qty > v.stock_count) {
-        return fail(400, {
-          error: `only ${v.stock_count} of ${v.product_name} left`,
-        });
       }
     }
 
