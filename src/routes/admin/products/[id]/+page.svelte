@@ -69,7 +69,7 @@
         <img
           src={data.product.image_url}
           alt={data.product.name}
-          class="size-20 rounded object-cover"
+          class="size-48 rounded-lg object-cover"
         />
       {/if}
       <label class="flex-1">

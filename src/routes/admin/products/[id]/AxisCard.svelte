@@ -56,7 +56,15 @@
     dragWidth = r.width;
     dragHeight = r.height;
     e.dataTransfer?.setData("text/plain", value);
-    if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+    if (e.dataTransfer) {
+      e.dataTransfer.effectAllowed = "move";
+      // Suppress the browser's default drag image — the in-list ghost
+      // chip is the preview the user should look at.
+      const img = new Image();
+      img.src =
+        "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+      e.dataTransfer.setDragImage(img, 0, 0);
+    }
   }
   function onDragEnd() {
     dragValue = null;
@@ -176,7 +184,9 @@
         ondragstart={(e) => onDragStart(e, value)}
         ondragend={onDragEnd}
         class="group bg-primary-900 border-primary-700 relative grid size-20 cursor-grab place-items-center rounded-lg border-2 select-none"
-        class:invisible={dragValue === value}
+        class:opacity-40={dragValue === value}
+        class:ring-2={dragValue === value}
+        class:ring-primary-400={dragValue === value}
       >
         <span class="text-base font-semibold text-neutral-100">{value}</span>
         <form
