@@ -216,9 +216,12 @@
         >
           <input type="hidden" name="product_id" value={p.id} />
           <button
-            class="rounded-full bg-neutral-950/80 px-2 py-1 text-xs text-error-400 hover:bg-neutral-900"
-            title="Remove from showcase"
+            type="submit"
+            class="bg-error-600 hover:bg-error-400 flex size-6 cursor-pointer items-center justify-center rounded-full text-base font-bold text-neutral-100 shadow-md"
             aria-label="Remove from showcase"
+            draggable="false"
+            onmousedown={(e) => e.stopPropagation()}
+            ondragstart={(e) => e.preventDefault()}
           >
             ×
           </button>
