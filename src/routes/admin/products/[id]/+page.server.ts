@@ -2,7 +2,6 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { sql } from "$lib/server/db";
 import { saveUpload } from "$lib/server/uploads";
-import { parseOptions } from "$lib/utils";
 
 export const load: PageServerLoad = async ({ params }) => {
   const id = Number(params.id);
@@ -15,8 +14,9 @@ export const load: PageServerLoad = async ({ params }) => {
       description: string | null;
       image_url: string | null;
       price: number;
+      axis_name: string | null;
     }[]
-  >`select id, name, description, image_url, price from products where id = ${id}`;
+  >`select id, name, description, image_url, price, axis_name from products where id = ${id}`;
   if (!product) throw error(404, "not found");
 
   const variants = await sql<
@@ -54,12 +54,24 @@ export const load: PageServerLoad = async ({ params }) => {
   return { product, variants, showcases, availableShowcases };
 };
 
+async function variantValueFor(productId: number, axisName: string, value: string) {
+  await sql`
+    insert into variants (product_id, options, display_order)
+    values (
+      ${productId},
+      ${sql.json({ [axisName]: value })},
+      coalesce((select max(display_order) + 1 from variants where product_id = ${productId}), 0)
+    )
+  `;
+}
+
 export const actions: Actions = {
   update: async ({ request, params }) => {
     const id = Number(params.id);
     const data = await request.formData();
-    const name = String(data.get("title") ?? data.get("name") ?? "").trim();
+    const name = String(data.get("title") ?? "").trim();
     const description = String(data.get("description") ?? "").trim();
+    const axisName = String(data.get("axis_name") ?? "").trim() || null;
     const priceRaw = data.get("price");
     const price = priceRaw === null ? null : Number(priceRaw);
     if (!name) return fail(400, { error: "title required" });
@@ -75,12 +87,18 @@ export const actions: Actions = {
         return fail(400, { error: `image: ${(err as Error).message}` });
       }
     }
+
+    const [old] = await sql<{ axis_name: string | null }[]>`
+      select axis_name from products where id = ${id}
+    `;
+
     if (newImage !== undefined) {
       await sql`
         update products set
           name = ${name},
           description = ${description || null},
           price = ${price},
+          axis_name = ${axisName},
           image_url = ${newImage}
         where id = ${id}
       `;
@@ -89,8 +107,19 @@ export const actions: Actions = {
         update products set
           name = ${name},
           description = ${description || null},
-          price = ${price}
+          price = ${price},
+          axis_name = ${axisName}
         where id = ${id}
+      `;
+    }
+
+    // Rename the option key on existing variants if the axis name changed.
+    if (old?.axis_name && axisName && old.axis_name !== axisName) {
+      await sql`
+        update variants set options =
+          jsonb_build_object(${axisName}::text, options->>${old.axis_name})
+        where product_id = ${id}
+          and options ? ${old.axis_name}
       `;
     }
     return { ok: true };
@@ -103,26 +132,28 @@ export const actions: Actions = {
   addVariant: async ({ request, params }) => {
     const id = Number(params.id);
     const data = await request.formData();
-    const optionsStr = String(data.get("options") ?? "").trim();
-    const options = parseOptions(optionsStr);
-    if (Object.keys(options).length === 0) {
-      return fail(400, { error: "Use key=value, e.g. size=M" });
-    }
-    await sql`
-      insert into variants (product_id, options, display_order)
-      values (
-        ${id}, ${sql.json(options)},
-        coalesce((select max(display_order) + 1 from variants where product_id = ${id}), 0)
-      )
+    const value = String(data.get("value") ?? "").trim();
+    if (!value) return fail(400, { error: "Value required" });
+    const [p] = await sql<{ axis_name: string | null }[]>`
+      select axis_name from products where id = ${id}
     `;
+    if (!p?.axis_name) {
+      return fail(400, { error: "Set an axis name (e.g. size) on the product first" });
+    }
+    await variantValueFor(id, p.axis_name, value);
     return { ok: true };
   },
   addVariantRun: async ({ request, params }) => {
     const id = Number(params.id);
     const data = await request.formData();
-    const key = String(data.get("option_key") ?? "").trim();
     const valuesRaw = String(data.get("values") ?? "").trim();
-    if (!key || !valuesRaw) return fail(400, { error: "bad bulk-variant fields" });
+    if (!valuesRaw) return fail(400, { error: "values required" });
+    const [p] = await sql<{ axis_name: string | null }[]>`
+      select axis_name from products where id = ${id}
+    `;
+    if (!p?.axis_name) {
+      return fail(400, { error: "Set an axis name first" });
+    }
     const values = valuesRaw
       .split(",")
       .map((v) => v.trim())
@@ -134,11 +165,10 @@ export const actions: Actions = {
         from variants where product_id = ${id}
       `;
       let next = m.next;
-      for (const value of values) {
-        const opts = { [key]: value };
+      for (const v of values) {
         await tx`
           insert into variants (product_id, options, display_order)
-          values (${id}, ${sql.json(opts)}, ${next})
+          values (${id}, ${sql.json({ [p.axis_name!]: v })}, ${next})
         `;
         next++;
       }

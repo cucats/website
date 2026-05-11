@@ -1,7 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { enhance } from "$app/forms";
-  import { invalidateAll } from "$app/navigation";
+  import { beforeNavigate } from "$app/navigation";
   import { fade } from "svelte/transition";
   import type { PageData, ActionData } from "./$types";
   import { toastSubmit } from "$lib/enhanceWithToast";
@@ -17,9 +17,25 @@
   }
 
   let order = $state<number[]>(untrack(() => data.products.map((p) => p.id)));
+  let savedSnapshot = $state<number[]>(untrack(() => data.products.map((p) => p.id)));
+  const orderDirty = $derived(order.join(",") !== savedSnapshot.join(","));
+
   $effect(() => {
-    if (dragId !== null) return;
-    order = data.products.map((p) => p.id);
+    if (dragId !== null || orderDirty) return;
+    const fresh = data.products.map((p) => p.id);
+    order = fresh;
+    savedSnapshot = fresh;
+  });
+
+  $effect(() => {
+    function handler(e: BeforeUnloadEvent) {
+      if (orderDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    }
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
   });
   const productById = $derived(
     new Map(data.products.map((p) => [p.id, p] as const)),
@@ -58,7 +74,7 @@
     dropAtEnd = true;
   }
 
-  async function onDrop(e: DragEvent) {
+  function onDrop(e: DragEvent) {
     e.preventDefault();
     if (dragId == null) return;
     const moving = dragId;
@@ -78,13 +94,31 @@
       next.splice(overIdx, 0, moving);
     }
     order = next;
+  }
+
+  async function saveOrder() {
     const body = new FormData();
     body.set("ids", order.join(","));
     const res = await fetch("?/reorderProducts", { method: "POST", body });
-    if (res.ok) toasts.show("Order saved");
-    else toasts.show("Could not save order", "error");
-    await invalidateAll();
+    if (res.ok) {
+      toasts.show("Order saved");
+      savedSnapshot = [...order];
+    } else {
+      toasts.show("Could not save order", "error");
+    }
   }
+  function discardOrder() {
+    order = [...savedSnapshot];
+  }
+
+  beforeNavigate(({ cancel }) => {
+    if (
+      orderDirty &&
+      !confirm("You have unsaved product order changes. Leave anyway?")
+    ) {
+      cancel();
+    }
+  });
 
   let pickerOpen = $state(false);
 </script>
@@ -189,7 +223,16 @@
 </section>
 
 <section class="mb-10">
-  <h2 class="h4 mb-3 text-neutral-100">Products in this showcase</h2>
+  <div class="r-4 mb-3 items-center justify-between">
+    <h2 class="h4 text-neutral-100">Products in this showcase</h2>
+    {#if orderDirty}
+      <div class="r-2 items-center text-sm">
+        <span class="text-neutral-400">Unsaved order</span>
+        <button class="btn neutral sm" type="button" onclick={discardOrder}>Discard</button>
+        <button class="btn primary sm" type="button" onclick={saveOrder}>Save order</button>
+      </div>
+    {/if}
+  </div>
 
   <div
     class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"

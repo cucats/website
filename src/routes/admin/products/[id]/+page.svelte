@@ -1,7 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { enhance } from "$app/forms";
-  import { invalidateAll } from "$app/navigation";
+  import { beforeNavigate } from "$app/navigation";
   import type { PageData, ActionData } from "./$types";
   import { variantLabel } from "$lib/utils";
   import { toastSubmit } from "$lib/enhanceWithToast";
@@ -9,13 +9,41 @@
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 
-  const hasVariants = $derived(data.variants.length > 0);
+  const axisName = $derived(data.product.axis_name);
 
+  // Local drag-reorder state. The server only learns about the new order
+  // when the admin clicks Save.
   let order = $state<number[]>(untrack(() => data.variants.map((v) => v.id)));
+  let savedSnapshot = $state<number[]>(untrack(() => data.variants.map((v) => v.id)));
+  const orderDirty = $derived(order.join(",") !== savedSnapshot.join(","));
+
   $effect(() => {
-    if (dragId !== null) return;
-    order = data.variants.map((v) => v.id);
+    if (dragId !== null || orderDirty) return;
+    const fresh = data.variants.map((v) => v.id);
+    order = fresh;
+    savedSnapshot = fresh;
   });
+
+  $effect(() => {
+    function handler(e: BeforeUnloadEvent) {
+      if (orderDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    }
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  });
+
+  beforeNavigate(({ cancel }) => {
+    if (
+      orderDirty &&
+      !confirm("You have unsaved variant order changes. Leave anyway?")
+    ) {
+      cancel();
+    }
+  });
+
   const variantById = $derived(
     new Map(data.variants.map((v) => [v.id, v] as const)),
   );
@@ -27,22 +55,19 @@
 
   let dragId = $state<number | null>(null);
   let dragOverId = $state<number | null>(null);
+  let dropAtEnd = $state(false);
 
   function onDragStart(e: DragEvent, id: number) {
     dragId = id;
     e.dataTransfer?.setData("text/plain", String(id));
     if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
   }
-
   function onDragOver(e: DragEvent, id: number) {
     if (dragId == null || dragId === id) return;
     e.preventDefault();
     dragOverId = id;
     dropAtEnd = false;
   }
-
-  let dropAtEnd = $state(false);
-
   function onContainerOver(e: DragEvent) {
     if (dragId == null) return;
     if (e.target !== e.currentTarget) return;
@@ -50,8 +75,12 @@
     dragOverId = null;
     dropAtEnd = true;
   }
-
-  async function onDrop(e: DragEvent) {
+  function onDragEnd() {
+    dragId = null;
+    dragOverId = null;
+    dropAtEnd = false;
+  }
+  function onDrop(e: DragEvent) {
     e.preventDefault();
     if (dragId == null) return;
     const moving = dragId;
@@ -71,18 +100,21 @@
       next.splice(overIdx, 0, moving);
     }
     order = next;
+  }
+
+  async function saveOrder() {
     const body = new FormData();
     body.set("ids", order.join(","));
     const res = await fetch("?/reorderVariants", { method: "POST", body });
-    if (res.ok) toasts.show("Order saved");
-    else toasts.show("Could not save order", "error");
-    await invalidateAll();
+    if (res.ok) {
+      toasts.show("Order saved");
+      savedSnapshot = [...order];
+    } else {
+      toasts.show("Could not save order", "error");
+    }
   }
-
-  function onDragEnd() {
-    dragId = null;
-    dragOverId = null;
-    dropAtEnd = false;
+  function discardOrder() {
+    order = [...savedSnapshot];
   }
 </script>
 
@@ -94,7 +126,6 @@
 {#if form?.error}
   <p class="helper-text error mb-4">{form.error}</p>
 {/if}
-
 
 <section class="mb-10">
   <h2 class="h4 mb-3 text-neutral-100">Details</h2>
@@ -121,7 +152,7 @@
       />
     </label>
     <label for="product-price">
-      Price (£) — same across all variants
+      Price (£)
       <input
         id="product-price"
         class="default max-w-xs"
@@ -131,6 +162,19 @@
         step="0.01"
         value={data.product.price}
         required
+      />
+    </label>
+    <label for="product-axis">
+      Variant axis (e.g. size, colour) — leave blank if not varied
+      <input
+        id="product-axis"
+        class="default max-w-xs"
+        type="text"
+        name="axis_name"
+        autocomplete="off"
+        data-lpignore="true"
+        value={data.product.axis_name ?? ""}
+        placeholder="size"
       />
     </label>
     <label for="product-description">
@@ -234,10 +278,20 @@
 </section>
 
 <section>
-  <h2 class="h4 mb-3 text-neutral-100">Variants</h2>
-  {#if !hasVariants}
-    <p class="p mb-3 text-neutral-400">No variants yet — add some below.</p>
-  {:else}
+  <div class="r-4 mb-3 items-center justify-between">
+    <h2 class="h4 text-neutral-100">
+      {axisName ? `${axisName[0].toUpperCase()}${axisName.slice(1)}` : "Variants"}
+    </h2>
+    {#if orderDirty}
+      <div class="r-2 items-center text-sm">
+        <span class="text-neutral-400">Unsaved order</span>
+        <button class="btn neutral sm" type="button" onclick={discardOrder}>Discard</button>
+        <button class="btn primary sm" type="button" onclick={saveOrder}>Save order</button>
+      </div>
+    {/if}
+  </div>
+
+  {#if orderedVariants.length > 0}
     <ul
       class="mb-6 flex flex-wrap gap-2"
       role="presentation"
@@ -294,48 +348,50 @@
     </ul>
   {/if}
 
-  <form
-    method="POST"
-    action="?/addVariantRun"
-    autocomplete="off"
-    class="r-4 mb-3 max-w-2xl items-end"
-    use:enhance={toastSubmit({ success: "Variants added" })}
-  >
-    <input type="hidden" name="option_key" value="size" />
-    <label class="flex-1">
-      Sizes (comma-separated)
-      <input
-        class="default"
-        type="text"
-        name="values"
-        value="S, M, L, XL, 2XL"
-        autocomplete="off"
-        data-lpignore="true"
-        required
-      />
-    </label>
-    <button class="btn neutral sm">Add sizes</button>
-  </form>
+  {#if !axisName}
+    <p class="helper-text">Set a variant axis above to add values.</p>
+  {:else}
+    <form
+      method="POST"
+      action="?/addVariantRun"
+      autocomplete="off"
+      class="r-4 mb-3 max-w-2xl items-end"
+      use:enhance={toastSubmit({ success: "Added" })}
+    >
+      <label class="flex-1">
+        Add several {axisName}s (comma-separated)
+        <input
+          class="default"
+          type="text"
+          name="values"
+          placeholder={axisName === "size" ? "S, M, L, XL, 2XL" : "value1, value2"}
+          autocomplete="off"
+          data-lpignore="true"
+          required
+        />
+      </label>
+      <button class="btn neutral sm">Add all</button>
+    </form>
 
-  <form
-    method="POST"
-    action="?/addVariant"
-    autocomplete="off"
-    class="r-4 max-w-2xl items-end"
-    use:enhance={toastSubmit({ success: "Variant added" })}
-  >
-    <label class="flex-1">
-      Other (key=value)
-      <input
-        class="default"
-        type="text"
-        name="options"
-        placeholder="colour=Black"
-        autocomplete="off"
-        data-lpignore="true"
-        required
-      />
-    </label>
-    <button class="btn neutral sm">Add</button>
-  </form>
+    <form
+      method="POST"
+      action="?/addVariant"
+      autocomplete="off"
+      class="r-4 max-w-2xl items-end"
+      use:enhance={toastSubmit({ success: "Added" })}
+    >
+      <label class="flex-1">
+        Add a single {axisName}
+        <input
+          class="default"
+          type="text"
+          name="value"
+          autocomplete="off"
+          data-lpignore="true"
+          required
+        />
+      </label>
+      <button class="btn neutral sm">Add</button>
+    </form>
+  {/if}
 </section>
