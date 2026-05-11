@@ -38,6 +38,7 @@
     if (dragId == null || dragId === id) return;
     e.preventDefault();
     dragOverId = id;
+    dropAtEnd = false;
   }
 
   let dropAtEnd = $state(false);

@@ -42,6 +42,7 @@
     if (dragId == null || dragId === id) return;
     e.preventDefault();
     dragOverId = id;
+    dropAtEnd = false;
   }
   function onDragEnd() {
     dragId = null;
