@@ -34,7 +34,12 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       delivered_at: Date | null;
       cancelled_at: Date | null;
     }[]
-  >`select * from orders where reference = ${params.ref}`;
+  >`
+    select id, reference, user_id, type, showcase_id, status, total,
+           shipping_address, created_at,
+           paid_at, ready_at, shipped_at, collected_at, delivered_at, cancelled_at
+    from orders where reference = ${params.ref}
+  `;
 
   if (!order) throw error(404, "order not found");
   if (order.user_id !== session.user.id && !session.user.isAdmin) {
