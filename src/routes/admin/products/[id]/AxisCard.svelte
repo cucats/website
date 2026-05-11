@@ -28,26 +28,19 @@
   });
 
   let dragValue = $state<string | null>(null);
-  let dragOver = $state<string | null>(null);
-  let dropAtEnd = $state(false);
+  let dropIndex = $state(0);
   let clickOffsetX = 0;
   let clickOffsetY = 0;
   let dragWidth = 0;
   let dragHeight = 0;
 
-  // The order the user sees while dragging — `dragValue` moved to its
-  // current drop target so the surrounding chips reflow continuously and
-  // preview the final arrangement.
+  // The order the user sees while dragging — `dragValue` moved to the
+  // computed insertion index so the surrounding chips reflow continuously.
   const previewOrder = $derived.by(() => {
     if (dragValue === null) return order;
     const without = order.filter((x) => x !== dragValue);
-    if (dropAtEnd || dragOver === null) {
-      without.push(dragValue);
-    } else {
-      const i = without.indexOf(dragOver);
-      if (i < 0) return order;
-      without.splice(i, 0, dragValue);
-    }
+    const idx = Math.max(0, Math.min(dropIndex, without.length));
+    without.splice(idx, 0, dragValue);
     return without;
   });
 
@@ -67,8 +60,6 @@
   }
   function onDragEnd() {
     dragValue = null;
-    dragOver = null;
-    dropAtEnd = false;
   }
   function onContainerOver(e: DragEvent) {
     if (dragValue == null) return;
@@ -76,37 +67,29 @@
     const centerX = e.clientX - clickOffsetX + dragWidth / 2;
     const centerY = e.clientY - clickOffsetY + dragHeight / 2;
     const container = e.currentTarget as HTMLElement;
-    const tiles = container.querySelectorAll<HTMLElement>("[data-value]");
-    let found: string | null = null;
+    const tiles = Array.from(
+      container.querySelectorAll<HTMLElement>("[data-value]"),
+    ).filter((t) => t.dataset.value !== dragValue);
+    // Stable insertion index: count tiles that should appear before the
+    // dragged element's center. Reading order = earlier row, or same row
+    // with smaller x-center. The number doesn't oscillate as the preview
+    // reflows because reflowed positions preserve the ordering relation.
+    let count = 0;
     for (const t of tiles) {
-      const v = t.dataset.value!;
-      if (v === dragValue) continue;
       const r = t.getBoundingClientRect();
-      if (
-        centerX >= r.left &&
-        centerX <= r.right &&
-        centerY >= r.top &&
-        centerY <= r.bottom
-      ) {
-        found = v;
-        break;
-      }
+      const tx = (r.left + r.right) / 2;
+      const ty = (r.top + r.bottom) / 2;
+      const halfRow = (r.bottom - r.top) / 2;
+      if (ty < centerY - halfRow) count++;
+      else if (Math.abs(ty - centerY) <= halfRow && tx < centerX) count++;
     }
-    if (found !== null) {
-      dragOver = found;
-      dropAtEnd = false;
-    } else {
-      dragOver = null;
-      dropAtEnd = true;
-    }
+    dropIndex = count;
   }
   function onDrop(e: DragEvent) {
     e.preventDefault();
     if (dragValue == null) return;
     const committed = previewOrder;
     dragValue = null;
-    dragOver = null;
-    dropAtEnd = false;
     order = committed;
   }
 
@@ -192,10 +175,10 @@
         role="listitem"
         ondragstart={(e) => onDragStart(e, value)}
         ondragend={onDragEnd}
-        class="group bg-primary-950/40 border-primary-800/60 relative grid size-20 cursor-grab place-items-center rounded-lg border select-none"
+        class="group bg-primary-900 border-primary-700 relative grid size-20 cursor-grab place-items-center rounded-lg border-2 select-none"
         class:invisible={dragValue === value}
       >
-        <span class="text-sm font-semibold text-neutral-100">{value}</span>
+        <span class="text-base font-semibold text-neutral-100">{value}</span>
         <form
           method="POST"
           action="?/removeAxisValue"

@@ -1,7 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import type { PageData, ActionData } from "./$types";
-  import { variantLabel } from "$lib/utils";
   import { toastSubmit } from "$lib/enhanceWithToast";
   import AxisCard from "./AxisCard.svelte";
 
@@ -182,21 +181,4 @@
     </label>
     <button class="btn neutral sm">Add axis</button>
   </form>
-
-  {#if data.variants.length > 0}
-    <div class="mt-6">
-      <p class="text-sm text-neutral-400 mb-2">
-        Generated variants ({data.variants.length})
-      </p>
-      <ul class="flex flex-wrap gap-2">
-        {#each data.variants as v (v.id)}
-          <li
-            class="bg-primary-950/40 border-primary-800/60 grid min-h-12 min-w-16 place-items-center rounded border px-3 py-1 text-sm text-neutral-200"
-          >
-            {variantLabel(v.options)}
-          </li>
-        {/each}
-      </ul>
-    </div>
-  {/if}
 </section>
