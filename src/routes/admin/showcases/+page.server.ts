@@ -43,15 +43,14 @@ export const actions: Actions = {
     const name = String(data.get("name") ?? "").trim();
     const opens_at = String(data.get("opens_at") ?? "").trim();
     const closes_at = String(data.get("closes_at") ?? "").trim();
-    const collection_event = String(data.get("collection_event") ?? "").trim();
     if (!slug || !name || !opens_at || !closes_at) {
       return fail(400, { error: "slug, name, opens_at, closes_at are required" });
     }
     let row;
     try {
       [row] = await sql<{ id: number }[]>`
-        insert into showcases (slug, name, kind, opens_at, closes_at, collection_event)
-        values (${slug}, ${name}, 'drop', ${opens_at}, ${closes_at}, ${collection_event || null})
+        insert into showcases (slug, name, kind, opens_at, closes_at)
+        values (${slug}, ${name}, 'drop', ${opens_at}, ${closes_at})
         returning id
       `;
     } catch (err) {

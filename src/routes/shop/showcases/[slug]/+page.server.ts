@@ -15,7 +15,6 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       kind: "drop" | "always_on";
       opens_at: Date | null;
       closes_at: Date | null;
-      collection_event: string | null;
       status: string;
     }[]
   >`select * from showcases where slug = ${params.slug}`;

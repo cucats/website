@@ -9,7 +9,6 @@ type ShowcaseSummary = {
   kind: "drop" | "always_on";
   opens_at: Date | null;
   closes_at: Date | null;
-  collection_event: string | null;
   status: string;
 };
 
@@ -17,7 +16,7 @@ export const load: PageServerLoad = async () => {
   const now = new Date();
 
   const openShowcases = await sql<ShowcaseSummary[]>`
-    select id, slug, name, description, kind, opens_at, closes_at, collection_event, status
+    select id, slug, name, description, kind, opens_at, closes_at, status
     from showcases
     where status = 'open'
       and (opens_at is null or opens_at <= ${now})
@@ -29,7 +28,7 @@ export const load: PageServerLoad = async () => {
   `;
 
   const pastDrops = await sql<ShowcaseSummary[]>`
-    select id, slug, name, description, kind, opens_at, closes_at, collection_event, status
+    select id, slug, name, description, kind, opens_at, closes_at, status
     from showcases
     where kind = 'drop' and status in ('closed','fulfilled')
     order by closes_at desc nulls last

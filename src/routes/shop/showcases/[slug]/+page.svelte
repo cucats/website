@@ -33,9 +33,6 @@
     {#if data.showcase.kind === "drop"}
       <p class="mt-3 text-sm text-neutral-300">
         {dateRange(data.showcase.opens_at, data.showcase.closes_at)}
-        {#if data.showcase.collection_event}
-          ・ Collection: {data.showcase.collection_event}
-        {/if}
       </p>
     {:else}
       <p class="mt-3 text-sm text-neutral-300">Ships direct to you</p>

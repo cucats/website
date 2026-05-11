@@ -19,7 +19,6 @@ type VariantRow = {
   showcase_status: string;
   showcase_opens_at: Date | null;
   showcase_closes_at: Date | null;
-  collection_event: string | null;
 };
 
 const variantSelect = `
@@ -27,8 +26,7 @@ const variantSelect = `
   p.id as product_id, p.name as product_name, p.image_url, p.price,
   s.id as showcase_id, s.slug as showcase_slug, s.name as showcase_name,
   s.kind as showcase_kind, s.status as showcase_status,
-  s.opens_at as showcase_opens_at, s.closes_at as showcase_closes_at,
-  s.collection_event
+  s.opens_at as showcase_opens_at, s.closes_at as showcase_closes_at
 `;
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -169,8 +167,6 @@ export const actions: Actions = {
               };
             }),
             total: order.total,
-            collection_event:
-              type === "drop" ? first.collection_event : null,
             status_url: `${new URL(request.url).origin}/shop/orders/${order.reference}`,
           });
         } catch (err) {

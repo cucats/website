@@ -103,10 +103,6 @@
       Closes at
       <input class="default" type="datetime-local" name="closes_at" required />
     </label>
-    <label>
-      Collection event
-      <input class="default" type="text" name="collection_event" />
-    </label>
     <button class="btn primary md">Create drop</button>
   </form>
 </section>

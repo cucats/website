@@ -204,15 +204,6 @@
           required
         />
       </label>
-      <label>
-        Collection event
-        <input
-          class="default"
-          type="text"
-          name="collection_event"
-          value={data.showcase.collection_event ?? ""}
-        />
-      </label>
     {/if}
     <label>
       Status

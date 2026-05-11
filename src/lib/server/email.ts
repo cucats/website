@@ -15,7 +15,6 @@ export type OrderConfirmationInput = {
   type: "drop" | "pod";
   items: { name: string; label: string; qty: number; price: number }[];
   total: number;
-  collection_event?: string | null;
   status_url: string;
 };
 
@@ -52,10 +51,6 @@ function renderText(input: OrderConfirmationInput): string {
     `Your order will be marked as paid once we receive it.`,
     ``,
   ];
-  if (input.type === "drop" && input.collection_event) {
-    lines.push(`Collection: ${input.collection_event}`);
-    lines.push(``);
-  }
   lines.push(`Track your order: ${input.status_url}`);
   lines.push(``);
   lines.push(`— CUCaTS committee`);

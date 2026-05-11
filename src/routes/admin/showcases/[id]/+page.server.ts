@@ -15,7 +15,6 @@ export const load: PageServerLoad = async ({ params }) => {
       kind: string;
       opens_at: Date | null;
       closes_at: Date | null;
-      collection_event: string | null;
       status: string;
     }[]
   >`select * from showcases where id = ${id}`;
@@ -67,7 +66,6 @@ export const actions: Actions = {
     if (current.kind === "drop") {
       const opens_at = String(data.get("opens_at") ?? "").trim();
       const closes_at = String(data.get("closes_at") ?? "").trim();
-      const collection_event = String(data.get("collection_event") ?? "").trim();
       if (!opens_at || !closes_at) {
         return fail(400, { error: "opens_at and closes_at required for drops" });
       }
@@ -77,7 +75,6 @@ export const actions: Actions = {
           description = ${description || null},
           opens_at = ${opens_at},
           closes_at = ${closes_at},
-          collection_event = ${collection_event || null},
           status = ${status}
         where id = ${id}
       `;

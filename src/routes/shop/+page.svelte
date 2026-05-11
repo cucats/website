@@ -47,9 +47,6 @@
                 <p class="mt-2 text-sm text-neutral-400">
                   {#if s.kind === "drop"}
                     {dateRange(s.opens_at, s.closes_at)}
-                    {#if s.collection_event}
-                      ・ Collection: {s.collection_event}
-                    {/if}
                   {:else}
                     Ships direct to you
                   {/if}
