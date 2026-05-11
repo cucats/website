@@ -15,7 +15,23 @@
   {@const previews = preview(s.image_urls)}
   {@const extra = s.product_count - previews.length}
   <li class="r-4 items-center justify-between py-3">
-    <div class="r-4 min-w-0 items-center">
+    <div class="min-w-0">
+      <a class="font-medium text-neutral-100" href="/admin/showcases/{s.id}">
+        {s.name}
+      </a>
+      <p class="text-xs text-neutral-400">
+        {#if s.kind === "drop"}
+          {s.status}
+          {#if s.closes_at}
+            ・ closes {new Date(s.closes_at).toLocaleString("en-GB")}
+          {/if}
+        {:else}
+          always on
+        {/if}
+        ・ {s.product_count} product{s.product_count === 1 ? "" : "s"}
+      </p>
+    </div>
+    <div class="r-4 items-center">
       <div class="flex items-center">
         {#each previews as url, i}
           <img
@@ -33,28 +49,9 @@
             +{extra}
           </span>
         {/if}
-        {#if previews.length === 0}
-          <span class="text-xs text-neutral-500">No products</span>
-        {/if}
       </div>
-      <div class="min-w-0">
-        <a class="font-medium text-neutral-100" href="/admin/showcases/{s.id}">
-          {s.name}
-        </a>
-        <p class="text-xs text-neutral-400">
-          {#if s.kind === "drop"}
-            {s.status}
-            {#if s.closes_at}
-              ・ closes {new Date(s.closes_at).toLocaleString("en-GB")}
-            {/if}
-          {:else}
-            always on
-          {/if}
-          ・ {s.product_count} product{s.product_count === 1 ? "" : "s"}
-        </p>
-      </div>
+      <a class="btn neutral sm" href="/admin/showcases/{s.id}">Edit</a>
     </div>
-    <a class="btn neutral sm" href="/admin/showcases/{s.id}">Edit</a>
   </li>
 {/snippet}
 
