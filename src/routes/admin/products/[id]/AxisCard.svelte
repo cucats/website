@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { enhance } from "$app/forms";
-  import { toastSubmit } from "$lib/enhanceWithToast";
   import { beforeNavigate } from "$app/navigation";
+  import { toastSubmit } from "$lib/enhanceWithToast";
+  import { toasts } from "$lib/toasts.svelte";
 
   let {
     axis,
@@ -9,64 +11,136 @@
     axis: { id: number; name: string; values: string[]; display_order: number };
   } = $props();
 
-  let localValues = $state<string[]>([...axis.values]);
-  let dragging = $state<string | null>(null);
-  let dragOver = $state<string | null>(null);
+  let order = $state<string[]>(untrack(() => [...axis.values]));
+  let savedSnapshot = $state<string[]>(untrack(() => [...axis.values]));
+  const orderDirty = $derived(order.join("\0") !== savedSnapshot.join("\0"));
 
-  // When the server returns a fresh snapshot after add/remove (the set of
-  // values differs), reset the local working copy. A drag-reorder doesn't
-  // change the set, so the user's pending reorder survives.
+  // Re-sync from server when the set of values changes (add/remove). A
+  // pending reorder doesn't change the set, so we don't clobber it.
   $effect(() => {
-    if (dragging) return;
+    if (dragValue !== null) return;
     const a = new Set(axis.values);
-    const l = new Set(localValues);
-    let same = a.size === l.size;
-    if (same) for (const v of a) if (!l.has(v)) { same = false; break; }
-    if (!same) localValues = [...axis.values];
+    const o = new Set(order);
+    let sameSet = a.size === o.size;
+    if (sameSet) for (const v of a) if (!o.has(v)) { sameSet = false; break; }
+    if (!sameSet) {
+      order = [...axis.values];
+      savedSnapshot = [...axis.values];
+    }
   });
 
-  let orderDirty = $derived(
-    localValues.length !== axis.values.length ||
-      localValues.some((v, i) => v !== axis.values[i]),
-  );
+  let dragValue = $state<string | null>(null);
+  let dragOver = $state<string | null>(null);
+  let dropAtEnd = $state(false);
+  let clickOffsetX = 0;
+  let clickOffsetY = 0;
+  let dragWidth = 0;
+  let dragHeight = 0;
 
-  beforeNavigate(({ cancel }) => {
-    if (orderDirty && !confirm("Discard unsaved value order?")) cancel();
-  });
+  let adding = $state(false);
+  let addValue = $state("");
 
   function onDragStart(e: DragEvent, value: string) {
-    dragging = value;
+    dragValue = value;
+    const el = e.currentTarget as HTMLElement;
+    const r = el.getBoundingClientRect();
+    clickOffsetX = e.clientX - r.left;
+    clickOffsetY = e.clientY - r.top;
+    dragWidth = r.width;
+    dragHeight = r.height;
+    e.dataTransfer?.setData("text/plain", value);
     if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
   }
-  function onDragOver(e: DragEvent, value: string) {
-    if (dragging === null) return;
-    e.preventDefault();
-    if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
-    if (value !== dragging) dragOver = value;
-  }
-  function onDrop(e: DragEvent, target: string) {
-    e.preventDefault();
-    if (!dragging || dragging === target) {
-      dragging = null;
-      dragOver = null;
-      return;
-    }
-    const from = localValues.indexOf(dragging);
-    const to = localValues.indexOf(target);
-    if (from < 0 || to < 0) return;
-    const next = [...localValues];
-    next.splice(from, 1);
-    next.splice(to, 0, dragging);
-    localValues = next;
-    dragging = null;
-    dragOver = null;
-  }
   function onDragEnd() {
-    dragging = null;
+    dragValue = null;
     dragOver = null;
+    dropAtEnd = false;
   }
-  function discard() {
-    localValues = [...axis.values];
+  function onContainerOver(e: DragEvent) {
+    if (dragValue == null) return;
+    e.preventDefault();
+    const centerX = e.clientX - clickOffsetX + dragWidth / 2;
+    const centerY = e.clientY - clickOffsetY + dragHeight / 2;
+    const container = e.currentTarget as HTMLElement;
+    const tiles = container.querySelectorAll<HTMLElement>("[data-value]");
+    let found: string | null = null;
+    for (const t of tiles) {
+      const v = t.dataset.value!;
+      if (v === dragValue) continue;
+      const r = t.getBoundingClientRect();
+      if (
+        centerX >= r.left &&
+        centerX <= r.right &&
+        centerY >= r.top &&
+        centerY <= r.bottom
+      ) {
+        found = v;
+        break;
+      }
+    }
+    if (found !== null) {
+      dragOver = found;
+      dropAtEnd = false;
+    } else {
+      dragOver = null;
+      dropAtEnd = true;
+    }
+  }
+  function onDrop(e: DragEvent) {
+    e.preventDefault();
+    if (dragValue == null) return;
+    const moving = dragValue;
+    const overValue = dragOver;
+    const atEnd = dropAtEnd;
+    dragValue = null;
+    dragOver = null;
+    dropAtEnd = false;
+    const next = order.filter((x) => x !== moving);
+    if (atEnd || overValue == null) {
+      next.push(moving);
+    } else if (overValue === moving) {
+      return;
+    } else {
+      const i = next.indexOf(overValue);
+      if (i < 0) return;
+      next.splice(i, 0, moving);
+    }
+    order = next;
+  }
+
+  async function saveOrder() {
+    const body = new FormData();
+    body.set("axis_id", String(axis.id));
+    for (const v of order) body.append("value", v);
+    const res = await fetch("?/reorderAxisValues", { method: "POST", body });
+    if (res.ok) {
+      toasts.show("Order saved");
+      savedSnapshot = [...order];
+    } else {
+      toasts.show("Could not save order", "error");
+    }
+  }
+  function discardOrder() {
+    order = [...savedSnapshot];
+  }
+
+  beforeNavigate(({ cancel }) => {
+    if (
+      orderDirty &&
+      !confirm("You have unsaved value order changes. Leave anyway?")
+    ) {
+      cancel();
+    }
+  });
+
+  function startAdd() {
+    adding = true;
+    addValue = "";
+    queueMicrotask(() => document.getElementById(`axis-${axis.id}-add`)?.focus());
+  }
+  function cancelAdd() {
+    adding = false;
+    addValue = "";
   }
 </script>
 
@@ -90,6 +164,11 @@
       />
       <button class="btn neutral sm">Rename</button>
     </form>
+    {#if orderDirty}
+      <span class="text-sm text-neutral-400">Unsaved order</span>
+      <button type="button" class="btn neutral sm" onclick={discardOrder}>Discard</button>
+      <button type="button" class="btn primary sm" onclick={saveOrder}>Save order</button>
+    {/if}
     <form
       method="POST"
       action="?/removeAxis"
@@ -108,18 +187,23 @@
     </form>
   </div>
 
-  <ul class="mb-2 flex flex-wrap gap-2">
-    {#each localValues as value (value)}
-      <li
+  <div
+    class="flex flex-wrap gap-2"
+    role="list"
+    ondragover={onContainerOver}
+    ondrop={onDrop}
+  >
+    {#each order as value (value)}
+      <div
+        data-value={value}
         draggable="true"
+        role="listitem"
         ondragstart={(e) => onDragStart(e, value)}
-        ondragover={(e) => onDragOver(e, value)}
-        ondrop={(e) => onDrop(e, value)}
         ondragend={onDragEnd}
-        class="bg-primary-950/40 border-primary-800/60 group relative grid min-h-20 min-w-20 cursor-grab place-items-center rounded-lg border px-3 py-2 select-none"
-        class:opacity-30={dragging === value}
-        class:ring-2={dragOver === value}
-        class:ring-primary-400={dragOver === value}
+        class="group bg-primary-950/40 border-primary-800/60 relative grid size-20 cursor-grab place-items-center rounded-lg border select-none"
+        class:hidden={dragValue === value}
+        class:ring-4={dragOver === value && dragValue !== null}
+        class:ring-primary-400={dragOver === value && dragValue !== null}
       >
         <span class="text-sm font-semibold text-neutral-100">{value}</span>
         <form
@@ -132,52 +216,61 @@
           <input type="hidden" name="value" value={value} />
           <button
             type="submit"
-            draggable="false"
-            onmousedown={(e) => e.stopPropagation()}
             class="bg-error-600 hover:bg-error-400 flex size-5 cursor-pointer items-center justify-center rounded-full text-sm font-bold text-neutral-100 shadow-md"
             aria-label="Remove {value}"
+            draggable="false"
+            onmousedown={(e) => e.stopPropagation()}
+            ondragstart={(e) => e.preventDefault()}
           >
             ×
           </button>
         </form>
-      </li>
+      </div>
     {/each}
 
-    <li>
+    {#if adding}
       <form
         method="POST"
         action="?/addAxisValue"
-        class="r-2 items-center"
-        use:enhance={toastSubmit({ success: "Added" })}
+        class="size-20"
+        use:enhance={() =>
+          async ({ result, update }) => {
+            if (result.type === "success") {
+              toasts.show("Added");
+              adding = false;
+              addValue = "";
+            } else if (result.type === "failure") {
+              toasts.show("Could not add", "error");
+            }
+            await update();
+          }}
       >
         <input type="hidden" name="axis_id" value={axis.id} />
         <input
-          class="default w-32"
-          type="text"
+          id="axis-{axis.id}-add"
           name="value"
-          placeholder="add value"
+          bind:value={addValue}
+          onblur={() => {
+            if (!addValue.trim()) cancelAdd();
+          }}
+          onkeydown={(e) => {
+            if (e.key === "Escape") cancelAdd();
+          }}
+          class="bg-primary-950/40 border-primary-800/60 size-20 rounded-lg border text-center text-sm font-semibold text-neutral-100 focus:outline-none focus:border-primary-400"
           autocomplete="off"
           data-lpignore="true"
           required
         />
-        <button class="btn neutral sm">+</button>
       </form>
-    </li>
-  </ul>
-
-  {#if orderDirty}
-    <form
-      method="POST"
-      action="?/reorderAxisValues"
-      class="r-2 mt-2 items-center"
-      use:enhance={toastSubmit({ success: "Order saved" })}
-    >
-      <input type="hidden" name="axis_id" value={axis.id} />
-      {#each localValues as v}
-        <input type="hidden" name="value" value={v} />
-      {/each}
-      <button class="btn primary sm">Save order</button>
-      <button type="button" class="btn neutral sm" onclick={discard}>Discard</button>
-    </form>
-  {/if}
+    {:else}
+      <button
+        type="button"
+        onclick={startAdd}
+        class="group bg-primary-950/20 hover:bg-primary-950/40 border-primary-800/60 hover:border-primary-600 grid size-20 cursor-pointer place-items-center rounded-lg border-2 border-dashed transition-colors"
+        aria-label="Add value"
+      >
+        <span class="text-3xl text-neutral-500 group-hover:text-neutral-300">+</span>
+      </button>
+    {/if}
+  </div>
 </div>
