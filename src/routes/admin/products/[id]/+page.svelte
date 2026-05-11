@@ -374,12 +374,12 @@
       use:enhance={toastSubmit({ success: "Added" })}
     >
       <label class="flex-1">
-        Add several {axisName}s (comma-separated)
+        Add several at once (comma-separated)
         <input
           class="default"
           type="text"
           name="values"
-          placeholder={axisName === "size" ? "S, M, L, XL, 2XL" : "value1, value2"}
+          placeholder={axisName === "size" ? "S, M, L, XL, 2XL" : "value, value"}
           autocomplete="off"
           data-lpignore="true"
           required
@@ -396,7 +396,7 @@
       use:enhance={toastSubmit({ success: "Added" })}
     >
       <label class="flex-1">
-        Add a single {axisName}
+        Add one
         <input
           class="default"
           type="text"
