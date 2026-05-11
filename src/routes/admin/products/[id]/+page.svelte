@@ -3,6 +3,7 @@
   import type { PageData, ActionData } from "./$types";
   import { variantLabel } from "$lib/utils";
   import { toastSubmit } from "$lib/enhanceWithToast";
+  import AxisCard from "./AxisCard.svelte";
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
@@ -153,73 +154,11 @@
 </section>
 
 <section class="mb-10">
-  <div class="r-4 mb-3 items-center justify-between">
-    <h2 class="h4 text-neutral-100">Axes</h2>
-  </div>
+  <h2 class="h4 mb-3 text-neutral-100">Variants</h2>
 
   <div class="c-4 mb-4">
     {#each data.axes as axis (axis.id)}
-      <div class="bg-primary-950/40 border-primary-800/60 rounded-lg border p-4">
-        <div class="r-2 mb-3 items-center">
-          <form
-            method="POST"
-            action="?/renameAxis"
-            class="r-2 flex-1 items-center"
-            use:enhance={toastSubmit({ success: "Axis renamed" })}
-          >
-            <input type="hidden" name="axis_id" value={axis.id} />
-            <input
-              class="default max-w-xs flex-1"
-              type="text"
-              name="name"
-              value={axis.name}
-              autocomplete="off"
-              data-lpignore="true"
-              required
-            />
-            <button class="btn neutral sm">Rename</button>
-          </form>
-          <form
-            method="POST"
-            action="?/removeAxis"
-            use:enhance={toastSubmit({ success: "Removed" })}
-          >
-            <input type="hidden" name="axis_id" value={axis.id} />
-            <button
-              type="submit"
-              class="btn neutral sm text-error-400"
-              onclick={(e) => {
-                if (
-                  !confirm(
-                    `Remove axis "${axis.name}"? Existing variants are left alone.`,
-                  )
-                )
-                  e.preventDefault();
-              }}
-            >
-              Remove axis
-            </button>
-          </form>
-        </div>
-
-        <form
-          method="POST"
-          action="?/setAxisValues"
-          class="c-2"
-          use:enhance={toastSubmit({ success: "Values saved" })}
-        >
-          <input type="hidden" name="axis_id" value={axis.id} />
-          <label>
-            Values (one per line)
-            <textarea
-              class="default min-h-32 font-mono"
-              name="values"
-              autocomplete="off"
-              data-lpignore="true">{axis.values.join("\n")}</textarea>
-          </label>
-          <button class="btn neutral sm self-start">Save values</button>
-        </form>
-      </div>
+      <AxisCard {axis} />
     {/each}
   </div>
 
@@ -241,52 +180,23 @@
         required
       />
     </label>
-    <button class="btn neutral sm">Add</button>
+    <button class="btn neutral sm">Add axis</button>
   </form>
-</section>
 
-<section class="mb-10">
-  <div class="r-4 mb-3 items-center justify-between">
-    <h2 class="h4 text-neutral-100">Variants</h2>
-    <form
-      method="POST"
-      action="?/generateVariants"
-      use:enhance={toastSubmit({ success: "Generated" })}
-    >
-      <button class="btn primary sm">Generate from axes</button>
-    </form>
-  </div>
-
-  {#if data.variants.length === 0}
-    <p class="p text-neutral-400">
-      No variants yet. Add axes + values above, then click Generate.
-    </p>
-  {:else}
-    <ul class="flex flex-wrap gap-2">
-      {#each data.variants as v (v.id)}
-        <li
-          class="bg-primary-950/40 border-primary-800/60 group relative grid min-h-20 min-w-20 cursor-default place-items-center rounded-lg border px-3 py-2"
-        >
-          <span class="text-sm font-semibold text-neutral-100">
-            {variantLabel(v.options)}
-          </span>
-          <form
-            method="POST"
-            action="?/deleteVariant"
-            class="absolute top-1 right-1 opacity-0 transition-opacity group-hover:opacity-100"
-            use:enhance={toastSubmit({ success: "Removed" })}
+  {#if data.variants.length > 0}
+    <div class="mt-6">
+      <p class="text-sm text-neutral-400 mb-2">
+        Generated variants ({data.variants.length})
+      </p>
+      <ul class="flex flex-wrap gap-2">
+        {#each data.variants as v (v.id)}
+          <li
+            class="bg-primary-950/40 border-primary-800/60 grid min-h-12 min-w-16 place-items-center rounded border px-3 py-1 text-sm text-neutral-200"
           >
-            <input type="hidden" name="variant_id" value={v.id} />
-            <button
-              type="submit"
-              class="bg-error-600 hover:bg-error-400 flex size-5 cursor-pointer items-center justify-center rounded-full text-sm font-bold text-neutral-100 shadow-md"
-              aria-label="Remove {variantLabel(v.options)}"
-            >
-              ×
-            </button>
-          </form>
-        </li>
-      {/each}
-    </ul>
+            {variantLabel(v.options)}
+          </li>
+        {/each}
+      </ul>
+    </div>
   {/if}
 </section>

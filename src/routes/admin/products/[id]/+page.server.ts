@@ -19,12 +19,7 @@ export const load: PageServerLoad = async ({ params }) => {
   if (!product) throw error(404, "not found");
 
   const axes = await sql<
-    {
-      id: number;
-      name: string;
-      values: string[];
-      display_order: number;
-    }[]
+    { id: number; name: string; values: string[]; display_order: number }[]
   >`
     select id, name, values, display_order
     from product_axes
@@ -32,12 +27,7 @@ export const load: PageServerLoad = async ({ params }) => {
     order by display_order, id
   `;
 
-  const variants = await sql<
-    {
-      id: number;
-      options: Record<string, string>;
-    }[]
-  >`
+  const variants = await sql<{ id: number; options: Record<string, string> }[]>`
     select id, options
     from variants
     where product_id = ${id}
@@ -67,28 +57,70 @@ export const load: PageServerLoad = async ({ params }) => {
   return { product, axes, variants, showcases, availableShowcases };
 };
 
-function cartesian(axes: { name: string; values: string[] }[]): Record<string, string>[] {
-  if (axes.length === 0) return [];
+function cartesian(
+  axes: { name: string; values: string[] }[],
+): Record<string, string>[] {
   let combos: Record<string, string>[] = [{}];
   for (const axis of axes) {
     if (axis.values.length === 0) return [];
     const next: Record<string, string>[] = [];
-    for (const combo of combos) {
-      for (const v of axis.values) {
-        next.push({ ...combo, [axis.name]: v });
-      }
-    }
+    for (const combo of combos)
+      for (const v of axis.values) next.push({ ...combo, [axis.name]: v });
     combos = next;
   }
   return combos;
 }
 
-function optionsEqual(a: Record<string, string>, b: Record<string, string>): boolean {
+function optionsEqual(
+  a: Record<string, string>,
+  b: Record<string, string>,
+): boolean {
   const ak = Object.keys(a);
-  const bk = Object.keys(b);
-  if (ak.length !== bk.length) return false;
+  if (ak.length !== Object.keys(b).length) return false;
   for (const k of ak) if (a[k] !== b[k]) return false;
   return true;
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+async function syncVariants(tx: any, productId: number) {
+  const axes = await tx<{ name: string; values: string[] }[]>`
+    select name, values from product_axes
+    where product_id = ${productId}
+    order by display_order, id
+  `;
+  const combos = axes.length === 0 ? [] : cartesian(axes);
+  const existing = await tx<
+    { id: number; options: Record<string, string> }[]
+  >`select id, options from variants where product_id = ${productId}`;
+
+  for (const v of existing) {
+    if (combos.find((c) => optionsEqual(c, v.options))) continue;
+    const [{ count }] = await tx<{ count: number }[]>`
+      select count(*)::int as count from order_items where variant_id = ${v.id}
+    `;
+    if (count === 0) await tx`delete from variants where id = ${v.id}`;
+  }
+
+  const [m] = await tx<{ next: number }[]>`
+    select coalesce(max(display_order) + 1, 0) as next
+    from variants where product_id = ${productId}
+  `;
+  let next = m.next;
+  for (const combo of combos) {
+    if (existing.find((e: { options: Record<string, string> }) => optionsEqual(e.options, combo))) continue;
+    await tx`
+      insert into variants (product_id, options, display_order)
+      values (${productId}, ${sql.json(combo)}, ${next})
+    `;
+    next++;
+  }
+}
+
+async function loadAxisOwner(axisId: number) {
+  const [a] = await sql<{ product_id: number; name: string }[]>`
+    select product_id, name from product_axes where id = ${axisId}
+  `;
+  return a;
 }
 
 export const actions: Actions = {
@@ -149,7 +181,7 @@ export const actions: Actions = {
           coalesce((select max(display_order) + 1 from product_axes where product_id = ${id}), 0)
         )
       `;
-    } catch (err) {
+    } catch {
       return fail(400, { error: `axis "${name}" already exists on this product` });
     }
     return { ok: true };
@@ -158,16 +190,13 @@ export const actions: Actions = {
     const data = await request.formData();
     const axisId = Number(data.get("axis_id"));
     const name = String(data.get("name") ?? "").trim();
-    if (!Number.isFinite(axisId) || !name) return fail(400, { error: "bad input" });
-    const [axis] = await sql<{ name: string; product_id: number }[]>`
-      select name, product_id from product_axes where id = ${axisId}
-    `;
+    if (!Number.isFinite(axisId) || !name)
+      return fail(400, { error: "bad input" });
+    const axis = await loadAxisOwner(axisId);
     if (!axis) return fail(404, { error: "axis not found" });
     if (axis.name === name) return { ok: true };
     await sql.begin(async (tx) => {
       await tx`update product_axes set name = ${name} where id = ${axisId}`;
-      // Rename the key inside every variant of this product so existing
-      // variants still match the axis after rename.
       await tx`
         update variants set options =
           (options - ${axis.name}) ||
@@ -182,29 +211,33 @@ export const actions: Actions = {
     const data = await request.formData();
     const axisId = Number(data.get("axis_id"));
     if (!Number.isFinite(axisId)) return fail(400, { error: "bad axis id" });
-    await sql`delete from product_axes where id = ${axisId}`;
-    return { ok: true };
-  },
-  setAxisValues: async ({ request }) => {
-    const data = await request.formData();
-    const axisId = Number(data.get("axis_id"));
-    const raw = String(data.get("values") ?? "");
-    if (!Number.isFinite(axisId)) return fail(400, { error: "bad axis id" });
-    const values = raw
-      .split("\n")
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0);
-    await sql`
-      update product_axes set values = ${values}::text[]
-      where id = ${axisId}
+    const axis = await loadAxisOwner(axisId);
+    if (!axis) return fail(404, { error: "axis not found" });
+    const [{ count }] = await sql<{ count: number }[]>`
+      select count(*)::int as count
+      from order_items oi
+      join variants v on v.id = oi.variant_id
+      where v.product_id = ${axis.product_id} and v.options ? ${axis.name}
     `;
+    if (count > 0) {
+      return fail(400, {
+        error: `Can't remove "${axis.name}": ${count} order item(s) reference variants on this axis.`,
+      });
+    }
+    await sql.begin(async (tx) => {
+      await tx`delete from product_axes where id = ${axisId}`;
+      await tx`
+        update variants set options = options - ${axis.name}
+        where product_id = ${axis.product_id} and options ? ${axis.name}
+      `;
+      await syncVariants(tx, axis.product_id);
+    });
     return { ok: true };
   },
   reorderAxes: async ({ request, params }) => {
     const id = Number(params.id);
     const data = await request.formData();
-    const idsRaw = String(data.get("ids") ?? "");
-    const ids = idsRaw
+    const ids = String(data.get("ids") ?? "")
       .split(",")
       .map((s) => Number(s.trim()))
       .filter((n) => Number.isFinite(n));
@@ -220,67 +253,67 @@ export const actions: Actions = {
     return { ok: true };
   },
 
-  generateVariants: async ({ params }) => {
-    const id = Number(params.id);
-    const axes = await sql<{ name: string; values: string[] }[]>`
-      select name, values from product_axes
-      where product_id = ${id}
-      order by display_order, id
-    `;
-    if (axes.length === 0) {
-      return fail(400, { error: "Add at least one axis first" });
-    }
-    const empty = axes.find((a) => a.values.length === 0);
-    if (empty) {
-      return fail(400, { error: `Axis "${empty.name}" has no values` });
-    }
-    const combos = cartesian(axes);
-    const existing = await sql<{ id: number; options: Record<string, string> }[]>`
-      select id, options from variants where product_id = ${id}
-    `;
+  addAxisValue: async ({ request }) => {
+    const data = await request.formData();
+    const axisId = Number(data.get("axis_id"));
+    const value = String(data.get("value") ?? "").trim();
+    if (!Number.isFinite(axisId) || !value)
+      return fail(400, { error: "value required" });
+    const axis = await loadAxisOwner(axisId);
+    if (!axis) return fail(404, { error: "axis not found" });
     await sql.begin(async (tx) => {
-      const [m] = await tx<{ next: number }[]>`
-        select coalesce(max(display_order) + 1, 0) as next
-        from variants where product_id = ${id}
+      const [a] = await tx<{ values: string[] }[]>`
+        select values from product_axes where id = ${axisId} for update
       `;
-      let next = m.next;
-      for (const combo of combos) {
-        const match = existing.find((e) => optionsEqual(e.options, combo));
-        if (match) continue;
-        await tx`
-          insert into variants (product_id, options, display_order)
-          values (${id}, ${sql.json(combo)}, ${next})
-        `;
-        next++;
-      }
+      if (a.values.includes(value)) return;
+      await tx`
+        update product_axes set values = array_append(values, ${value})
+        where id = ${axisId}
+      `;
+      await syncVariants(tx, axis.product_id);
     });
     return { ok: true };
   },
-
-  reorderVariants: async ({ request, params }) => {
-    const id = Number(params.id);
+  removeAxisValue: async ({ request }) => {
     const data = await request.formData();
-    const idsRaw = String(data.get("ids") ?? "");
-    const ids = idsRaw
-      .split(",")
-      .map((s) => Number(s.trim()))
-      .filter((n) => Number.isFinite(n));
-    if (ids.length === 0) return fail(400, { error: "no ids" });
+    const axisId = Number(data.get("axis_id"));
+    const value = String(data.get("value") ?? "");
+    if (!Number.isFinite(axisId)) return fail(400, { error: "bad axis id" });
+    const axis = await loadAxisOwner(axisId);
+    if (!axis) return fail(404, { error: "axis not found" });
+    const [{ count }] = await sql<{ count: number }[]>`
+      select count(*)::int as count
+      from order_items oi
+      join variants v on v.id = oi.variant_id
+      where v.product_id = ${axis.product_id}
+        and v.options->>${axis.name} = ${value}
+    `;
+    if (count > 0) {
+      return fail(400, {
+        error: `Can't remove "${value}": ${count} order item(s) reference it.`,
+      });
+    }
     await sql.begin(async (tx) => {
-      for (let i = 0; i < ids.length; i++) {
-        await tx`
-          update variants set display_order = ${i}
-          where id = ${ids[i]} and product_id = ${id}
-        `;
-      }
+      await tx`
+        update product_axes set values = array_remove(values, ${value})
+        where id = ${axisId}
+      `;
+      await syncVariants(tx, axis.product_id);
     });
     return { ok: true };
   },
-  deleteVariant: async ({ request }) => {
+  reorderAxisValues: async ({ request }) => {
     const data = await request.formData();
-    const vid = Number(data.get("variant_id"));
-    if (!Number.isFinite(vid)) return fail(400, { error: "bad variant id" });
-    await sql`delete from variants where id = ${vid}`;
+    const axisId = Number(data.get("axis_id"));
+    if (!Number.isFinite(axisId)) return fail(400, { error: "bad axis id" });
+    const values = data
+      .getAll("value")
+      .map((v) => String(v))
+      .filter((v) => v.length > 0);
+    await sql`
+      update product_axes set values = ${values}::text[]
+      where id = ${axisId}
+    `;
     return { ok: true };
   },
 
