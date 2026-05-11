@@ -15,8 +15,6 @@
   let savedSnapshot = $state<string[]>(untrack(() => [...axis.values]));
   const orderDirty = $derived(order.join("\0") !== savedSnapshot.join("\0"));
 
-  // Re-sync from server when the set of values changes (add/remove). A
-  // pending reorder doesn't change the set, so we don't clobber it.
   $effect(() => {
     if (dragValue !== null) return;
     const a = new Set(axis.values);
@@ -37,8 +35,24 @@
   let dragWidth = 0;
   let dragHeight = 0;
 
-  let adding = $state(false);
+  // The order the user sees while dragging — `dragValue` moved to its
+  // current drop target so the surrounding chips reflow continuously and
+  // preview the final arrangement.
+  const previewOrder = $derived.by(() => {
+    if (dragValue === null) return order;
+    const without = order.filter((x) => x !== dragValue);
+    if (dropAtEnd || dragOver === null) {
+      without.push(dragValue);
+    } else {
+      const i = without.indexOf(dragOver);
+      if (i < 0) return order;
+      without.splice(i, 0, dragValue);
+    }
+    return without;
+  });
+
   let addValue = $state("");
+  let addInput: HTMLInputElement | undefined = $state();
 
   function onDragStart(e: DragEvent, value: string) {
     dragValue = value;
@@ -89,23 +103,11 @@
   function onDrop(e: DragEvent) {
     e.preventDefault();
     if (dragValue == null) return;
-    const moving = dragValue;
-    const overValue = dragOver;
-    const atEnd = dropAtEnd;
+    const committed = previewOrder;
     dragValue = null;
     dragOver = null;
     dropAtEnd = false;
-    const next = order.filter((x) => x !== moving);
-    if (atEnd || overValue == null) {
-      next.push(moving);
-    } else if (overValue === moving) {
-      return;
-    } else {
-      const i = next.indexOf(overValue);
-      if (i < 0) return;
-      next.splice(i, 0, moving);
-    }
-    order = next;
+    order = committed;
   }
 
   async function saveOrder() {
@@ -132,16 +134,6 @@
       cancel();
     }
   });
-
-  function startAdd() {
-    adding = true;
-    addValue = "";
-    queueMicrotask(() => document.getElementById(`axis-${axis.id}-add`)?.focus());
-  }
-  function cancelAdd() {
-    adding = false;
-    addValue = "";
-  }
 </script>
 
 <div class="bg-primary-950/40 border-primary-800/60 rounded-lg border p-4">
@@ -193,7 +185,7 @@
     ondragover={onContainerOver}
     ondrop={onDrop}
   >
-    {#each order as value (value)}
+    {#each previewOrder as value (value)}
       <div
         data-value={value}
         draggable="true"
@@ -201,9 +193,7 @@
         ondragstart={(e) => onDragStart(e, value)}
         ondragend={onDragEnd}
         class="group bg-primary-950/40 border-primary-800/60 relative grid size-20 cursor-grab place-items-center rounded-lg border select-none"
-        class:hidden={dragValue === value}
-        class:ring-4={dragOver === value && dragValue !== null}
-        class:ring-primary-400={dragOver === value && dragValue !== null}
+        class:invisible={dragValue === value}
       >
         <span class="text-sm font-semibold text-neutral-100">{value}</span>
         <form
@@ -228,49 +218,33 @@
       </div>
     {/each}
 
-    {#if adding}
-      <form
-        method="POST"
-        action="?/addAxisValue"
-        class="size-20"
-        use:enhance={() =>
-          async ({ result, update }) => {
-            if (result.type === "success") {
-              toasts.show("Added");
-              adding = false;
-              addValue = "";
-            } else if (result.type === "failure") {
-              toasts.show("Could not add", "error");
-            }
-            await update();
-          }}
-      >
-        <input type="hidden" name="axis_id" value={axis.id} />
-        <input
-          id="axis-{axis.id}-add"
-          name="value"
-          bind:value={addValue}
-          onblur={() => {
-            if (!addValue.trim()) cancelAdd();
-          }}
-          onkeydown={(e) => {
-            if (e.key === "Escape") cancelAdd();
-          }}
-          class="bg-primary-950/40 border-primary-800/60 size-20 rounded-lg border text-center text-sm font-semibold text-neutral-100 focus:outline-none focus:border-primary-400"
-          autocomplete="off"
-          data-lpignore="true"
-          required
-        />
-      </form>
-    {:else}
-      <button
-        type="button"
-        onclick={startAdd}
-        class="group bg-primary-950/20 hover:bg-primary-950/40 border-primary-800/60 hover:border-primary-600 grid size-20 cursor-pointer place-items-center rounded-lg border-2 border-dashed transition-colors"
-        aria-label="Add value"
-      >
-        <span class="text-3xl text-neutral-500 group-hover:text-neutral-300">+</span>
-      </button>
-    {/if}
+    <form
+      method="POST"
+      action="?/addAxisValue"
+      class="size-20"
+      use:enhance={() =>
+        async ({ result, update }) => {
+          if (result.type === "success") {
+            toasts.show("Added");
+            addValue = "";
+            queueMicrotask(() => addInput?.focus());
+          } else if (result.type === "failure") {
+            toasts.show("Could not add", "error");
+          }
+          await update();
+        }}
+    >
+      <input type="hidden" name="axis_id" value={axis.id} />
+      <input
+        bind:this={addInput}
+        bind:value={addValue}
+        name="value"
+        placeholder="+"
+        class="bg-primary-950/20 hover:bg-primary-950/40 border-primary-800/60 hover:border-primary-600 focus:border-primary-400 focus:placeholder:text-transparent size-20 rounded-lg border-2 border-dashed text-center text-base font-semibold text-neutral-100 placeholder:text-4xl placeholder:font-normal placeholder:text-neutral-500 focus:border-solid focus:outline-none"
+        autocomplete="off"
+        data-lpignore="true"
+        required
+      />
+    </form>
   </div>
 </div>
