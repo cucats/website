@@ -1,5 +1,6 @@
 <script lang="ts">
   import { untrack } from "svelte";
+  import { flip } from "svelte/animate";
   import { enhance } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
   import { fade } from "svelte/transition";
@@ -18,6 +19,7 @@
 
   let order = $state<number[]>(untrack(() => data.products.map((p) => p.id)));
   $effect(() => {
+    if (dragId !== null) return;
     order = data.products.map((p) => p.id);
   });
   const productById = $derived(
@@ -30,7 +32,6 @@
   );
 
   let dragId = $state<number | null>(null);
-  let dragOverId = $state<number | null>(null);
 
   function onDragStart(e: DragEvent, id: number) {
     dragId = id;
@@ -40,38 +41,25 @@
   function onDragOver(e: DragEvent, id: number) {
     if (dragId == null || dragId === id) return;
     e.preventDefault();
-    dragOverId = id;
+    const from = order.indexOf(dragId);
+    const to = order.indexOf(id);
+    if (from < 0 || to < 0 || from === to) return;
+    order.splice(from, 1);
+    order.splice(to, 0, dragId);
   }
   function onDragEnd() {
     dragId = null;
-    dragOverId = null;
   }
-  async function onDrop(e: DragEvent, dropOnId: number) {
+  async function onDrop(e: DragEvent) {
     e.preventDefault();
-    if (dragId == null || dragId === dropOnId) {
-      onDragEnd();
-      return;
-    }
-    const from = order.indexOf(dragId);
-    const to = order.indexOf(dropOnId);
-    if (from < 0 || to < 0) {
-      onDragEnd();
-      return;
-    }
-    const moving = dragId;
-    order.splice(from, 1);
-    order.splice(to, 0, moving);
-    onDragEnd();
+    if (dragId == null) return;
+    dragId = null;
     const body = new FormData();
     body.set("ids", order.join(","));
     const res = await fetch("?/reorderProducts", { method: "POST", body });
-    if (res.ok) {
-      toasts.show("Order saved");
-      await invalidateAll();
-    } else {
-      toasts.show("Could not save order", "error");
-      await invalidateAll();
-    }
+    if (res.ok) toasts.show("Order saved");
+    else toasts.show("Could not save order", "error");
+    await invalidateAll();
   }
 
   let pickerOpen = $state(false);
@@ -189,15 +177,15 @@
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
     {#each ordered as p (p.id)}
       <article
-        class="group bg-primary-950/40 border-primary-800/60 relative cursor-grab overflow-hidden rounded-lg border transition-all"
-        class:opacity-40={dragId === p.id}
-        class:!border-primary-400={dragOverId === p.id}
-        class:ring-2={dragOverId === p.id}
-        class:ring-primary-400={dragOverId === p.id}
+        animate:flip={{ duration: 220 }}
+        class="group bg-primary-950/40 border-primary-800/60 relative cursor-grab overflow-hidden rounded-lg border select-none"
+        class:!opacity-30={dragId === p.id}
+        class:scale-95={dragId === p.id}
+        style="transition: opacity 0.15s, transform 0.15s;"
         draggable="true"
         ondragstart={(e) => onDragStart(e, p.id)}
         ondragover={(e) => onDragOver(e, p.id)}
-        ondrop={(e) => onDrop(e, p.id)}
+        ondrop={onDrop}
         ondragend={onDragEnd}
       >
         <div class="bg-primary-900 aspect-square">

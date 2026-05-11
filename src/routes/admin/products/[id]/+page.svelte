@@ -1,5 +1,6 @@
 <script lang="ts">
   import { untrack } from "svelte";
+  import { flip } from "svelte/animate";
   import { enhance } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
   import type { PageData, ActionData } from "./$types";
@@ -13,6 +14,7 @@
 
   let order = $state<number[]>(untrack(() => data.variants.map((v) => v.id)));
   $effect(() => {
+    if (dragId !== null) return;
     order = data.variants.map((v) => v.id);
   });
   const variantById = $derived(
@@ -25,7 +27,6 @@
   );
 
   let dragId = $state<number | null>(null);
-  let dragOverId = $state<number | null>(null);
 
   function onDragStart(e: DragEvent, id: number) {
     dragId = id;
@@ -36,40 +37,27 @@
   function onDragOver(e: DragEvent, id: number) {
     if (dragId == null || dragId === id) return;
     e.preventDefault();
-    dragOverId = id;
+    const from = order.indexOf(dragId);
+    const to = order.indexOf(id);
+    if (from < 0 || to < 0 || from === to) return;
+    order.splice(from, 1);
+    order.splice(to, 0, dragId);
+  }
+
+  async function onDrop(e: DragEvent) {
+    e.preventDefault();
+    if (dragId == null) return;
+    dragId = null;
+    const body = new FormData();
+    body.set("ids", order.join(","));
+    const res = await fetch("?/reorderVariants", { method: "POST", body });
+    if (res.ok) toasts.show("Order saved");
+    else toasts.show("Could not save order", "error");
+    await invalidateAll();
   }
 
   function onDragEnd() {
     dragId = null;
-    dragOverId = null;
-  }
-
-  async function onDrop(e: DragEvent, dropOnId: number) {
-    e.preventDefault();
-    if (dragId == null || dragId === dropOnId) {
-      onDragEnd();
-      return;
-    }
-    const from = order.indexOf(dragId);
-    const to = order.indexOf(dropOnId);
-    if (from < 0 || to < 0) {
-      onDragEnd();
-      return;
-    }
-    const moving = dragId;
-    order.splice(from, 1);
-    order.splice(to, 0, moving);
-    onDragEnd();
-    const body = new FormData();
-    body.set("ids", order.join(","));
-    const res = await fetch("?/reorderVariants", { method: "POST", body });
-    if (res.ok) {
-      toasts.show("Order saved");
-      await invalidateAll();
-    } else {
-      toasts.show("Could not save order", "error");
-      await invalidateAll();
-    }
   }
 </script>
 
@@ -235,19 +223,18 @@
     <ul class="mb-6 flex flex-wrap gap-2">
       {#each orderedVariants as v (v.id)}
         <li
-          class="r-3 bg-primary-950/40 border-primary-800/60 group cursor-grab items-center rounded-lg border px-3 py-2 transition-all"
-          class:opacity-50={dragId === v.id}
-          class:!border-primary-400={dragOverId === v.id}
+          animate:flip={{ duration: 180 }}
+          class="r-3 bg-primary-950/40 border-primary-800/60 group cursor-grab items-center rounded-lg border px-3 py-2 select-none"
+          class:!opacity-30={dragId === v.id}
+          class:scale-95={dragId === v.id}
           class:opacity-60={!v.enabled}
+          style="transition: opacity 0.15s, transform 0.15s;"
           draggable="true"
           ondragstart={(e) => onDragStart(e, v.id)}
           ondragover={(e) => onDragOver(e, v.id)}
-          ondrop={(e) => onDrop(e, v.id)}
+          ondrop={onDrop}
           ondragend={onDragEnd}
         >
-          <span class="text-neutral-500" aria-hidden="true" title="Drag to reorder">
-            ⋮⋮
-          </span>
           <span
             class="text-sm font-semibold text-neutral-100"
             class:line-through={!v.enabled}
