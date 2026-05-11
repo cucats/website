@@ -66,11 +66,10 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     {
       slug: string;
       name: string;
-      collection_event: string | null;
       closes_at: Date | null;
       kind: "drop" | "always_on";
     }[]
-  >`select slug, name, collection_event, closes_at, kind from showcases where id = ${order.showcase_id}`;
+  >`select slug, name, closes_at, kind from showcases where id = ${order.showcase_id}`;
 
   return {
     order,
