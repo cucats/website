@@ -45,6 +45,11 @@
       start: new Date("2026-01-20"),
       end: new Date("2026-03-20"),
     },
+    {
+      name: "Easter 2026",
+      start: new Date("2026-04-17"),
+      end: new Date("2026-06-25"),
+    },
   ];
 
   function formatDateDuration(event: CalendarEvent) {
@@ -72,7 +77,7 @@
     return `${formatDateTime(event.start)} - ${formatDateTime(event.end)}`;
   }
 
-  let currentTermIndex = $state(2);
+  let currentTermIndex = $state(3);
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
