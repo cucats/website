@@ -265,11 +265,17 @@
             >
               Register interest
             </a>
+          </div>
+        </Sponsor>
+
+        <Sponsor tier="silver" logo="/assets/sponsors/thetradedesk.svg">
+          {#snippet name()}The Trade Desk{/snippet}
+          <div class="r-4">
             <a
               class="btn primary sm font-bold"
-              href="https://optiver.com/working-at-optiver/career-opportunities/page/2/?search=internship"
+              href="https://www.thetradedesk.com/uk"
             >
-              View opportunities
+              Website
             </a>
           </div>
         </Sponsor>
