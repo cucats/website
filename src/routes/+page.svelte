@@ -101,7 +101,7 @@
       )}
     </div>
 
-    <div class="mt-60 flex flex-col items-center gap-6">
+    <div class="mt-80 flex flex-col items-center gap-6">
       <div class="relative h-120 w-120">
         <img
           src="/assets/events/camhack-map-project.jpg"
