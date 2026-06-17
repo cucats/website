@@ -152,11 +152,6 @@
           placeholder="Search blog and wiki..."
           class="w-full bg-transparent py-4 text-lg text-neutral-100 outline-none placeholder:text-neutral-500"
         />
-        <kbd
-          class="hidden shrink-0 rounded border border-neutral-700 bg-neutral-800 px-2 py-1 text-xs text-neutral-400 sm:block"
-        >
-          ESC
-        </kbd>
       </div>
 
       <!-- Results -->
