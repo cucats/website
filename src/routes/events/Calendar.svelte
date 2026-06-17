@@ -1,10 +1,11 @@
 <script lang="ts">
-  import type { Picture } from "vite-imagetools";
   import Ical from "ical.js";
   import { onMount } from "svelte";
   import DOMPurify from "dompurify";
   import Modal from "$lib/components/Modal.svelte";
   import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
+
+  import EventData from "./EventData.svelte";
 
   import CalendarIcon from "$lib/assets/icons/calendar.png?enhanced";
   import LocationIcon from "$lib/assets/icons/location.png?enhanced";
@@ -81,7 +82,7 @@
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
-  let weekStartsMonday = $state(false); // false = Thursday first, true = Monday first
+  let weekStartsMonday = $state(true); // false = Thursday first, true = Monday first
 
   const currentTerm = $derived(terms[currentTermIndex]);
 
@@ -333,28 +334,21 @@
         {selectedEvent.summary}
       </h2>
 
-      {#snippet eventData(icon: Picture, title: string, data: string)}
-        <div class="mt-4 flex items-start">
-          <enhanced:img src={icon} class="pixel mr-3 size-8" alt={title} />
-
-          <div class="flex-1">
-            <h3 class="text-xs font-bold text-neutral-400 uppercase">
-              {title}
-            </h3>
-            <p class="text-sm text-neutral-200">{data}</p>
-          </div>
-        </div>
-      {/snippet}
-
-      <div class="wrap-anywhere">
-        {@render eventData(
-          CalendarIcon,
-          "Date & Time",
-          formatDateDuration(selectedEvent),
-        )}
+      <div class="flex flex-col gap-4 wrap-anywhere">
+        <EventData icon={CalendarIcon} title="Date & Time">
+          <p class="text-sm">{formatDateDuration(selectedEvent)}</p>
+        </EventData>
 
         {#if selectedEvent.location}
-          {@render eventData(LocationIcon, "Location", selectedEvent.location)}
+          <EventData icon={LocationIcon} title="Location">
+            <a
+              class="a text-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://maps.google.com/?q={selectedEvent.location}"
+              >{selectedEvent.location}</a
+            >
+          </EventData>
         {/if}
 
         {#if selectedEvent.description}
