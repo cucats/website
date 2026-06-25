@@ -56,27 +56,33 @@
       </nav>
     </div>
 
-    <div class="space-y-4">
-      <h4 class="text-lg font-bold text-neutral-100 uppercase">Connect</h4>
-      <div class="flex gap-4">
-        {#each socialLinks as social}
-          <a
-            href={social.href}
-            class="block h-8 w-8 opacity-70 transition-opacity hover:opacity-100"
-            aria-label={social.name}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src={social.icon} alt={social.name} class="h-full w-full" />
-          </a>
-        {/each}
+    <div class="space-y-8">
+      <div class="space-y-4">
+        <h4 class="text-lg font-bold text-neutral-100 uppercase">Contact</h4>
+        <a
+          href="mailto:executive@cucats.org"
+          class="bg-primary-700 hover:bg-primary-600 inline-block rounded-lg px-4 py-2 text-sm font-bold text-neutral-100 transition-colors"
+        >
+          Contact us
+        </a>
       </div>
-      <a
-        href="mailto:executive@cucats.org"
-        class="bg-primary-700 hover:bg-primary-600 inline-block rounded-lg px-4 py-2 text-sm font-bold text-neutral-100 transition-colors"
-      >
-        Contact us
-      </a>
+
+      <div class="space-y-4">
+        <h4 class="text-lg font-bold text-neutral-100 uppercase">Follow</h4>
+        <div class="flex gap-4">
+          {#each socialLinks as social}
+            <a
+              href={social.href}
+              class="block h-8 w-8 opacity-70 transition-opacity hover:opacity-100"
+              aria-label={social.name}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={social.icon} alt={social.name} class="h-full w-full" />
+            </a>
+          {/each}
+        </div>
+      </div>
     </div>
   </div>
 
