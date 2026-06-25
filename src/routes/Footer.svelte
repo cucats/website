@@ -71,6 +71,12 @@
           </a>
         {/each}
       </div>
+      <a
+        href="mailto:executive@cucats.org"
+        class="bg-primary-700 hover:bg-primary-600 inline-block rounded-lg px-4 py-2 text-sm font-bold text-neutral-100 transition-colors"
+      >
+        Contact us
+      </a>
     </div>
   </div>
 
