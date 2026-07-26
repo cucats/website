@@ -147,39 +147,6 @@
           </div>
         </Sponsor>
 
-        <Sponsor tier="silver" logo="/assets/sponsors/iterate.svg">
-          {#snippet name()}Iterate{/snippet}
-          <p>
-            Iterate is building the future of autonomous companies. We believe
-            one of the most valuable uses of AGI will be to build startups.
-            We're starting by helping small teams automate their startups -
-            today, we offer a customizable, AI chief of staff that automates
-            tedious ops processes like filing invoices, onboarding new hires,
-            requesting tax credits etc.
-          </p>
-          <p>
-            Founded by the former co-founder and CTO of Monzo, Iterate is backed
-            by the world's best investors, including OpenAI, Index Ventures, and
-            the founders behind Anthropic, Mistral, and other class-leading
-            companies.
-          </p>
-          <p>
-            We are a small, deeply technical team based out of London, driven by
-            the ambition to redefine what humans can build with AI.
-          </p>
-          <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://iterate.com">
-              Website
-            </a>
-            <a
-              class="btn primary sm font-bold"
-              href="https://www.iterate.com/careers"
-            >
-              View opportunities
-            </a>
-          </div>
-        </Sponsor>
-
         <Sponsor tier="silver" logo="/assets/sponsors/mwam.png">
           {#snippet name()}Marshall Wace{/snippet}
           <p>
