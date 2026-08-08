@@ -23,11 +23,11 @@ Length is not a virtue. A page that saves someone twenty minutes is worth publis
 
 Things members have asked about that nobody has written up yet:
 
-- Surviving Java and the Object-Oriented Programming ticks
 - Setting up a comfortable development environment on the MCS machines
 - Making sense of the Cambridge networking setup: VPN, eduroam and Raven
-- The command line beyond `cd` and `ls`: pipes, `grep`, `find` and shell scripting
-- Profiling: finding the slow part before optimising the wrong one
 - Getting a first internship application together
+- Writing tests, and what to test when there is no obvious answer
+- Docker, for people who keep being told to use it
+- Reading a research paper without bouncing off it
 
 If you want to write one of these, you do not need permission — open a pull request against the [website repository](https://github.com/cucats/website).
