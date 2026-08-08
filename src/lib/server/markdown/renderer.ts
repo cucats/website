@@ -11,6 +11,14 @@ let highlighter: Highlighter | null = null;
 const DISPLAY_MATH_REGEX = /\$\$([\s\S]+?)\$\$/g;
 const INLINE_MATH_REGEX = /(?<!\$)\$(?!\$)((?:[^$]|\\\$)+?)\$(?!\$)/g;
 
+// Regex to match code, which is masked off before math is extracted so that
+// dollar signs inside code are never treated as math
+// Fenced: ```...``` or ~~~...~~~
+// Inline: `...`
+const FENCED_CODE_REGEX =
+  /^[ \t]*(`{3,}|~{3,})[^\n]*\n[\s\S]*?^[ \t]*\1[ \t]*$/gm;
+const INLINE_CODE_REGEX = /(`+)([^`]+?)\1/g;
+
 const SHIKI_LANGUAGE_MAP: Record<string, string> = {
   bash: "bash",
   sh: "bash",
@@ -87,27 +95,45 @@ export async function render(markdown: string): Promise<RenderResult> {
   const mathPlaceholders: Map<string, string> = new Map();
   let placeholderIndex = 0;
 
+  // Mask code first, so that dollar signs inside code blocks and code spans
+  // survive math extraction. Restored just before parsing, below.
+  const codePlaceholders: Map<string, string> = new Map();
+  let codeIndex = 0;
+
+  const maskCode = (text: string, regex: RegExp) =>
+    text.replace(regex, (match) => {
+      const placeholder = `%%CODE_${codeIndex++}%%`;
+      codePlaceholders.set(placeholder, match);
+      return placeholder;
+    });
+
+  let processedMarkdown = maskCode(markdown, FENCED_CODE_REGEX);
+  processedMarkdown = maskCode(processedMarkdown, INLINE_CODE_REGEX);
+
   // Extract display math first ($$...$$)
-  let processedMarkdown = markdown.replace(DISPLAY_MATH_REGEX, (_, math) => {
-    const placeholder = `%%MATH_DISPLAY_${placeholderIndex++}%%`;
-    try {
-      mathPlaceholders.set(
-        placeholder,
-        katex.renderToString(math.trim(), {
-          displayMode: true,
-          throwOnError: false,
-          strict: false,
-        }),
-      );
-    } catch (e) {
-      console.error("KaTeX error:", e);
-      mathPlaceholders.set(
-        placeholder,
-        `<span class="math-error">Math error: ${escapeHtml(math)}</span>`,
-      );
-    }
-    return placeholder;
-  });
+  processedMarkdown = processedMarkdown.replace(
+    DISPLAY_MATH_REGEX,
+    (_, math) => {
+      const placeholder = `%%MATH_DISPLAY_${placeholderIndex++}%%`;
+      try {
+        mathPlaceholders.set(
+          placeholder,
+          katex.renderToString(math.trim(), {
+            displayMode: true,
+            throwOnError: false,
+            strict: false,
+          }),
+        );
+      } catch (e) {
+        console.error("KaTeX error:", e);
+        mathPlaceholders.set(
+          placeholder,
+          `<span class="math-error">Math error: ${escapeHtml(math)}</span>`,
+        );
+      }
+      return placeholder;
+    },
+  );
 
   // Extract inline math ($...$)
   processedMarkdown = processedMarkdown.replace(
@@ -133,6 +159,13 @@ export async function render(markdown: string): Promise<RenderResult> {
       return placeholder;
     },
   );
+
+  // Put code back now that math extraction is done. The replacement is a
+  // function so that dollar signs in the code are not read as replacement
+  // patterns such as $& or $1.
+  for (const [placeholder, code] of codePlaceholders) {
+    processedMarkdown = processedMarkdown.replace(placeholder, () => code);
+  }
 
   const marked = new Marked({
     async: true,
@@ -229,7 +262,7 @@ export async function render(markdown: string): Promise<RenderResult> {
 
   // Restore math expressions from placeholders
   for (const [placeholder, rendered] of mathPlaceholders) {
-    html = html.replace(placeholder, rendered);
+    html = html.replace(placeholder, () => rendered);
   }
 
   return { html, sections };

@@ -7,9 +7,21 @@ This wiki renders LaTeX with [KaTeX](https://katex.org/), so mathematical notati
 
 ## Inline and display
 
-Wrap an expression in single dollar signs to set it inline, so that it flows with the surrounding text: merge sort runs in $O(n \log n)$ time, and binary search needs at most $\lfloor \log_2 n \rfloor + 1$ comparisons on a sorted list of $n$ elements.
+Wrap an expression in single dollar signs to set it inline, so that it flows with the surrounding text: merge sort runs in $O(n \log n)$ time, and binary search needs at most $\lfloor \log_2 n \rfloor + 1$ comparisons on a sorted list of $n$ elements. That first one was written as:
+
+```text
+merge sort runs in $O(n \log n)$ time
+```
 
 Wrap it in double dollar signs to set it on its own centred line, which is what you want for anything you intend to refer back to:
+
+```text
+$$
+\frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+```
+
+which gives:
 
 $$
 \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
@@ -64,17 +76,25 @@ A = \begin{pmatrix} 1 & 0 \\ 1 & 1 \end{pmatrix}
 \end{cases}
 $$
 
-## One caveat for authors
+## Dollar signs in code
 
-> [!WARNING]
-> Mathematics is extracted from the page **before** the Markdown is parsed, and the extraction does not skip fenced code blocks. A pair of dollar signs inside a code block will therefore be rendered as mathematics rather than shown literally.
+Mathematics is extracted from the page **before** the Markdown is parsed, so that the parser cannot mangle it. Code is masked off first, which means dollar signs inside fenced code blocks and inline code spans are left exactly as written and never treated as mathematics.
 
-In practice this means two things when you are writing a page:
+So all of these render literally, as they should:
 
-- **Avoid dollar signs in code samples.** Write shell commands bare, without a leading prompt character, and avoid shell variable interpolation. If you need to show either, describe it in prose instead.
-- **You cannot show raw math syntax literally**, which is why this page describes the delimiters in words rather than printing them.
+```bash
+eval $(opam env)
+echo "${HOME}/bin"
+```
 
-If you hit a case where you genuinely need a literal dollar sign in a code block, it is worth fixing the renderer in `src/lib/server/markdown/renderer.ts` rather than working around it — the extraction step would need to skip fenced regions, in the same way that `is_in_code_block` is already used when collecting headings.
+```latex
+The area of a circle is $\pi r^2$.
+```
+
+And inline: `$HOME`, `$(pwd)`, `$1`.
+
+> [!NOTE]
+> This is handled in `src/lib/server/markdown/renderer.ts`. Fenced blocks and code spans are swapped for placeholders, the math extraction runs, and the code is restored before parsing — so if you are adding a page full of shell or LaTeX, you do not need to do anything special.
 
 ## Everything else KaTeX supports
 

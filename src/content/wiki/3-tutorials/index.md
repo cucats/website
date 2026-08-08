@@ -5,7 +5,7 @@ description: Guides and tutorials on various computing topics
 
 Practical, hands-on guides written by CUCaTS members. This section is deliberately open-ended: anything that someone found worth figuring out is worth writing down here.
 
-The section is young, so it is short. If you have explained something to a friend more than twice, that is a strong signal it belongs on this page — see [contributing](/wiki#contributing) for how to add one.
+If you have explained something to a friend more than twice, that is a strong signal it belongs on this page — see [contributing](/wiki#contributing) for how to add one.
 
 ## What makes a good tutorial
 
@@ -23,12 +23,11 @@ Length is not a virtue. A page that saves someone twenty minutes is worth publis
 
 Things members have asked about that nobody has written up yet:
 
-- Getting a working OCaml environment for Part IA Foundations of Computer Science
 - Surviving Java and the Object-Oriented Programming ticks
-- Git for people who have only ever used the GitHub website
-- Using the SRCF to host a project or a society site
 - Setting up a comfortable development environment on the MCS machines
-- Writing supervision work in LaTeX without fighting it
-- A first pass at competitive programming: input parsing, complexity budgets, and common patterns
+- Debugging effectively: breakpoints, `gdb`, and reading a stack trace
+- Regular expressions, beyond copying one off the internet
+- Making sense of the Cambridge networking setup: VPN, eduroam and Raven
+- Concurrency in practice, as a companion to the Operating Systems course
 
 If you want to write one of these, you do not need permission — open a pull request against the [website repository](https://github.com/cucats/website).

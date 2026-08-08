@@ -45,6 +45,6 @@ A few conventions worth knowing:
 - **Directories become sections.** A folder with an `index.md` becomes a section, and the other files in it become its child pages.
 - **Number prefixes control order.** A file or folder named `2-admissions-test.md` sorts after `1-personal-statement.md`, but the number is stripped from the URL, so the page still lives at `/wiki/applying-to-cambridge/admissions-test`. This also drives the previous/next links at the foot of each page.
 - **Callouts** are written as blockquotes beginning with `[!NOTE]`, `[!TIP]` or `[!WARNING]`.
-- **Maths** is written with LaTeX between dollar signs. See [Math Example](/wiki/tutorials/math-example) for the details and one caveat.
+- **Maths** is written with LaTeX between dollar signs. See [Math Example](/wiki/tutorials/math-example) for the details. Dollar signs inside code blocks are left alone, so shell and LaTeX samples need no escaping.
 
 Run `bun run dev` to preview your changes locally, and `bun run format` before committing.
