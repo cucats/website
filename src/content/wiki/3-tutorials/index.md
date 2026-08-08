@@ -25,9 +25,9 @@ Things members have asked about that nobody has written up yet:
 
 - Surviving Java and the Object-Oriented Programming ticks
 - Setting up a comfortable development environment on the MCS machines
-- Debugging effectively: breakpoints, `gdb`, and reading a stack trace
-- Regular expressions, beyond copying one off the internet
 - Making sense of the Cambridge networking setup: VPN, eduroam and Raven
-- Concurrency in practice, as a companion to the Operating Systems course
+- The command line beyond `cd` and `ls`: pipes, `grep`, `find` and shell scripting
+- Profiling: finding the slow part before optimising the wrong one
+- Getting a first internship application together
 
 If you want to write one of these, you do not need permission — open a pull request against the [website repository](https://github.com/cucats/website).
