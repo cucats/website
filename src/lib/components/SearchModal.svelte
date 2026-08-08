@@ -4,6 +4,7 @@
   import { page } from "$app/state";
   import { init, search, inited, lookup } from "$lib/search";
   import { searchState } from "$lib/search-state.svelte";
+  import { fade, scale } from "svelte/transition";
   import type {
     SearchBlockGroup,
     SearchBlock,
@@ -120,11 +121,13 @@
     role="button"
     tabindex="-1"
     aria-label="Close search"
+    transition:fade={{ duration: 200 }}
   ></div>
 
   <!-- Modal -->
   <div
     class="fixed top-20 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 px-4"
+    transition:scale={{ duration: 200, start: 0.9 }}
   >
     <div
       class="bg-primary-900 overflow-hidden rounded-xl shadow-2xl shadow-black"

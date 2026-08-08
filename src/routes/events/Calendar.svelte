@@ -318,7 +318,7 @@
 
 <Modal
   bind:active={showEventModal}
-  class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-neutral-700 bg-neutral-900 p-4 shadow-2xl sm:p-6"
+  class="bg-primary-900 relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg p-4 shadow-2xl sm:p-6"
 >
   {#if selectedEvent}
     <button
@@ -353,7 +353,7 @@
 
         {#if selectedEvent.description}
           <div
-            class="p event-description mt-4 border-t border-neutral-700 pt-4 text-neutral-200"
+            class="p event-description border-primary-800 mt-4 border-t pt-4 text-neutral-200"
           >
             {@html DOMPurify.sanitize(selectedEvent.description)}
           </div>
