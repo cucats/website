@@ -319,7 +319,7 @@ body {
   }
 
   code {
-    @apply rounded bg-primary-900 px-1.5 py-0.5 text-sm;
+    @apply bg-primary-900 rounded px-1.5 py-0.5 text-sm;
   }
 
   pre {
@@ -347,7 +347,7 @@ body {
   }
 
   table {
-    @apply w-full border-collapse overflow-hidden rounded-lg text-left bg-primary-900/70;
+    @apply bg-primary-900/70 w-full border-collapse overflow-hidden rounded-lg text-left;
   }
 
   th,
