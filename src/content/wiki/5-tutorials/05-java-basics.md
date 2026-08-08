@@ -1,216 +1,61 @@
 ---
-title: Java Basics
-description: Java for people arriving from Python, OCaml or nothing at all
+title: Java and the JVM
+description: JIT compilation, escape analysis, collectors and the memory model
 ---
 
-Part IA Object-Oriented Programming is taught in Java, usually running alongside Foundations of Computer Science in OCaml. Meeting a strict, verbose, class-based language in the same term as a terse functional one is disorienting, and most of the early friction comes from Java insisting on things other languages leave implicit.
+The language is the small part. Most of what determines how Java behaves at runtime lives in HotSpot, and the interesting questions are about what the JIT did and what the collector is doing while it does it.
 
-This page is about getting past that friction. The object-oriented ideas themselves are what the course is for.
+## Tiered compilation
 
-## Everything lives in a class
+Execution starts in the interpreter, which profiles as it goes. C1 compiles quickly with light optimisation and adds counters; C2 compiles slowly with the full optimisation set once a method is hot. Tiered compilation moves methods up through those levels and back down on deoptimisation.
 
-There is no top-level code. The smallest complete program:
+Profile-guided speculation is what makes the result fast and what makes it fragile. A call site that has only ever seen one receiver type gets a monomorphic inline cache and the callee inlined directly; a second type turns it bimorphic, and a third makes it megamorphic and stops the inlining. A polymorphic dispatch that is monomorphic in your benchmark and megamorphic in production is the standard reason benchmark numbers do not survive deployment.
 
-```java
-public class Hello {
-    public static void main(String[] args) {
-        System.out.println("Hello, world");
-    }
-}
-```
+Deoptimisation is the escape hatch. When a speculative assumption fails, such as a class being loaded that invalidates a leaf-method assumption, the frame is reconstructed in the interpreter and the compiled code discarded. `-XX:+PrintCompilation` and JITWatch show this happening, and a method that compiles and deoptimises repeatedly is worth finding.
 
-The file has to be called `Hello.java`, matching the public class name, and the compiler enforces it. Compile and run:
+Escape analysis determines whether an allocation can be seen outside its method. Where it cannot, scalar replacement removes the object entirely and keeps its fields in registers, and lock elision removes uncontended synchronisation on it. That is why allocation in a hot loop is sometimes free and sometimes not, with the boundary at whether the object escapes.
 
-```bash
-javac Hello.java
-java Hello
-```
+## Collectors
 
-Modern JDKs also run a single file directly with `java Hello.java`, which is handy while experimenting.
+G1 is the default and is region-based, with concurrent marking and evacuation targeting a pause goal. Humongous allocations that exceed half a region bypass the young generation and are the usual cause of unexpected full collections.
 
-`static` means the method belongs to the class and not to any particular object, which is how `main` runs before any object exists. The static and instance distinction trips people up early: an instance method can use the object's fields and a static one cannot, because there is no object.
+ZGC and Shenandoah are concurrent collectors with pause times independent of heap size, achieved through load barriers and coloured pointers, paying throughput for it. Where tail latency dominates, that trade is correct.
 
-## Types are declared and checked
+Allocation is a pointer bump into a thread-local allocation buffer, so it is genuinely cheap, and the cost of an object is paid at collection in proportion to survival. The generational hypothesis is what makes this work, and the shape that defeats it is a large cache of medium-lived objects, which is the allocation profile most likely to be promoted and then collected expensively.
 
-Every variable has a type, fixed at declaration:
+Finalizers are deprecated and were always wrong. Cleaners and `PhantomReference` are the mechanism where native resources need releasing, and try-with-resources is what you actually want.
 
-```java
-int count = 0;
-double average = 4.5;
-boolean done = false;
-String name = "Ada";
-```
+## The memory model
 
-Java separates primitives, meaning `int`, `double`, `boolean`, `char` and `long`, from objects, meaning everything else including `String`. Primitives are not objects and cannot be null. Each has a wrapper class such as `Integer` or `Double` for the places an object is required, with automatic conversion between them.
+JSR-133 defines happens-before over Java, and `volatile` gives sequential consistency for the single variable along with an ordering edge for everything sequenced before the write. `final` fields get their own guarantee: a properly constructed object's finals are visible to any thread that sees the reference, without synchronisation, provided the constructor does not leak `this`.
 
-`var` lets the compiler infer a local variable's type, cutting some verbosity while keeping the static checking:
+That last proviso is the one that gets violated, usually by registering a listener from a constructor.
 
-```java
-var names = new ArrayList<String>();
-```
+Data races do not stop at torn reads. The compiler may hoist a racy load out of a loop, and word tearing between adjacent fields is prevented for everything except elements of arrays smaller than a word in some historical implementations.
 
-## Classes and objects
+`VarHandle` supersedes `Unsafe` for explicit ordering, giving relaxed, acquire, release and volatile modes directly.
 
-A class bundles data with the operations on it:
+## Where the surprises are
 
-```java
-public class Point {
-    private final double x, y;
+Boxing allocates outside the cached range, which is `-128` to `127` for `Integer` by default, so identity comparison on boxed integers works in tests and fails in production.
 
-    public Point(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
+Strings are UTF-16 internally, with compact strings storing Latin-1 in a byte array where possible since Java 9. `String.intern` puts entries in a native hash table, and interning untrusted input is a leak.
 
-    public double distanceTo(Point other) {
-        double dx = x - other.x;
-        double dy = y - other.y;
-        return Math.sqrt(dx * dx + dy * dy);
-    }
+Generics are erased, so a `List<String>` and a `List<Integer>` share a class, and the compiler inserts checked casts at the boundary. Arrays are covariant and reified, which is why `ArrayStoreException` exists and why the two features do not compose.
 
-    @Override
-    public String toString() {
-        return "(" + x + ", " + y + ")";
-    }
-}
-```
+`ThreadLocal` on a pooled thread outlives the request that set it and is the standard leak in an application server.
 
-Used as:
+Virtual threads decouple the concurrency unit from the OS thread and make blocking IO cheap. The pinning cases are what to know: a virtual thread inside a `synchronized` block cannot unmount, so lock-heavy code needs `ReentrantLock` to see the benefit.
 
-```java
-Point a = new Point(0, 0);
-Point b = new Point(3, 4);
-System.out.println(a.distanceTo(b));   // 5.0
-```
+## Measurement
 
-Three things there are worth noticing. `private` keeps the field inaccessible from outside the class, which is encapsulation, and the course cares about it a great deal; the payoff is being able to change the internals later without breaking anyone using the class. `final` stops the field being reassigned after construction, and is a good default, since immutable objects cause far fewer bugs. And `this.x = x` separates the field from the constructor parameter shadowing it.
+JMH exists because a naive Java benchmark measures the JIT warming up, dead code elimination, and constant folding of your input. Blackholes and state objects address those; the fork and warmup defaults address profile pollution between runs.
 
-## Inheritance and interfaces
+JFR gives allocation profiles, lock contention and collection detail at a low enough overhead to leave enabled, and async-profiler avoids the safepoint bias that afflicts sampling profilers relying on `GetStackTrace`.
 
-A class can extend another, inheriting its behaviour and overriding parts:
+## Reading
 
-```java
-public class Animal {
-    public String speak() {
-        return "...";
-    }
-}
-
-public class Dog extends Animal {
-    @Override
-    public String speak() {
-        return "Woof";
-    }
-}
-```
-
-An interface says what a type can do without saying how:
-
-```java
-public interface Shape {
-    double area();
-}
-
-public class Circle implements Shape {
-    private final double radius;
-
-    public Circle(double radius) {
-        this.radius = radius;
-    }
-
-    @Override
-    public double area() {
-        return Math.PI * radius * radius;
-    }
-}
-```
-
-A class extends at most one class and implements any number of interfaces, which is why interfaces are usually the better tool. They describe a capability, and one type can have many.
-
-Polymorphism is the payoff. Code written against `Shape` works for every implementation, including ones written later:
-
-```java
-List<Shape> shapes = List.of(new Circle(1), new Circle(2));
-double total = 0;
-for (Shape s : shapes) {
-    total += s.area();       // calls the right area() for each object
-}
-```
-
-> [!TIP]
-> Always write `@Override` when overriding. It is optional, and it makes the compiler check you really are overriding something, catching the case where a typo in the method name quietly creates a new method.
-
-## Collections and generics
-
-Angle brackets specify what a collection holds, checked at compile time:
-
-```java
-List<String> names = new ArrayList<>();
-names.add("Ada");
-names.add("Grace");
-
-Map<String, Integer> counts = new HashMap<>();
-counts.put("apples", 3);
-int n = counts.getOrDefault("pears", 0);
-
-Set<Integer> seen = new HashSet<>();
-seen.add(42);
-
-for (String name : names) {
-    System.out.println(name);
-}
-```
-
-Note the shape of `List<String> names = new ArrayList<>()`. The variable's type is the interface and the object is a concrete implementation, so swapping `ArrayList` for `LinkedList` later changes one line.
-
-## The traps
-
-`==` does not compare values for objects. It compares references, asking whether two names point at the same object. Use `.equals()`:
-
-```java
-String a = "hello";
-String b = "hel" + "lo";
-a == b;        // unreliable, depends on interning
-a.equals(b);   // true, and correct
-```
-
-This is the most common Java bug for beginners, made worse because `==` happens to work for small integers and interned strings, so it appears fine until it is not.
-
-Override `hashCode` whenever you override `equals`. The contract says equal objects have equal hash codes, and breaking it makes your objects behave bizarrely in a `HashMap` or `HashSet`, where you insert one and then fail to find it.
-
-`null` is not an object, so calling a method on it throws `NullPointerException`, the most common runtime failure in Java. Where you can return an empty collection or an `Optional`, do.
-
-Checked exceptions have to be handled. A method declaring `throws IOException` forces callers to catch it or declare it themselves:
-
-```java
-try {
-    var content = Files.readString(Path.of("data.txt"));
-} catch (IOException e) {
-    System.err.println("Could not read file: " + e.getMessage());
-}
-```
-
-Never write an empty catch block, which turns a clear failure into a mysterious one later.
-
-Arrays are fixed-length. `int[] a = new int[10]` cannot grow, so use `ArrayList` when the size varies.
-
-## Coming from Python
-
-| Python                     | Java                                                 |
-| -------------------------- | ---------------------------------------------------- |
-| Indentation defines blocks | Braces define blocks, indentation is cosmetic        |
-| Types are dynamic          | Types are declared and checked at compile time       |
-| `list`, `dict`, `set`      | `List`, `Map`, `Set` with an explicit implementation |
-| `len(xs)`                  | `xs.size()`, or `xs.length` for arrays               |
-| `str(x)`                   | `x.toString()` or `String.valueOf(x)`                |
-| `x == y` compares values   | `x.equals(y)` compares values                        |
-| `None`                     | `null`                                               |
-| Functions can stand alone  | Everything is a method on a class                    |
-
-The verbosity is deliberate. The compiler does work at compile time that Python leaves until runtime, and it catches a real class of errors before your program runs.
-
-## Where to go next
-
-The [Part IA course pages](https://www.cl.cam.ac.uk/teaching/current/part1a.html) hold what you are examined on, and the practical classes are where the ideas land. The [official Java tutorials](https://dev.java/learn/) are a solid reference alongside them.
-
-Do the exercises. Reading about them achieves very little. Object-oriented design only develops from making design decisions and then living with them.
+- [The JVM Specification](https://docs.oracle.com/javase/specs/jvms/se21/html/) and the [Java Language Specification](https://docs.oracle.com/javase/specs/jls/se21/html/)
+- [JMH](https://github.com/openjdk/jmh) for benchmarks that measure the program
+- [async-profiler](https://github.com/async-profiler/async-profiler)
+- [Aleksey Shipilëv's writing](https://shipilev.net/) on the memory model, collectors and benchmarking methodology

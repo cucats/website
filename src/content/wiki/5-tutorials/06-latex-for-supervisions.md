@@ -1,140 +1,57 @@
 ---
-title: LaTeX for Supervision Work
-description: Typesetting supervision work without fighting the tooling
+title: TeX and LaTeX
+description: Expansion, boxes and glue, and the parts of the stack that explain the error messages
 ---
 
-Nobody has to typeset supervision work. Plenty of people hand in neat handwriting for three years and are perfectly happy with that. LaTeX earns its keep if your handwriting is bad, if you want to revise from your own work later, or if you are writing anything with much mathematics in it.
+TeX is a macro expander driving a typesetter, and LaTeX is a macro package on top of it. Almost every confusing error is the boundary between those two showing through.
 
-The trick is learning the fifteen percent you need and ignoring the rest, since LaTeX is enormous and most of it has nothing to do with a weekly problem sheet.
+## Expansion
 
-## Getting it running
+TeX processes input in stages that the documentation calls the mouth and the stomach. The mouth tokenises and expands macros; the stomach executes primitives that build boxes. A macro is expanded before its arguments mean anything, which is why `\edef` and `\expandafter` exist and why moving an expansion one token earlier changes the result.
 
-[Overleaf](https://www.overleaf.com/) has the least friction. It runs in the browser with nothing to install and handles collaboration, so it is the right choice if you want to start writing in the next five minutes.
+Category codes are assigned at tokenisation, so a character's meaning is fixed when it is read and not when it is used. That is why `\verb` cannot appear inside a macro argument: by the time the argument is being read, the catcodes have already been assigned under the normal regime.
 
-Locally, install a TeX distribution, meaning TeX Live on Linux, MacTeX on macOS or MiKTeX on Windows, then use VS Code with the LaTeX Workshop extension for a live preview and compile-on-save. On Debian or Ubuntu:
+Fragile commands and `\protect` are the same phenomenon in the moving arguments that get written to auxiliary files and re-read. `\DeclareRobustCommand` sidesteps it, and LaTeX3 avoids the whole area with a cleaner expansion model.
 
-```bash
-sudo apt-get install texlive-latex-recommended texlive-latex-extra latexmk
-```
+## Boxes and glue
 
-Compile with `latexmk`, which works out how many passes are needed:
+Everything on the page is a box. Characters go into horizontal boxes, lines stack into vertical boxes, and glue is the stretchable space between them with a natural size, a stretch component and a shrink component.
 
-```bash
-latexmk -pdf sheet.tex
-```
+Badness measures how far glue has been stretched from natural size, and the underfull and overfull warnings are that measure crossing a threshold. An overfull hbox means the paragraph breaker found no acceptable set of line breaks, which is usually a long unhyphenatable token and seldom anything about your prose.
 
-Local is faster and works offline. Overleaf is easier to share. Either does the job.
+The paragraph breaker is global. TeX optimises breaks over the whole paragraph with a dynamic program, which is why changing one word can reflow every line, and why the result is better than a greedy line breaker. Penalties are the tuning knob, with `\widowpenalty` and `\clubpenalty` the ones worth setting.
 
-## A template that covers most of it
-
-Enough for a typical problem sheet, and reusable every week:
-
-```latex
-\documentclass[11pt]{article}
-
-\usepackage[margin=2.5cm]{geometry}
-\usepackage{amsmath, amssymb, amsthm}
-\usepackage{enumitem}
-
-\title{Foundations of Computer Science, Sheet 3}
-\author{Your Name}
-\date{\today}
-
-\begin{document}
-\maketitle
-
-\section*{Question 1}
-
-Your answer here.
-
-\end{document}
-```
-
-`amsmath` and `amssymb` make mathematics work properly. Include them by reflex.
+Float placement is a separate algorithm with its own parameters, and figures moving to the end of a document means the placement constraints are unsatisfiable, and LaTeX has not ignored you. `[htbp]` widens the search, and `\clearpage` forces the queue to drain.
 
 ## Mathematics
 
-Inline mathematics goes between single dollar signs and flows with the text, so `$O(n \log n)$` gives $O(n \log n)$.
+`amsmath` is not optional. It fixes spacing around display environments, provides `align` and its relatives with correct alignment points, and adds `\text` for prose inside maths.
 
-Displayed mathematics goes in an `equation` or `align` environment, starred where you want no equation number:
+Maths mode has its own spacing rules driven by atom classes: `\mathbin`, `\mathrel`, `\mathopen` and so on determine the space around a symbol. A symbol that looks wrongly spaced is nearly always declared in the wrong class, and `\mathrel{}` around it is the fix.
 
-```latex
-\begin{equation*}
-  \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
-\end{equation*}
-```
+`\left` and `\right` size delimiters to their contents and also make the whole group an inner atom, which changes the surrounding spacing. Where that matters, the manual `\bigl` and `\bigr` family gives control.
 
-For a multi-line derivation, `align*` lines things up at the `&`:
+`$$` is plain TeX and interacts badly with `amsmath` spacing. `\[` and `\]` or a named environment is the LaTeX spelling.
 
-```latex
-\begin{align*}
-  T(n) &= 2\,T(n/2) + \Theta(n) \\
-       &= 4\,T(n/4) + 2\,\Theta(n) \\
-       &= \Theta(n \log n)
-\end{align*}
-```
+## The toolchain
 
-which gives
+`latexmk` resolves the multi-pass dependency between the document, the aux files, the bibliography and the index, and running it is preferable to counting passes by hand.
 
-$$
-\begin{aligned}
-  T(n) &= 2\,T(n/2) + \Theta(n) \\
-       &= 4\,T(n/4) + 2\,\Theta(n) \\
-       &= \Theta(n \log n)
-\end{aligned}
-$$
+The engines differ in ways that decide the project. pdfTeX is the classic 8-bit engine. XeTeX and LuaTeX are Unicode-native and can use system fonts through `fontspec`, and LuaTeX embeds Lua so that callbacks into the typesetting process are available. `biber` with `biblatex` supersedes `bibtex` for anything with non-ASCII or unusual citation styles.
 
-> [!TIP]
-> Keep `$$ ... $$` out of your display mathematics. It is plain TeX, it interacts badly with spacing and with `amsmath`, and `\[ ... \]` or an `equation*` environment does the job properly.
+Reading a `.log` beats reading the terminal, since the terminal truncates and the log holds the full context including which file the error came from.
 
-## Notation you reach for constantly
+## Where the errors come from
 
-| You want                  | You write                                                   |
-| ------------------------- | ----------------------------------------------------------- |
-| Fractions                 | `\frac{a}{b}`                                               |
-| Subscript and superscript | `x_i`, `x^2`, `x_{i+1}`                                     |
-| Sums and products         | `\sum_{i=1}^{n}`, `\prod_{i=1}^{n}`                         |
-| Greek letters             | `\alpha`, `\beta`, `\Theta`, `\lambda`                      |
-| Sets                      | `\mathbb{N}`, `\mathbb{R}`, `\in`, `\subseteq`, `\emptyset` |
-| Logic                     | `\land`, `\lor`, `\lnot`, `\implies`, `\forall`, `\exists`  |
-| Relations                 | `\leq`, `\geq`, `\neq`, `\approx`, `\equiv`                 |
-| Floor and ceiling         | `\lfloor x \rfloor`, `\lceil x \rceil`                      |
-| Text inside maths         | `\text{if } x > 0`                                          |
-| Brackets sized to fit     | `\left( ... \right)`                                        |
+The reported line is where TeX noticed the problem, and unbalanced braces are noticed at the end of the group, which may be pages later. Bisecting the document with `\end{document}` moved upward finds it faster than reading.
 
-Forgotten the name of a symbol? [Detexify](https://detexify.kirelabs.org/classify.html) lets you draw it and tells you the command, and it is uncannily good.
+`Missing $ inserted` means a maths-mode primitive appeared in text mode, and the usual culprit is an underscore. `Undefined control sequence` is a typo or an absent package. `Runaway argument` is an unterminated argument, usually a missing brace or a blank line inside a command that forbids one.
 
-## Lists and code
+Package clashes are real and ordering-sensitive. `hyperref` wants to be loaded late, `cleveref` after it, and `geometry` before anything that reads the page dimensions.
 
-For numbered answers, `enumitem` controls the labels:
+## Reading
 
-```latex
-\begin{enumerate}[label=(\alph*)]
-  \item First part.
-  \item Second part.
-\end{enumerate}
-```
-
-For code, `listings` and `minted` both work, though `verbatim` is usually enough for supervision work and needs no setup:
-
-```latex
-\begin{verbatim}
-let rec fact n = if n = 0 then 1 else n * fact (n - 1)
-\end{verbatim}
-```
-
-## Things that go wrong
-
-The error messages are terrible. LaTeX reports the line where it noticed a problem, which is often hundreds of lines below the line that caused it, so when an error makes no sense look above the line it points at. A missing closing brace is the usual culprit.
-
-`Undefined control sequence` means a command that does not exist, so a typo or a package you forgot to include. `\mathbb{N}` without `amssymb` is the classic.
-
-`Missing $ inserted` means a maths-only command has escaped into ordinary text. Underscores cause most of these; `x_i` in a normal paragraph will trigger it.
-
-Compile early and often. Writing three pages before your first compile leaves you debugging three pages at once.
-
-Keep a personal preamble. Once you have packages and macros you like, start every sheet from the same file, and the saving compounds over three years.
-
-## Is it worth it
-
-For a problem sheet that is mostly prose, honestly no. Write it by hand and go to bed. For anything heavy in mathematics, for work you want to revise from, or for anything you might submit or share, yes. The initial investment runs to a couple of hours and lasts the whole degree.
+- [The TeXbook](https://www-cs-faculty.stanford.edu/~knuth/abcde.html), which is the specification of the underlying engine
+- [The LaTeX3 project](https://www.latex-project.org/) and the `expl3` interfaces
+- [Detexify](https://detexify.kirelabs.org/classify.html) for symbol lookup by drawing
+- [TeX StackExchange](https://tex.stackexchange.com/), which is unusually high quality

@@ -1,113 +1,62 @@
 ---
-title: Getting Started with Competitive Programming
-description: Complexity budgets, input parsing, and the patterns that come up first
+title: Competitive Programming
+description: Amortised structures, decomposition techniques and the constant factors that decide a verdict
 ---
 
-Competitive programming means solving tightly-specified algorithmic problems against a clock, judged automatically. It builds speed on the material in Algorithms, it maps directly onto technical interviews, and a fair number of people find it genuinely fun.
+The constraint bound fixes the complexity class before you have an algorithm, and the interesting work is in the gap between the class you need and the structure that reaches it.
 
-[UCCPS](https://uccps.soc.srcf.net) runs practice sessions and contests in Cambridge and is the best place to start if you want company while learning. Our own [Codevent](/wiki/events/codevent) runs through December at a gentler pace.
+## Reading the bound
 
-This page covers the things obvious to everyone who already does this and mystifying to everyone who does not.
+The standard budget of around $10^8$ elementary operations per second is a starting point, and the variance around it is large enough to matter. A pass over contiguous memory with a predictable branch runs several times faster than the same asymptotic work over a pointer structure, so $10^7$ operations chasing pointers and $10^9$ operations over an array can both fit the same limit.
 
-## Read the constraints first
+The bound also tells you which techniques are in scope. $n \le 20$ points at subset enumeration, and if the intended solution is $O(2^n n)$ then subset-sum convolution or SOS DP is likely the mechanism. $n \le 40$ signals meet in the middle. A bound of $10^5$ with a query count of the same order means you are looking for something polylogarithmic per query, and no constant-factor work on a linear scan will reach it.
 
-This one habit separates people who make progress from people who spend an hour on a hopeless approach. Before thinking about how to solve a problem, look at how large the input can be. That number tells you which complexities fit, and therefore which family of algorithm you are hunting for.
+Sums-of-bounds constraints are a hint people miss. "The sum of $n$ over all test cases does not exceed $2 \cdot 10^5$" licenses per-test work that would be illegal if each test could be maximal.
 
-Judges typically allow something on the order of $10^8$ simple operations per second. Working backwards:
+## Decomposition
 
-| If n is up to | You can afford | Typical approach              |
-| ------------- | -------------- | ----------------------------- |
-| 10            | $O(n!)$        | try every permutation         |
-| 20            | $O(2^n)$       | try every subset, bitmask DP  |
-| 500           | $O(n^3)$       | Floyd–Warshall, some DP       |
-| 5 000         | $O(n^2)$       | nested loops, simple DP       |
-| $10^6$        | $O(n \log n)$  | sorting, heaps, binary search |
-| $10^8$        | $O(n)$         | a single pass                 |
+Square root decomposition trades a factor either way and is frequently enough. Splitting an array into $O(\sqrt n)$ blocks gives $O(\sqrt n)$ updates and queries with no structural cleverness, and Mo's algorithm reorders offline queries so that a two-pointer window moves $O((n + q)\sqrt n)$ times in total.
 
-With n up to $10^5$ and an $O(n^2)$ idea, you are looking at $10^{10}$ operations and it will not pass. Knowing that before you write anything saves the hour.
+Segment trees generalise this to any associative operation, and the interesting variants are lazy propagation for range updates, merge-sort trees for order statistics on a range, and the Li Chao tree for maxima over lines. A Fenwick tree does prefix sums with a fraction of the constant, and the reason to reach for one is that constant.
 
-## Pick a language and stay there
+Sparse tables answer idempotent range queries in $O(1)$ after $O(n \log n)$ preprocessing, which covers range minimum directly and, through the Euler tour, lowest common ancestor.
 
-C++ is the default, being fast with a standard library holding the data structures you need. Python is far more pleasant to write and often too slow for the tightest limits, though for many problems it is fine. Java sits between them.
+Heavy-light decomposition and centroid decomposition are the two standard reductions from trees to sequences. The first maps path queries onto $O(\log n)$ contiguous segments; the second builds a recursion over centroids so that any path is handled at exactly one level.
 
-Learn one properly. If you are choosing fresh and expect to take this seriously, C++ is the pragmatic answer.
+## Amortisation and offline reasoning
 
-## Input parsing
+Small-to-large merging bounds total work by $O(n \log n)$ because each element moves only into a set at least twice the size of its previous one. DSU on tree exploits the same counting argument.
 
-Reading input trips people up first and is entirely mechanical, since problems specify their input precisely and it looks the same every time.
+Offline processing is the technique that converts an impossible online problem into a sort. Sorting queries by right endpoint and sweeping, or processing updates and queries together in a divide-and-conquer over time, both remove the need to answer in the order asked. Parallel binary search takes this further, resolving $q$ independent binary searches in $O(\log)$ rounds of a single sweep.
 
-In C++, turn off the C-stream synchronisation or large inputs get slow:
+Persistence buys you queries against historical versions for a $\log$ factor of memory, and a persistent segment tree over value-compressed indices is the standard answer to k-th smallest on a range.
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
+## The shapes worth recognising
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+Dynamic programming problems are mostly a question of what to put in the state and what to optimise away. Convex hull trick and Li Chao handle linear transitions, divide-and-conquer optimisation applies when the argmin is monotone, and Knuth optimisation applies under the quadrangle inequality. Recognising that a transition is a convolution puts NTT in scope.
 
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) cin >> a[i];
+Flow problems are usually recognised through their reductions: bipartite matching, minimum vertex cover through König, project selection through minimum cut. Dinic's is fast enough on unit-capacity graphs that the theoretical bound rarely binds.
 
-    cout << "answer" << "\n";
-    return 0;
-}
-```
+String problems split by whether the structure is on one string or many. Z-function and prefix function cover single-pattern matching, Aho-Corasick handles a dictionary, and suffix automaton or suffix array covers substring queries, with the automaton being easier to build correctly under time pressure.
 
-Use `"\n"` over `endl`, which flushes the stream every time and genuinely causes time-limit failures.
+## Constant factors that change the verdict
 
-In Python, keep `input()` out of loops:
+Memory layout dominates once the asymptotics are right. A flat array indexed arithmetically beats a vector of vectors, and iterative traversal beats recursion where the stack depth is large enough to miss.
 
-```python
-import sys
+Modular arithmetic is a hot path in counting problems, and replacing a `%` with a conditional subtraction after an addition is worth a factor. Montgomery or Barrett reduction is worth knowing for the cases where the modulus is fixed.
 
-def main():
-    data = sys.stdin.buffer.read().split()
-    n = int(data[0])
-    a = list(map(int, data[1 : 1 + n]))
-    print(len(a))
+Bitset tricks turn an $O(n^2)$ reachability or subset-sum into $O(n^2 / 64)$, which converts a class of problems from too slow into comfortable.
 
-main()
-```
+Fast input matters at $10^6$ tokens. Reading the whole of stdin and parsing manually removes the formatted-input overhead entirely.
 
-Reading everything at once and slicing runs dramatically faster than reading line by line.
+## Practice that works
 
-## Patterns worth knowing first
+Solve at the level where you fail perhaps a third of the time. Read the editorial after a bounded interval, then implement it without the editorial open, since understanding a solution and being able to produce one are separate skills.
 
-Roughly in order of how often they come up early:
+Stress test against brute force with a random generator. Any wrong answer on a large hidden input is found faster this way than by reading, and the minimised counterexample usually makes the flaw obvious.
 
-- Sorting, then a linear scan. An enormous number of problems become easy once the input is sorted.
-- Prefix sums. Precompute cumulative totals so any range sum is one subtraction, turning $O(n)$ per query into $O(1)$.
-- Two pointers and sliding windows, for subarray problems on sorted or monotonic data.
-- Binary search, including on the answer. Where you can cheaply check "is a result of at least x achievable", you can binary search x and skip computing it directly. People find this the least obvious and use it the most.
-- Hash maps for counting. Frequency tables solve a surprising share of easier problems.
-- Graph traversal: BFS for shortest paths on unweighted graphs, DFS for connectivity and cycles, Dijkstra once edges carry weights.
-- Dynamic programming. Define the state, define the transition, decide the order. Most early DP problems vary knapsack or longest-increasing-subsequence.
-
-Part IA Algorithms covers most of the underlying theory. Contests are about recognising which one applies within a few minutes.
-
-## Where to practise
-
-- [Codeforces](https://codeforces.com/) is the main platform, with regular contests and an archive filterable by difficulty rating. Start around 800 and work up.
-- [AtCoder](https://atcoder.jp/) runs Beginner Contests with well-written problems that ramp gently within each contest.
-- [Advent of Code](https://adventofcode.com/) has December puzzles with no time pressure, in any language, and is good for getting comfortable with parsing.
-- [CUCaTS Codevent](/wiki/events/codevent) is our own December competition, scored on how quickly you solve each day.
-
-## How to improve
-
-Solve problems slightly above comfortable. Problems you can already do teach you nothing, and problems far beyond you teach you nothing either.
-
-Set a time limit on being stuck and then read the editorial, with thirty to forty minutes a reasonable cap. Reading the solution to a problem you genuinely wrestled with is among the fastest ways to learn. Reading it after five minutes is not.
-
-Having read an editorial, close it and implement the solution yourself. Understanding a solution and being able to write one are different skills, and contests test the second.
-
-Keep your own template, holding your includes, fast input setup and common helpers, ready to copy at the start of every problem. It removes a few minutes of overhead every single time.
-
-> [!TIP]
-> When a solution fails, generate small random inputs and compare against an obviously-correct brute force. This finds the edge case far faster than staring at the code, and it is what experienced competitors reach for first.
-
-## Where to read more
-
-The [Competitive Programmer's Handbook](https://cses.fi/book/book.pdf) by Antti Laaksonen is free, excellent and the standard recommendation. The [CSES Problem Set](https://cses.fi/problemset/) that goes with it is a well-ordered sequence covering each topic in turn, and working through it is a genuinely good use of a vacation.
+- [Codeforces](https://codeforces.com/), rated by difficulty
+- [AtCoder](https://atcoder.jp/), whose harder rounds are well set
+- [CSES Problem Set](https://cses.fi/problemset/), ordered by topic
+- [Competitive Programmer's Handbook](https://cses.fi/book/book.pdf)
+- [CUCaTS Codevent](/wiki/events/codevent) in December, and [UCCPS](https://uccps.soc.srcf.net) during term

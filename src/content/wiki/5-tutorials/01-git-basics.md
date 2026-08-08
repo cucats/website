@@ -1,158 +1,62 @@
 ---
-title: Git Basics
-description: Git for people who have only ever used the GitHub website
+title: Git
+description: The object model, refs, and the operations that rewrite history
 ---
 
-Plenty of people arrive having used GitHub entirely through the browser, uploading files and editing with the pencil icon. That holds up until the first time you work on something across more than one sitting, or with another person.
+Git is a content-addressed object store with a naming layer on top, and every command makes sense once you can see which of those two it is touching. The porcelain is a convenience over that; the model is what you debug against.
 
-This covers the parts of Git you will actually use. It skips the object model, because you can be productive for a long time without it.
+## Objects
 
-## The mental model
+Four types. A blob is file content with no name. A tree maps names to blobs and other trees along with a mode. A commit points at one tree, at zero or more parents, and carries author and committer metadata. A tag object annotates any of these.
 
-Git tracks snapshots of your project, and a change can live in three places:
+Everything is addressed by the hash of its contents, so identical content stored twice is one object, and a commit's identity covers its entire reachable history. Rewriting anything in that history necessarily changes every descendant hash, which is the whole reason a rebase produces new commits and cannot preserve the old ones.
 
-1. The working directory, meaning your files as they are on disk right now.
-2. The staging area, holding changes you have marked as belonging in the next snapshot.
-3. The repository, the permanent history of everything you have committed.
+`git cat-file -p` on any hash prints the object. Reading a commit and then its tree, once, is worth more than any explanation of it.
 
-Nearly every command moves changes between these three. The staging area feels redundant at first; its job is letting you commit some of your current changes while leaving the others alone.
+## Refs and the index
 
-## One-time setup
+A ref is a file containing a hash. Branches live under `refs/heads`, remote-tracking branches under `refs/remotes`, tags under `refs/tags`. `HEAD` is a symbolic ref pointing at a branch, or directly at a commit when detached. Branching is cheap because a branch is forty bytes.
 
-Set your identity, or your commits get attributed to nothing useful:
+The index is a staging area and also a cache of stat information for the working tree, which is what makes `git status` fast. `git add` writes blobs into the object store and records them in the index, so a staged change is durable before you commit.
 
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "you@cam.ac.uk"
-```
+The reflog is the safety net people do not know they have. Every update to a ref is journaled locally, so a commit orphaned by a bad reset stays reachable through `git reflog` until garbage collection expires it, which defaults to ninety days.
 
-Set a default branch name and a sensible pull behaviour while you are here:
+## Merging
 
-```bash
-git config --global init.defaultBranch main
-git config --global pull.rebase false
-```
+A three-way merge takes the two heads and their merge base and applies both sets of changes. Conflicts arise where both sides touched the same region, and `merge.conflictStyle = zdiff3` shows the base alongside the two sides, which converts a lot of guesswork into reading.
 
-Use an SSH key for GitHub, or you will be pasting tokens forever:
+`ort` is the current default strategy and handles renames, criss-cross merges and directory moves better than the recursive strategy it replaced. Rename detection is a similarity heuristic and not metadata, which is why a rename plus a heavy edit sometimes shows as a delete and an add.
 
-```bash
-ssh-keygen -t ed25519 -C "you@cam.ac.uk"
-cat ~/.ssh/id_ed25519.pub
-```
+`rerere` records how you resolved a conflict and replays it, which pays for itself on any long-lived branch that gets rebased repeatedly.
 
-Paste the printed public key into GitHub under Settings, then SSH and GPG keys. Test it:
+## Rewriting
 
-```bash
-ssh -T git@github.com
-```
+`rebase` replays commits onto a new base, producing new objects. Interactive rebase gives you reorder, squash, edit and drop over that replay, and `--autosquash` with `--fixup` commits automates amending something three commits back.
 
-## The everyday loop
+`reset` moves a branch ref, and the flag says what happens below it: `--soft` moves the ref alone, `--mixed` also resets the index, `--hard` also discards working tree changes and is the only one that destroys uncommitted work.
 
-Ninety percent of your Git usage is this:
+`revert` creates a new commit undoing an old one, which is what you use on anything already published, since it adds history in place of rewriting it. `filter-repo` handles rewriting an entire history, and the case that forces it is a committed secret, where the correct response is to rotate the credential and treat the rewrite as cleanup.
 
-```bash
-git status                    # what has changed?
-git add file.ml               # stage a specific file
-git add .                     # or stage everything
-git commit -m "Add parser"    # snapshot the staged changes
-git push                      # send commits to GitHub
-```
+`cherry-pick` applies a single commit's diff elsewhere, and `-x` records the origin in the message, which is the difference between a maintainable backport branch and an archaeology exercise.
 
-And to pick up other people's work:
+## Finding things
 
-```bash
-git pull
-```
+`git log -S` searches for commits that change the number of occurrences of a string, and `-G` takes a regex over the diff. Either beats reading history by hand when hunting for where a line arrived.
 
-> [!TIP]
-> Run `git status` constantly. It shows what is staged, what is not, and usually suggests the exact command you want next. Experienced people run it more often than beginners do.
+`git log -L` follows a range of lines through renames and rewrites. `git blame -w -C -C` ignores whitespace and detects lines moved from other files, which stops blame terminating at a reformat.
 
-## Commits that help you later
+`git bisect run` automates the search for the commit that broke a test, and [Debugging](/wiki/tutorials/debugging) covers it further.
 
-Bad commit messages inconvenience you most, three weeks later, hunting for where something broke.
+## Working with other people
 
-Commit one logical change at a time, since a commit that fixes a bug and reformats forty files can be neither reviewed nor reverted. Write the subject in the imperative, so "Add domino tiling example" over "added" or "adding". And explain why, because the diff already shows what changed.
+A branch that is rebased and force-pushed rewrites history under reviewers, so `--force-with-lease` refuses when the remote has moved, which is the difference between rewriting your own work and discarding someone else's.
 
-Running `git commit` with no `-m` opens your editor, where you can write a subject line, a blank line, and then as much body as the change deserves.
+Merge commits preserve topology and rebases produce a linear history, and the choice is a project convention over a correctness question. What matters is that everyone applies the same one, since a repository mixing both is hard to read either way.
 
-## Branches
+Signing with `-S` or an SSH key gives commits provenance. The committer field is free text, and anyone can author a commit as anyone.
 
-A branch is a movable label pointing at a commit. Making one is instant and free, which is why Git users make so many.
+## Reading
 
-```bash
-git switch -c feature-name    # create a branch and move onto it
-git switch main               # move back
-git branch                    # list branches
-```
-
-Push it and open a pull request:
-
-```bash
-git push -u origin feature-name
-```
-
-The `-u` sets the upstream, so later pushes on that branch are just `git push`.
-
-## Undoing things
-
-Worth bookmarking. Almost everything in Git is recoverable, though the commands are unhelpfully named.
-
-| You want to                                        | Command                                               |
-| -------------------------------------------------- | ----------------------------------------------------- |
-| Discard changes to a file you have not staged      | `git restore file.ml`                                 |
-| Unstage a file but keep the changes                | `git restore --staged file.ml`                        |
-| Fix the message of the last commit                 | `git commit --amend`                                  |
-| Add a forgotten file to the last commit            | `git add file.ml` then `git commit --amend --no-edit` |
-| Undo the last commit, keeping the changes as edits | `git reset --soft HEAD~1`                             |
-| Undo a commit that is already pushed               | `git revert <commit>`                                 |
-| Stash your work temporarily                        | `git stash` then `git stash pop`                      |
-
-> [!WARNING]
-> `git reset --hard` deletes uncommitted work permanently and there is no undo. Run `git stash` before anything with `--hard` in it. It costs a second and has saved a lot of afternoons.
-
-The distinction that matters: `revert` is safe on shared history and `reset` is not. `revert` adds a new commit undoing an old one, so everyone else's history stays valid. `reset` rewrites history, which breaks things for anyone who already pulled it. Keep `reset` for commits you have not pushed.
-
-## Merge conflicts
-
-A conflict happens when two people changed the same lines. Git marks the file:
-
-```text
-<<<<<<< HEAD
-let greeting = "hello"
-=======
-let greeting = "hi there"
->>>>>>> feature-name
-```
-
-Open the file, delete the markers, leave the code you want, which may combine both, then:
-
-```bash
-git add file.ml
-git commit
-```
-
-No cleverness is required. A conflict is Git declining to guess.
-
-## Reading history
-
-```bash
-git log --oneline --graph --all    # compact visual history
-git log -p file.ml                 # every change to one file
-git diff                           # unstaged changes
-git diff --staged                  # staged changes
-git blame file.ml                  # who last touched each line
-```
-
-That first one is worth an alias. It is the fastest way to see what state a repository is in.
-
-## Things worth knowing early
-
-Add a `.gitignore` before your first commit. Build artefacts, `_build/`, `node_modules/`, `.DS_Store` and compiled binaries should never go in. Removing something properly once it is in history is genuinely annoying.
-
-Never commit secrets. API keys, passwords and tokens pushed to a public repository get scraped within minutes, and if it happens you should treat the secret as compromised and rotate it, because deleting the commit is not enough.
-
-Keep supervision work out of public repositories where it contains solutions to exercises other students are still being set.
-
-## Where to go next
-
-The [Pro Git book](https://git-scm.com/book/en/v2) is free and is the standard reference; chapters 2 and 3 cover all of the above in more depth. [Oh Shit, Git!?!](https://ohshitgit.com/) is a short list of recoveries from common mistakes.
+- [Pro Git](https://git-scm.com/book/en/v2), whose chapter 10 covers the object model directly
+- [gitrevisions](https://git-scm.com/docs/gitrevisions) for the range syntax, which is worth knowing properly
+- [Oh Shit, Git!?!](https://ohshitgit.com/) for recoveries, most of which are the reflog
