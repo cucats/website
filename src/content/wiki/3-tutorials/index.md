@@ -26,8 +26,8 @@ Things members have asked about that nobody has written up yet:
 - Setting up a comfortable development environment on the MCS machines
 - Making sense of the Cambridge networking setup: VPN, eduroam and Raven
 - Getting a first internship application together
-- Writing tests, and what to test when there is no obvious answer
-- Docker, for people who keep being told to use it
-- Reading a research paper without bouncing off it
+- How supervisions work, and how to get value out of them
+- Databases and SQL, beyond what the course assumes you picked up
+- Making a first open-source contribution
 
 If you want to write one of these, you do not need permission — open a pull request against the [website repository](https://github.com/cucats/website).
