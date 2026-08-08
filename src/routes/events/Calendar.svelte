@@ -78,7 +78,23 @@
     return `${formatDateTime(event.start)} - ${formatDateTime(event.end)}`;
   }
 
-  let currentTermIndex = $state(3);
+  // Terms are ordered chronologically, so open on the term we are currently in,
+  // falling back to the next one to start, then to the most recent one.
+  function initialTermIndex(): number {
+    const inTerm = terms.findIndex((term) => {
+      const end = new Date(term.end);
+      end.setHours(23, 59, 59, 999);
+      return term.start <= today && today <= end;
+    });
+    if (inTerm !== -1) return inTerm;
+
+    const upcoming = terms.findIndex((term) => today < term.start);
+    if (upcoming !== -1) return upcoming;
+
+    return terms.length - 1;
+  }
+
+  let currentTermIndex = $state(initialTermIndex());
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
