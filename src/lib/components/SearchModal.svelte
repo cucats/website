@@ -114,7 +114,7 @@
 {#if searchState.active && searchState.ready}
   <!-- Backdrop -->
   <div
-    class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+    class="fixed inset-0 z-50 bg-black/70 backdrop-blur-lg"
     onclick={close}
     onkeydown={(e) => e.key === "Escape" && close()}
     role="button"
@@ -127,10 +127,10 @@
     class="fixed top-20 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 px-4"
   >
     <div
-      class="overflow-hidden rounded-xl border border-neutral-700 bg-neutral-900 shadow-2xl"
+      class="bg-primary-900 overflow-hidden rounded-xl shadow-2xl shadow-black"
     >
       <!-- Search input -->
-      <div class="flex items-center gap-3 border-b border-neutral-700 px-4">
+      <div class="border-primary-800 flex items-center gap-3 border-b px-4">
         <svg
           class="h-5 w-5 shrink-0 text-neutral-400"
           fill="none"
@@ -249,39 +249,6 @@
             Start typing to search...
           </div>
         {/if}
-      </div>
-
-      <!-- Footer -->
-      <div
-        class="flex items-center justify-between border-t border-neutral-700 px-4 py-2 text-xs text-neutral-500"
-      >
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-1">
-            <kbd
-              class="rounded border border-neutral-700 bg-neutral-800 px-1.5 py-0.5"
-              >↑</kbd
-            >
-            <kbd
-              class="rounded border border-neutral-700 bg-neutral-800 px-1.5 py-0.5"
-              >↓</kbd
-            >
-            <span class="ml-1">navigate</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <kbd
-              class="rounded border border-neutral-700 bg-neutral-800 px-1.5 py-0.5"
-              >↵</kbd
-            >
-            <span class="ml-1">select</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-1">
-          <kbd
-            class="rounded border border-neutral-700 bg-neutral-800 px-1.5 py-0.5"
-            >esc</kbd
-          >
-          <span class="ml-1">close</span>
-        </div>
       </div>
     </div>
   </div>

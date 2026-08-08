@@ -7,7 +7,7 @@
   <title>Events | CUCaTS</title>
 </svelte:head>
 
-<main class="bg-primary-800 text-neutral-100">
+<main class="bg-primary-900 text-neutral-100">
   <section class="pt-32 pb-8">
     <div class="mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Events</h1>
@@ -27,7 +27,7 @@
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="btn neutral p-2 text-sm sm:text-base"
+          class="btn primary p-2 text-sm sm:text-base"
         >
           Join mailing list
         </a>
@@ -35,7 +35,7 @@
     </div>
   </section>
 
-  <section class="bg-primary-700">
+  <section class="bg-primary-800">
     <div class="py-16">
       <h2 class="h2 text-center font-bold">Flagship events</h2>
       <div class="mt-8 flex justify-center-safe gap-4 overflow-x-auto p-4">
@@ -68,7 +68,7 @@
     </div>
   </section>
 
-  <section class="bg-primary-800 pt-16 text-neutral-300 lg:px-16 lg:pb-16">
+  <section class="bg-primary-700 pt-16 text-neutral-300 lg:px-16 lg:pb-16">
     <h2 class="h2 text-center font-bold text-neutral-100">Calendar</h2>
     <div class="mx-auto mt-16 flex max-w-7xl flex-col gap-8">
       <Calendar />

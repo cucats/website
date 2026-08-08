@@ -45,7 +45,7 @@
 
 <Modal
   bind:active
-  class="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-neutral-700 bg-neutral-900 p-4 shadow-2xl sm:p-8"
+  class="bg-primary-900 relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg p-4 shadow-2xl shadow-black sm:p-8"
 >
   <!-- Close button -->
   <button
@@ -57,7 +57,7 @@
   </button>
 
   <!-- Modal body -->
-  <div class="c-4 text-neutral-100">
+  <div class="c-4 text-neutral-200">
     <h3 class="h3 font-bold">
       {@render name()}
     </h3>

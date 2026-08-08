@@ -11,7 +11,7 @@
   {/if}
 </svelte:head>
 
-<main class="bg-primary-800 min-h-screen">
+<main class="bg-primary-900 min-h-screen">
   <section class="pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
@@ -61,7 +61,7 @@
         {#if data.prev}
           <a
             href="/{data.prev.slug}"
-            class="group bg-primary-900 rounded-lg p-4 transition-all hover:brightness-125"
+            class="group bg-primary-950 rounded-lg p-4 transition-all hover:brightness-125"
           >
             <span class="text-xs text-neutral-400">Previous</span>
             <span

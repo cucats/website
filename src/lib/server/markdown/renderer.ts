@@ -49,7 +49,7 @@ const SHIKI_LANGUAGE_MAP: Record<string, string> = {
 async function getHighlighter(): Promise<Highlighter> {
   if (!highlighter) {
     highlighter = await createHighlighter({
-      themes: ["github-dark", "github-light"],
+      themes: ["ayu-dark"],
       langs: [
         "javascript",
         "typescript",
@@ -194,8 +194,8 @@ export async function render(markdown: string): Promise<RenderResult> {
           const html = hl.codeToHtml(text, {
             lang: language,
             themes: {
-              light: "github-light",
-              dark: "github-dark",
+              light: "ayu-dark",
+              dark: "ayu-dark",
             },
           });
           return `<div class="code-block" data-language="${lang ?? ""}">${html}</div>`;

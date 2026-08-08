@@ -36,7 +36,7 @@
     </div>
   </section>
 
-  <section class="bg-tertiary-950 overflow-clip px-4 py-40 text-neutral-200">
+  <section class="bg-primary-950 overflow-clip px-4 py-40 text-neutral-200">
     <div class="c-4 z-10 mx-auto max-w-3xl">
       <p class="p mt-8">
         Cambridge University Computing and Technology Society (<strong

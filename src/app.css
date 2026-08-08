@@ -229,7 +229,7 @@ body {
 
 /* Prose styles for markdown content */
 .prose {
-  @apply text-neutral-100;
+  @apply text-neutral-200;
 
   h1,
   h2,
@@ -244,13 +244,13 @@ body {
     @apply mb-4 text-3xl;
   }
   h2 {
-    @apply mt-8 mb-3 text-2xl;
+    @apply mt-16 mb-3 text-2xl;
   }
   h3 {
-    @apply mt-6 mb-2 text-xl;
+    @apply mt-12 mb-2 text-xl;
   }
   h4 {
-    @apply mt-4 mb-2 text-lg;
+    @apply mt-8 mb-2 text-lg;
   }
 
   p {
@@ -291,7 +291,7 @@ body {
   }
 
   blockquote.callout.note {
-    @apply border-primary-500 bg-primary-900/20;
+    @apply border-primary-500 bg-primary-800/20;
   }
 
   blockquote.callout.warning {
@@ -299,7 +299,7 @@ body {
   }
 
   blockquote.callout.tip {
-    @apply border-secondary-400 bg-secondary-900/20;
+    @apply border-secondary-400 bg-secondary-600/20;
   }
 
   img {
@@ -319,7 +319,7 @@ body {
   }
 
   code {
-    @apply bg-primary-900 rounded px-1.5 py-0.5 text-sm;
+    @apply rounded bg-black/50 px-1.5 py-1 text-sm text-neutral-200;
   }
 
   pre {
@@ -347,7 +347,7 @@ body {
   }
 
   table {
-    @apply bg-primary-900/70 w-full border-collapse overflow-hidden rounded-lg text-left;
+    @apply w-full border-collapse overflow-hidden rounded-lg bg-black/30 text-left;
   }
 
   th,
@@ -356,7 +356,7 @@ body {
   }
 
   th {
-    @apply bg-primary-900 font-semibold;
+    @apply bg-primary-950 font-semibold;
   }
 
   .anchor {
