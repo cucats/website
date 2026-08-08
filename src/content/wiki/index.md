@@ -3,48 +3,52 @@ title: CUCaTS Wiki
 description: Guides, resources and tutorials from the Cambridge University Computing and Technology Society
 ---
 
-Welcome to the CUCaTS wiki — a growing collection of guides written by members of the Cambridge University Computing and Technology Society.
+This wiki collects things CUCaTS members have written down so that we stop answering the same questions every October.
 
-The wiki exists because the same questions come round every year. How do I actually get involved with the society? What happens in a Cambridge interview? Which resources are worth using for a first-year course? Rather than answering those one Discord message at a time, we write the answers down here.
+Some of it is about the society: what we run, who funds it, how to get involved. Some of it is for people applying to Cambridge. The largest section is a set of tutorials on tools and topics that keep coming up, written by students who had to work them out.
 
-## What's in here
+## The sections
 
-**[Getting Started](/wiki/getting-started)** is about the society itself: how to join, what we run, and how to get funding and support for an event of your own.
+[Getting Started](/wiki/getting-started) covers joining the society and getting funding for an event of your own.
 
-**[Applying to Cambridge](/wiki/applying-to-cambridge)** is for prospective students. It covers the shape of a Computer Science application, the TMUA, the personal statement questions, and what interviews are actually like.
+[Events](/wiki/events) has a page on each of our three main events, with detail that does not fit on a poster.
 
-**[Tutorials](/wiki/tutorials)** collects practical, hands-on guides on computing topics.
+[Sponsors](/wiki/sponsors) describes the firms that pay for all this and what they offer students.
 
-**[Resources](/wiki/resources)** is a signposting page: course material, computing facilities, competitive programming, and careers.
+[Applying to Cambridge](/wiki/applying-to-cambridge) is for prospective applicants: the TMUA, the personal statement questions, and what interviews are like.
 
-## A note on accuracy
+[Tutorials](/wiki/tutorials) is the practical section, from Git and the command line through to concurrency and reading papers.
+
+[Resources](/wiki/resources) points at course material, computing facilities and careers help.
+
+## How much to trust it
 
 > [!WARNING]
-> This wiki is written and maintained by students, not by the University. It is not an official admissions resource. Entry requirements, admissions tests and deadlines change from one cycle to the next, so always confirm the details against the [official Cambridge undergraduate study site](https://www.undergraduate.study.cam.ac.uk/) and your College before relying on them.
+> Students write and maintain this wiki. It carries no official standing, and the admissions pages in particular describe requirements that change from cycle to cycle. Check anything that matters against the [official Cambridge undergraduate site](https://www.undergraduate.study.cam.ac.uk/) and your College.
 
-Where a page makes a factual claim about admissions, it links to the official source. If you spot something out of date, please fix it.
+Where a page makes a factual claim about admissions it links to the source it came from. Fix anything you find out of date.
 
-## Contributing
+## Writing a page
 
-Every page here is plain Markdown living in the [website repository](https://github.com/cucats/website) under `src/content/wiki`. Adding a page means adding a file — there is no database and no CMS.
+Pages are Markdown files in the [website repository](https://github.com/cucats/website) under `src/content/wiki`. Adding one means adding a file.
 
-A page needs frontmatter with a `title` and a `description`:
+Every page needs frontmatter with a title and a description:
 
 ```markdown
 ---
 title: Your Page Title
-description: One sentence that shows up on navigation cards and in search
+description: One sentence, shown on navigation cards and in search
 ---
 
 Your content starts here.
 ```
 
-A few conventions worth knowing:
+Conventions worth knowing before you start:
 
-- **Start at `##`.** The page title from the frontmatter is rendered as the `h1`, and every `h2` becomes an entry in the "On this page" table of contents.
-- **Directories become sections.** A folder with an `index.md` becomes a section, and the other files in it become its child pages.
-- **Number prefixes control order.** A file or folder named `2-admissions-test.md` sorts after `1-personal-statement.md`, but the number is stripped from the URL, so the page still lives at `/wiki/applying-to-cambridge/admissions-test`. This also drives the previous/next links at the foot of each page.
-- **Callouts** are written as blockquotes beginning with `[!NOTE]`, `[!TIP]` or `[!WARNING]`.
-- **Maths** is written with LaTeX between dollar signs. See [Math Example](/wiki/tutorials/math-example) for the details. Dollar signs inside code blocks are left alone, so shell and LaTeX samples need no escaping.
+- Begin the body at `##`. The frontmatter title is rendered as the `h1`, and each `h2` becomes an entry in the "On this page" contents.
+- A folder with an `index.md` becomes a section, and the other files in it become its children.
+- Number prefixes set the order. `02-testing.md` sorts after `01-git-basics.md`, and the number is stripped from the URL, so the page still lives at `/wiki/tutorials/testing`. Use two digits, since `10-` sorts before `9-`. The same prefixes drive the previous and next links at the foot of each page.
+- Callouts are blockquotes starting with `[!NOTE]`, `[!TIP]` or `[!WARNING]`.
+- Maths goes between dollar signs. Dollar signs inside code blocks are left alone, so shell and LaTeX samples need no escaping. [Math Example](/wiki/tutorials/math-example) has the details.
 
-Run `bun run dev` to preview your changes locally, and `bun run format` before committing.
+Run `bun run dev` to preview, and `bun run format` before you commit.

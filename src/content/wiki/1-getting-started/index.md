@@ -3,63 +3,61 @@ title: Getting Started
 description: How to get involved with CUCaTS
 ---
 
-CUCaTS is the primary student-run computing society at Cambridge. We run talks, socials, hackathons and competitions, and we fund and support members who want to run things of their own. You do not need to be a Computer Science student, and you do not need to already know how to code — plenty of our members come from maths, engineering, natural sciences, and from well outside the sciences entirely.
+CUCaTS is the main student-run computing society in Cambridge. We run talks, socials, hackathons and competitions, and we fund members who want to run things of their own.
 
-This page is the short version of how to plug yourself in.
+You do not need to be a computer scientist and you do not need to know how to code. Our members come from maths, engineering, natural sciences and a good number of subjects with no obvious connection to computing.
 
-## Hear about things
+## Hearing about things
 
-Almost everything we run is announced in two places, and joining both takes about a minute.
+Everything gets announced in two places, and signing up to both takes a minute.
 
-- **[The events mailing list](https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events)** — the low-volume, official channel. If you only do one thing, do this one. Announcements for talks, socials and our flagship events all go out here.
-- **Our Discord** — where the day-to-day conversation happens, along with more informal announcements and last-minute plans. The server is private; the invite is shared on the mailing list and at our events, so join the list first or ask a committee member.
+The [events mailing list](https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events) is the official channel and stays low volume. If you only do one thing, do this. Talks, socials and our main events are all announced there.
 
-You can also subscribe to our calendar directly, which will keep our events in whatever app you already use:
+Our Discord carries the day-to-day conversation and the more informal plans. The server is private, and the invite goes out on the mailing list and at our events, so join the list first or ask a committee member.
 
-- [Add the CUCaTS calendar](webcal://cucats.org/events/calendar.ics) (this opens in your default calendar app)
-- Or browse everything coming up on the [events page](/events)
+You can also subscribe to [our calendar](webcal://cucats.org/events/calendar.ics), which drops everything into whatever app you already use, or just read the [events page](/events).
 
-We are on [Instagram](https://www.instagram.com/cucats.cam), [Facebook](https://www.facebook.com/CUCaTS) and [X](https://x.com/cucatscam) as well, and new posts go up on the [blog](/blog).
+We post on [Instagram](https://www.instagram.com/cucats.cam), [Facebook](https://www.facebook.com/CUCaTS) and [X](https://x.com/cucatscam), and event write-ups go on the [blog](/blog).
 
-## Turn up to something
+## Turning up
 
 > [!TIP]
-> Thanks to our sponsors, most of what we run is free and open to all students. If you are hesitating because you are not sure you are "technical enough", come to a social first — nobody is going to quiz you.
+> Sponsorship means most of what we run is free and open to any student. If you are hesitating because you are unsure whether you are technical enough, come to a social first. Nobody is going to quiz you.
 
-Three events run every year and are worth planning around:
+Three events anchor the year, and each has its own page:
 
-| Event                                          | What it is                                                                                         | When       |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------- |
-| [Cam Hack](https://camhack.org)                | Our hackathon. A weekend of building something with a team, usually to a deliberately silly theme. | Michaelmas |
-| [Cambridge Game Jam](https://camgamejam.com)   | Build a game from scratch to a surprise theme, over a weekend.                                     | Lent       |
-| [CUCaTS Codevent](https://cc.cucats.org/about) | A daily programming puzzle, released at 12:00 UTC each day, scored by how quickly you solve it.    | December   |
+| Event                                                 | What it is                                                      | When       |
+| ----------------------------------------------------- | --------------------------------------------------------------- | ---------- |
+| [Cam Hack](/wiki/events/cam-hack)                     | Weekend hackathon, teams building to a deliberately silly theme | Michaelmas |
+| [Cambridge Game Jam](/wiki/events/cambridge-game-jam) | 48 hours to make a game from a surprise theme                   | Lent       |
+| [CUCaTS Codevent](/wiki/events/codevent)              | A programming puzzle a day, scored on how fast you solve it     | December   |
 
-Around those sit a steady stream of smaller things: sponsor talks and technical talks, workshops, bubble tea and board game socials, pub crawls and formals. The [blog](/blog) has write-ups of past events if you want a sense of the flavour before committing.
+Between them sit sponsor talks, technical talks, workshops, bubble tea and board game socials, pub crawls and formals. The [blog](/blog) gives a sense of the flavour if you want to know what you are walking into.
 
-We also co-run events with neighbouring societies, so it is worth following [CyberSoc](https://cybersoc.soc.srcf.net) for security and [UCCPS](https://uccps.soc.srcf.net) for competitive programming.
+We also co-run events with [CyberSoc](https://cybersoc.soc.srcf.net) and [UCCPS](https://uccps.soc.srcf.net), so following those two is worthwhile if security or competitive programming appeals.
 
-## Run your own event
+## Running your own event
 
-This is the part people most often do not realise is available to them. If you have an idea for an event, CUCaTS can fund and support it — that is one of the things the society exists to do. It does not have to be big or serious: past member-led events have ranged from casual picnics through to full contests.
+People consistently do not realise this is available to them. If you have an idea, CUCaTS can fund it and help you put it on, which is one of the things the society exists to do. Past member-led events have gone from casual picnics up to full contests, so it does not need to be large or serious.
 
-What we can offer is money, practical experience with the logistics, help with publicity to our membership, and in some cases introductions to sponsors. What we need from you is a rough plan.
+We can offer money, help with the logistics, publicity to the membership, and in some cases an introduction to a sponsor. What we need from you is a rough plan.
 
-The [event funding guide](https://docs.google.com/document/d/1WQdX0mt8jfy-CM6IOvB9yNzkG19yL9MsVQizpaagKuE/edit?usp=sharing) explains what to include and how the process works. If your idea is still half-formed, email us anyway and we will help you shape it.
+The [event funding guide](https://docs.google.com/document/d/1WQdX0mt8jfy-CM6IOvB9yNzkG19yL9MsVQizpaagKuE/edit?usp=sharing) explains what to include and how it works. Half-formed ideas are fine; email us and we will help you shape it.
 
-## Join the committee
+## Joining the committee
 
-The society is run entirely by students, and the committee changes over every year. Roles cover events, sponsorship, publicity, technical infrastructure and the society's administration, so there is usually something that matches whatever you actually want to get better at.
+Students run the whole society, and the committee turns over every year. Roles cover events, sponsorship, publicity, technical infrastructure and the society's administration, so there is usually something matching whatever you want to get better at.
 
-Committee elections are announced in advance on the mailing list, so that is the channel to watch if you want to stand. You can see who currently holds which role on the [committee page](/committee), and the formal rules — membership, roles, elections and how the society is governed — are all set out in the [constitution](/constitution.pdf).
+Elections get announced on the mailing list, so watch it if you want to stand. The [committee page](/committee) lists who currently does what, and the [constitution](/constitution.pdf) sets out membership, roles, elections and governance.
 
-If you are thinking about standing, talk to whoever currently does the role first. They will tell you honestly what the work involves.
+Talk to whoever holds the role before you stand. They will tell you honestly how much work it is.
 
-## Careers and sponsors
+## Sponsors and careers
 
-Our [sponsors](/sponsors) are a mix of quantitative finance firms, technology companies and startups, and they support us precisely because they want to meet Cambridge students. In practice that means sponsor talks, workshops, dinners and direct routes to internship and graduate applications. Watch the mailing list for these; the good ones fill up.
+Our [sponsors](/wiki/sponsors) are mostly quantitative finance firms and technology companies, and they support us because they want to meet Cambridge students. In practice that means talks, workshops, dinners and direct routes into internship applications. Watch the mailing list, because the good ones fill up.
 
-For everything beyond our own sponsors, the [University Careers Service](https://www.careers.cam.ac.uk/) is free and genuinely useful, particularly for CV review before you start applying.
+The [University Careers Service](https://www.careers.cam.ac.uk/) covers everything beyond our own sponsors and will review a CV for free.
 
-## Get in touch
+## Getting in touch
 
-Email the committee at [executive@cucats.org](mailto:executive@cucats.org). Questions about getting involved, event ideas, sponsorship enquiries and "is this thing on my calendar actually happening" all go to the same place.
+Email [executive@cucats.org](mailto:executive@cucats.org) for anything about getting involved or an event idea. Sponsorship enquiries go to [president@cucats.org](mailto:president@cucats.org).
