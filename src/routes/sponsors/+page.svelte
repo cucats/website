@@ -7,9 +7,7 @@
 </svelte:head>
 
 <main class="">
-  <section
-    class="from-secondary-700 to-tertiary-700 bg-linear-to-br pt-32 pb-8 text-neutral-100"
-  >
+  <section class="bg-primary-900 pt-32 pb-8 text-neutral-100">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Sponsors</h1>
 

@@ -12,7 +12,7 @@
   />
 </svelte:head>
 
-<main class="bg-primary-800 min-h-screen">
+<main class="bg-primary-900 min-h-screen">
   <section class="pt-24 text-neutral-200">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
@@ -23,14 +23,14 @@
       </nav>
 
       <h1 class="h1 mb-8 font-bold text-neutral-100">Blog</h1>
-      <p class="p mb-12 text-neutral-100">
+      <p class="p mb-12 text-neutral-200">
         News, tutorials, and updates from CUCaTS
       </p>
 
       <div class="space-y-6">
         {#each data.posts as post}
           <article
-            class="group bg-primary-900 rounded-lg transition hover:brightness-125"
+            class="group bg-primary-950 rounded-lg transition hover:brightness-125"
           >
             <a href="/blog/{post.slug}" class="block p-6">
               <div

@@ -11,7 +11,7 @@
   {/if}
 </svelte:head>
 
-<main class="bg-primary-800 min-h-screen">
+<main class="bg-primary-900 min-h-screen">
   <section class="pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
@@ -34,7 +34,7 @@
           {#each data.children as child}
             <a
               href="/{child.slug}"
-              class="bg-primary-900 block rounded-lg p-6 transition-all hover:brightness-125"
+              class="bg-primary-950 block rounded-lg p-6 transition-all hover:brightness-125"
             >
               <h2
                 class="mb-2 text-lg font-semibold text-neutral-100 sm:text-xl"

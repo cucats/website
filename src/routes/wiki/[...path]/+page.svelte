@@ -11,7 +11,7 @@
   {/if}
 </svelte:head>
 
-<main class="bg-primary-800 min-h-screen">
+<main class="bg-primary-900 min-h-screen">
   <section class="pt-24 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumbs -->
@@ -41,14 +41,16 @@
 
         <!-- Table of contents -->
         {#if data.sections.length > 0}
-          <nav class="bg-primary-900 mb-8 rounded-lg p-4">
-            <h2 class="mb-2 font-semibold text-neutral-100">On this page</h2>
+          <nav class="bg-primary-950 mb-8 rounded-lg p-4">
+            <h2 class="mb-2 font-semibold text-neutral-100">
+              Table of contents
+            </h2>
             <ul class="space-y-1">
               {#each data.sections as section}
                 <li>
                   <a
                     href="#{section.slug}"
-                    class="text-neutral-400 hover:text-neutral-100 hover:underline"
+                    class="text-neutral-400 hover:text-neutral-100"
                   >
                     {section.title}
                   </a>
@@ -69,7 +71,7 @@
           {#each data.children as child}
             <a
               href="/{child.slug}"
-              class="bg-primary-900 block rounded-lg p-6 transition-all hover:brightness-125"
+              class="bg-primary-950 block rounded-lg p-6 transition-all hover:brightness-125"
             >
               <h2
                 class="mb-2 text-lg font-semibold text-neutral-100 sm:text-xl"

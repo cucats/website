@@ -42,7 +42,7 @@
       <!-- Search button -->
       <button
         onclick={() => searchState.open()}
-        class="my-auto ml-2 flex items-center gap-2 rounded-lg border border-neutral-700/0 bg-neutral-950/50 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
+        class="my-auto ml-2 flex items-center gap-2 rounded-lg bg-neutral-950/80 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
         aria-label="Search"
       >
         <svg
@@ -58,11 +58,7 @@
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        <span class="hidden lg:inline">Search</span>
-        <kbd
-          class="hidden rounded bg-neutral-700 px-1.5 py-0.5 text-xs lg:inline"
-          >Ctrl K</kbd
-        >
+        <kbd class="hidden text-xs lg:inline">Ctrl K</kbd>
       </button>
     </nav>
 
