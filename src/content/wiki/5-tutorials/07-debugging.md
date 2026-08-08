@@ -1,124 +1,57 @@
 ---
-title: Debugging Effectively
-description: Finding bugs by narrowing the search, not by staring harder
+title: Debugging
+description: Reversible execution, sanitizers, and narrowing a search space you cannot single-step
 ---
 
-Most people debug by rereading the code and hoping. That works for typos and fails for everything else, because the bug is nearly always somewhere you are confident it is not. If it were somewhere you suspected, you would have found it.
+Bisection over program state is the whole method, and the tooling exists to make each bisection step cheap. Most of what follows is about buying that cheapness back when the failure is rare, non-deterministic, or already over by the time you hear about it.
 
-Debugging is a search problem. The skill is halving the space you have to search, over and over, until the bug has nowhere left to hide.
+## Record and replay
 
-## The method
+`rr` records a program's non-deterministic inputs and replays them deterministically, which turns a heisenbug into a bug you can step through as often as you like. Reverse execution is the payoff: set a watchpoint on the corrupted field, `reverse-continue`, and land on the write that did it without reasoning about how execution got there.
 
-1. Reproduce it reliably. A bug you cannot trigger on demand can only be guessed at. If it shows up one time in ten, work out what distinguishes that time before doing anything else.
-2. Shrink the input, cutting the failing case down until removing anything more makes the bug disappear. A five-line reproduction usually makes the cause obvious on its own.
-3. Form one hypothesis and write it down, in the shape "I think X is happening because Y".
-4. Test that hypothesis, changing one thing.
-5. Repeat, aiming for each test to eliminate about half of what remains.
+That inverts the usual loop. You start from the observed corruption and walk backwards to its origin, with no need to hypothesise a cause and run forward to test it. For memory corruption and use-after-free that is the difference between an afternoon and a minute.
 
-> [!TIP]
-> Change one thing at a time. Change three and watch the bug vanish, and you have learned nothing: you now have a working program and no idea why, which is worse than it sounds.
+Recording overhead is modest for single-threaded work. Parallel programs are serialised onto one core while recording, so timing-dependent behaviour changes, which is exactly the case you wanted it for.
 
-## Read the error message
+## Sanitizers
 
-This sounds patronising and it is the most commonly skipped step. Error messages are usually specific, and people's eyes slide off them because they are ugly.
+ASan instruments allocations with redzones and maintains shadow memory, catching overflow and use-after-free at the access with allocation and free stacks attached. Around 2x slowdown and a large memory multiplier.
 
-A stack trace records how execution reached the failure. Read it in two passes: the top frame is where it broke, and the frames below show who called whom to get there. The most useful line is normally the topmost frame in your own code. A crash inside a standard library function almost never means a bug in the standard library; your code passed it something wrong.
+UBSan traps the undefined constructs the optimiser is otherwise entitled to assume away, which is the class producing the most confusing symptoms, since the compiler has already reasoned from their absence.
 
-## Print debugging, done properly
+TSan tracks happens-before and reports races that did not manifest on that run, which is what separates it from stress testing. It is the only tool here that finds a bug you failed to reproduce.
 
-There is no shame in print debugging and professionals do it constantly. There is shame in doing it badly.
+MSan catches reads of uninitialised memory and needs the whole program including libc instrumented, which is why it goes unused more often than it should.
 
-Label every print, because `print("here")` tells you nothing once four of them exist, while `print("after parse, tokens =", tokens)` tells you everything. Print the thing you are least sure about, over the thing that is easiest to print. And print at boundaries, on entry to and exit from the function you suspect: if the input is right and the output is wrong, the bug is inside, and if the input is already wrong, move up the call chain.
+ASan and TSan are mutually exclusive. Valgrind needs no rebuild and costs an order of magnitude more, which still makes it right for a binary you cannot recompile.
 
-That last one is the print-debugging version of halving the search space, which is why it works so well.
+## Core dumps and post-mortem
 
-## Using a debugger
+A process that died in production leaves a core if the limits allow, and `coredumpctl` or the configured `core_pattern` decides whether you get one. Debugging it needs matching binaries and debug info, which is the argument for building with `-g` and shipping split debug files through a symbol server over stripping.
 
-A debugger does what printing does without the edit-and-rerun cycle. For C or C++, compile with debug symbols and no optimisation:
+Separate debug info via `objcopy --only-keep-debug` keyed by build ID keeps the shipped binary small and the symbols reachable. Getting this wrong gets discovered at precisely the wrong moment.
 
-```bash
-gcc -g -O0 program.c -o program
-gdb ./program
-```
+## Bisection at every level
 
-| Command                           | What it does                           |
-| --------------------------------- | -------------------------------------- |
-| `run`                             | start the program                      |
-| `break main` or `break file.c:42` | stop at a function or line             |
-| `next`                            | run the next line, stepping over calls |
-| `step`                            | run the next line, stepping into calls |
-| `finish`                          | run until the current function returns |
-| `print x`                         | show the value of `x`                  |
-| `backtrace`                       | show the call stack                    |
-| `watch x`                         | stop whenever `x` changes              |
-| `continue`                        | resume until the next breakpoint       |
+`git bisect run` with a script that exits zero or non-zero automates the search over history, and the discipline is writing a fast unambiguous test before starting.
 
-`watch` is the underused one. When a variable is being corrupted and you have no idea where, a watchpoint finds it immediately, where stepping takes an hour.
+The same idea applies below source control. Bisect over the input by shrinking it, over the flag space by halving the compiler options, over linked objects by swapping one translation unit at a time between a working and a broken build. C-Reduce automates input shrinking for compiler bugs, and the principle transfers to any deterministic failure with a large candidate space.
 
-Python has a debugger built in. Drop this where you want to stop:
+## Attaching to something already running
 
-```python
-breakpoint()
-```
+`gdb -p` stops the world, which is unacceptable on anything serving traffic. eBPF through `bpftrace` observes without stopping, so uprobes on a function boundary give you argument values and latency histograms from a live process at a cost you can leave enabled.
 
-You get a prompt with much the same commands: `n` for next, `s` for step, `c` for continue, `p expr` to print, `bt` for a backtrace.
+`perf trace`, `strace -f -e trace=` on a narrow filter, and `ltrace` cover the syscall and library boundary. For a hung process, `/proc/<pid>/stack` and `/proc/<pid>/wchan` say where the kernel put it, and `eu-stack` or `gdb -batch -ex bt` gives a userspace backtrace with no interactive session.
 
-## Let Git find it
+## What the optimiser did to your program
 
-Code that worked last week and does not now calls for bisecting, over reading the diff. Git binary-searches your history for the commit that broke things:
+Stepping through optimised code lands on lines out of order and reports variables as optimised out, both of which are the debug info telling the truth about a program that no longer matches the source structure. `-Og` keeps the mapping close while preserving most of the transformations, which is generally the right build for stepping.
 
-```bash
-git bisect start
-git bisect bad                 # the current commit is broken
-git bisect good v1.0           # this older commit worked
-```
+When behaviour differs between `-O0` and `-O2`, the default hypothesis is undefined behaviour in the program and not a compiler bug, and UBSan settles it faster than reading assembly. When it genuinely is a miscompilation, a reduced case and the exact compiler version are what the report needs.
 
-Git checks out a commit halfway between. Test it, say `git bisect good` or `git bisect bad`, repeat. Over a thousand commits that takes about ten steps. When you are done:
+## Reading
 
-```bash
-git bisect reset
-```
-
-Automate the test and Git will do the whole thing itself:
-
-```bash
-git bisect run ./test.sh
-```
-
-The script exits 0 for good and non-zero for bad. This is the highest-leverage debugging tool most people never learn.
-
-## Bugs that look like magic
-
-Impossible-looking behaviour is usually one of these.
-
-You are not running the code you think you are, thanks to a stale build, the wrong file, the wrong branch, cached bytecode or a shadowed installation. Add a deliberate syntax error and confirm it actually breaks.
-
-Aliasing, where two names refer to one object so mutating through one changes the other. In Python, default arguments like `def f(xs=[])` are shared across calls, which is the classic case.
-
-Off-by-one, at boundaries, on `<` against `<=`, and on inclusive against exclusive ranges. Testing with an empty input and a one-element input finds these fast.
-
-Uninitialised memory in C, where the value is whatever was there before, so behaviour changes between runs and under a debugger.
-
-Integer overflow or truncation, especially converting between sizes or between signed and unsigned.
-
-Concurrency. A bug that moves when you add a print statement involves timing, so see [Concurrency Basics](/wiki/tutorials/concurrency-basics).
-
-## Preventing the next one
-
-Write assertions. A check that fails loudly the moment an invariant breaks beats debugging the consequences three functions later.
-
-Turn on warnings and read them, since `gcc -Wall -Wextra` catches a real fraction of bugs before you run anything. The warnings you ignore become the bugs you debug.
-
-Write a test as soon as you have a reproduction. You already did the hard work of shrinking the input, and a test locks that in.
-
-## The last resort that works
-
-Explain the problem out loud and in full, to someone else or to an inanimate object, which is where rubber duck debugging gets its name. It works because explaining forces you to state your assumptions, and the wrong one usually becomes obvious as you say it.
-
-When nothing is working, stop and sleep on it. The bug you cannot find at 2am is frequently obvious at 10am. This is not a joke; it is the most reliable technique on this page.
-
-## Further reading
-
-- [GDB documentation](https://www.sourceware.org/gdb/documentation/), better than its reputation
-- [Python `pdb` documentation](https://docs.python.org/3/library/pdb.html)
+- [rr](https://rr-project.org/) for record and replay
+- [Sanitizers](https://github.com/google/sanitizers/wiki) for ASan, TSan and MSan
+- [bpftrace](https://bpftrace.org/) for live tracing
 - [`git bisect` documentation](https://git-scm.com/docs/git-bisect)

@@ -1,173 +1,60 @@
 ---
-title: Concurrency Basics
-description: Race conditions, locks and deadlock, as a companion to the theory
+title: Concurrency
+description: Memory models, lock-free reasoning, and why a benign race is not a thing
 ---
 
-Concurrency is where correct-looking code stops being correct. A program that works every time you run it can still be broken, and it will prove that in front of a user, long after it has behaved perfectly for you.
+Part IB Concurrent and Distributed Systems gives you the theory. This page is about the gap between that theory and what a compiler and a weakly ordered machine will actually do to your program.
 
-Part IB Concurrent and Distributed Systems covers the theory properly, and Part IA Operating Systems introduces some of it. This page is about the practical shape of the problem: what goes wrong, why, and the habits that avoid it.
+## The race is undefined, not merely wrong
 
-## The core problem
+Treating `counter++` as three steps that might interleave is the introductory framing and it understates the problem. A data race on a non-atomic object is undefined behaviour, which means the optimiser is entitled to assume it never happens and to transform your program on that basis.
 
-Threads share memory, and operations that look atomic in your source code are not atomic on the machine.
+The consequence is that racy code fails in ways no interleaving argument predicts. A load of a racy flag hoisted out of a loop turns a spin into an infinite loop. A compiler that proves a variable is never written by this thread may keep it in a register across the entire function. Neither is a scheduling accident, and neither goes away under a stress test on your laptop.
 
-This line:
+There is no benign race. There are races whose consequences you have not yet observed.
 
-```c
-counter++;
-```
+## Happens-before is the primitive
 
-is really three steps: load `counter` into a register, add one, store it back. Two threads running it at once can interleave:
+Every useful ordering guarantee reduces to happens-before, which is the transitive closure of sequenced-before within a thread and synchronizes-with across threads. Mutexes, joins and release-acquire pairs all exist to establish synchronizes-with edges; nothing else in the language creates one.
 
-```text
-Thread A: load counter (0)
-Thread B: load counter (0)
-Thread A: add 1 -> 1
-Thread B: add 1 -> 1
-Thread A: store 1
-Thread B: store 1
-```
+The acquire-release pair is the shape worth internalising. A release store publishes everything sequenced before it in the releasing thread, and an acquire load that reads that store sees all of it. The ordering is pairwise between that store and that load, so a release store observed by two different acquire loads gives you two independent edges and no ordering between the readers.
 
-Two increments happened and the counter reads 1. That is a race condition, where the result depends on timing you do not control.
+Sequential consistency buys a single total order over all seq_cst operations, which is what makes the independent-reads-of-independent-writes shapes behave the way naive intuition expects. It costs a locked instruction or a store-load fence on x86 and a full barrier on ARM. Relaxed ordering guarantees atomicity and per-object modification order and orders nothing across objects, which is correct for a counter you only ever read after joining and wrong nearly everywhere else.
 
-The dangerous part is how rare that interleaving is. Run it a thousand times and it may be right every time, and the bug is still there.
+Cost, roughly, on the platforms that matter: acquire and release are free on x86 because the hardware model is already TSO, and seq_cst stores are not. On AArch64 acquire and release map to `ldar` and `stlr`, and the gap between them and relaxed is real but small compared with the cache miss you are probably taking anyway.
 
-## Mutual exclusion
+## Deadlock and the lock ordering discipline
 
-The region that two threads must not run at once is the critical section, and a mutex enforces that only one thread is inside it.
+The Coffman conditions are the standard decomposition, and circular wait is the one you break in practice by imposing a total order on lock acquisition. That order is a global invariant of the program, so it belongs in a document, and never solely in the heads of whoever wrote the two functions involved.
 
-In C with pthreads:
+The failure mode this misses is the callback. A lock held across a call into code you do not control admits a lock ordering you never wrote down, because the callee may take locks in an order that contradicts yours. Lock inversion introduced through a virtual call or a signal handler is the version of this that survives review.
 
-```c
-#include <pthread.h>
+Priority inversion is the third case. A low-priority thread holding a lock a high-priority thread wants will block it for as long as some medium-priority thread is runnable, which is a scheduler problem and not a correctness one until it is.
 
-int counter = 0;
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+## Lock-free, and what it costs
 
-void *worker(void *arg) {
-    for (int i = 0; i < 100000; i++) {
-        pthread_mutex_lock(&lock);
-        counter++;
-        pthread_mutex_unlock(&lock);
-    }
-    return NULL;
-}
-```
+Lock-free means system-wide progress: some thread makes progress in a bounded number of steps regardless of scheduling. Wait-free strengthens that to every thread. Neither implies fast, and a lock-free structure under contention frequently loses to a well-implemented mutex, because the failed compare-exchanges do the same cache line ping-pong the mutex would have done and burn the retries as well.
 
-Compile with `gcc -pthread program.c -o program`.
+The ABA problem is the one that bites when you build a stack from a CAS on a head pointer. A thread reads A, is descheduled, and by the time it retries the head is A again with a different list behind it, so the CAS succeeds and splices in a stale tail. Tagged pointers, hazard pointers and epoch-based reclamation are the three answers, and all three are really answers to the same question, which is when it is safe to free.
 
-In Python, a context manager releases the lock even when an exception is thrown:
+Memory reclamation is the hard part of every lock-free structure. Removing a node from a shared structure is easy, and knowing that no other thread still holds a pointer into it is not.
 
-```python
-import threading
+## Where the time actually goes
 
-counter = 0
-lock = threading.Lock()
+False sharing is two threads writing distinct objects that share a cache line, which serialises them through the coherence protocol with no logical contention at all. Padding to the destructive interference size fixes it, and the diagnosis is a high `HITM` count from `perf c2c`.
 
-def worker():
-    global counter
-    for _ in range(100000):
-        with lock:
-            counter += 1
-```
+Uncontended atomic operations are cheap and contended ones are not, because the cost is the cache line moving between cores. A counter incremented by every thread is a serialisation point regardless of how it is implemented, and the fix is per-thread counters summed at read time.
 
-The rules that matter:
+Thread sanitizer is the tool that finds races that did not manifest, since it tracks happens-before and does no interleaving sampling at all. It is the only member of this list that finds a bug you did not reproduce.
 
-- Every access to shared mutable state needs the lock, reads included. A read racing with a write can observe a half-updated value.
-- The same lock must protect the same data everywhere. Two locks guarding one variable protect nothing.
-- Hold the lock briefly, while keeping one logical operation inside one critical section.
-- Do no I/O and call no unknown code while holding a lock, since you have no idea how long it will take or what it will try to lock.
+## The alternative that keeps working
 
-## Deadlock
+Immutable data needs no synchronisation, and message passing over a channel gives each value one owner and a well-defined transfer point. Both replace a reasoning problem that scales badly with thread count by one that does not.
 
-Locks bring a new failure, where threads wait on each other forever.
+Where a runtime enforces this, it stops being a discipline you have to maintain. OCaml 5's memory model bounds the behaviour of racy programs so a race cannot forge a pointer, and Rust's ownership rules make the aliasing-plus-mutation case a compile error. The [OCaml Internals](/wiki/tutorials/ocaml-internals) page covers the first of those.
 
-```text
-Thread A holds lock 1, wants lock 2
-Thread B holds lock 2, wants lock 1
-```
-
-Neither proceeds. Deadlock needs four conditions to hold at once, the Coffman conditions:
-
-1. Mutual exclusion, so resources cannot be shared.
-2. Hold and wait, so a thread holding one resource requests another.
-3. No preemption, so resources cannot be taken back by force.
-4. Circular wait, so a cycle of threads each waits on the next.
-
-Break any one and deadlock becomes impossible. The fourth is the easiest to break in practice:
-
-> [!TIP]
-> Acquire locks in a fixed global order. If every thread takes lock 1 before lock 2, no cycle can form. Write the ordering down somewhere, since it is an invariant of your whole program and not of one function.
-
-## Waiting for a condition
-
-Locks handle "not at the same time". They do nothing for "wait until something is true", which is what condition variables are for.
-
-The canonical use is a producer-consumer queue, where consumers wait when the queue is empty:
-
-```python
-import threading
-from collections import deque
-
-queue = deque()
-cond = threading.Condition()
-
-def produce(item):
-    with cond:
-        queue.append(item)
-        cond.notify()
-
-def consume():
-    with cond:
-        while not queue:
-            cond.wait()
-        return queue.popleft()
-```
-
-Note the `while` there, in place of an `if`. A thread can wake without the condition being true, through a spurious wakeup or because another consumer took the item first. Always re-check the condition in a loop after waking. This is the most common bug in code using condition variables.
-
-## Threads or processes
-
-Threads share memory, which makes communication free and data races free too.
-
-Processes have separate memory and must communicate explicitly through pipes, sockets or shared memory. That is more work, and it eliminates a whole category of bug by making the isolation enforced.
-
-Where tasks are largely independent, processes are often the better default for exactly that reason.
-
-> [!NOTE]
-> CPython has a global interpreter lock, so threads do not execute Python bytecode in parallel. They still help for I/O-bound work, where they spend their time waiting, and CPU-bound work wants `multiprocessing`. Recent versions offer an experimental free-threaded build removing this limit, so check what your interpreter actually does before assuming either way.
-
-## The alternative: stop sharing
-
-Most concurrency bugs come from shared mutable state. Remove either word and they go away.
-
-Immutable data can be shared freely by any number of threads with no locking at all. Message passing, as in Go's channels, Erlang's processes or Rust's ownership model, gives each piece of data one owner and passes it along.
-
-Where you can structure a problem so threads communicate by sending values, do. It is less clever and much more likely to be right.
-
-## Debugging concurrency
-
-Concurrency bugs break the usual debugging method, since observing the program changes its timing. A bug that vanishes when you add a print statement, a heisenbug, is a strong signal you have a race.
-
-What works:
-
-- Thread sanitizer. `gcc -fsanitize=thread` instruments your program and reports races it detects, including ones that did not manifest on that run. It finds real bugs that testing does not.
-- Stress and vary. Run with many more threads than cores, on a loaded machine, thousands of times. Rare interleavings need many attempts.
-- Add deliberate delays. Sleeping inside a suspected critical section widens the window and makes a race reproducible.
-- Reason from invariants. Concurrency is one area where arguing about the code beats experimenting on it, because the failing case may be one interleaving in millions.
-
-The general method still applies, and [Debugging Effectively](/wiki/tutorials/debugging) covers it.
-
-## Rules worth internalising
-
-1. Shared mutable state is the enemy. Reduce it before adding locks to it.
-2. Document which lock protects which data, next to the data.
-3. Acquire locks in a consistent order, always.
-4. Re-check conditions in a `while` loop after waiting.
-5. Prefer the highest-level primitive that does the job: a thread-safe queue over hand-rolled condition variables, a parallel map over raw threads.
-6. Code that works while you cannot explain why it is race-free is not race-free. You have been lucky.
-
-## Further reading
+## Reading
 
 - [The `pthreads` manual page](https://man7.org/linux/man-pages/man7/pthreads.7.html)
-- Part IB Concurrent and Distributed Systems notes, on the [course pages](https://www.cl.cam.ac.uk/teaching/current/part1b.html)
+- Part IB Concurrent and Distributed Systems, on the [course pages](https://www.cl.cam.ac.uk/teaching/current/part1b.html)
+- [Preshing on Programming](https://preshing.com/) for the memory model material worked through with hardware in view

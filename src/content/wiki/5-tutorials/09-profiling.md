@@ -1,107 +1,60 @@
 ---
 title: Profiling and Performance
-description: Measuring before optimising, so you speed up the part that is actually slow
+description: Counters, sampling bias, and the microarchitectural limits you are actually hitting
 ---
 
-Programmers are famously bad at guessing which part of a program is slow. The intuition that says "this nested loop looks expensive" is wrong often enough that acting on it wastes most of the effort spent optimising: you speed up the wrong thing and the program is no better.
+Guessing which part of a program is slow has a poor track record, and the interesting version of this problem starts after you have stopped guessing. This page is about what the measurement is telling you.
 
-Profiling replaces the guess with a measurement. It takes about two minutes and it separates optimising from fiddling.
+## What `time` decomposes into
 
-## The order of operations
+Wall clock over user plus sys tells you whether you are running or waiting, and the ratio is the first branch in the decision tree. Waiting sends you to the blocking profile, running sends you to the counters.
 
-Make it correct first, because a fast wrong answer is worthless and optimisation makes code harder to fix. Then decide whether it is fast enough, and stop if it is, since optimisation costs readability and you pay that permanently. Then measure to find where the time goes. Then improve the biggest cost and measure again.
+Compute-bound is not one condition. A core retiring four instructions per cycle and a core stalled on memory both show as user time, and the distinction determines which optimisations are available. `perf stat` gives you instructions per cycle directly, and IPC well under one on a modern out-of-order core means the machine is waiting on something, usually last-level cache misses or a branch it cannot recover from cheaply.
 
-That last step repeats, because the bottleneck moves. Fix the thing taking 60% of the time and something else now holds the largest share.
+The top-down methodology formalises this. Issue slots are attributed to retiring, bad speculation, frontend bound or backend bound, and the category you land in tells you whether to look at the algorithm, the branch layout, the instruction footprint or the data layout. `perf stat --topdown` on hardware that supports it collapses a long argument into one table.
 
-> [!TIP]
-> Fix the algorithm before the constants. Going from $O(n^2)$ to $O(n \log n)$ beats any amount of micro-optimisation on a large input, and no amount of tuning rescues a fundamentally wrong approach. [Competitive Programming](/wiki/tutorials/competitive-programming) covers how to budget complexity.
+## Sampling and its biases
 
-## Timing the whole thing
+A sampling profiler interrupts on a counter overflow and attributes the sample to the instruction pointer. Two things follow.
 
-Start crude. Often this is all you need:
+Skid means the reported instruction is not the one that caused the event, because the interrupt arrives some cycles later. Precise event modes, `:pp` in perf syntax, use PEBS or IBS to record the address at the point of the event, and without them the attribution of a cache miss to a source line is approximate in a way that matters when the loop body is short.
 
-```bash
-time ./program
-```
+Sampling on cycles also cannot see time you did not spend on the CPU. A profile that looks flat while the wall clock is long means the time went to a blocking call, and off-CPU profiling through scheduler tracepoints is what shows it.
 
-That reports real time on the wall clock, user time on CPU in your code, and sys time on CPU in the kernel. The relationship between them tells you something immediately. Real time much larger than user plus sys means you are waiting, for disk, network or a lock, and optimising computation will not help. User time dominating means you are compute-bound and profiling will show you where.
+Inlining and tail calls break the naive stack walk. Frame pointer omission is the default at `-O2`, so either build with `-fno-omit-frame-pointer` and give up a register, use DWARF unwinding and accept the sample buffer size, or use LBR call stacks where the hardware provides them.
 
-To time a region inside a program, record a monotonic clock either side:
+## Measurements that mislead
 
-```python
-import time
+Microbenchmarks measure the benchmark. A loop over an array that fits in L1 is measuring L1 bandwidth, and the same code over a working set that misses is a different program microarchitecturally. A conclusion drawn at one working set size transfers to another by accident.
 
-start = time.perf_counter()
-result = expensive_thing()
-print(f"took {time.perf_counter() - start:.3f}s")
-```
+Dead code elimination removes any computation whose result goes unused, so a benchmark that does not consume its output is timing an empty loop. Consume it through a volatile sink or an assembly barrier.
 
-Use `perf_counter`, since `time.time()` can jump when the system clock is adjusted.
+Alignment effects are large and unrelated to anything you changed. Function and loop alignment shift with unrelated edits and move times by several percent, which is why a change measured once is not a result. Vary the layout before believing a small improvement.
 
-## Profiling properly
+Frequency scaling makes the first iterations run at a different clock from the rest, and a sustained wide-vector workload will downclock the core outright.
 
-A profiler tells you where the time goes without you guessing where to put timers.
+## Where the wins are
 
-Python has one built in:
+Complexity dominates when it is wrong. Past that, the wins are almost entirely about the memory hierarchy.
 
-```bash
-python -m cProfile -s cumtime script.py | head -n 30
-```
+Layout is the lever. Array-of-structures against structure-of-arrays changes how much of each cache line you use, and a hot loop touching two fields of a sixteen-field struct wastes most of its bandwidth. The transformation is mechanical and the effect is frequently larger than anything instruction selection will give you.
 
-Sorting by `cumtime`, meaning cumulative time including callees, shows which high-level operations are expensive. Sorting by `tottime` shows which individual functions burn CPU themselves. Both views are useful and they answer different questions.
+Hardware prefetching handles sequential access and constant strides well, and pointer chasing not at all, which makes a hot linked structure the canonical case for changing representation.
 
-C and C++ on Linux use `perf`:
+Branch misprediction costs the pipeline depth. A genuinely unpredictable branch is worth removing with a conditional move or a branchless formulation, and a predictable one is nearly free and should be left alone. Sorting the input before a filtering loop is the standard demonstration, and it works by making the branch predictable.
 
-```bash
-gcc -g -O2 program.c -o program
-perf record ./program
-perf report
-```
+Allocation becomes a systems problem at scale. Arena and monotonic strategies turn allocation into a pointer bump and deallocation into nothing, which is the right shape for work with a natural batch boundary.
 
-Compile with optimisation and debug symbols together. Profiling an unoptimised build measures a program you are not going to ship.
+## Amdahl, and what parallelism does not fix
 
-Java ships with Java Flight Recorder, and most JVM profilers attach to a running process.
+Speedup is bounded by the serial fraction, which is why the parallel section is rarely where the time goes. Adding threads to a program with a contended allocator or a shared counter buys contention.
 
-Whatever the language, look for the same shapes: one function dominating, a cheap function called an enormous number of times, or time spent somewhere you did not expect. The third is the most common and the most valuable.
+Little's law is the other constraint worth carrying: concurrency equals arrival rate times latency, so a system at fixed concurrency cannot improve throughput without improving latency. Queueing effects mean the tail diverges long before the mean does, and a service at 80% utilisation has a queue whether or not the average looks comfortable.
 
-## Where the time usually goes
+Tail latency is a different optimisation target from mean latency and the techniques diverge. Collection pauses, page faults and interrupts are invisible in the mean and are most of the 99.9th percentile.
 
-Slow programs are usually slow for one of a small number of reasons.
+## Reading
 
-The wrong algorithm or data structure, which is the first thing to check and the most common answer. Repeated linear scans of a list where a hash set answers in constant time, or a membership test inside a loop turning $O(n)$ into $O(n^2)$.
-
-Work repeated needlessly, where the same value gets recomputed every iteration despite being computable once outside the loop, or cacheable across calls.
-
-I/O in a loop, reading a file line by line with a system call each time, or making one network request per item where a batch would do. This dominates everything else when it happens, since a single network round trip costs more than millions of instructions.
-
-Allocation, where building a string by repeated concatenation in a loop copies the whole thing each time and gives you quadratic behaviour. Use a builder, or join a list at the end.
-
-Memory access patterns, where traversing a large array in memory order runs dramatically faster than jumping around, because the cache does the work. This matters far more than people expect at the sizes where it matters at all.
-
-## Benchmarking without fooling yourself
-
-Measurements lie easily, so a few precautions.
-
-Run more than once, because the first run pays for cold caches and lazy initialisation. Discard it, or run enough iterations that startup becomes noise.
-
-Use realistic input. Optimising against a 100-element test case tells you nothing about ten million, and the ranking of approaches often reverses between the two.
-
-Change one thing at a time and re-measure after each, since two changes at once leave you unable to attribute the improvement, and one of them may be making things worse.
-
-Watch for the compiler deleting your benchmark. A computed result that is never used can be removed entirely by an optimising compiler, so use the result: print it, or accumulate it.
-
-Check the variance as well as the mean. A machine doing other work produces noisy numbers, and a 5% improvement is frequently nothing at all.
-
-## Knowing when to stop
-
-Optimisation carries a cost you pay forever, since the fast version is usually harder to read, harder to change and easier to break. Spend it deliberately.
-
-Stop when the program is fast enough for its purpose. A script you run once a term does not need to be fast. A function called a million times in an inner loop does. Judging which one you have in front of you is worth more than any technique on this page.
-
-Keep the slow, obviously-correct version around, as a comment, in the history, or as a test oracle. When the fast version produces a suspicious answer at 1am, having something you trust to compare against is worth a great deal.
-
-## Further reading
-
-- [Python `cProfile` documentation](https://docs.python.org/3/library/profile.html)
-- [`perf` wiki](https://perfwiki.github.io/main/), tutorials for the Linux profiler
-- Part IA Algorithms, since nearly every large performance win is an algorithmic one
+- [Brendan Gregg on perf](https://www.brendangregg.com/perf.html), including flame graphs and off-CPU analysis
+- [Agner Fog's optimisation manuals](https://www.agner.org/optimize/) for microarchitecture and instruction tables
+- [`perf` wiki](https://perfwiki.github.io/main/)

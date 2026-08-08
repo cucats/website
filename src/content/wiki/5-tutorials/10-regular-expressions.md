@@ -1,152 +1,52 @@
 ---
 title: Regular Expressions
-description: Understanding regexes, so you can stop copying them off the internet
+description: Automata, backtracking, and the features that leave the regular languages behind
 ---
 
-Regular expressions are a small language for describing patterns in text. Nearly everyone's first encounter involves pasting one from a search result and hoping, which works until it stops working and leaves you unable to fix it.
+The name is a claim about expressive power, and most implementations broke it decades ago. Knowing which engine you are talking to determines both what you can match and what your worst case is.
 
-The language really is small. An hour of deliberate learning replaces years of guessing.
+## Two engine families
 
-## The building blocks
+Thompson construction compiles a pattern to an NFA and simulates it, tracking the set of reachable states as it consumes input. Every character advances every live state exactly once, giving O(mn) worst case with no backtracking. Determinising to a DFA, ahead of time or lazily with a state cache, gets that to O(n) at the cost of a state space exponential in the worst case, which is what the cache bounds.
 
-Most characters match themselves, so the pattern `cat` matches the text "cat". The interesting parts are the characters that do something else.
+Backtracking engines walk the pattern recursively and undo on failure. PCRE, Perl, Python's `re`, Java and JavaScript all do this, and it is why they support backreferences and lookaround: the engine has the match history available because it is carrying it on the stack.
 
-### Character classes
+That capability is what costs the complexity guarantee. A pattern with nested quantifiers over a failing input explores an exponential number of paths, and `(a+)+$` against a long run of `a` is the canonical demonstration. Applied to attacker-controlled input, that is a denial of service with a two-line payload.
 
-Square brackets mean any one of these:
+RE2 and Go's `regexp` take the other branch, refusing backreferences and guaranteeing linear time. Where the input is untrusted, that trade is the correct one.
 
-| Pattern       | Matches                                      |
-| ------------- | -------------------------------------------- |
-| `[abc]`       | one character: `a`, `b` or `c`               |
-| `[a-z]`       | any one lowercase letter                     |
-| `[a-zA-Z0-9]` | any one letter or digit                      |
-| `[^abc]`      | any one character other than `a`, `b` or `c` |
+## Where the regular languages end
 
-Shorthands cover the common ones:
+Backreferences push the language class past regular outright. `(a+)\1` matches a doubled string, which is neither regular nor context-free.
 
-| Shorthand      | Means                                           |
-| -------------- | ----------------------------------------------- |
-| `\d`           | a digit, same as `[0-9]`                        |
-| `\w`           | a word character: letter, digit or underscore   |
-| `\s`           | whitespace: space, tab, newline                 |
-| `\D` `\W` `\S` | the negation of each                            |
-| `.`            | any character at all, except newline by default |
+Lookaround is the more interesting case, since zero-width assertions add no expressive power over regular languages in principle and change the complexity of matching substantially in practice. Lookbehind is where implementations diverge most: .NET handles variable-length, PCRE historically wanted fixed-length, and JavaScript gained it late.
 
-### Quantifiers
+Recursive patterns in PCRE take you to context-free grammars, at which point you are writing a parser in a syntax designed for something else. Balanced brackets can be matched this way and should not be.
 
-How many times the preceding thing may repeat:
+## Catastrophic backtracking, concretely
 
-| Pattern  | Means                |
-| -------- | -------------------- |
-| `a*`     | zero or more `a`     |
-| `a+`     | one or more `a`      |
-| `a?`     | zero or one `a`      |
-| `a{3}`   | exactly three        |
-| `a{2,5}` | between two and five |
-| `a{2,}`  | two or more          |
+The failure needs two ingredients: ambiguity in how the pattern can split the input, and a suffix that fails. `(a|a)*b` against a run of thirty `a` characters has $2^n$ ways to divide the input among iterations and tries all of them before concluding there is no `b`.
 
-### Anchors
+Atomic groups `(?>...)` and possessive quantifiers `a*+` discard backtracking positions on exit, which is the direct fix where the engine supports them. Removing the ambiguity is the portable one, usually by making each alternative match a disjoint set of first characters.
 
-Anchors match a position and not a character, which is why they are easy to forget:
+Auditing for this is mechanical: find a quantifier applied to a group that itself contains a quantifier or an alternation with overlapping alternatives, then check what happens when the match fails late.
 
-| Pattern | Matches                                             |
-| ------- | --------------------------------------------------- |
-| `^`     | start of the string, or of a line in multiline mode |
-| `$`     | end of the string, or of a line                     |
-| `\b`    | a word boundary                                     |
+## Details that bite
 
-`\b` solves the problem people usually have. Searching for `cat` finds the "cat" inside "concatenate", and searching for `\bcat\b` does not.
+Greedy and lazy differ in the order alternatives are tried and not in the language matched, so on a successful anchored match with no ambiguity they agree. The difference shows up in what gets captured.
 
-### Groups and alternation
+`.` excludes newline until dotall changes that. `^` and `$` are string anchors until multiline mode makes them line anchors, and `$` also matches before a final newline in several engines, which is a common off-by-one when validating.
 
-Round brackets group and `|` means or:
+Unicode turns a character class into a question about what a character is. `\w` may or may not include non-ASCII letters depending on flags and engine, grapheme clusters do not correspond to code points, and case folding is locale-dependent in the cases where it matters. `\p{L}` and the other property escapes are what to reach for.
 
-- `(ab)+` matches "ab", "abab", "ababab"
-- `cat|dog` matches either word
-- `(cat|dog)s?` matches "cat", "cats", "dog" or "dogs"
+## When the tool is wrong
 
-Groups also capture, so the text they matched can be pulled out afterwards, which is how you extract fields from a line and do more than test it. For grouping with no capture, use `(?: ... )`.
+Regular expressions cannot match balanced delimiters, and every attempt to parse HTML, JSON or source code with them is a bet that the input is not adversarial. Use a parser.
 
-## Greedy and lazy
+The other signal is a pattern you cannot read. Verbose mode with comments recovers some of it, and past a certain size the honest move is a small hand-written scanner someone can debug.
 
-Here is the most common source of regexes that nearly work. Quantifiers are greedy by default and match as much as they possibly can.
+## Reading
 
-Against the text `<b>bold</b>`, the pattern `<.+>` matches the entire string, since `.+` swallows everything up to the last `>` it can find. Adding `?` makes a quantifier lazy, matching as little as possible, so `<.+?>` matches just `<b>`.
-
-When a regex captures far more than you intended, this is almost always why.
-
-## Putting it together
-
-A pattern for a simple email-shaped string:
-
-```text
-^[\w.+-]+@[\w-]+\.[\w.]+$
-```
-
-Left to right: start of string, one or more word characters or `.` `+` `-`, an `@`, one or more word characters or hyphens, a literal dot escaped because a bare `.` means any character, then one or more word or dot characters, then end of string.
-
-A UK-style date with either separator, capturing the parts:
-
-```text
-^(\d{2})[/-](\d{2})[/-](\d{4})$
-```
-
-Inside a character class, a `-` at the end is a literal hyphen and not a range.
-
-## Using them
-
-On the command line, `grep -E` uses extended regex syntax, which is the one worth learning:
-
-```bash
-grep -E '^[0-9]+' data.txt
-rg '\bTODO\b' src/
-```
-
-`ripgrep` is faster and has better defaults where it is available.
-
-In Python:
-
-```python
-import re
-
-m = re.search(r"(\d{2})/(\d{2})/(\d{4})", "date: 05/11/2025")
-if m:
-    day, month, year = m.groups()
-
-re.findall(r"\b\w+@\w+\.\w+\b", text)
-re.sub(r"\s+", " ", messy)          # collapse whitespace
-```
-
-Always use raw strings for patterns, or you fight two levels of backslash escaping at once.
-
-In JavaScript:
-
-```javascript
-const m = "date: 05/11/2025".match(/(\d{2})\/(\d{2})\/(\d{4})/);
-const cleaned = messy.replace(/\s+/g, " ");
-```
-
-The `g` flag replaces every occurrence, where leaving it off stops at the first.
-
-## When to use something else
-
-Regexes match regular languages. Anything with arbitrary nesting, so HTML, JSON, source code or matched brackets, is not regular, and no regex handles it correctly in general. You can get close enough to be dangerous, which is worse than failing outright.
-
-Use a parser for structured formats. One exists for whatever you are dealing with.
-
-> [!WARNING]
-> Some patterns backtrack catastrophically. `(a+)+$` against a long string of `a` characters can take exponential time, which is a real denial-of-service vector when a regex is applied to user input. Treat nested quantifiers with suspicion, and think hard before applying a user-supplied regex to your own data.
-
-## Working them out
-
-Build patterns incrementally. Start with something matching too much and then constrain it, since writing the whole pattern in one go and debugging it afterwards is much harder.
-
-Use [regex101.com](https://regex101.com/). It explains each part of your pattern, highlights matches live and shows the backtracking count. It will teach you more in twenty minutes than this page will.
-
-Comment complicated patterns. Most languages have a verbose mode allowing whitespace and comments inside a pattern, and a regex you cannot read in three months is a liability.
-
-## Further reading
-
-- [Python `re` documentation](https://docs.python.org/3/library/re.html), a good reference whatever language you use
-- [MDN's regular expressions guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions)
-- Part IB Formal Models of Language, which covers what regular languages are and why the nesting limitation above is a theorem
+- [RE2 syntax](https://github.com/google/re2/wiki/Syntax) and the linear-time guarantee
+- [Regular Expression Matching Can Be Simple And Fast](https://swtch.com/~rsc/regexp/regexp1.html) by Russ Cox, on the two engine families
+- [regex101.com](https://regex101.com/) for the debugger and the backtracking count

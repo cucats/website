@@ -1,150 +1,64 @@
 ---
-title: The Command Line
-description: Pipes, redirection and the handful of tools that do most of the work
+title: The Shell
+description: File descriptors, process groups, signals and the expansion order
 ---
 
-The command line looks like a worse file manager until the moment it stops being one. The turning point is realising its tools are built to be combined, and that combining them answers questions no single program was written for.
+The shell is a process orchestrator with a string-substitution language attached, and most of the confusing behaviour comes from the order in which that substitution happens.
 
-This assumes you can already `cd` and `ls`.
+## Expansion order
 
-## The idea it all rests on
+The sequence is fixed: brace expansion, tilde expansion, parameter and variable expansion, command substitution, arithmetic expansion, then word splitting, then pathname expansion, then quote removal.
 
-Every command reads from standard input and writes to standard output. A pipe, `|`, connects one program's output to the next one's input:
+Word splitting happening after parameter expansion and before pathname expansion is the source of nearly every shell bug. An unquoted variable containing a space becomes two words, then each word is globbed. Quoting suppresses splitting and globbing together, which is why `"$var"` is the default and bare `$var` is a deliberate choice.
 
-```bash
-cat access.log | grep "404" | wc -l
-```
+`IFS` controls the splitting characters, and the default of space, tab and newline is why filenames with spaces break naive scripts. `"$@"` expands to one word per argument with splitting suppressed inside each, which `"$*"` does not, and the difference matters every time you forward arguments.
 
-That counts the 404 lines in a log. None of those three programs knows about the others; each does one job and the pipe joins them up. Once this clicks you stop hunting for a tool that does exactly what you want and start assembling one.
+`set -u` turns an unset variable into an error, and `${var:-default}` and `${var:?message}` handle the intentional cases. `set -o pipefail` makes a pipeline's status the last non-zero one, since without it a failing producer feeding a succeeding consumer reports success.
 
-You can also redirect to and from files:
+## File descriptors
 
-```bash
-command > out.txt      # write output to a file, replacing it
-command >> out.txt     # append instead
-command < in.txt       # read input from a file
-command 2> errors.txt  # redirect error output only
-command &> all.txt     # redirect both output and errors
-```
+Redirection manipulates the descriptor table before exec. `2>&1` duplicates descriptor 1 into 2 at the point it appears, so `cmd 2>&1 >file` sends stderr to the original stdout and stdout to the file, and `cmd >file 2>&1` sends both to the file. The order is the whole meaning.
 
-> [!TIP]
-> `>` truncates the file before the command runs, so `sort file.txt > file.txt` empties it. Write to a different name and then move it.
+Process substitution `<(cmd)` gives a path to a pipe, which is what lets a command that demands a filename read from another command. `diff <(sort a) <(sort b)` is the canonical use.
 
-## Finding things
+Here-documents and here-strings feed a descriptor without a temporary file, and quoting the delimiter suppresses expansion inside the body, which is the difference between a template and a landmine.
 
-`grep` searches file contents:
+`exec 3<>file` opens a descriptor in the shell itself, which is the mechanism behind lock files with `flock` and any script that needs to keep a handle open across commands.
 
-```bash
-grep "TODO" main.c              # lines containing TODO
-grep -r "TODO" src/             # recursively through a directory
-grep -i "todo" main.c           # case-insensitive
-grep -n "TODO" main.c           # show line numbers
-grep -v "debug" log.txt         # invert: lines that do not match
-grep -c "TODO" main.c           # count matching lines
-grep -E "^(cat|dog)s?" pets.txt # extended regex
-```
+## Processes, groups and signals
 
-You will use `-r`, `-n` and `-i` constantly. Where `ripgrep` is installed, `rg` is faster and recurses by default.
+A pipeline runs its stages concurrently in one process group, and the terminal's foreground process group receives keyboard signals. Ctrl-C sends SIGINT to the whole group, which is why interrupting a pipeline stops all of it.
 
-`find` searches by metadata, so name, type, size and age:
+SIGHUP arrives when the terminal goes away, which is what kills a job on disconnect. `nohup` ignores it, `disown` removes the job from the shell's table, and a terminal multiplexer avoids the situation by keeping the session alive on the far end. Under systemd, a user service is the durable answer.
 
-```bash
-find . -name "*.ml"                  # by name
-find . -type d -name "build"         # directories only
-find . -size +10M                    # larger than 10 megabytes
-find . -mtime -7                     # modified in the last week
-find . -name "*.tmp" -delete         # find and remove
-```
+`trap` installs handlers, and `trap cleanup EXIT` is the reliable way to remove a temporary directory, since it fires on normal exit and on most fatal signals. SIGKILL cannot be trapped, so anything that must survive it belongs in a supervisor.
 
-To run something on everything found, pipe into `xargs`:
+Exit status 128 plus the signal number is how a signal death is reported, which is where 137 for SIGKILL comes from, and it appears constantly in container diagnostics.
 
-```bash
-find . -name "*.c" | xargs wc -l
-```
+## Job control and background work
 
-> [!WARNING]
-> `find -delete` and `xargs rm` do exactly what you asked, immediately and without confirmation. Run the `find` on its own and read the list before you append anything destructive.
+`&` backgrounds a job in the same session, so it still dies with the shell. `jobs`, `fg` and `bg` operate on the shell's job table, and `wait` blocks for children, with `wait -n` returning when any one finishes, which is the primitive for a bounded parallel loop.
 
-## Reshaping text
+`xargs -P` handles the common parallel case directly, and `-0` with `find -print0` is the pairing that survives filenames containing newlines. GNU `parallel` covers the cases with structured output.
 
-These are the pieces you combine. Each is small on its own.
+## Text processing that scales
 
-| Tool                        | What it does                                          |
-| --------------------------- | ----------------------------------------------------- |
-| `wc -l`                     | count lines                                           |
-| `sort`                      | sort lines; `-n` numerically, `-r` reversed           |
-| `uniq`                      | collapse _adjacent_ duplicate lines; `-c` counts them |
-| `head -n 20` / `tail -n 20` | first or last lines; `tail -f` follows a growing file |
-| `cut -d, -f2`               | pull out a column by delimiter                        |
-| `tr`                        | translate or delete characters                        |
-| `sed 's/old/new/g'`         | find and replace                                      |
-| `awk '{print $1}'`          | field-based processing, a small language in itself    |
+`sort` on a large file spills to temporary storage, and `LC_ALL=C` changes collation to byte order, which is both faster and the only way to get a stable ordering independent of locale.
 
-`uniq` only collapses adjacent duplicates, which is why `sort` nearly always comes first. That pairing gives the most useful pipeline on this page:
+`awk` is a language, and a single pass in awk frequently replaces a pipeline of four tools. Its associative arrays make counting and grouping a one-liner.
 
-```bash
-sort words.txt | uniq -c | sort -rn | head -n 20
-```
+`sed -i` differs between GNU and BSD in whether the backup suffix is optional, which is the portability trap most likely to bite a script written on macOS and run on Linux.
 
-The twenty most frequent lines in a file, with counts. The most common IP in a log, the most frequent word in an essay and the most common error message are all this pipeline with a different input.
+## Writing scripts that fail properly
 
-## Making it repeatable
+`set -euo pipefail` is the standard preamble, with the caveat that `-e` has a long list of exceptions: it does not fire inside a condition, inside `||`, or for any command other than the last in a pipeline without `pipefail`.
 
-When a pipeline earns its keep, put it in a file:
+`shellcheck` catches quoting bugs, unreachable code and the portability traps, and running it in CI is the cheapest quality gate available for shell.
 
-```bash
-#!/bin/bash
-set -euo pipefail
+Past a few hundred lines the honest signal is to stop. Shell is a good glue language and a poor general one, and the point where you want an array of structs is the point to switch.
 
-target="${1:-.}"
-echo "Counting lines of code in $target"
-find "$target" -name "*.ml" | xargs wc -l | tail -n 1
-```
+## Reading
 
-Make it executable with `chmod +x script.sh` and run it as `./script.sh src/`.
-
-Two lines there matter more than the rest. `set -euo pipefail` makes the shell exit on an error, on an undefined variable, and on a failure anywhere in a pipeline; without it a script carries on after a failed step and produces confidently wrong output, so put it at the top of everything you write. And quote your variables: `"$target"`, never bare `$target`. Unquoted, a path containing a space becomes two arguments, which is the most common bug in shell scripts by a wide margin.
-
-## Managing what is running
-
-```bash
-command &          # run in the background
-jobs               # list background jobs in this shell
-fg                 # bring the last one back
-Ctrl-C             # interrupt the running command
-Ctrl-Z             # suspend it (resume with fg or bg)
-ps aux | grep name # find a process
-kill <pid>         # ask it to stop
-kill -9 <pid>      # make it stop, ungracefully
-htop               # interactive process viewer
-```
-
-For anything long-running over SSH, use `tmux`. It keeps your session alive when your connection drops, which it will:
-
-```bash
-tmux              # start a session
-Ctrl-b then d     # detach, leaving it running
-tmux attach       # come back to it later
-```
-
-Those three commands are enough to get the whole benefit, and it is essential for work on a remote machine.
-
-## Small things that compound
-
-- Press Tab constantly, for commands, paths and, with the right setup, arguments.
-- `Ctrl-R` searches your command history, far faster than pressing Up thirty times.
-- `!!` is the previous command, and `sudo !!` after a permission error is the classic use.
-- `cd -` returns to the previous directory.
-- `man command` or `command --help` beats searching the web and is correct for the version you have.
-- Put aliases in `~/.bashrc` or `~/.zshrc` for anything you type repeatedly:
-
-```bash
-alias gs="git status"
-alias ll="ls -lah"
-```
-
-## Where to go next
-
-Part IB Unix Tools covers this ground properly and is worth taking. Beyond that, the way to learn is to notice when you are about to do something repetitive by hand and stop to work out the pipeline. The ten minutes it costs the first time comes back every time after.
-
-[Debugging Effectively](/wiki/tutorials/debugging) and [Regular Expressions](/wiki/tutorials/regular-expressions) both build on this material.
+- [The POSIX shell command language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html) for the expansion order as specified
+- [Bash reference manual](https://www.gnu.org/software/bash/manual/bash.html)
+- [ShellCheck](https://www.shellcheck.net/)
