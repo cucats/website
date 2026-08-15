@@ -59,10 +59,7 @@
     <div class="space-y-8">
       <div class="space-y-4">
         <h4 class="text-lg font-bold text-neutral-100 uppercase">Contact</h4>
-        <a
-          href="mailto:executive@cucats.org"
-          class="bg-primary-700 hover:bg-primary-600 inline-block rounded-lg px-4 py-2 text-sm font-bold text-neutral-100 transition-colors"
-        >
+        <a href="mailto:executive@cucats.org" class="btn primary sm">
           Contact us
         </a>
       </div>

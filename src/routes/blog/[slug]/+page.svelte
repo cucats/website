@@ -75,7 +75,7 @@
         {#if data.next}
           <a
             href="/{data.next.slug}"
-            class="group bg-primary-900 rounded-lg p-4 text-right transition-all hover:brightness-125"
+            class="group bg-primary-950 rounded-lg p-4 text-right transition-all hover:brightness-125"
           >
             <span class="text-xs text-neutral-400">Next</span>
             <span

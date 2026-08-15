@@ -14,7 +14,7 @@
 </script>
 
 <header
-  class="fixed top-0 left-0 z-50 w-full bg-primary-900/80 backdrop-blur-md"
+  class="fixed top-0 left-0 z-50 w-full bg-primary-900/80 backdrop-blur-lg"
 >
   <div class="r-4 mx-auto h-16 max-w-7xl justify-between px-4">
     <!-- Logo -->
@@ -91,7 +91,7 @@
 {#if active}
   <!-- Background overlay -->
   <div
-    class="fixed inset-0 z-40 bg-black/50 md:hidden"
+    class="fixed inset-0 z-40 bg-black/70 md:hidden"
     onclick={() => (active = false)}
     onkeydown={(e) => e.key === "Escape" && (active = false)}
     role="button"
@@ -102,7 +102,7 @@
 
   <!-- Drawer -->
   <div
-    class="fixed top-16 right-0 bottom-0 z-45 w-full bg-primary-900 shadow-xl md:hidden"
+    class="fixed top-16 right-0 bottom-0 z-45 w-full bg-primary-900 shadow-overlay md:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Navigation menu"

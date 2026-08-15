@@ -129,11 +129,17 @@
     class="fixed top-20 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 px-4"
     transition:scale={{ duration: 200, start: 0.9 }}
   >
-    <div
-      class="bg-primary-900 overflow-hidden rounded-xl shadow-2xl shadow-black"
-    >
+    <div class="bg-primary-900 overflow-hidden rounded-lg p-2 shadow-overlay">
       <!-- Search input -->
-      <div class="border-primary-800 flex items-center gap-3 border-b px-4">
+      <div class="bg-primary-950/60 flex items-center gap-3 rounded-md px-4">
+        <input
+          bind:this={inputElement}
+          bind:value={searchState.query}
+          onkeydown={handleKeydown}
+          type="text"
+          placeholder="Search blog and wiki..."
+          class="w-full bg-transparent py-4 text-lg text-neutral-100 outline-none placeholder:text-neutral-500"
+        />
         <svg
           class="h-5 w-5 shrink-0 text-neutral-400"
           fill="none"
@@ -147,14 +153,6 @@
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        <input
-          bind:this={inputElement}
-          bind:value={searchState.query}
-          onkeydown={handleKeydown}
-          type="text"
-          placeholder="Search blog and wiki..."
-          class="w-full bg-transparent py-4 text-lg text-neutral-100 outline-none placeholder:text-neutral-500"
-        />
       </div>
 
       <!-- Results -->
@@ -227,7 +225,7 @@
                 </button>
                 <button
                   onclick={(e) => removeRecent(block.href, e)}
-                  class="mr-2 rounded p-2 text-neutral-500 opacity-0 transition-opacity group-hover:opacity-100 hover:bg-neutral-700 hover:text-neutral-300"
+                  class="mr-2 rounded-lg p-2 text-neutral-400 opacity-0 transition-opacity group-hover:opacity-100 hover:bg-neutral-800 hover:text-neutral-100"
                   aria-label="Remove from recent"
                 >
                   <svg
@@ -246,10 +244,6 @@
                 </button>
               </div>
             {/each}
-          </div>
-        {:else}
-          <div class="p-8 text-center text-neutral-500">
-            Start typing to search...
           </div>
         {/if}
       </div>

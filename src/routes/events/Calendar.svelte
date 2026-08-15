@@ -217,10 +217,11 @@
       >
         {weekStartsMonday ? "Mon start" : "Thu start"}
       </button> -->
+      <!-- disabled:hover: overrides .btn.neutral hover so disabled buttons don't react to hover -->
       <button
         onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
         disabled={currentTermIndex === 0}
-        class="btn sm bg-neutral-600/50 enabled:hover:bg-neutral-600"
+        class="btn sm neutral disabled:hover:bg-neutral-950/50"
       >
         &lt;-
       </button>
@@ -228,7 +229,7 @@
         onclick={() =>
           (currentTermIndex = Math.min(terms.length - 1, currentTermIndex + 1))}
         disabled={currentTermIndex === terms.length - 1}
-        class="btn sm bg-neutral-600/50 enabled:hover:bg-neutral-600"
+        class="btn sm neutral disabled:hover:bg-neutral-950/50"
       >
         -&gt;
       </button>
@@ -267,7 +268,7 @@
               (weekIndex === 0 && day.date.getDay() === 4)}
 
             <div
-              class="h-20 p-0.5 lg:h-32 lg:rounded lg:p-1 {isWeekend
+              class="h-20 p-0.5 lg:h-32 lg:rounded-lg lg:p-1 {isWeekend
                 ? 'bg-neutral-700/50'
                 : 'bg-neutral-800/50'} {isToday
                 ? 'ring-secondary-700 ring-1 lg:ring-2'
@@ -289,7 +290,7 @@
               >
                 {#each day.events as entry}
                   <button
-                    class="bg-primary-600 hover:bg-primary-700 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] text-neutral-100 transition-colors lg:mb-1 lg:p-1 lg:text-sm"
+                    class="bg-primary-600 hover:bg-primary-500 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] text-neutral-100 transition-colors lg:mb-1 lg:rounded-lg lg:p-1 lg:text-sm"
                     onclick={() => selectEvent(entry.event)}
                   >
                     <div class="truncate font-bold text-clip">
@@ -318,7 +319,7 @@
 
 <Modal
   bind:active={showEventModal}
-  class="bg-primary-900 relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg p-4 shadow-2xl sm:p-6"
+  class="bg-primary-900 relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg p-4 shadow-overlay sm:p-6"
 >
   {#if selectedEvent}
     <button

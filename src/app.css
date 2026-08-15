@@ -56,6 +56,8 @@
 
   --font-sans: Nunito, monospace, sans-serif;
   --font-mono: JetBrains Mono, monospace;
+
+  --shadow-overlay: 0 25px 50px -12px rgb(0 0 0 / 0.75);
 }
 
 @layer utilities {
@@ -108,10 +110,6 @@
       @apply text-primary-400 hover:bg-primary-900/30;
     }
 
-    &.gradient {
-      @apply bg-linear-to-r from-[#51a2ff] to-[#00b8db] text-neutral-100 hover:opacity-90;
-    }
-
     &.sm {
       @apply px-3 py-1.5 text-sm;
     }
@@ -145,7 +143,7 @@
     }
 
     &.default {
-      @apply rounded-md border border-neutral-300 bg-transparent px-4 py-2 placeholder-neutral-500;
+      @apply rounded-lg border border-neutral-300 bg-transparent px-4 py-2 placeholder-neutral-500;
 
       @variant focus {
         @apply border-primary-500 ring-primary-500 ring-2;
@@ -161,7 +159,7 @@
     }
 
     &.filled {
-      @apply rounded-md border border-transparent bg-neutral-100 px-4 py-2;
+      @apply rounded-lg border border-transparent bg-neutral-100 px-4 py-2;
 
       @variant focus {
         @apply ring-primary-500 ring-2;
