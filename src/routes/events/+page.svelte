@@ -8,7 +8,7 @@
 </svelte:head>
 
 <main class="bg-primary-900 text-neutral-100">
-  <section class="pt-32 pb-8">
+  <section class="pt-24 pb-8">
     <div class="mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Events</h1>
 

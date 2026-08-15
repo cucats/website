@@ -1,6 +1,5 @@
 <script lang="ts">
   import { fly, fade } from "svelte/transition";
-  import CloseIcon from "$lib/components/icons/CloseIcon.svelte";
   import { searchState } from "$lib/search-state.svelte";
 
   let active = $state(false);
@@ -14,8 +13,10 @@
   ];
 </script>
 
-<header class="absolute z-50 w-full">
-  <div class="r-4 mx-auto h-24 max-w-7xl justify-between px-4">
+<header
+  class="fixed top-0 left-0 z-50 w-full bg-primary-900/80 backdrop-blur-md"
+>
+  <div class="r-4 mx-auto h-16 max-w-7xl justify-between px-4">
     <!-- Logo -->
     <a href="/" class="r-4 items-center" onclick={() => (active = false)}>
       <enhanced:img
@@ -42,11 +43,11 @@
       <!-- Search button -->
       <button
         onclick={() => searchState.open()}
-        class="my-auto ml-2 flex items-center gap-2 rounded-lg bg-neutral-950/80 px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-neutral-800/50"
+        class="my-auto ml-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:text-neutral-300"
         aria-label="Search"
       >
         <svg
-          class="size-4"
+          class="size-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -54,25 +55,34 @@
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="2"
+            stroke-width="2.4"
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        <kbd class="hidden text-xs lg:inline">Ctrl K</kbd>
       </button>
     </nav>
 
     <!-- Hamburger -->
     <button
-      class="my-auto flex size-16 cursor-pointer flex-col justify-center gap-1 p-4 md:hidden"
-      aria-label="Toggle menu"
+      class="my-auto flex size-16 cursor-pointer flex-col items-center justify-center gap-1.5 p-4 md:hidden"
+      aria-label={active ? "Close menu" : "Open menu"}
       onclick={() => (active = !active)}
     >
-      <enhanced:img
-        src="$lib/assets/icons/hamburger.png"
-        class="pixel size-8"
-        alt="Hamburger icon"
-      />
+      <span
+        class="h-0.5 w-6 rounded-full bg-neutral-100 transition-all duration-300 {active
+          ? 'translate-y-2 rotate-45'
+          : ''}"
+      ></span>
+      <span
+        class="h-0.5 w-6 rounded-full bg-neutral-100 transition-all duration-300 {active
+          ? 'opacity-0'
+          : ''}"
+      ></span>
+      <span
+        class="h-0.5 w-6 rounded-full bg-neutral-100 transition-all duration-300 {active
+          ? '-translate-y-2 -rotate-45'
+          : ''}"
+      ></span>
     </button>
   </div>
 </header>
@@ -92,50 +102,43 @@
 
   <!-- Drawer -->
   <div
-    class="fixed top-0 right-0 z-50 h-full w-full bg-neutral-900 shadow-xl md:hidden"
+    class="fixed top-16 right-0 bottom-0 z-45 w-full bg-primary-900 shadow-xl md:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Navigation menu"
-    transition:fly={{ x: 256, duration: 300 }}
+    transition:fly={{ y: -256, duration: 300 }}
   >
-    <!-- Close button -->
-    <button
-      class="object-fit absolute top-0 right-0 m-4 size-16 cursor-pointer text-neutral-300 hover:text-neutral-100"
-      onclick={() => (active = false)}
-      aria-label="Close menu"
-    >
-      <CloseIcon class="m-auto h-8 w-8" />
-    </button>
-
     <!-- Search button -->
-    <button
-      onclick={() => {
-        active = false;
-        searchState.open();
-      }}
-      class="mx-6 mt-4 flex items-center gap-3 rounded-lg bg-neutral-800 px-4 py-3 text-neutral-400 transition-colors hover:bg-neutral-700"
-    >
-      <svg
-        class="h-5 w-5"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+    <div class="p-4">
+      <button
+        onclick={() => {
+          active = false;
+          searchState.open();
+        }}
+        class="flex w-full items-center gap-3 rounded-lg bg-primary-800 px-4 py-3 text-neutral-400 transition-colors hover:bg-primary-700"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        />
-      </svg>
-      <span>Search...</span>
-    </button>
+        <svg
+          class="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+        <span>Search...</span>
+      </button>
+    </div>
 
     <!-- Navigation links -->
     <nav class="flex flex-col pt-4">
       {#each links as link}
         <a
-          class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-neutral-800"
+          class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-primary-800"
           href={link.href}
           onclick={() => (active = false)}
         >

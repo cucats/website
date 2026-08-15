@@ -237,7 +237,7 @@ body {
   h4,
   h5,
   h6 {
-    @apply font-bold text-neutral-100;
+    @apply scroll-mt-20 font-bold text-neutral-100;
   }
 
   h1 {

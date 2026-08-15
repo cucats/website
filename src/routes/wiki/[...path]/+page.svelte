@@ -12,7 +12,7 @@
 </svelte:head>
 
 <main class="bg-primary-900 min-h-screen">
-  <section class="pt-24 text-neutral-300">
+  <section class="pt-16 text-neutral-300">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumbs -->
       {#if data.breadcrumbs.length > 0}

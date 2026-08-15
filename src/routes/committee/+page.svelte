@@ -17,7 +17,7 @@
 </svelte:head>
 
 <main class="text-neutral-100">
-  <section class="bg-primary-900 pt-32">
+  <section class="bg-primary-900 pt-24">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Committee</h1>
 
