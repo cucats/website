@@ -17,11 +17,11 @@
       </p>
 
       <p class="p">
-        For sponsorship enquiries, please email <a
-          class="smooth-underline"
-          href="mailto:president@cucats.org"
+        Interested in sponsoring? Reach out to <a
+          class="a"
+          href="mailto:executive@cucats.org"
         >
-          president@cucats.org
+          executive@cucats.org
         </a>.
       </p>
     </div>

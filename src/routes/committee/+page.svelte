@@ -17,11 +17,20 @@
 </svelte:head>
 
 <main class="text-neutral-100">
-  {#if committee && committee.length}
-    <section class="bg-primary-900 pt-40">
-      <div class="c-4 mx-auto max-w-7xl p-4">
-        <h2 class="h2 mx-auto mb-8 font-bold">Committee</h2>
+  <section class="bg-primary-900 pt-32">
+    <div class="c-4 mx-auto max-w-5xl p-4">
+      <h1 class="h1 font-bold">Committee</h1>
 
+      <p class="mb-10">
+        For all enquiries, please email <a
+          class="a"
+          href="mailto:executive@cucats.org"
+        >
+          executive@cucats.org
+        </a>.
+      </p>
+
+      {#if committee && committee.length}
         {#snippet committeeMember(member: any)}
           <div class="max-w-32 md:max-w-48">
             <div
@@ -95,7 +104,7 @@
             {/each}
           </div>
         {/each}
-      </div>
-    </section>
-  {/if}
+      {/if}
+    </div>
+  </section>
 </main>
