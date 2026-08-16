@@ -7,7 +7,7 @@
   let div: HTMLDivElement;
 
   const cellSize = 32;
-  const tick = 160; // milliseconds
+  const tick = 150; // milliseconds
   let grid: boolean[][] = [];
 
   const initGrid = (f: (x: number, y: number) => boolean) =>
@@ -51,26 +51,24 @@
       for (let dy of [-1, 0, 1]) {
         for (let dx of [-1, 0, 1]) {
           if (dx === 0 && dy === 0) continue;
-          const nx = x + dx;
-          const ny = y + dy;
+          // Wrap around edges (toroidal grid)
+          const nx = (x + dx + gridSizeX) % gridSizeX;
+          const ny = (y + dy + gridSizeY) % gridSizeY;
 
-          // Check boundaries
-          if (0 <= nx && nx < gridSizeX && 0 <= ny && ny < gridSizeY) {
-            if (grid[ny][nx]) {
-              nb++;
-            }
+          if (grid[ny][nx]) {
+            nb++;
           }
         }
       }
 
-      return !grid[y][x] ? nb === 3 || nb === 4 : nb === 3 || nb === 4;
+      return !grid[y][x] ? nb === 3 : nb === 2 || nb === 3;
     });
 
   function getCellClass(x: number, y: number): string {
     const ytop = cutoff(x);
 
     if (y < ytop - 3) return grid[y][x] ? "opacity-40" : "opacity-35";
-    if (y === ytop - 3) return grid[y][x] ? "opacity-35" : "opacity-35";
+    if (y === ytop - 3) return "opacity-35";
     if (y === ytop - 2) return grid[y][x] ? "opacity-30" : "opacity-25";
     if (y === ytop - 1) return grid[y][x] ? "opacity-25" : "opacity-20";
     if (y === ytop + 0) return grid[y][x] ? "opacity-20" : "opacity-15";
@@ -92,7 +90,7 @@
     if (!grid.length) {
       gridSizeX = newSizeX;
       gridSizeY = newSizeY;
-      grid = initGrid(() => Math.random() < 0.2);
+      grid = initGrid(() => Math.random() < 0.3);
       return;
     }
 
