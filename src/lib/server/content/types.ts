@@ -19,10 +19,6 @@ export interface Document {
   sections: Array<{ slug: string; title: string }>;
   /** Child documents */
   children: Document[];
-  /** Previous document link */
-  prev: { slug: string; title: string } | null;
-  /** Next document link */
-  next: { slug: string; title: string } | null;
 }
 
 export interface BlogPost extends Document {

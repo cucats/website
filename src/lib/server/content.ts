@@ -52,8 +52,6 @@ export async function get_blog_post(slug: string): Promise<{
   post: BlogPost;
   html: string;
   sections: Array<{ slug: string; title: string }>;
-  prev: { slug: string; title: string } | null;
-  next: { slug: string; title: string } | null;
 } | null> {
   const postIndex = blog_posts.findIndex((p) => p.slug === `blog/${slug}`);
   if (postIndex === -1) return null;
@@ -61,26 +59,10 @@ export async function get_blog_post(slug: string): Promise<{
   const post = blog_posts[postIndex];
   const { html, sections } = await render(post.body);
 
-  // Compute prev/next within blog posts only (sorted newest first)
-  const prevPost = blog_posts[postIndex + 1]; // older post
-  const nextPost = blog_posts[postIndex - 1]; // newer post
-
   return {
     post,
     html,
     sections,
-    prev: prevPost
-      ? {
-          slug: prevPost.slug,
-          title: prevPost.metadata.title,
-        }
-      : null,
-    next: nextPost
-      ? {
-          slug: nextPost.slug,
-          title: nextPost.metadata.title,
-        }
-      : null,
   };
 }
 

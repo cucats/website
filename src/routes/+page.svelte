@@ -66,7 +66,7 @@
       <div class="gap-4 p-4 px-4 py-8 text-center">
         <img src={image} class="pixel mx-auto size-16 sm:size-24" {alt} />
 
-        <p class="mt-4 text-lg font-bold text-neutral-100 uppercase">
+        <p class="mt-4 text-lg font-bold text-neutral-200 uppercase">
           {title}
         </p>
 

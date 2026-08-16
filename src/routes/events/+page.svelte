@@ -7,7 +7,7 @@
   <title>Events | CUCaTS</title>
 </svelte:head>
 
-<main class="bg-primary-900 text-neutral-100">
+<main class="bg-primary-900 text-neutral-200">
   <section class="pt-24 pb-8">
     <div class="mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Events</h1>
@@ -68,14 +68,14 @@
     </div>
   </section>
 
-  <section class="bg-primary-700 pt-16 text-neutral-300 lg:px-16 lg:pb-16">
+  <section class="bg-primary-700 pt-16 text-neutral-200 lg:px-16 lg:pb-16">
     <h2 class="h2 text-center font-bold text-neutral-100">Calendar</h2>
     <div class="mx-auto mt-16 flex max-w-7xl flex-col gap-8">
       <Calendar />
     </div>
   </section>
 
-  <section class="bg-primary-900 overflow-hidden py-40 text-neutral-100">
+  <section class="bg-primary-900 overflow-hidden py-40 text-neutral-200">
     <div class="mx-auto my-16 max-w-7xl px-8 text-center">
       <h1 class="h1 font-bold">Launch your own event</h1>
       <p class="p mx-auto mt-8 max-w-3xl">
@@ -93,7 +93,7 @@
     </div>
   </section>
 
-  <section class="bg-primary-800 overflow-hidden py-16 text-neutral-100">
+  <section class="bg-primary-800 overflow-hidden py-16 text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl text-center">
       <h2 class="h2 px-4 font-bold">Check out other societies</h2>
       <p class="p px-4">

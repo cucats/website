@@ -14,15 +14,8 @@
 
 <main class="bg-primary-900 min-h-screen">
   <section class="pt-16 text-neutral-200">
-    <div class="mx-auto max-w-4xl px-4 py-12">
-      <!-- Breadcrumb navigation -->
-      <nav class="mb-6 text-sm text-neutral-400">
-        <a href="/" class="hover:text-neutral-200 hover:underline">Home</a>
-        <span class="mx-2">/</span>
-        <span class="text-neutral-200">Blog</span>
-      </nav>
-
-      <h1 class="h1 mb-8 font-bold text-neutral-100">Blog</h1>
+    <div class="mx-auto max-w-5xl px-4 py-12">
+      <h1 class="h1 mb-4 font-bold">Blog</h1>
       <p class="p mb-12 text-neutral-200">
         News, tutorials, and updates from CUCaTS
       </p>
@@ -30,26 +23,22 @@
       <div class="space-y-6">
         {#each data.posts as post}
           <article
-            class="group bg-primary-950 rounded-lg transition hover:brightness-125"
+            class="group border-neutral-600 transition bg-primary-800 hover:brightness-125 rounded-lg"
           >
             <a href="/blog/{post.slug}" class="block p-6">
-              <div
-                class="mb-2 flex items-center gap-3 text-xs text-neutral-300"
-              >
+              <div class="mb-2 flex items-center gap-3 text-xs">
                 {#if post.date_formatted}
                   <time datetime={post.date}>{post.date_formatted}</time>
                 {/if}
                 {#if post.authors.length > 0}
-                  <span>| {post.authors.map((a) => a.name).join(", ")}</span>
+                  <span> {post.authors.map((a) => a.name).join(", ")}</span>
                 {/if}
               </div>
-              <h2
-                class="mb-2 text-xl font-semibold text-neutral-100 group-hover:text-neutral-50"
-              >
+              <h2 class="mb-2 text-xl font-semibold text-neutral-100">
                 {post.title}
               </h2>
               {#if post.description}
-                <p class="text-sm text-neutral-300">{post.description}</p>
+                <p class="text-sm">{post.description}</p>
               {/if}
             </a>
           </article>
@@ -57,7 +46,7 @@
       </div>
 
       {#if data.posts.length === 0}
-        <p class="text-neutral-400">No blog posts yet. Check back soon!</p>
+        <p class="text-neutral-200">No blog posts yet. Check back soon!</p>
       {/if}
     </div>
   </section>

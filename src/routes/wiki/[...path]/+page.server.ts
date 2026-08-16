@@ -22,17 +22,5 @@ export const load: PageServerLoad = async ({ params }) => {
       title: child.metadata.title,
       description: child.metadata.description,
     })),
-    prev: document.prev
-      ? {
-          slug: document.prev.slug,
-          title: document.prev.title,
-        }
-      : null,
-    next: document.next
-      ? {
-          slug: document.next.slug,
-          title: document.next.title,
-        }
-      : null,
   };
 };

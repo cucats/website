@@ -16,7 +16,7 @@
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 
-<main class="text-neutral-100">
+<main class="text-neutral-200">
   <section class="bg-primary-900 pt-24">
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Committee</h1>

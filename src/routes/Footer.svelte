@@ -38,7 +38,7 @@
         />
         <h3 class="text-2xl font-extrabold text-neutral-100">CUCaTS</h3>
       </div>
-      <p class="text-sm leading-relaxed text-neutral-300">
+      <p class="text-sm leading-relaxed text-neutral-200">
         Cambridge University Computing and Technology Society
       </p>
     </div>
@@ -84,6 +84,6 @@
   </div>
 
   <div class="mx-auto max-w-7xl p-4 text-center">
-    <p class="text-sm text-neutral-400">&copy; {currentYear} CUCaTS</p>
+    <p class="text-sm text-neutral-200">&copy; {currentYear} CUCaTS</p>
   </div>
 </footer>

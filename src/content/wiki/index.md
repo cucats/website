@@ -47,7 +47,7 @@ Conventions worth knowing before you start:
 
 - Begin the body at `##`. The frontmatter title is rendered as the `h1`, and each `h2` becomes an entry in the "On this page" contents.
 - A folder with an `index.md` becomes a section, and the other files in it become its children.
-- Number prefixes set the order. `02-testing.md` sorts after `01-git-basics.md`, and the number is stripped from the URL, so the page still lives at `/wiki/tutorials/testing`. Use two digits, since `10-` sorts before `9-`. The same prefixes drive the previous and next links at the foot of each page.
+- Number prefixes set the order. `02-testing.md` sorts after `01-git-basics.md`, and the number is stripped from the URL, so the page still lives at `/wiki/tutorials/testing`. Use two digits, since `10-` sorts before `9-`.
 - Callouts are blockquotes starting with `[!NOTE]`, `[!TIP]` or `[!WARNING]`.
 - Maths goes between dollar signs. Dollar signs inside code blocks are left alone, so shell and LaTeX samples need no escaping. [Math Example](/wiki/tutorials/math-example) has the details.
 

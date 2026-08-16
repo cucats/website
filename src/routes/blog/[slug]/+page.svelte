@@ -12,20 +12,18 @@
 </svelte:head>
 
 <main class="bg-primary-900 min-h-screen">
-  <section class="pt-16 text-neutral-300">
+  <section class="pt-16 text-neutral-200">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400">
-        <a href="/" class="hover:text-neutral-200 hover:underline">Home</a>
-        <span class="mx-2">/</span>
         <a href="/blog" class="hover:text-neutral-200 hover:underline">Blog</a>
-        <span class="mx-2">/</span>
+        <span class="mx-1">/</span>
         <span class="text-neutral-200">{data.title}</span>
       </nav>
 
       <article>
         <header class="mb-8">
-          <h1 class="mb-4 text-4xl font-bold text-neutral-100">{data.title}</h1>
+          <h1 class="mb-4 text-4xl font-bold">{data.title}</h1>
           <div class="gap-4 text-sm text-neutral-300">
             {#if data.date_formatted}
               <time datetime={data.date}>{data.date_formatted}</time>
@@ -55,38 +53,6 @@
           {@html data.html}
         </div>
       </article>
-
-      <!-- Post navigation -->
-      <nav class="mt-12 grid gap-4 pt-8 sm:grid-cols-2">
-        {#if data.prev}
-          <a
-            href="/{data.prev.slug}"
-            class="group bg-primary-950 rounded-lg p-4 transition-all hover:brightness-125"
-          >
-            <span class="text-xs text-neutral-400">Previous</span>
-            <span
-              class="block text-neutral-100 group-hover:text-neutral-50 group-hover:underline"
-              >{data.prev.title}</span
-            >
-          </a>
-        {:else}
-          <div></div>
-        {/if}
-        {#if data.next}
-          <a
-            href="/{data.next.slug}"
-            class="group bg-primary-950 rounded-lg p-4 text-right transition-all hover:brightness-125"
-          >
-            <span class="text-xs text-neutral-400">Next</span>
-            <span
-              class="block text-neutral-100 group-hover:text-neutral-50 group-hover:underline"
-              >{data.next.title}</span
-            >
-          </a>
-        {:else}
-          <div></div>
-        {/if}
-      </nav>
 
       <!-- Back to blog -->
       <div class="mt-8 text-center">

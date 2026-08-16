@@ -14,7 +14,6 @@ export async function create_index(
   readFile: (path: string) => Promise<string>,
 ): Promise<Record<string, Document>> {
   const content: Record<string, Document> = {};
-  const roots: Document[] = [];
 
   for (const key in documents) {
     const file = key.slice(base.length + 1);
@@ -53,8 +52,6 @@ export async function create_index(
       body,
       sections,
       children: [],
-      prev: null,
-      next: null,
     };
   }
 
@@ -65,9 +62,7 @@ export async function create_index(
 
     const document = content[slug];
 
-    if (parts.length === 0) {
-      roots.push(document);
-    } else {
+    if (parts.length !== 0) {
       const parent = content[parts.join("/")];
 
       if (parent) {
@@ -86,38 +81,11 @@ export async function create_index(
           }
           breadcrumbParts.pop();
         }
-      } else {
-        roots.push(document);
       }
     }
   }
 
-  // Create prev/next links
-  let prev: Document | null = null;
-  for (const document of roots) {
-    prev = create_links(document, prev);
-  }
-
   return content;
-}
-
-function create_links(
-  document: Document,
-  prev: Document | null,
-): Document | null {
-  if (document.body) {
-    if (prev) {
-      prev.next = { slug: document.slug, title: document.metadata.title };
-      document.prev = { slug: prev.slug, title: prev.metadata.title };
-    }
-    prev = document;
-  }
-
-  for (const child of document.children) {
-    prev = create_links(child, prev);
-  }
-
-  return prev;
 }
 
 const months = [
