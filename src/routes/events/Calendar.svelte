@@ -82,33 +82,24 @@
   let events = $state<CalendarEvent[]>([]);
   let selectedEvent = $state<CalendarEvent | null>(null);
   let showEventModal = $state(false);
-  let weekStartsMonday = $state(true); // false = Thursday first, true = Monday first
 
   const currentTerm = $derived(terms[currentTermIndex]);
 
-  const dayOrder = $derived(
-    weekStartsMonday
-      ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-      : ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"],
-  );
+  const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   const calendarDays = $derived.by(() => {
     const termEnd = currentTerm.end;
 
     const startDayOfWeek = currentTerm.start.getDay();
 
-    // Calculate calendar start based on week preference
-    const weekStartDay = weekStartsMonday ? 1 : 4; // Mon, Thu
-    const daysToWeekStart = (startDayOfWeek - weekStartDay + 7) % 7;
+    // Calendar starts on Monday
+    const daysToWeekStart = (startDayOfWeek - 1 + 7) % 7;
     const calendarStart = new Date(currentTerm.start);
     calendarStart.setDate(currentTerm.start.getDate() - daysToWeekStart);
 
-    // Calculate calendar end (complete the last week)
+    // Calendar ends on Sunday (complete the last week)
     const endDayOfWeek = termEnd.getDay();
-    const weekEndDay = weekStartsMonday ? 0 : 3; // Sunday = 0, Wednesday = 3
-    // If term already ends on the last day of the week, don't add any days
-    const daysToWeekEnd =
-      endDayOfWeek === weekEndDay ? 0 : (weekEndDay - endDayOfWeek + 7) % 7;
+    const daysToWeekEnd = (7 - endDayOfWeek) % 7;
     const calendarEnd = new Date(termEnd);
     calendarEnd.setDate(termEnd.getDate() + daysToWeekEnd);
 
@@ -211,13 +202,7 @@
     </h2>
 
     <div class="flex items-center gap-2 text-neutral-100">
-      <!-- <button
-        onclick={() => (weekStartsMonday = !weekStartsMonday)}
-        class="cursor-pointer rounded bg-neutral-700 px-2 py-1 text-[10px] transition-colors hover:bg-neutral-600 lg:text-sm"
-      >
-        {weekStartsMonday ? "Mon start" : "Thu start"}
-      </button> -->
-      <!-- disabled:hover: overrides .btn.neutral hover so disabled buttons don't react to hover -->
+      <!-- disabled:hover: overrides .btn.primary hover so disabled buttons don't react to hover -->
       <button
         onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
         disabled={currentTermIndex === 0}
@@ -238,7 +223,7 @@
 
   <!-- Calendar Grid -->
   <div>
-    <div class="grid flex-col gap-0.5 lg:gap-2">
+    <div class="grid gap-0.5 lg:gap-2">
       <!-- Day headers -->
       <div class="grid grid-cols-7 gap-0.5 lg:gap-2">
         <!-- Weekday headings -->
@@ -293,7 +278,7 @@
                     class="bg-primary-600 hover:brightness-125 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] text-neutral-100 transition lg:mb-1 lg:rounded-lg lg:p-1 lg:text-sm"
                     onclick={() => selectEvent(entry.event)}
                   >
-                    <div class="truncate font-bold text-clip">
+                    <div class="truncate font-bold">
                       {entry.event.summary}
                     </div>
                     <div class="text-[7px] lg:text-xs">

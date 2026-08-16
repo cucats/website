@@ -40,7 +40,7 @@
 
             <h1 class="h1 mb-4 font-bold">{data.title}</h1>
 
-            <div class="prose prose-lg prose-invert max-w-none">
+            <div class="prose max-w-none">
               {@html data.html}
             </div>
           </article>

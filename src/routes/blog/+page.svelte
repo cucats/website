@@ -23,7 +23,7 @@
       <div class="space-y-6">
         {#each data.posts as post}
           <article
-            class="group border-neutral-600 transition bg-primary-800 hover:brightness-125 rounded-lg"
+            class="transition bg-primary-800 hover:brightness-125 rounded-lg"
           >
             <a href="/blog/{post.slug}" class="block p-6">
               <div class="mb-2 flex items-center gap-3 text-xs">

@@ -19,7 +19,7 @@
         <div class="min-w-0 flex-1">
           <h1 class="h1 mb-4 font-bold">{data.title}</h1>
 
-          <div class="prose prose-lg prose-invert mb-12 max-w-none">
+          <div class="prose mb-12 max-w-none">
             {@html data.html}
           </div>
 

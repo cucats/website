@@ -78,7 +78,7 @@ export function is_in_code_block(body: string, index: number): boolean {
 /**
  * Transform markdown using marked with custom renderer options
  */
-export async function transform(
+async function transform(
   markdown: string,
   {
     walkTokens,

@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ params }) => {
     throw error(404, "Blog post not found");
   }
 
-  const { post, html, sections } = result;
+  const { post, html } = result;
 
   return {
     title: post.metadata.title,
@@ -18,6 +18,5 @@ export const load: PageServerLoad = async ({ params }) => {
     date_formatted: post.date_formatted,
     authors: post.authors,
     html,
-    sections,
   };
 };

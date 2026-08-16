@@ -73,12 +73,12 @@ async function getHighlighter(): Promise<Highlighter> {
   return highlighter;
 }
 
-export interface Section {
+interface Section {
   slug: string;
   title: string;
 }
 
-export interface RenderResult {
+interface RenderResult {
   html: string;
   sections: Section[];
 }

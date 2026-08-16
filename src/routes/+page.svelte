@@ -37,7 +37,7 @@
   </section>
 
   <section class="bg-primary-950 overflow-clip px-4 py-40 text-neutral-200">
-    <div class="c-4 z-10 mx-auto max-w-3xl">
+    <div class="c-4 mx-auto max-w-3xl">
       <p class="p mt-8">
         Cambridge University Computing and Technology Society (<strong
           >CUCaTS</strong
@@ -63,7 +63,7 @@
       title: string,
       description: string,
     )}
-      <div class="gap-4 p-4 px-4 py-8 text-center">
+      <div class="px-4 py-8 text-center">
         <img src={image} class="pixel mx-auto size-16 sm:size-24" {alt} />
 
         <p class="mt-4 text-lg font-bold text-neutral-200 uppercase">

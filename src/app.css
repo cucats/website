@@ -52,8 +52,6 @@
   --color-error-400: #ef5350;
   --color-error-600: #e53935;
 
-  --color-transparent: transparent;
-
   --font-sans: Nunito, monospace, sans-serif;
   --font-mono: JetBrains Mono, monospace;
 
@@ -65,16 +63,8 @@
     @apply flex flex-col gap-4;
   }
 
-  .c-8 {
-    @apply flex flex-col gap-8;
-  }
-
   .r-4 {
     @apply flex flex-row gap-4;
-  }
-
-  .r-8 {
-    @apply flex flex-row gap-8;
   }
 
   .pixel {
@@ -366,19 +356,6 @@ body {
   }
 }
 
-.smooth-underline {
-  @apply inline-block;
-}
-
-.smooth-underline::after {
-  @apply block h-0.5 w-0 bg-neutral-50 duration-300;
-  content: "";
-}
-
-.smooth-underline:hover::after {
-  width: 100%;
-}
-
 .h1 {
   @apply text-5xl tracking-tight sm:text-6xl;
 }
@@ -389,10 +366,6 @@ body {
 
 .h3 {
   @apply text-2xl tracking-tight sm:text-3xl;
-}
-
-.h4 {
-  @apply text-xl sm:text-2xl;
 }
 
 .p {

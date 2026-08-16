@@ -10,10 +10,6 @@ export async function GET() {
   return json({ blocks });
 }
 
-function get_href(parts: string[]): string {
-  return parts.length > 1 ? `/${parts[0]}#${parts.at(-1)}` : `/${parts[0]}`;
-}
-
 async function generateSearchBlocks(): Promise<SearchBlock[]> {
   const blocks: SearchBlock[] = [];
 

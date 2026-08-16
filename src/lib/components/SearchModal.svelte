@@ -131,14 +131,14 @@
   >
     <div class="bg-primary-900 overflow-hidden rounded-lg p-2 shadow-overlay">
       <!-- Search input -->
-      <div class="flex items-center gap-3 rounded-md px-4">
+      <div class="flex items-center gap-3 px-4">
         <input
           bind:this={inputElement}
           bind:value={searchState.query}
           onkeydown={handleKeydown}
           type="text"
           placeholder="Search blog and wiki..."
-          class="w-full bg-transparent py-4 text-lg text-neutral-100 outline-none placeholder:text-neutral-500"
+          class="bg-transparent py-4 text-lg text-neutral-100 outline-none placeholder:text-neutral-500"
         />
         <svg
           class="h-5 w-5 shrink-0 text-neutral-400"
@@ -226,7 +226,7 @@
                 </button>
                 <button
                   onclick={(e) => removeRecent(block.href, e)}
-                  class="mr-2 cursor-pointer rounded-lg p-2 text-neutral-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-neutral-100"
+                  class="mr-2 cursor-pointer p-2 text-neutral-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-neutral-100"
                   aria-label="Remove from recent"
                 >
                   <svg

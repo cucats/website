@@ -57,7 +57,7 @@
               >
                 {member.role}
               </div>
-              <div class="text-md font-bold text-neutral-50">{member.name}</div>
+              <div class="text-base font-bold text-neutral-50">{member.name}</div>
 
               <div class="mt-2 flex gap-3 select-none">
                 {#if member.email}
@@ -97,7 +97,7 @@
         {#each committee as group}
           <h3 class="h3 mx-auto font-bold">{group.title}</h3>
           <div
-            class="mx-auto mb-4 grid grid-cols-2 justify-evenly gap-x-4 gap-y-8 rounded-lg px-4 py-8 sm:grid-cols-3 md:justify-center md:gap-8 md:p-8 lg:grid-cols-4"
+            class="mx-auto mb-4 grid grid-cols-2 justify-evenly gap-x-4 gap-y-8 px-4 py-8 sm:grid-cols-3 md:justify-center md:gap-8 md:p-8 lg:grid-cols-4"
           >
             {#each group.members as member}
               {@render committeeMember(member)}

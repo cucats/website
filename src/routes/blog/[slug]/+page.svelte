@@ -24,7 +24,7 @@
       <article>
         <header class="mb-8">
           <h1 class="mb-4 text-4xl font-bold">{data.title}</h1>
-          <div class="gap-4 text-sm text-neutral-300">
+          <div class="text-sm text-neutral-300">
             {#if data.date_formatted}
               <time datetime={data.date}>{data.date_formatted}</time>
             {/if}
@@ -49,7 +49,7 @@
           </div>
         </header>
 
-        <div class="prose prose-lg prose-invert max-w-none">
+        <div class="prose max-w-none">
           {@html data.html}
         </div>
       </article>

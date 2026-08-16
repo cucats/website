@@ -1,7 +1,6 @@
 import {
   create_index,
   process_blog_posts,
-  get_wiki_tree,
 } from "./content/index";
 import { render } from "./markdown/renderer";
 import type { Document, BlogPost } from "./content/types";
@@ -22,7 +21,6 @@ const index = await create_index(
 
 // Export processed content
 export const blog_posts: BlogPost[] = process_blog_posts(index);
-export const wiki = get_wiki_tree(index);
 export const all_documents = index;
 
 /**
@@ -77,5 +75,3 @@ export async function get_wiki_page(path: string): Promise<{
   const slug = path ? `wiki/${path}` : "wiki";
   return get_document(slug);
 }
-
-export type { Document, BlogPost };

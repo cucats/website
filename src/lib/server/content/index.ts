@@ -141,12 +141,3 @@ export function process_blog_posts(
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
-
-/**
- * Get wiki documents organized by category
- */
-export function get_wiki_tree(
-  documents: Record<string, Document>,
-): Document | null {
-  return documents["wiki"] ?? null;
-}
