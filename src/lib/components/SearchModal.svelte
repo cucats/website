@@ -4,6 +4,7 @@
   import { page } from "$app/state";
   import { init, search, inited, lookup } from "$lib/search";
   import { searchState } from "$lib/search-state.svelte";
+  import { lockScroll } from "$lib/scroll-lock";
   import { fade, scale } from "svelte/transition";
   import type {
     SearchBlockGroup,
@@ -66,6 +67,7 @@
     if (searchState.active) {
       setTimeout(() => inputElement?.focus(), 0);
       updateRecentResults();
+      return lockScroll();
     }
   });
 

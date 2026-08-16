@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade, scale } from "svelte/transition";
   import type { HTMLAttributes } from "svelte/elements";
+  import { lockScroll } from "$lib/scroll-lock";
 
   interface Props extends HTMLAttributes<HTMLDivElement> {
     active: boolean;
@@ -17,9 +18,11 @@
   $effect(() => {
     if (active) {
       document.addEventListener("keydown", onkeydown);
+      const unlock = lockScroll();
 
       return () => {
         document.removeEventListener("keydown", onkeydown);
+        unlock();
       };
     }
   });

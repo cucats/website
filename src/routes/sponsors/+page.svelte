@@ -98,10 +98,7 @@
             ambition to deliver high quality returns for our investors.
           </p>
           <div class="r-4">
-            <a
-              class="btn primary md font-saira"
-              href="https://www.qube-rt.com"
-            >
+            <a class="btn primary md font-saira" href="https://www.qube-rt.com">
               Website
             </a>
             <a
@@ -295,10 +292,7 @@
             PhD positions.
           </p>
           <div class="r-4">
-            <a
-              class="btn primary md font-saira"
-              href="https://tpp-careers.com"
-            >
+            <a class="btn primary md font-saira" href="https://tpp-careers.com">
               View opportunities
             </a>
             <a

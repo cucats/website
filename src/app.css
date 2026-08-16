@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+html {
+  color-scheme: dark;
+  scrollbar-gutter: stable;
+}
+
 @theme {
   --color-primary-50: oklch(0.958 0.015 251.15);
   --color-primary-100: oklch(0.922 0.026 251.66);

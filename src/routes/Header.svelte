@@ -1,8 +1,13 @@
 <script lang="ts">
   import { fly, fade } from "svelte/transition";
   import { searchState } from "$lib/search-state.svelte";
+  import { lockScroll } from "$lib/scroll-lock";
 
   let active = $state(false);
+
+  $effect(() => {
+    if (active) return lockScroll();
+  });
 
   const links = [
     { href: "/events", label: "Events" },
