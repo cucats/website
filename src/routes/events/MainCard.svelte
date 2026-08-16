@@ -17,7 +17,7 @@
 </script>
 
 <div
-  class="group relative h-80 w-76 min-w-76 overflow-hidden rounded-lg bg-neutral-900 select-none {className} duration-300 hover:scale-105"
+  class="group relative h-80 w-76 min-w-76 overflow-hidden rounded-lg bg-neutral-900 select-none {className}"
 >
   <a href={website}>
     <div

@@ -131,7 +131,7 @@
   >
     <div class="bg-primary-900 overflow-hidden rounded-lg p-2 shadow-overlay">
       <!-- Search input -->
-      <div class="bg-primary-950/60 flex items-center gap-3 rounded-md px-4">
+      <div class="flex items-center gap-3 rounded-md px-4">
         <input
           bind:this={inputElement}
           bind:value={searchState.query}
@@ -170,7 +170,7 @@
                   {@const globalIndex = flatResults.indexOf(block)}
                   <button
                     onclick={() => navigateTo(block.href)}
-                    class="w-full rounded-lg px-3 py-2 text-left transition-colors {globalIndex ===
+                    class="w-full cursor-pointer rounded-lg px-3 py-2 text-left transition-colors {globalIndex ===
                     selectedIndex
                       ? 'bg-primary-600 text-neutral-100'
                       : 'text-neutral-300 hover:bg-neutral-800'}"
@@ -210,7 +210,8 @@
               >
                 <button
                   onclick={() => navigateTo(block.href)}
-                  class="flex-1 px-3 py-2 text-left {i === selectedIndex
+                  class="flex-1 cursor-pointer px-3 py-2 text-left {i ===
+                  selectedIndex
                     ? 'text-neutral-100'
                     : 'text-neutral-300'}"
                 >
@@ -225,7 +226,7 @@
                 </button>
                 <button
                   onclick={(e) => removeRecent(block.href, e)}
-                  class="mr-2 rounded-lg p-2 text-neutral-400 opacity-0 transition-opacity group-hover:opacity-100 hover:bg-neutral-800 hover:text-neutral-100"
+                  class="mr-2 cursor-pointer rounded-lg p-2 text-neutral-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-neutral-100"
                   aria-label="Remove from recent"
                 >
                   <svg

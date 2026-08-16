@@ -13,27 +13,29 @@
   ];
 </script>
 
-<header
-  class="fixed top-0 left-0 z-50 w-full bg-primary-900/80 backdrop-blur-lg"
->
+<header class="fixed top-0 left-0 z-50 w-full bg-primary-900">
   <div class="r-4 mx-auto h-16 max-w-7xl justify-between px-4">
     <!-- Logo -->
-    <a href="/" class="r-4 items-center" onclick={() => (active = false)}>
+    <a
+      href="/"
+      class="r-4 h-full items-center px-4 transition-colors hover:bg-primary-800"
+      onclick={() => (active = false)}
+    >
       <enhanced:img
-        class="ml-2 size-10"
+        class="size-10"
         src="$lib/assets/logo/dark/logo-white-cat.svg"
         alt="CUCaTS logo of a white cat in ASCII art"
       />
-      <span class="px-2 text-2xl font-extrabold text-neutral-100">CUCaTS</span>
+      <span class="text-2xl font-extrabold text-neutral-100">CUCaTS</span>
     </a>
 
     <!-- Navigation -->
     <nav
-      class="hidden items-center gap-2 text-lg font-semibold text-neutral-100 uppercase md:flex"
+      class="hidden text-lg font-semibold text-neutral-100 uppercase md:flex"
     >
       {#each links as link}
         <a
-          class="p-3 transition duration-200 ease-in-out md:hover:scale-105"
+          class="flex h-full items-center px-4 transition-colors hover:bg-primary-800"
           href={link.href}
         >
           {link.label}
@@ -43,7 +45,7 @@
       <!-- Search button -->
       <button
         onclick={() => searchState.open()}
-        class="my-auto ml-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-normal text-neutral-100 normal-case transition-colors hover:text-neutral-300"
+        class="flex h-full cursor-pointer items-center gap-2 px-4 text-sm font-normal text-neutral-100 normal-case transition-colors hover:bg-primary-800"
         aria-label="Search"
       >
         <svg
@@ -64,7 +66,7 @@
 
     <!-- Hamburger -->
     <button
-      class="my-auto flex size-16 cursor-pointer flex-col items-center justify-center gap-1.5 p-4 md:hidden"
+      class="flex size-16 cursor-pointer flex-col items-center justify-center gap-1.5 transition-colors hover:bg-primary-800 md:hidden"
       aria-label={active ? "Close menu" : "Open menu"}
       onclick={() => (active = !active)}
     >
@@ -115,7 +117,7 @@
           active = false;
           searchState.open();
         }}
-        class="flex w-full items-center gap-3 rounded-lg bg-primary-800 px-4 py-3 text-neutral-400 transition-colors hover:bg-primary-700"
+        class="flex w-full items-center gap-3 rounded-lg bg-primary-800 px-4 py-3 text-neutral-400 transition hover:brightness-125"
       >
         <svg
           class="h-5 w-5"

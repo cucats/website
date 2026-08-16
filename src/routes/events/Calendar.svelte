@@ -221,7 +221,7 @@
       <button
         onclick={() => (currentTermIndex = Math.max(0, currentTermIndex - 1))}
         disabled={currentTermIndex === 0}
-        class="btn sm neutral disabled:hover:bg-neutral-950/50"
+        class="btn sm primary disabled:hover:brightness-100"
       >
         &lt;-
       </button>
@@ -229,7 +229,7 @@
         onclick={() =>
           (currentTermIndex = Math.min(terms.length - 1, currentTermIndex + 1))}
         disabled={currentTermIndex === terms.length - 1}
-        class="btn sm neutral disabled:hover:bg-neutral-950/50"
+        class="btn sm primary disabled:hover:brightness-100"
       >
         -&gt;
       </button>
@@ -290,7 +290,7 @@
               >
                 {#each day.events as entry}
                   <button
-                    class="bg-primary-600 hover:bg-primary-500 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] text-neutral-100 transition-colors lg:mb-1 lg:rounded-lg lg:p-1 lg:text-sm"
+                    class="bg-primary-600 hover:brightness-125 mb-0.5 w-full cursor-pointer rounded p-0.5 text-left text-[8px] text-neutral-100 transition lg:mb-1 lg:rounded-lg lg:p-1 lg:text-sm"
                     onclick={() => selectEvent(entry.event)}
                   >
                     <div class="truncate font-bold text-clip">
@@ -323,7 +323,7 @@
 >
   {#if selectedEvent}
     <button
-      class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-100"
+      class="absolute top-4 right-4 cursor-pointer text-neutral-400 hover:text-neutral-100"
       onclick={() => (showEventModal = false)}
       aria-label="Close modal"
     >

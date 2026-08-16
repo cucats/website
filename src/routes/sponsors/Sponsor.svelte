@@ -34,11 +34,11 @@
     Instead, use a border with a smaller radius in child.
   -->
   <div
-    class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-black/90 opacity-0 transition duration-300 group-hover:opacity-100 group-hover:backdrop-blur-lg"
+    class="absolute top-0 left-0 flex size-full items-center justify-center rounded-md bg-black/70 opacity-0 duration-300 group-hover:opacity-100 group-hover:backdrop-blur-lg"
   >
     <div class="text-center font-bold uppercase">
-      <span class="block text-xl text-neutral-100">{@render name()}</span>
-      <span class="mt-2 block text-sm text-neutral-200">Learn More -&gt;</span>
+      <span class="block text-xl text-neutral-50">{@render name()}</span>
+      <span class="mt-2 block text-sm text-neutral-50">Learn More -&gt;</span>
     </div>
   </div>
 </button>
@@ -49,7 +49,7 @@
 >
   <!-- Close button -->
   <button
-    class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-100"
+    class="absolute top-4 right-4 cursor-pointer text-neutral-400 hover:text-neutral-100"
     onclick={() => (active = false)}
     aria-label="Close modal"
   >
