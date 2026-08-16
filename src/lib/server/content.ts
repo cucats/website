@@ -1,7 +1,4 @@
-import {
-  create_index,
-  process_blog_posts,
-} from "./content/index";
+import { create_index, process_blog_posts } from "./content/index";
 import { render } from "./markdown/renderer";
 import type { Document, BlogPost } from "./content/types";
 

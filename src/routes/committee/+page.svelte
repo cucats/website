@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import PixelAvatar from "$lib/components/PixelAvatar.svelte";
   let committee: any[] = [];
 
   onMount(async () =>
@@ -43,11 +44,7 @@
                   alt="Default portrait"
                 />
               {:else}
-                <enhanced:img
-                  class="size-full opacity-80"
-                  src="$lib/assets/default-profile.webp"
-                  alt={`${member.name}'s portrait`}
-                />
+                <PixelAvatar name={member.name} />
               {/if}
             </div>
 
@@ -57,7 +54,9 @@
               >
                 {member.role}
               </div>
-              <div class="text-base font-bold text-neutral-50">{member.name}</div>
+              <div class="text-base font-bold text-neutral-50">
+                {member.name}
+              </div>
 
               <div class="mt-2 flex gap-3 select-none">
                 {#if member.email}
