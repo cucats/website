@@ -17,13 +17,13 @@
       class="absolute z-10 size-full bg-linear-to-b from-transparent to-black/80 text-left duration-300 group-hover:bg-black/50 group-hover:backdrop-blur-lg"
     >
       <div
-        class="absolute flex h-full w-full items-center justify-center font-bold opacity-0 duration-300 group-hover:opacity-100"
+        class="absolute flex h-full w-full items-center justify-center font-semibold opacity-0 duration-300 group-hover:opacity-100"
       >
         Visit {title} -&gt;
       </div>
 
       <div class="absolute bottom-0 p-4">
-        <div class="card-title font-bold text-white">
+        <div class="card-title font-semibold text-white">
           {title}
         </div>
 

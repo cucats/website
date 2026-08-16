@@ -13,7 +13,7 @@
 </svelte:head>
 
 <main class="bg-primary-900 min-h-screen">
-  <section class="pt-16 text-neutral-200">
+  <section class="pt-16 text-neutral-100">
     <div class="mx-auto max-w-5xl px-4 py-12">
       <div class="flex gap-8">
         <div class="min-w-0 flex-1">
@@ -38,7 +38,7 @@
               </nav>
             {/if}
 
-            <h1 class="h1 mb-4 font-bold">{data.title}</h1>
+            <h1 class="h1 mb-4 font-semibold">{data.title}</h1>
 
             <div class="prose max-w-none">
               {@html data.html}

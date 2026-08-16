@@ -13,9 +13,9 @@
 </svelte:head>
 
 <main class="bg-primary-900 min-h-screen">
-  <section class="pt-16 text-neutral-200">
+  <section class="pt-16 text-neutral-100">
     <div class="mx-auto max-w-5xl px-4 py-12">
-      <h1 class="h1 mb-4 font-bold">Blog</h1>
+      <h1 class="h1 mb-4 font-semibold">Blog</h1>
       <p class="p mb-12 text-neutral-200">
         News, tutorials, and updates from CUCaTS
       </p>

@@ -49,7 +49,7 @@
   <div
     class="absolute top-0 left-0 flex size-full items-center justify-center rounded-lg bg-black/70 opacity-0 duration-300 group-hover:opacity-100 group-hover:backdrop-blur-lg"
   >
-    <div class="text-center font-bold">
+    <div class="text-center font-semibold">
       <span class="card-title block text-neutral-50">{@render name()}</span>
       <span class="mt-2 block text-sm text-neutral-50">Learn More -&gt;</span>
     </div>
@@ -71,7 +71,7 @@
 
   <!-- Modal body -->
   <div class="c-4 text-neutral-200">
-    <h3 class="h3 font-bold">
+    <h3 class="h3 font-semibold">
       {@render name()}
     </h3>
     <div class="c-4 p">

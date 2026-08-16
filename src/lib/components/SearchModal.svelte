@@ -132,14 +132,6 @@
     <div class="bg-primary-900 overflow-hidden rounded-lg p-2 shadow-overlay">
       <!-- Search input -->
       <div class="flex items-center gap-3 px-4">
-        <input
-          bind:this={inputElement}
-          bind:value={searchState.query}
-          onkeydown={handleKeydown}
-          type="text"
-          placeholder="Search blog and wiki..."
-          class="bg-transparent py-4 text-lg font-mono text-neutral-100 outline-none placeholder:text-neutral-500"
-        />
         <svg
           class="h-5 w-5 shrink-0 text-neutral-400"
           fill="none"
@@ -153,6 +145,14 @@
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
+        <input
+          bind:this={inputElement}
+          bind:value={searchState.query}
+          onkeydown={handleKeydown}
+          type="text"
+          placeholder="Search blog and wiki..."
+          class="bg-transparent py-4 text-lg font-sans text-neutral-100 outline-none placeholder:text-neutral-500"
+        />
       </div>
 
       <!-- Results -->
@@ -173,7 +173,7 @@
                     class="w-full cursor-pointer rounded-lg px-3 py-2 text-left transition-colors {globalIndex ===
                     selectedIndex
                       ? 'bg-primary-600 text-neutral-100'
-                      : 'text-neutral-300 hover:bg-neutral-800'}"
+                      : 'text-neutral-300 hover:bg-primary-900 hover:brightness-125'}"
                   >
                     <div class="font-medium">{block.breadcrumbs.at(-1)}</div>
                     {#if block.content}
@@ -203,10 +203,10 @@
             </div>
             {#each recentResults as block, i}
               <div
-                class="group flex items-center rounded-lg transition-colors {i ===
+                class="group flex items-center rounded-lg transition-all {i ===
                 selectedIndex
                   ? 'bg-primary-600'
-                  : 'hover:bg-neutral-800'}"
+                  : 'bg-primary-900 hover:brightness-125'}"
               >
                 <button
                   onclick={() => navigateTo(block.href)}

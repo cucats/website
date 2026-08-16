@@ -8,10 +8,10 @@
   <title>Events | CUCaTS</title>
 </svelte:head>
 
-<main class="bg-primary-900 text-neutral-200">
+<main class="bg-primary-900 text-neutral-100">
   <section class="pt-24 pb-8">
     <div class="mx-auto max-w-5xl p-4">
-      <h1 class="h1 font-bold">Events</h1>
+      <h1 class="h1 font-semibold">Events</h1>
 
       <p class="p mt-4">
         Thanks to our sponsors, many of our events are free and open to all
@@ -19,16 +19,16 @@
         announcements.
       </p>
 
-      <div class="mt-4 flex gap-4 font-bold">
+      <div class="mt-4 flex gap-4 font-semibold">
         <a
           href="webcal://cucats.org/events/calendar.ics"
-          class="btn primary md"
+          class="btn primary md font-saira"
         >
           Add calendar
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="btn primary md"
+          class="btn primary md font-saira"
         >
           Join mailing list
         </a>
@@ -38,7 +38,7 @@
 
   <section class="bg-primary-800">
     <div class="py-16">
-      <h2 class="h2 text-center font-bold">Flagship events</h2>
+      <h2 class="h2 text-center font-semibold">Flagship events</h2>
       <div class="mt-8 flex justify-center-safe gap-4 overflow-x-auto p-4">
         <Card
           website="https://camhack.org"
@@ -70,7 +70,7 @@
   </section>
 
   <section class="bg-primary-700 pt-16 text-neutral-200 lg:px-16 lg:pb-16">
-    <h2 class="h2 text-center font-bold text-neutral-100">Calendar</h2>
+    <h2 class="h2 text-center font-semibold text-neutral-100">Calendar</h2>
     <div class="mx-auto mt-16 flex max-w-7xl flex-col gap-8">
       <Calendar />
     </div>
@@ -86,7 +86,7 @@
     </div>
 
     <div class="relative z-10 mx-auto my-16 max-w-7xl px-8 text-center">
-      <h2 class="h1 font-bold">Launch your own event</h2>
+      <h2 class="h1 font-semibold">Launch your own event</h2>
       <p class="p mx-auto mt-4 max-w-3xl">
         Are you a student with an event idea? Whether it's a casual picnic or an
         intense contest, we provide funding and support to bring your ideas to
@@ -94,7 +94,7 @@
       </p>
       <div class="mt-8">
         <a
-          class="btn primary lg"
+          class="btn primary lg font-saira"
           href="https://docs.google.com/document/d/1WQdX0mt8jfy-CM6IOvB9yNzkG19yL9MsVQizpaagKuE/edit?usp=sharing"
           >Learn more</a
         >
@@ -104,7 +104,7 @@
 
   <section class="bg-primary-800 overflow-hidden py-16 text-neutral-200">
     <div class="c-4 mx-auto max-w-5xl text-center">
-      <h2 class="h2 px-4 font-bold">Check out other societies</h2>
+      <h2 class="h2 px-4 font-semibold">Check out other societies</h2>
       <p class="p px-4">
         CUCaTS also partners with other societies to run events!
       </p>
@@ -127,3 +127,7 @@
     </div>
   </section>
 </main>
+
+<style lang="postcss">
+  @reference "../../app.css";
+</style>

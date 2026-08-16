@@ -12,7 +12,7 @@
 </svelte:head>
 
 <main class="bg-primary-900 min-h-screen">
-  <section class="pt-16 text-neutral-200">
+  <section class="pt-16 text-neutral-100">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
       <nav class="mb-6 text-sm text-neutral-400 font-mono">
@@ -23,18 +23,18 @@
 
       <article>
         <header class="mb-8">
-          <h1 class="h1 mb-4 font-bold">{data.title}</h1>
-          <div class="text-sm text-neutral-300">
+          <h1 class="h1 mb-4">{data.title}</h1>
+          <div class="flex flex-wrap items-center gap-6 text-sm">
             {#if data.date_formatted}
               <time datetime={data.date}>{data.date_formatted}</time>
             {/if}
             {#if data.authors.length > 0}
               <span>
-                | {#each data.authors as author, i}
+                {#each data.authors as author, i}
                   {#if author.url}
                     <a
                       href={author.url}
-                      class="text-neutral-100 hover:underline"
+                      class="hover:underline"
                       target="_blank"
                       rel="noopener noreferrer">{author.name}</a
                     >

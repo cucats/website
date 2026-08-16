@@ -28,15 +28,15 @@
           alt="CUCaTS logo"
           class="size-40 select-none"
         />
-        <h1
-          class="text-center text-6xl font-bold font-mono text-neutral-100 sm:text-8xl"
+        <div
+          class="text-center text-6xl font-semibold font-mono text-neutral-100 sm:text-8xl"
         >
           CUCaTS
-        </h1>
+        </div>
       </div>
 
       <p
-        class="mt-2 px-4 text-center text-lg font-bold text-neutral-300 sm:mt-0"
+        class="mt-2 px-4 text-center text-lg font-semibold text-neutral-300 sm:mt-0"
       >
         Cambridge University Computing and Technology Society
       </p>
@@ -47,7 +47,7 @@
     <div class="c-4 mx-auto max-w-3xl">
       <p class="p mt-8">
         Cambridge University Computing and Technology Society (<strong
-          >CUCaTS</strong
+          class="font-mono">CUCaTS</strong
         >) is the primary student-run computing society at Cambridge. We aim to
         provide a platform for students to explore and engage with technology,
         regardless of their degree or experience level.
@@ -60,7 +60,7 @@
       </p>
     </div>
 
-    <h2 class="h2 mt-40 mb-8 text-center font-bold text-neutral-50">
+    <h2 class="h2 mt-40 mb-8 text-center font-semibold text-neutral-50">
       Our aims
     </h2>
 
@@ -73,7 +73,7 @@
       <div class="px-4 py-8 text-center">
         <img src={image} class="pixel mx-auto size-16 sm:size-24" {alt} />
 
-        <p class="card-title mt-4 font-bold text-neutral-200">
+        <p class="card-title mt-4 font-semibold text-neutral-200">
           {title}
         </p>
 
@@ -131,14 +131,14 @@
           alt=""
         />
       </div>
-      <h2 class="h1 mt-6 text-center font-bold text-neutral-100">
+      <h2 class="h1 mt-6 text-center font-semibold text-neutral-100">
         Join our events
       </h2>
       <p class="p mt-4 text-center">
         We run several major events every year, and help other students run
         their own!
       </p>
-      <a href="/events" class="btn primary lg mt-6">See events</a>
+      <a href="/events" class="btn primary lg mt-6 font-saira">See events</a>
     </div>
   </section>
 </main>

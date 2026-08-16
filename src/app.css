@@ -53,6 +53,7 @@
   --color-error-600: #e53935;
 
   --font-sans: Inter, sans-serif;
+  --font-saira: Saira, sans-serif;
   --font-mono: JetBrains Mono, monospace;
 
   --shadow-overlay: 0 25px 50px -12px rgb(0 0 0 / 0.75);
@@ -74,7 +75,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-lg font-bold transition-all duration-200 disabled:cursor-default disabled:opacity-50;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-lg font-semibold transition-all duration-200 disabled:cursor-default disabled:opacity-50;
 
     @variant focus-visible {
       @apply ring-primary-500 ring-2 ring-offset-2 outline-none;
@@ -206,6 +207,15 @@
   @apply font-sans;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-saira font-medium;
+}
+
 main {
   @apply grow;
 }
@@ -225,7 +235,7 @@ body {
   h4,
   h5,
   h6 {
-    @apply scroll-mt-20 font-bold text-neutral-100;
+    @apply scroll-mt-20 font-semibold text-neutral-100;
   }
 
   h1 {

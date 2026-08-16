@@ -197,7 +197,7 @@
   class="lg:c-4 from-tertiary-900 via-primary-900 to-tertiary-900 bg-linear-to-br p-0.5 lg:rounded-lg lg:p-8"
 >
   <div class="flex items-center justify-between overflow-hidden p-2 pb-10">
-    <h2 class="h3 font-bold text-neutral-200">
+    <h2 class="h3 font-semibold text-neutral-200">
       {currentTerm.name}
     </h2>
 
@@ -229,7 +229,7 @@
         <!-- Weekday headings -->
         {#each dayOrder as day}
           <div
-            class="text-center text-[8px] font-bold font-mono text-neutral-50/80 uppercase lg:text-sm"
+            class="text-center text-[8px] font-semibold font-mono text-neutral-50/80 uppercase lg:text-sm"
           >
             <span class="lg:hidden">{day.slice(0, 2)}</span>
             <span class="hidden lg:inline">{day}</span>
@@ -279,11 +279,11 @@
                     onclick={() => selectEvent(entry.event)}
                   >
                     <div
-                      class="overflow-hidden text-clip whitespace-nowrap font-bold"
+                      class="overflow-hidden text-clip whitespace-nowrap font-semibold"
                     >
                       {entry.event.summary}
                     </div>
-                    <div class="text-[8px] font-mono lg:text-xs">
+                    <div class="text-[8px] font-sans lg:text-xs">
                       {#if entry.cont}
                         (cont)
                       {:else}
@@ -318,13 +318,13 @@
     </button>
 
     <div>
-      <h2 class="h3 mb-4 pr-6 font-bold text-neutral-100">
+      <h2 class="h3 mb-4 pr-6 font-semibold text-neutral-100">
         {selectedEvent.summary}
       </h2>
 
       <div class="flex flex-col gap-4 wrap-anywhere">
         <EventData icon={CalendarIcon} title="Date & Time">
-          <p class="text-sm font-mono">{formatDateDuration(selectedEvent)}</p>
+          <p class="text-sm">{formatDateDuration(selectedEvent)}</p>
         </EventData>
 
         {#if selectedEvent.location}

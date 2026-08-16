@@ -14,7 +14,7 @@
 </script>
 
 <header class="fixed top-0 left-0 z-50 w-full bg-primary-900">
-  <div class="r-4 mx-auto h-16 max-w-7xl justify-between px-4 font-mono">
+  <div class="r-4 mx-auto h-16 max-w-7xl justify-between px-4 font-saira">
     <!-- Logo -->
     <a
       href="/"
@@ -26,13 +26,13 @@
         src="$lib/assets/logo/dark/logo-white-cat.svg"
         alt="CUCaTS logo of a white cat in ASCII art"
       />
-      <span class="text-2xl font-extrabold text-neutral-100">CUCaTS</span>
+      <span class="text-2xl font-extrabold font-mono text-neutral-100"
+        >CUCaTS</span
+      >
     </a>
 
     <!-- Navigation -->
-    <nav
-      class="hidden text-lg font-semibold text-neutral-100 uppercase md:flex"
-    >
+    <nav class="hidden text-xl font-medium text-neutral-100 md:flex">
       {#each links as link}
         <a
           class="flex h-full items-center px-4 transition-colors hover:bg-primary-800"
@@ -104,7 +104,7 @@
 
   <!-- Drawer -->
   <div
-    class="fixed top-16 right-0 bottom-0 z-45 w-full bg-primary-900 font-mono shadow-overlay md:hidden"
+    class="fixed top-16 right-0 bottom-0 z-45 w-full bg-primary-900 font-saira shadow-overlay md:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Navigation menu"
@@ -140,7 +140,7 @@
     <nav class="flex flex-col pt-4">
       {#each links as link}
         <a
-          class="px-6 py-4 text-2xl font-semibold text-neutral-100 uppercase transition-colors hover:bg-primary-800"
+          class="px-6 py-4 text-3xl font-medium text-neutral-100 transition-colors hover:bg-primary-800"
           href={link.href}
           onclick={() => (active = false)}
         >

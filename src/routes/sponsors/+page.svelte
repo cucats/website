@@ -7,9 +7,9 @@
 </svelte:head>
 
 <main class="">
-  <section class="bg-primary-900 pt-24 pb-8 text-neutral-200">
+  <section class="bg-primary-900 pt-24 pb-8 text-neutral-100">
     <div class="c-4 mx-auto max-w-5xl p-4">
-      <h1 class="h1 font-bold">Sponsors</h1>
+      <h1 class="h1 font-semibold">Sponsors</h1>
 
       <p class="p">
         Our sponsors' support allows CUCaTS to continue running events. To see
@@ -31,20 +31,20 @@
     class="from-primary-800 via-secondary-800 to-tertiary-800 bg-linear-to-br pb-8"
   >
     <div class="c-4 mx-auto max-w-6xl p-4">
-      <h2 class="h2 my-8 text-center font-bold text-neutral-100">Gold</h2>
+      <h2 class="h2 my-8 text-center font-semibold text-neutral-100">Gold</h2>
 
       <div class="r-4 flex-wrap justify-center">
         <Sponsor tier="gold" logo="/assets/sponsors/anthropic.png">
           {#snippet name()}Anthropic{/snippet}
           <div class="r-4">
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://www.anthropic.com"
             >
               Website
             </a>
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://www.anthropic.com/careers"
             >
               View opportunities
@@ -72,13 +72,13 @@
           </p>
           <div class="r-4">
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://www.janestreet.com"
             >
               Website
             </a>
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://www.janestreet.com/join-jane-street/open-roles/?type=internship&location=london"
             >
               View opportunities
@@ -98,11 +98,14 @@
             ambition to deliver high quality returns for our investors.
           </p>
           <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://www.qube-rt.com">
+            <a
+              class="btn primary md font-saira"
+              href="https://www.qube-rt.com"
+            >
               Website
             </a>
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://www.qube-rt.com/careers/"
             >
               View opportunities
@@ -113,14 +116,17 @@
         <Sponsor tier="gold" logo="/assets/sponsors/citadel.png">
           {#snippet name()}Citadel{/snippet}
           <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://www.citadel.com/">
+            <a
+              class="btn primary md font-saira"
+              href="https://www.citadel.com/"
+            >
               Website
             </a>
           </div>
         </Sponsor>
       </div>
 
-      <h2 class="h2 my-8 text-center font-bold text-neutral-100">Silver</h2>
+      <h2 class="h2 my-8 text-center font-semibold text-neutral-100">Silver</h2>
 
       <div class="r-4 flex-wrap justify-center">
         <Sponsor tier="silver" logo="/assets/sponsors/incident.io.png">
@@ -133,11 +139,11 @@
             matter.
           </p>
           <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://incident.io">
+            <a class="btn primary md font-saira" href="https://incident.io">
               Website
             </a>
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://go.incident.io/cucats"
             >
               View opportunities
@@ -178,11 +184,11 @@
             our platform.
           </p>
           <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://www.mwam.com">
+            <a class="btn primary md font-saira" href="https://www.mwam.com">
               Website
             </a>
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://www.mwam.com/technology-internship-programme"
             >
               View opportunities
@@ -207,7 +213,7 @@
           </p>
           <div class="r-4">
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://optiver.com/recruitment-events/save-the-date-the-optiver-cambridge-trading-academy/"
             >
               Register interest
@@ -219,7 +225,7 @@
           {#snippet name()}The Trade Desk{/snippet}
           <div class="r-4">
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://www.thetradedesk.com/uk"
             >
               Website
@@ -249,13 +255,13 @@
 
           <div class="r-4">
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://usa.visa.com/business.html"
             >
               Website
             </a>
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://corporate.visa.com/en/careers/early-careers.html"
             >
               View opportunities
@@ -264,7 +270,7 @@
         </Sponsor>
       </div>
 
-      <h2 class="h2 my-8 text-center font-bold text-neutral-100">Bronze</h2>
+      <h2 class="h2 my-8 text-center font-semibold text-neutral-100">Bronze</h2>
 
       <div class="r-4 flex-wrap justify-center">
         <Sponsor tier="bronze" logo="/assets/sponsors/tpp.png">
@@ -289,11 +295,14 @@
             PhD positions.
           </p>
           <div class="r-4">
-            <a class="btn primary sm font-bold" href="https://tpp-careers.com">
+            <a
+              class="btn primary md font-saira"
+              href="https://tpp-careers.com"
+            >
               View opportunities
             </a>
             <a
-              class="btn primary sm font-bold"
+              class="btn primary md font-saira"
               href="https://tpp-careers.com/roles/graduate-software-developer"
             >
               Graduate roles

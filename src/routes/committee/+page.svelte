@@ -17,10 +17,10 @@
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 
-<main class="text-neutral-200">
+<main class="text-neutral-100">
   <section class="bg-primary-900 pt-24">
     <div class="c-4 mx-auto max-w-5xl p-4">
-      <h1 class="h1 font-bold">Committee</h1>
+      <h1 class="h1 font-semibold">Committee</h1>
 
       <p class="p mb-10">
         For all enquiries, please email <a
@@ -50,11 +50,11 @@
 
             <div class="py-4">
               <div
-                class="text-xs font-bold font-mono text-neutral-50 uppercase opacity-60"
+                class="text-xs font-semibold font-mono text-neutral-50 uppercase opacity-60"
               >
                 {member.role}
               </div>
-              <div class="text-base font-bold text-neutral-50">
+              <div class="text-base font-semibold text-neutral-50">
                 {member.name}
               </div>
 
@@ -94,7 +94,7 @@
         {/snippet}
 
         {#each committee as group}
-          <h3 class="h3 mx-auto font-bold">{group.title}</h3>
+          <h3 class="h3 mx-auto font-semibold">{group.title}</h3>
           <div
             class="mx-auto mb-4 grid grid-cols-2 justify-evenly gap-x-4 gap-y-8 px-4 py-8 sm:grid-cols-3 md:justify-center md:gap-8 md:p-8 lg:grid-cols-4"
           >
