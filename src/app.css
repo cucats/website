@@ -52,7 +52,7 @@
   --color-error-400: #ef5350;
   --color-error-600: #e53935;
 
-  --font-sans: Nunito, monospace, sans-serif;
+  --font-sans: Inter, sans-serif;
   --font-mono: JetBrains Mono, monospace;
 
   --shadow-overlay: 0 25px 50px -12px rgb(0 0 0 / 0.75);
@@ -104,10 +104,10 @@
       @apply px-3 py-1.5 text-sm;
     }
     &.md {
-      @apply px-5 py-2.5 text-base;
+      @apply p-2 text-base;
     }
     &.lg {
-      @apply px-7 py-3 text-lg;
+      @apply p-3 text-xl;
     }
   }
 
@@ -203,7 +203,7 @@
 }
 
 :root {
-  @apply font-mono;
+  @apply font-sans;
 }
 
 main {
@@ -232,13 +232,13 @@ body {
     @apply mb-4 text-3xl;
   }
   h2 {
-    @apply mt-16 mb-3 text-2xl;
+    @apply mt-8 mb-3 text-2xl;
   }
   h3 {
-    @apply mt-12 mb-2 text-xl;
+    @apply mt-6 mb-2 text-xl;
   }
   h4 {
-    @apply mt-8 mb-2 text-lg;
+    @apply mt-4 mb-2 text-lg;
   }
 
   p {
@@ -307,7 +307,7 @@ body {
   }
 
   code {
-    @apply rounded bg-black/50 px-1.5 py-1 text-sm text-neutral-200;
+    @apply rounded bg-black/50 px-1.5 py-1 font-mono text-sm text-neutral-200;
   }
 
   pre {
@@ -370,6 +370,10 @@ body {
 
 .p {
   @apply text-sm sm:text-base;
+}
+
+.card-title {
+  @apply text-xl tracking-tight sm:text-2xl;
 }
 
 .a {

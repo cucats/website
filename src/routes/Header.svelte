@@ -14,7 +14,7 @@
 </script>
 
 <header class="fixed top-0 left-0 z-50 w-full bg-primary-900">
-  <div class="r-4 mx-auto h-16 max-w-7xl justify-between px-4">
+  <div class="r-4 mx-auto h-16 max-w-7xl justify-between px-4 font-mono">
     <!-- Logo -->
     <a
       href="/"
@@ -104,7 +104,7 @@
 
   <!-- Drawer -->
   <div
-    class="fixed top-16 right-0 bottom-0 z-45 w-full bg-primary-900 shadow-overlay md:hidden"
+    class="fixed top-16 right-0 bottom-0 z-45 w-full bg-primary-900 font-mono shadow-overlay md:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Navigation menu"

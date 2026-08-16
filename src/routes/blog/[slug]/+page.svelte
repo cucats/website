@@ -15,7 +15,7 @@
   <section class="pt-16 text-neutral-200">
     <div class="mx-auto max-w-4xl px-4 py-12">
       <!-- Breadcrumb navigation -->
-      <nav class="mb-6 text-sm text-neutral-400">
+      <nav class="mb-6 text-sm text-neutral-400 font-mono">
         <a href="/blog" class="hover:text-neutral-200 hover:underline">Blog</a>
         <span class="mx-1">/</span>
         <span class="text-neutral-200">{data.title}</span>
@@ -23,7 +23,7 @@
 
       <article>
         <header class="mb-8">
-          <h1 class="mb-4 text-4xl font-bold">{data.title}</h1>
+          <h1 class="h1 mb-4 font-bold">{data.title}</h1>
           <div class="text-sm text-neutral-300">
             {#if data.date_formatted}
               <time datetime={data.date}>{data.date_formatted}</time>

@@ -13,7 +13,7 @@
     <div class="mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Events</h1>
 
-      <p class="mt-4">
+      <p class="p mt-4">
         Thanks to our sponsors, many of our events are free and open to all
         students. Check our private Discord for up-to-date information and
         announcements.
@@ -22,13 +22,13 @@
       <div class="mt-4 flex gap-4 font-bold">
         <a
           href="webcal://cucats.org/events/calendar.ics"
-          class="btn primary p-2 text-sm sm:text-base"
+          class="btn primary md"
         >
           Add calendar
         </a>
         <a
           href="https://lists.cam.ac.uk/sympa/subscribe/soc-cucats-events"
-          class="btn primary p-2 text-sm sm:text-base"
+          class="btn primary md"
         >
           Join mailing list
         </a>
@@ -62,7 +62,7 @@
         ></Card>
       </div>
 
-      <p class="mt-4 text-center">
+      <p class="p mt-4 text-center">
         Our yearly events attract many Cambridge students, giving opportunities
         to compete and win prizes!
       </p>
@@ -86,15 +86,15 @@
     </div>
 
     <div class="relative z-10 mx-auto my-16 max-w-7xl px-8 text-center">
-      <h1 class="h1 font-bold">Launch your own event</h1>
-      <p class="p mx-auto mt-8 max-w-3xl">
+      <h2 class="h1 font-bold">Launch your own event</h2>
+      <p class="p mx-auto mt-4 max-w-3xl">
         Are you a student with an event idea? Whether it's a casual picnic or an
         intense contest, we provide funding and support to bring your ideas to
         life.
       </p>
       <div class="mt-8">
         <a
-          class="btn primary p-2 text-xl"
+          class="btn primary lg"
           href="https://docs.google.com/document/d/1WQdX0mt8jfy-CM6IOvB9yNzkG19yL9MsVQizpaagKuE/edit?usp=sharing"
           >Learn more</a
         >

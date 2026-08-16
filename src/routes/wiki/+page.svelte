@@ -30,9 +30,7 @@
                   href="/{child.slug}"
                   class="bg-primary-800 block rounded-lg p-6 transition-all hover:brightness-125"
                 >
-                  <h2
-                    class="mb-2 text-lg font-semibold text-neutral-100 sm:text-xl"
-                  >
+                  <h2 class="card-title mb-1 font-semibold text-neutral-100">
                     {child.title}
                   </h2>
                   {#if child.description}

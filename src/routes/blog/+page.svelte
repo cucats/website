@@ -34,7 +34,7 @@
                   <span> {post.authors.map((a) => a.name).join(", ")}</span>
                 {/if}
               </div>
-              <h2 class="mb-2 text-xl font-semibold text-neutral-100">
+              <h2 class="card-title mb-2 font-semibold text-neutral-100">
                 {post.title}
               </h2>
               {#if post.description}
@@ -46,7 +46,7 @@
       </div>
 
       {#if data.posts.length === 0}
-        <p class="text-neutral-200">No blog posts yet. Check back soon!</p>
+        <p class="p text-neutral-200">No blog posts yet. Check back soon!</p>
       {/if}
     </div>
   </section>

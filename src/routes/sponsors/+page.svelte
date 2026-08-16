@@ -31,7 +31,7 @@
     class="from-primary-800 via-secondary-800 to-tertiary-800 bg-linear-to-br pb-8"
   >
     <div class="c-4 mx-auto max-w-6xl p-4">
-      <h2 class="sponsor-tier-title">Gold</h2>
+      <h2 class="h2 my-8 text-center font-bold text-neutral-100">Gold</h2>
 
       <div class="r-4 flex-wrap justify-center">
         <Sponsor tier="gold" logo="/assets/sponsors/anthropic.png">
@@ -120,7 +120,7 @@
         </Sponsor>
       </div>
 
-      <h2 class="sponsor-tier-title">Silver</h2>
+      <h2 class="h2 my-8 text-center font-bold text-neutral-100">Silver</h2>
 
       <div class="r-4 flex-wrap justify-center">
         <Sponsor tier="silver" logo="/assets/sponsors/incident.io.png">
@@ -264,7 +264,7 @@
         </Sponsor>
       </div>
 
-      <h2 class="sponsor-tier-title">Bronze</h2>
+      <h2 class="h2 my-8 text-center font-bold text-neutral-100">Bronze</h2>
 
       <div class="r-4 flex-wrap justify-center">
         <Sponsor tier="bronze" logo="/assets/sponsors/tpp.png">
@@ -304,11 +304,3 @@
     </div>
   </section>
 </main>
-
-<style lang="postcss">
-  @reference "tailwindcss";
-
-  .sponsor-tier-title {
-    @apply my-8 text-center text-3xl font-bold text-neutral-100 md:text-4xl;
-  }
-</style>

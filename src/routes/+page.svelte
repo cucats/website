@@ -28,7 +28,9 @@
           alt="CUCaTS logo"
           class="size-40 select-none"
         />
-        <h1 class="text-center text-6xl font-bold text-neutral-100 sm:text-8xl">
+        <h1
+          class="text-center text-6xl font-bold font-mono text-neutral-100 sm:text-8xl"
+        >
           CUCaTS
         </h1>
       </div>
@@ -58,9 +60,9 @@
       </p>
     </div>
 
-    <h1 class="h1 mt-40 mb-8 text-center font-bold text-neutral-50">
+    <h2 class="h2 mt-40 mb-8 text-center font-bold text-neutral-50">
       Our aims
-    </h1>
+    </h2>
 
     {#snippet aim(
       image: string,
@@ -71,11 +73,11 @@
       <div class="px-4 py-8 text-center">
         <img src={image} class="pixel mx-auto size-16 sm:size-24" {alt} />
 
-        <p class="mt-4 text-lg font-bold text-neutral-200 uppercase">
+        <p class="card-title mt-4 font-bold text-neutral-200">
           {title}
         </p>
 
-        <p class="mt-2 text-lg">{description}</p>
+        <p class="p mt-2">{description}</p>
       </div>
     {/snippet}
 
@@ -106,7 +108,7 @@
       )}
     </div>
 
-    <div class="mt-80 flex flex-col items-center gap-6">
+    <div class="mt-80 flex flex-col items-center">
       <div class="relative h-120 w-120">
         <img
           src="/assets/events/camhack-map-project.jpg"
@@ -129,12 +131,14 @@
           alt=""
         />
       </div>
-      <h1 class="h1 text-center font-bold text-neutral-100">Join our events</h1>
-      <p class="p text-center">
+      <h2 class="h1 mt-6 text-center font-bold text-neutral-100">
+        Join our events
+      </h2>
+      <p class="p mt-4 text-center">
         We run several major events every year, and help other students run
         their own!
       </p>
-      <a href="/events" class="btn primary p-3 text-xl">See events</a>
+      <a href="/events" class="btn primary lg mt-6">See events</a>
     </div>
   </section>
 </main>

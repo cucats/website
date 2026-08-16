@@ -22,7 +22,7 @@
     <div class="c-4 mx-auto max-w-5xl p-4">
       <h1 class="h1 font-bold">Committee</h1>
 
-      <p class="mb-10">
+      <p class="p mb-10">
         For all enquiries, please email <a
           class="a"
           href="mailto:executive@cucats.org"
@@ -50,7 +50,7 @@
 
             <div class="py-4">
               <div
-                class="text-xs font-bold text-neutral-50 uppercase opacity-60"
+                class="text-xs font-bold font-mono text-neutral-50 uppercase opacity-60"
               >
                 {member.role}
               </div>

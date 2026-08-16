@@ -14,7 +14,7 @@
   <enhanced:img src={icon} class="pixel mr-3 size-8" alt={title} />
 
   <div class="flex-1">
-    <h3 class="text-xs font-bold text-neutral-400 uppercase">
+    <h3 class="text-xs font-bold font-mono text-neutral-400 uppercase">
       {title}
     </h3>
 

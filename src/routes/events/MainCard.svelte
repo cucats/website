@@ -23,7 +23,7 @@
       </div>
 
       <div class="absolute bottom-0 p-4">
-        <div class="text-2xl font-bold text-white">
+        <div class="card-title font-bold text-white">
           {title}
         </div>
 

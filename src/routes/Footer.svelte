@@ -36,7 +36,9 @@
           alt="CUCaTS logo"
           class="h-10 w-10"
         />
-        <h3 class="text-2xl font-extrabold text-neutral-100">CUCaTS</h3>
+        <h3 class="text-2xl font-extrabold font-mono text-neutral-100">
+          CUCaTS
+        </h3>
       </div>
       <p class="text-sm leading-relaxed text-neutral-200">
         Cambridge University Computing and Technology Society
@@ -44,7 +46,9 @@
     </div>
 
     <div class="space-y-4">
-      <h4 class="text-lg font-bold text-neutral-100 uppercase">Quick Links</h4>
+      <h4 class="text-lg font-bold font-mono text-neutral-100 uppercase">
+        Quick Links
+      </h4>
       <nav class="flex flex-col space-y-2">
         {#each quickLinks as link}
           <a
@@ -58,14 +62,18 @@
 
     <div class="space-y-8">
       <div class="space-y-4">
-        <h4 class="text-lg font-bold text-neutral-100 uppercase">Contact</h4>
+        <h4 class="text-lg font-bold font-mono text-neutral-100 uppercase">
+          Contact
+        </h4>
         <a href="mailto:executive@cucats.org" class="btn primary sm">
           Contact us
         </a>
       </div>
 
       <div class="space-y-4">
-        <h4 class="text-lg font-bold text-neutral-100 uppercase">Follow</h4>
+        <h4 class="text-lg font-bold font-mono text-neutral-100 uppercase">
+          Follow
+        </h4>
         <div class="flex gap-4">
           {#each socialLinks as social}
             <a

@@ -138,7 +138,7 @@
           onkeydown={handleKeydown}
           type="text"
           placeholder="Search blog and wiki..."
-          class="bg-transparent py-4 text-lg text-neutral-100 outline-none placeholder:text-neutral-500"
+          class="bg-transparent py-4 text-lg font-mono text-neutral-100 outline-none placeholder:text-neutral-500"
         />
         <svg
           class="h-5 w-5 shrink-0 text-neutral-400"
@@ -162,7 +162,7 @@
             {#each results as group}
               <div class="mb-2">
                 <div
-                  class="px-3 py-2 text-xs font-semibold tracking-wide text-neutral-500 uppercase"
+                  class="px-3 py-2 text-xs font-semibold font-mono tracking-wide text-neutral-500 uppercase"
                 >
                   {group.breadcrumbs.join(" / ")}
                 </div>
@@ -197,7 +197,7 @@
         {:else if recentResults.length > 0}
           <div class="p-2">
             <div
-              class="px-3 py-2 text-xs font-semibold tracking-wide text-neutral-500 uppercase"
+              class="px-3 py-2 text-xs font-semibold font-mono tracking-wide text-neutral-500 uppercase"
             >
               Recent searches
             </div>
@@ -217,7 +217,7 @@
                 >
                   <div class="font-medium">{block.breadcrumbs.at(-1)}</div>
                   <div
-                    class="text-xs {i === selectedIndex
+                    class="text-xs font-mono {i === selectedIndex
                       ? 'text-neutral-200'
                       : 'text-neutral-500'}"
                   >
