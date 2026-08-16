@@ -1,7 +1,7 @@
 <script lang="ts">
   let { name }: { name: string } = $props();
 
-  const SIZE = 8;
+  const SIZE = 4;
 
   function hash(str: string): number {
     let h = 2166136261;
@@ -52,7 +52,7 @@
 <div class="grid size-full" style="grid-template-columns: repeat({SIZE}, 1fr);">
   {#each pixels.cells as v}
     <div
-      style="background-color: color-mix(in hsl, hsl({pixels.hue1} 60% 50%), hsl({pixels.hue2} 60% 50%) {v *
+      style="background-color: color-mix(in hsl, hsl({pixels.hue1} 80% 50%), hsl({pixels.hue2} 50% 50%) {v *
         100}%);"
     ></div>
   {/each}
