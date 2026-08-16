@@ -1,6 +1,7 @@
 <script lang="ts">
   import Card from "./MainCard.svelte";
   import Calendar from "./Calendar.svelte";
+  import GameOfLife from "$lib/components/GameOfLife.svelte";
 </script>
 
 <svelte:head>
@@ -75,8 +76,16 @@
     </div>
   </section>
 
-  <section class="bg-primary-900 overflow-hidden py-40 text-neutral-200">
-    <div class="mx-auto my-16 max-w-7xl px-8 text-center">
+  <section
+    class="from-primary-600 to-tertiary-700 relative overflow-hidden bg-linear-to-b py-40 text-neutral-200"
+  >
+    <div
+      class="pointer-events-none absolute bottom-0 z-0 size-full overflow-hidden"
+    >
+      <GameOfLife />
+    </div>
+
+    <div class="relative z-10 mx-auto my-16 max-w-7xl px-8 text-center">
       <h1 class="h1 font-bold">Launch your own event</h1>
       <p class="p mx-auto mt-8 max-w-3xl">
         Are you a student with an event idea? Whether it's a casual picnic or an

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import GameOfLife from "./GameOfLife.svelte";
+  import PixelRain from "$lib/components/PixelRain.svelte";
+  import SineWave from "$lib/components/SineWave.svelte";
 </script>
 
 <svelte:head>
@@ -10,8 +11,12 @@
   <section
     class="from-primary-700 via-secondary-800 to-tertiary-800 relative flex h-screen items-center justify-center bg-linear-to-b"
   >
-    <div class="absolute bottom-0 z-0 size-full overflow-hidden">
-      <GameOfLife />
+    <div class="absolute inset-0 z-0">
+      <PixelRain />
+    </div>
+
+    <div class="absolute bottom-0 z-10 size-full overflow-hidden">
+      <SineWave />
     </div>
 
     <div class="z-10">

@@ -15,36 +15,8 @@
       Array.from({ length: gridSizeX }, (_, x) => f(x, y)),
     );
 
-  const cutoff = (x: number) =>
-    gridSizeY -
-    10 +
-    Math.floor(
-      2 * Math.sin(x / 8 + 2) +
-        1 * Math.sin(x) +
-        1 * Math.sin(3 * x + 1) +
-        1 * Math.sin(5 * x + 2) +
-        2 * Math.sin(7 * x + 3) +
-        2 * Math.sin(17 * x + 9),
-    );
-
   const nextGrid = (grid: boolean[][]) =>
     initGrid((x, y) => {
-      const ytop = cutoff(x);
-
-      // Stop updating cells above the cutoff + transition zone
-      if (y > ytop + 3) {
-        return grid[y][x];
-      }
-
-      // Gradually reduce update probability near cutoff
-      if (y > ytop - 4) {
-        const distance = y - (ytop - 4);
-        const updateProbability = 1 - distance / 7;
-        if (Math.random() > updateProbability) {
-          return grid[y][x];
-        }
-      }
-
       // Neighbours
       let nb = 0;
 
@@ -65,17 +37,7 @@
     });
 
   function getCellClass(x: number, y: number): string {
-    const ytop = cutoff(x);
-
-    if (y < ytop - 3) return grid[y][x] ? "opacity-40" : "opacity-35";
-    if (y === ytop - 3) return "opacity-35";
-    if (y === ytop - 2) return grid[y][x] ? "opacity-30" : "opacity-25";
-    if (y === ytop - 1) return grid[y][x] ? "opacity-25" : "opacity-20";
-    if (y === ytop + 0) return grid[y][x] ? "opacity-20" : "opacity-15";
-    if (y === ytop + 1) return grid[y][x] ? "opacity-15" : "opacity-10";
-    if (y === ytop + 2) return grid[y][x] ? "opacity-10" : "opacity-5";
-    if (y === ytop + 3) return grid[y][x] ? "opacity-5" : "opacity-0";
-    return "opacity-0";
+    return grid[y][x] ? "opacity-50" : "opacity-45";
   }
 
   /**
