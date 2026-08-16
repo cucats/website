@@ -12,6 +12,12 @@
 
   let { name, logo, children, tier }: Props = $props();
 
+  let avif = $derived(
+    logo.endsWith(".png") && !logo.includes("optiver")
+      ? logo.replace(/\.png$/, ".avif")
+      : null,
+  );
+
   let active = $state(false);
 
   let buttonSize = $derived(
@@ -27,7 +33,14 @@
   class="group relative flex cursor-pointer items-center justify-center rounded-lg bg-neutral-100 p-8 {buttonSize}"
   onclick={() => (active = true)}
 >
-  <img class="h-full object-contain" src={logo} alt="sponsor logo" />
+  {#if avif}
+    <picture>
+      <source srcset={avif} type="image/avif" />
+      <img class="h-full object-contain" src={logo} alt="sponsor logo" />
+    </picture>
+  {:else}
+    <img class="h-full object-contain" src={logo} alt="sponsor logo" />
+  {/if}
 
   <!--
     Using overflow-clip on parent leaves a small gap on browsers for some reason.
